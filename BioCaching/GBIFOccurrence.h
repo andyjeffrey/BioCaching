@@ -58,6 +58,8 @@
 @property(nonatomic,strong) NSNumber * Depth;
 
 @property(nonatomic, strong, readonly) NSString *SpeciesBinomial;
+@property(nonatomic, strong, readonly) NSString *MainTitle;
+@property(nonatomic, strong, readonly) NSString *SubTitle;
 
 + (id) objectWithDictionary:(NSDictionary*)dictionary;
 - (id) initWithDictionary:(NSDictionary*)dictionary;

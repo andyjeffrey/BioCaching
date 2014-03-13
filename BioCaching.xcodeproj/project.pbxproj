@@ -33,7 +33,6 @@
 		A1EA20A618B4F7AB00200D50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1EA20A418B4F7AB00200D50 /* Main.storyboard */; };
 		A1EA20A918B4F7AB00200D50 /* ExploreMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA20A818B4F7AB00200D50 /* ExploreMapViewController.m */; };
 		A1EA20AC18B4F7AB00200D50 /* TripsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA20AB18B4F7AB00200D50 /* TripsViewController.m */; };
-		A1EA20AE18B4F7AB00200D50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EA20AD18B4F7AB00200D50 /* Images.xcassets */; };
 		A1EA20CF18B4F7ED00200D50 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA20CE18B4F7ED00200D50 /* MapKit.framework */; };
 		A1EA20D518BDEED400200D50 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA20D418BDEED400200D50 /* ProfileViewController.m */; };
 		A1EA6C8918CD12C1002FCDDD /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C6618CD12C1002FCDDD /* .gitignore */; };
@@ -69,6 +68,11 @@
 		A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CD318D0BE87002FCDDD /* GBIFCommunicatorMock.m */; };
 		A1EA6CD618D0BFD5002FCDDD /* OccurrenceResultsAP.json in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CD518D0BFD5002FCDDD /* OccurrenceResultsAP.json */; };
 		A1EA6CD818D1B19D002FCDDD /* OccurrenceResultsCAS.json in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CD718D1B19D002FCDDD /* OccurrenceResultsCAS.json */; };
+		A1EA6CDB18D1B574002FCDDD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CDA18D1B574002FCDDD /* Podfile */; };
+		A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */; };
+		A1EA6CE018D1FFCD002FCDDD /* MapConfigView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CDF18D1FFCD002FCDDD /* MapConfigView.xib */; };
+		A1EA6CE318D200DD002FCDDD /* ExploreOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CE218D200DD002FCDDD /* ExploreOptionsViewController.m */; };
+		A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CE718D23A87002FCDDD /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -130,7 +134,6 @@
 		A1EA20A818B4F7AB00200D50 /* ExploreMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExploreMapViewController.m; sourceTree = "<group>"; };
 		A1EA20AA18B4F7AB00200D50 /* TripsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TripsViewController.h; sourceTree = "<group>"; };
 		A1EA20AB18B4F7AB00200D50 /* TripsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TripsViewController.m; sourceTree = "<group>"; };
-		A1EA20AD18B4F7AB00200D50 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A1EA20CE18B4F7ED00200D50 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A1EA20D318BDEED400200D50 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		A1EA20D418BDEED400200D50 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
@@ -175,6 +178,13 @@
 		A1EA6CD518D0BFD5002FCDDD /* OccurrenceResultsAP.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsAP.json; path = Resources/TestData/OccurrenceResultsAP.json; sourceTree = "<group>"; };
 		A1EA6CD718D1B19D002FCDDD /* OccurrenceResultsCAS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCAS.json; path = Resources/TestData/OccurrenceResultsCAS.json; sourceTree = "<group>"; };
 		A1EA6CD918D1B278002FCDDD /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		A1EA6CDA18D1B574002FCDDD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		A1EA6CDC18D1F935002FCDDD /* OccurrenceLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OccurrenceLocation.h; sourceTree = "<group>"; };
+		A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OccurrenceLocation.m; sourceTree = "<group>"; };
+		A1EA6CDF18D1FFCD002FCDDD /* MapConfigView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapConfigView.xib; sourceTree = "<group>"; };
+		A1EA6CE118D200DD002FCDDD /* ExploreOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreOptionsViewController.h; sourceTree = "<group>"; };
+		A1EA6CE218D200DD002FCDDD /* ExploreOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreOptionsViewController.m; sourceTree = "<group>"; };
+		A1EA6CE718D23A87002FCDDD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,6 +279,7 @@
 		A1EA208618B4F7AB00200D50 = {
 			isa = PBXGroup;
 			children = (
+				A1EA6CDA18D1B574002FCDDD /* Podfile */,
 				A1EA209818B4F7AB00200D50 /* BioCaching */,
 				A1EA209118B4F7AB00200D50 /* Frameworks */,
 				A1D5DDE518C7BAB900FA005B /* libsqlite3.dylib */,
@@ -309,7 +320,7 @@
 				A1EA20A118B4F7AB00200D50 /* AppDelegate.h */,
 				A1EA20A218B4F7AB00200D50 /* AppDelegate.m */,
 				A1EA20A418B4F7AB00200D50 /* Main.storyboard */,
-				A1EA20AD18B4F7AB00200D50 /* Images.xcassets */,
+				A1EA6CE718D23A87002FCDDD /* Images.xcassets */,
 				A1EA20D018B4FAA900200D50 /* Model */,
 				A1EA20D118B5078C00200D50 /* View */,
 				A1EA20D218B5079900200D50 /* Controllers */,
@@ -338,6 +349,8 @@
 				A1D5DE0218C9F4CA00FA005B /* GBIFOccurrenceResults.m */,
 				A1EA6CC518D0A921002FCDDD /* GBIFOccurrence.h */,
 				A1EA6CC618D0A921002FCDDD /* GBIFOccurrence.m */,
+				A1EA6CDC18D1F935002FCDDD /* OccurrenceLocation.h */,
+				A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -345,6 +358,7 @@
 		A1EA20D118B5078C00200D50 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A1EA6CDF18D1FFCD002FCDDD /* MapConfigView.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -354,6 +368,8 @@
 			children = (
 				A1EA20A718B4F7AB00200D50 /* ExploreMapViewController.h */,
 				A1EA20A818B4F7AB00200D50 /* ExploreMapViewController.m */,
+				A1EA6CE118D200DD002FCDDD /* ExploreOptionsViewController.h */,
+				A1EA6CE218D200DD002FCDDD /* ExploreOptionsViewController.m */,
 				A1D5DD9F18C72E1500FA005B /* ExploreListViewController.h */,
 				A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */,
 				A1EA6CAC18CE11D7002FCDDD /* ExploreTableViewController.h */,
@@ -534,7 +550,6 @@
 				A1EA6C8918CD12C1002FCDDD /* .gitignore in Resources */,
 				A1EA6C9118CD12C1002FCDDD /* NotificationBackgroundErrorIcon@2x.png in Resources */,
 				A1EA6C9018CD12C1002FCDDD /* NotificationBackgroundErrorIcon.png in Resources */,
-				A1EA20AE18B4F7AB00200D50 /* Images.xcassets in Resources */,
 				A1EA6C8E18CD12C1002FCDDD /* NotificationBackgroundError.png in Resources */,
 				A1EA6C9518CD12C1002FCDDD /* NotificationBackgroundSuccess@2x.png in Resources */,
 				A1EA6CD618D0BFD5002FCDDD /* OccurrenceResultsAP.json in Resources */,
@@ -555,7 +570,10 @@
 				A1EA6C9318CD12C1002FCDDD /* NotificationBackgroundMessage@2x.png in Resources */,
 				A1EA20A618B4F7AB00200D50 /* Main.storyboard in Resources */,
 				A1EA6C9918CD12C1002FCDDD /* NotificationBackgroundWarning@2x.png in Resources */,
+				A1EA6CDB18D1B574002FCDDD /* Podfile in Resources */,
+				A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */,
 				A1EA6C9D18CD12C1002FCDDD /* NotificationButtonBackground@2x.png in Resources */,
+				A1EA6CE018D1FFCD002FCDDD /* MapConfigView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,6 +591,7 @@
 				A1D5DE0D18C9FED400FA005B /* MKPolygon+WKTParser.m in Sources */,
 				A1EA6CA718CD1AB2002FCDDD /* HexColor.m in Sources */,
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
+				A1EA6CE318D200DD002FCDDD /* ExploreOptionsViewController.m in Sources */,
 				A1EA6CA018CD12C1002FCDDD /* TSMessageView.m in Sources */,
 				A1EA6C9F18CD12C1002FCDDD /* TSBlurView.m in Sources */,
 				A1D5DDF718C7C83800FA005B /* LocalyticsDatabase.m in Sources */,
@@ -585,6 +604,7 @@
 				A1D5DE0718C9F93C00FA005B /* GBIFCommunicator.m in Sources */,
 				A1D5DE1518CB64C900FA005B /* GBIFManager.m in Sources */,
 				A1EA20A918B4F7AB00200D50 /* ExploreMapViewController.m in Sources */,
+				A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */,
 				A1EA209F18B4F7AB00200D50 /* main.m in Sources */,
 				A1EA20D518BDEED400200D50 /* ProfileViewController.m in Sources */,
 				A1EA6CC718D0A921002FCDDD /* GBIFOccurrence.m in Sources */,
@@ -697,6 +717,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BioCaching/BioCaching-Prefix.pch";
 				INFOPLIST_FILE = "BioCaching/BioCaching-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching/Libraries/Flurry,
@@ -717,6 +738,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BioCaching/BioCaching-Prefix.pch";
 				INFOPLIST_FILE = "BioCaching/BioCaching-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching/Libraries/Flurry,

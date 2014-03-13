@@ -7,8 +7,14 @@
 //
 
 #import "ExploreMapViewController.h"
+#import "ExploreTableViewController.h"
+#import "GBIFCommunicator.h"
+#import "GBIFCommunicatorMock.h"
+#import "GBIFOccurrenceResults.h"
+#import "OccurrenceLocation.h"
 
 #define kDefaultViewSpan 5000
+#define kMapMarkersMax 100
 
 @interface ExploreMapViewController () {
     int _currentSearchAreaSpan;
@@ -16,7 +22,8 @@
     bool _followUser;
     CLLocation *_currentUserLocation;
 }
-    
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocationDetails;
 @property (weak, nonatomic) IBOutlet UIButton *mapTypeButton;
 @property (weak, nonatomic) IBOutlet UIStepper *areaStepper;
@@ -120,14 +127,20 @@
     //[mapView addOverlay:circle];
 }
 
-- (void)updateOccurrenceOverlays
+- (void)updateOccurrenceAnnotations:(NSArray *)occurrenceResults
 {
+    [_mapView removeAnnotations:_mapView.annotations];
+    
+    for (int i = 0; i < kMapMarkersMax && i < occurrenceResults.count; i++) {
+        [self addOccurrenceAnnotation:occurrenceResults[i]];
+    }
     
 }
 
-- (void)addOccurrenceOverlay:(GBIFOccurrence *)occurrence
+- (void)addOccurrenceAnnotation:(GBIFOccurrence *)occurrence
 {
-    
+    OccurrenceLocation *location = [[OccurrenceLocation alloc] initWithGBIFOccurrence:occurrence];
+    [self.mapView addAnnotation:location];
 }
 
 - (void)updateCurrentMapView:(CLLocationCoordinate2D)location latitudinalMeters:(int)latRegionSpan longitudinalMeters:(int)longRegionSpan
@@ -248,6 +261,35 @@
     [self updateLocationLabel:mapView.centerCoordinate horizAccuracy:0];
 }
 
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    static NSString *identifier = @"OccurrenceLocation";
+    if ([annotation isKindOfClass:[OccurrenceLocation class]]) {
+/*
+        MKPinAnnotationView *annotationView = (MKPinAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (!annotationView) {
+            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            annotationView.pinColor = MKPinAnnotationColorRed;
+            annotationView.enabled = YES;
+            annotationView.canShowCallout = YES;
+            annotationView.animatesDrop = YES;
+*/
+        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (!annotationView) {
+            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            annotationView.enabled = YES;
+            annotationView.canShowCallout = YES;
+            annotationView.image = [UIImage imageNamed:((OccurrenceLocation *)annotation).mapMarkerImageFile];
+
+        } else {
+            annotationView.annotation = annotation;
+        }
+        
+        return annotationView;
+    }
+    
+    return nil;
+}
 
 #pragma mark UIGestureRecognizerDelegate
 
@@ -260,8 +302,10 @@
 
 - (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
 {
-    NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", occurrenceResults.Results.count);
+    NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
+    [self updateOccurrenceAnnotations:occurrenceResults.Results];
+    [self zoomToLocation:nil];
 }
 
 - (void)fetchingResultsFailedWithError:(NSError *)error

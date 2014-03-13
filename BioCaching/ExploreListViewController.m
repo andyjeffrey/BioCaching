@@ -46,7 +46,7 @@
 
 - (IBAction)returnToMap:(id)sender
 {
-    [self.presentingViewController dismissModalViewControllerAnimated:TRUE];
+    [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
 }
 
 
@@ -68,9 +68,8 @@
     
     GBIFOccurrence *occurrence = self.occurenceResults.Results[indexPath.row];
 
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@",
-                           occurrence.Family, occurrence.SpeciesBinomial];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%03lu  %@  %@  %@", (long)indexPath.row, [occurrence.OccurrenceDate substringToIndex:10], occurrence.CatalogNumber, occurrence.InstitutionCode];
+    cell.textLabel.text = occurrence.MainTitle;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.SubTitle];
     
     return cell;
 }

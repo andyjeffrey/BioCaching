@@ -143,6 +143,20 @@
     return self.Species;
 }
 
+- (NSString *)MainTitle
+{
+    NSString *mainTitle = [NSString stringWithFormat:@"%@ - %@",
+            self.Family, self.SpeciesBinomial];
+    
+    return mainTitle;
+}
+
+- (NSString *)SubTitle
+{
+    NSString *subTitle = [NSString stringWithFormat:@"%@  %@  %@", [self.OccurrenceDate substringToIndex:10], self.CatalogNumber, self.InstitutionCode];
+    
+    return subTitle;
+}
 
 @end
 

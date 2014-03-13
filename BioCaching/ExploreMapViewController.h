@@ -10,23 +10,13 @@
 #import <MapKit/MapKit.h>
 
 #import "ExploreListViewController.h"
-#import "ExploreTableViewController.h"
-
-#import "MKPolygon+WKTParser.h"
-
-#import "GBIFOccurrenceResults.h"
 #import "GBIFManager.h"
-#import "GBIFCommunicator.h"
-#import "GBIFCommunicatorMock.h"
+#import "GBIFOccurrenceResults.h"
 
 @interface ExploreMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, GBIFManagerDelegate>
 {
     GBIFOccurrenceResults *_occurrenceResults;
     GBIFManager *_manager;
 }
-
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
-
-- (IBAction)changeMapType:(id)sender;
 
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A18EBB4418D3332B00EF01E7 /* ExploreOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DD9B18C61FFB00FA005B /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */; };
@@ -62,7 +63,6 @@
 		A1EA6CA118CD12C1002FCDDD /* TSMessages.podspec in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C8818CD12C1002FCDDD /* TSMessages.podspec */; };
 		A1EA6CA718CD1AB2002FCDDD /* HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CA618CD1AB2002FCDDD /* HexColor.m */; };
 		A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209418B4F7AB00200D50 /* CoreGraphics.framework */; };
-		A1EA6CAE18CE11D7002FCDDD /* ExploreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CAD18CE11D7002FCDDD /* ExploreTableViewController.m */; };
 		A1EA6CC418CE641E002FCDDD /* NSString+UtilityMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CC318CE641E002FCDDD /* NSString+UtilityMethods.m */; };
 		A1EA6CC718D0A921002FCDDD /* GBIFOccurrence.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CC618D0A921002FCDDD /* GBIFOccurrence.m */; };
 		A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CD318D0BE87002FCDDD /* GBIFCommunicatorMock.m */; };
@@ -70,12 +70,12 @@
 		A1EA6CD818D1B19D002FCDDD /* OccurrenceResultsCAS.json in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CD718D1B19D002FCDDD /* OccurrenceResultsCAS.json */; };
 		A1EA6CDB18D1B574002FCDDD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CDA18D1B574002FCDDD /* Podfile */; };
 		A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */; };
-		A1EA6CE018D1FFCD002FCDDD /* MapConfigView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CDF18D1FFCD002FCDDD /* MapConfigView.xib */; };
-		A1EA6CE318D200DD002FCDDD /* ExploreOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CE218D200DD002FCDDD /* ExploreOptionsViewController.m */; };
 		A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CE718D23A87002FCDDD /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A18EBB4118D3332B00EF01E7 /* ExploreOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreOptionsViewController.h; sourceTree = "<group>"; };
+		A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreOptionsViewController.m; sourceTree = "<group>"; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
 		A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Exe Estuary MPA, UK.gpx"; path = "Resources/TestData/Exe Estuary MPA, UK.gpx"; sourceTree = "<group>"; };
 		A1D5DD8518C61B6A00FA005B /* GoldenGate Park, CA.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "GoldenGate Park, CA.gpx"; path = "Resources/TestData/GoldenGate Park, CA.gpx"; sourceTree = "<group>"; };
@@ -167,8 +167,6 @@
 		A1EA6C8818CD12C1002FCDDD /* TSMessages.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TSMessages.podspec; sourceTree = "<group>"; };
 		A1EA6CA518CD1AB2002FCDDD /* HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HexColor.h; path = "Libraries/TSMessages-master/Submodules/HexColors/HexColor.h"; sourceTree = SOURCE_ROOT; };
 		A1EA6CA618CD1AB2002FCDDD /* HexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HexColor.m; path = "Libraries/TSMessages-master/Submodules/HexColors/HexColor.m"; sourceTree = SOURCE_ROOT; };
-		A1EA6CAC18CE11D7002FCDDD /* ExploreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreTableViewController.h; sourceTree = "<group>"; };
-		A1EA6CAD18CE11D7002FCDDD /* ExploreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreTableViewController.m; sourceTree = "<group>"; };
 		A1EA6CC218CE641E002FCDDD /* NSString+UtilityMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UtilityMethods.h"; sourceTree = SOURCE_ROOT; };
 		A1EA6CC318CE641E002FCDDD /* NSString+UtilityMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UtilityMethods.m"; sourceTree = SOURCE_ROOT; };
 		A1EA6CC518D0A921002FCDDD /* GBIFOccurrence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBIFOccurrence.h; sourceTree = "<group>"; };
@@ -181,9 +179,6 @@
 		A1EA6CDA18D1B574002FCDDD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		A1EA6CDC18D1F935002FCDDD /* OccurrenceLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OccurrenceLocation.h; sourceTree = "<group>"; };
 		A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OccurrenceLocation.m; sourceTree = "<group>"; };
-		A1EA6CDF18D1FFCD002FCDDD /* MapConfigView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapConfigView.xib; sourceTree = "<group>"; };
-		A1EA6CE118D200DD002FCDDD /* ExploreOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreOptionsViewController.h; sourceTree = "<group>"; };
-		A1EA6CE218D200DD002FCDDD /* ExploreOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreOptionsViewController.m; sourceTree = "<group>"; };
 		A1EA6CE718D23A87002FCDDD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -358,7 +353,6 @@
 		A1EA20D118B5078C00200D50 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A1EA6CDF18D1FFCD002FCDDD /* MapConfigView.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -368,12 +362,10 @@
 			children = (
 				A1EA20A718B4F7AB00200D50 /* ExploreMapViewController.h */,
 				A1EA20A818B4F7AB00200D50 /* ExploreMapViewController.m */,
-				A1EA6CE118D200DD002FCDDD /* ExploreOptionsViewController.h */,
-				A1EA6CE218D200DD002FCDDD /* ExploreOptionsViewController.m */,
+				A18EBB4118D3332B00EF01E7 /* ExploreOptionsViewController.h */,
+				A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */,
 				A1D5DD9F18C72E1500FA005B /* ExploreListViewController.h */,
 				A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */,
-				A1EA6CAC18CE11D7002FCDDD /* ExploreTableViewController.h */,
-				A1EA6CAD18CE11D7002FCDDD /* ExploreTableViewController.m */,
 				A1EA20AA18B4F7AB00200D50 /* TripsViewController.h */,
 				A1EA20AB18B4F7AB00200D50 /* TripsViewController.m */,
 				A1EA20D318BDEED400200D50 /* ProfileViewController.h */,
@@ -573,7 +565,6 @@
 				A1EA6CDB18D1B574002FCDDD /* Podfile in Resources */,
 				A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */,
 				A1EA6C9D18CD12C1002FCDDD /* NotificationButtonBackground@2x.png in Resources */,
-				A1EA6CE018D1FFCD002FCDDD /* MapConfigView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,11 +578,10 @@
 				A1D5DE1018CA137C00FA005B /* GBIFOccurenceResultsBuilder.m in Sources */,
 				A1EA20AC18B4F7AB00200D50 /* TripsViewController.m in Sources */,
 				A1D5DDA118C72E1500FA005B /* ExploreListViewController.m in Sources */,
-				A1EA6CAE18CE11D7002FCDDD /* ExploreTableViewController.m in Sources */,
 				A1D5DE0D18C9FED400FA005B /* MKPolygon+WKTParser.m in Sources */,
 				A1EA6CA718CD1AB2002FCDDD /* HexColor.m in Sources */,
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
-				A1EA6CE318D200DD002FCDDD /* ExploreOptionsViewController.m in Sources */,
+				A18EBB4418D3332B00EF01E7 /* ExploreOptionsViewController.m in Sources */,
 				A1EA6CA018CD12C1002FCDDD /* TSMessageView.m in Sources */,
 				A1EA6C9F18CD12C1002FCDDD /* TSBlurView.m in Sources */,
 				A1D5DDF718C7C83800FA005B /* LocalyticsDatabase.m in Sources */,

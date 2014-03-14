@@ -7,11 +7,12 @@
 //
 
 #import "ExploreMapViewController.h"
-#import "ExploreTableViewController.h"
+#import "ExploreOptionsViewController.h"
 #import "GBIFCommunicator.h"
 #import "GBIFCommunicatorMock.h"
 #import "GBIFOccurrenceResults.h"
 #import "OccurrenceLocation.h"
+#import <UIKit/UIKit.h>
 
 #define kDefaultViewSpan 5000
 #define kMapMarkersMax 100
@@ -21,6 +22,7 @@
     MKPolygon *_currentSearchAreaPolygon;
     bool _followUser;
     CLLocation *_currentUserLocation;
+    bool _annotationSelected;
 }
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -151,25 +153,29 @@
     [self.mapView setRegion:region animated:YES];
 }
 
-- (void)mapSingleClick:(UIGestureRecognizer *)gestureRecognizer
-{
-    NSLog(@"SingleClick");
-    if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
-        return;
-    
-    CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
-    CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
-    [self.mapView setCenterCoordinate:mapCoord animated:YES];
-    [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
-    
-}
-
-- (void)mapDoubleClick:(UIGestureRecognizer *)gestureRecognizer
-{
-    NSLog(@"DoubleClick");
-}
 
 #pragma mark IBActions
+
+- (IBAction)currentLocation:(id)sender {
+    [self updateLocationLabel:_currentUserLocation.coordinate horizAccuracy:_currentUserLocation.horizontalAccuracy];
+    [self updateSearchAreaOverlay:_currentUserLocation.coordinate areaSpan:_currentSearchAreaSpan];
+    [self updateCurrentMapView:_currentUserLocation.coordinate latitudinalMeters:0 longitudinalMeters:kDefaultViewSpan];
+}
+
+- (IBAction)searchZoomChanged:(UIStepper *)sender
+{
+    [self updateSearchAreaLabel:sender.value];
+    [self updateSearchAreaOverlay:_currentSearchAreaPolygon.coordinate areaSpan:_currentSearchAreaSpan];
+}
+
+- (IBAction)zoomToLocation:(id)sender {
+    [self updateCurrentMapView:_currentSearchAreaPolygon.coordinate latitudinalMeters:0 longitudinalMeters:_currentSearchAreaSpan];
+}
+
+- (IBAction)searchArea:(id)sender
+{
+    [_manager fetchOccurencesWithinArea:_currentSearchAreaPolygon];
+}
 
 - (IBAction)changeMapType:(id)sender
 {
@@ -193,26 +199,13 @@
     }
 }
 
-- (IBAction)zoomToLocation:(id)sender {
-    [self updateCurrentMapView:_currentSearchAreaPolygon.coordinate latitudinalMeters:0 longitudinalMeters:_currentSearchAreaSpan];
+
+- (IBAction)searchOptions:(id)sender {
+    ExploreOptionsViewController *optionsVC = [[ExploreOptionsViewController alloc] init];
+    
+    
 }
 
-- (IBAction)searchZoomChanged:(UIStepper *)sender
-{
-    [self updateSearchAreaLabel:sender.value];
-    [self updateSearchAreaOverlay:_currentSearchAreaPolygon.coordinate areaSpan:_currentSearchAreaSpan];
-}
-
-- (IBAction)searchArea:(id)sender
-{
-    [_manager fetchOccurencesWithinArea:_currentSearchAreaPolygon];
-}
-
-- (IBAction)currentLocation:(id)sender {
-    [self updateLocationLabel:_currentUserLocation.coordinate horizAccuracy:_currentUserLocation.horizontalAccuracy];
-    [self updateSearchAreaOverlay:_currentUserLocation.coordinate areaSpan:_currentSearchAreaSpan];
-    [self updateCurrentMapView:_currentUserLocation.coordinate latitudinalMeters:0 longitudinalMeters:kDefaultViewSpan];
-}
 
 #pragma mark MKMapViewDelegate
 
@@ -291,7 +284,41 @@
     return nil;
 }
 
-#pragma mark UIGestureRecognizerDelegate
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    NSLog(@"didSelectAnnotationView");
+    _annotationSelected = TRUE;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    NSLog(@"calloutAccessoryControlTapped");
+}
+
+#pragma mark UIGestureRecognizer
+
+- (void)mapSingleClick:(UIGestureRecognizer *)gestureRecognizer
+{
+    NSLog(@"SingleClick");
+    if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
+        return;
+    
+    if (_annotationSelected) {
+        _annotationSelected = FALSE;
+        return;
+    }
+    
+    CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
+    CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
+    [self.mapView setCenterCoordinate:mapCoord animated:YES];
+    [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
+    
+}
+
+- (void)mapDoubleClick:(UIGestureRecognizer *)gestureRecognizer
+{
+    NSLog(@"DoubleClick");
+}
 
 - (BOOL)shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)gr
 {
@@ -321,9 +348,6 @@
         ExploreListViewController *vc = [segue destinationViewController];
         [vc setSearchAreaCenter:_currentSearchAreaPolygon.coordinate];
         [vc setSearchAreaSpan:_currentSearchAreaSpan];
-        [vc setOccurenceResults:_occurrenceResults];
-    } else if ([segue.identifier isEqualToString:@"ExploreTableSegue"]) {
-        ExploreTableViewController *vc = [segue destinationViewController];
         [vc setOccurenceResults:_occurrenceResults];
     }
 }

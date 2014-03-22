@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A162FD3918D6FF2100362A0A /* TripOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* TripOptions.m */; };
+		A162FD3B18D7060F00362A0A /* Genovesa, Galapagos.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */; };
+		A162FD3D18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */; };
+		A162FD3F18D708FD00362A0A /* Seymour Norte, Galapagos.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */; };
+		A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */; };
 		A18EBB4418D3332B00EF01E7 /* ExploreOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DD9B18C61FFB00FA005B /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */; };
-		A1D5DD9E18C62A0E00FA005B /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D5DD9D18C62A0E00FA005B /* Constants.m */; };
 		A1D5DDA118C72E1500FA005B /* ExploreListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */; };
 		A1D5DDE418C7BAA500FA005B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DDE318C7BAA500FA005B /* libz.dylib */; };
 		A1D5DDE618C7BAB900FA005B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DDE518C7BAB900FA005B /* libsqlite3.dylib */; };
@@ -71,9 +75,22 @@
 		A1EA6CDB18D1B574002FCDDD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CDA18D1B574002FCDDD /* Podfile */; };
 		A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */; };
 		A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CE718D23A87002FCDDD /* Images.xcassets */; };
+		A1FD87D518DB4F4F00003091 /* OccurrenceResultsCASFilter.json in Resources */ = {isa = PBXBuildFile; fileRef = A1FD87D418DB4F4F00003091 /* OccurrenceResultsCASFilter.json */; };
+		A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87DA18DB843100003091 /* OptionsRecordType.m */; };
+		A1FD87DE18DBA72600003091 /* TestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87DD18DBA72600003091 /* TestTableViewController.m */; };
+		A1FD87E118DC820100003091 /* OptionsSpeciesFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */; };
+		A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87E318DC821600003091 /* OptionsRecordSource.m */; };
+		A1FD87EF18DCE23C00003091 /* DropDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87EE18DCE23C00003091 /* DropDownView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A162FD3718D6FF2100362A0A /* TripOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripOptions.h; sourceTree = "<group>"; };
+		A162FD3818D6FF2100362A0A /* TripOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripOptions.m; sourceTree = "<group>"; };
+		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
+		A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Tortuga Bay, Santa Cruz, Galapagos.gpx"; path = "Resources/TestData/Tortuga Bay, Santa Cruz, Galapagos.gpx"; sourceTree = "<group>"; };
+		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
+		A162FE4118D998DE00362A0A /* OptionsStaticTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsStaticTableViewController.h; sourceTree = "<group>"; };
+		A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsStaticTableViewController.m; sourceTree = "<group>"; };
 		A18EBB4118D3332B00EF01E7 /* ExploreOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreOptionsViewController.h; sourceTree = "<group>"; };
 		A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreOptionsViewController.m; sourceTree = "<group>"; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
@@ -87,7 +104,6 @@
 		A1D5DD9918C61FFB00FA005B /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.3.2.a; sourceTree = "<group>"; };
 		A1D5DD9C18C62A0E00FA005B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		A1D5DD9D18C62A0E00FA005B /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		A1D5DD9F18C72E1500FA005B /* ExploreListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreListViewController.h; sourceTree = "<group>"; };
 		A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreListViewController.m; sourceTree = "<group>"; };
 		A1D5DDE318C7BAA500FA005B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -180,6 +196,17 @@
 		A1EA6CDC18D1F935002FCDDD /* OccurrenceLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OccurrenceLocation.h; sourceTree = "<group>"; };
 		A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OccurrenceLocation.m; sourceTree = "<group>"; };
 		A1EA6CE718D23A87002FCDDD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A1FD87D418DB4F4F00003091 /* OccurrenceResultsCASFilter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilter.json; path = Resources/TestData/OccurrenceResultsCASFilter.json; sourceTree = "<group>"; };
+		A1FD87D918DB843100003091 /* OptionsRecordType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsRecordType.h; sourceTree = "<group>"; };
+		A1FD87DA18DB843100003091 /* OptionsRecordType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsRecordType.m; sourceTree = "<group>"; };
+		A1FD87DC18DBA72600003091 /* TestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestTableViewController.h; sourceTree = "<group>"; };
+		A1FD87DD18DBA72600003091 /* TestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestTableViewController.m; sourceTree = "<group>"; };
+		A1FD87DF18DC820100003091 /* OptionsSpeciesFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsSpeciesFilter.h; sourceTree = "<group>"; };
+		A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsSpeciesFilter.m; sourceTree = "<group>"; };
+		A1FD87E218DC821600003091 /* OptionsRecordSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsRecordSource.h; sourceTree = "<group>"; };
+		A1FD87E318DC821600003091 /* OptionsRecordSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsRecordSource.m; sourceTree = "<group>"; };
+		A1FD87ED18DCE23C00003091 /* DropDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownView.h; sourceTree = "<group>"; };
+		A1FD87EE18DCE23C00003091 /* DropDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,12 +235,16 @@
 			children = (
 				A1EA6CD518D0BFD5002FCDDD /* OccurrenceResultsAP.json */,
 				A1EA6CD718D1B19D002FCDDD /* OccurrenceResultsCAS.json */,
+				A1FD87D418DB4F4F00003091 /* OccurrenceResultsCASFilter.json */,
 				A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */,
 				A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */,
 				A1D5DD8518C61B6A00FA005B /* GoldenGate Park, CA.gpx */,
 				A1D5DD8618C61B6A00FA005B /* Lafayette Reservoir, CA.gpx */,
 				A1D5DD8718C61B6A00FA005B /* Pepperwood Preserve, CA.gpx */,
 				A1D5DD8818C61B6A00FA005B /* White House, DC.gpx */,
+				A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */,
+				A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */,
+				A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */,
 			);
 			name = TestData;
 			sourceTree = "<group>";
@@ -311,7 +342,6 @@
 			isa = PBXGroup;
 			children = (
 				A1D5DD9C18C62A0E00FA005B /* Constants.h */,
-				A1D5DD9D18C62A0E00FA005B /* Constants.m */,
 				A1EA20A118B4F7AB00200D50 /* AppDelegate.h */,
 				A1EA20A218B4F7AB00200D50 /* AppDelegate.m */,
 				A1EA20A418B4F7AB00200D50 /* Main.storyboard */,
@@ -346,6 +376,14 @@
 				A1EA6CC618D0A921002FCDDD /* GBIFOccurrence.m */,
 				A1EA6CDC18D1F935002FCDDD /* OccurrenceLocation.h */,
 				A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */,
+				A162FD3718D6FF2100362A0A /* TripOptions.h */,
+				A162FD3818D6FF2100362A0A /* TripOptions.m */,
+				A1FD87D918DB843100003091 /* OptionsRecordType.h */,
+				A1FD87DA18DB843100003091 /* OptionsRecordType.m */,
+				A1FD87DF18DC820100003091 /* OptionsSpeciesFilter.h */,
+				A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */,
+				A1FD87E218DC821600003091 /* OptionsRecordSource.h */,
+				A1FD87E318DC821600003091 /* OptionsRecordSource.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -353,6 +391,8 @@
 		A1EA20D118B5078C00200D50 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A1FD87ED18DCE23C00003091 /* DropDownView.h */,
+				A1FD87EE18DCE23C00003091 /* DropDownView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -362,10 +402,12 @@
 			children = (
 				A1EA20A718B4F7AB00200D50 /* ExploreMapViewController.h */,
 				A1EA20A818B4F7AB00200D50 /* ExploreMapViewController.m */,
-				A18EBB4118D3332B00EF01E7 /* ExploreOptionsViewController.h */,
-				A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */,
 				A1D5DD9F18C72E1500FA005B /* ExploreListViewController.h */,
 				A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */,
+				A18EBB4118D3332B00EF01E7 /* ExploreOptionsViewController.h */,
+				A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */,
+				A162FE4118D998DE00362A0A /* OptionsStaticTableViewController.h */,
+				A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */,
 				A1EA20AA18B4F7AB00200D50 /* TripsViewController.h */,
 				A1EA20AB18B4F7AB00200D50 /* TripsViewController.m */,
 				A1EA20D318BDEED400200D50 /* ProfileViewController.h */,
@@ -380,6 +422,8 @@
 				A1D5DE1218CA1A4100FA005B /* GBIFManagerDelegate.h */,
 				A1D5DE1318CB64C900FA005B /* GBIFManager.h */,
 				A1D5DE1418CB64C900FA005B /* GBIFManager.m */,
+				A1FD87DC18DBA72600003091 /* TestTableViewController.h */,
+				A1FD87DD18DBA72600003091 /* TestTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -540,11 +584,13 @@
 				A1EA6C8B18CD12C1002FCDDD /* LICENSE in Resources */,
 				A1EA6C9618CD12C1002FCDDD /* NotificationBackgroundSuccessIcon.png in Resources */,
 				A1EA6C8918CD12C1002FCDDD /* .gitignore in Resources */,
+				A162FD3D18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx in Resources */,
 				A1EA6C9118CD12C1002FCDDD /* NotificationBackgroundErrorIcon@2x.png in Resources */,
 				A1EA6C9018CD12C1002FCDDD /* NotificationBackgroundErrorIcon.png in Resources */,
 				A1EA6C8E18CD12C1002FCDDD /* NotificationBackgroundError.png in Resources */,
 				A1EA6C9518CD12C1002FCDDD /* NotificationBackgroundSuccess@2x.png in Resources */,
 				A1EA6CD618D0BFD5002FCDDD /* OccurrenceResultsAP.json in Resources */,
+				A162FD3F18D708FD00362A0A /* Seymour Norte, Galapagos.gpx in Resources */,
 				A1EA6C9418CD12C1002FCDDD /* NotificationBackgroundSuccess.png in Resources */,
 				A1EA6C9B18CD12C1002FCDDD /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				A1EA6C9E18CD12C1002FCDDD /* TSMessagesDefaultDesign.json in Resources */,
@@ -564,7 +610,9 @@
 				A1EA6C9918CD12C1002FCDDD /* NotificationBackgroundWarning@2x.png in Resources */,
 				A1EA6CDB18D1B574002FCDDD /* Podfile in Resources */,
 				A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */,
+				A162FD3B18D7060F00362A0A /* Genovesa, Galapagos.gpx in Resources */,
 				A1EA6C9D18CD12C1002FCDDD /* NotificationButtonBackground@2x.png in Resources */,
+				A1FD87D518DB4F4F00003091 /* OccurrenceResultsCASFilter.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,15 +627,20 @@
 				A1EA20AC18B4F7AB00200D50 /* TripsViewController.m in Sources */,
 				A1D5DDA118C72E1500FA005B /* ExploreListViewController.m in Sources */,
 				A1D5DE0D18C9FED400FA005B /* MKPolygon+WKTParser.m in Sources */,
+				A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */,
+				A1FD87DE18DBA72600003091 /* TestTableViewController.m in Sources */,
 				A1EA6CA718CD1AB2002FCDDD /* HexColor.m in Sources */,
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
 				A18EBB4418D3332B00EF01E7 /* ExploreOptionsViewController.m in Sources */,
 				A1EA6CA018CD12C1002FCDDD /* TSMessageView.m in Sources */,
 				A1EA6C9F18CD12C1002FCDDD /* TSBlurView.m in Sources */,
+				A1FD87E118DC820100003091 /* OptionsSpeciesFilter.m in Sources */,
 				A1D5DDF718C7C83800FA005B /* LocalyticsDatabase.m in Sources */,
 				A1EA6C8D18CD12C1002FCDDD /* TSMessage.m in Sources */,
 				A1D5DDF818C7C83800FA005B /* LocalyticsDatapointHelper.m in Sources */,
 				A1D5DDF918C7C83800FA005B /* LocalyticsSession.m in Sources */,
+				A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */,
+				A162FD3918D6FF2100362A0A /* TripOptions.m in Sources */,
 				A1D5DDFA18C7C83800FA005B /* LocalyticsUploader.m in Sources */,
 				A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */,
 				A1D5DDFB18C7C83800FA005B /* LocalyticsUtil.m in Sources */,
@@ -596,9 +649,10 @@
 				A1EA20A918B4F7AB00200D50 /* ExploreMapViewController.m in Sources */,
 				A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */,
 				A1EA209F18B4F7AB00200D50 /* main.m in Sources */,
+				A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */,
 				A1EA20D518BDEED400200D50 /* ProfileViewController.m in Sources */,
+				A1FD87EF18DCE23C00003091 /* DropDownView.m in Sources */,
 				A1EA6CC718D0A921002FCDDD /* GBIFOccurrence.m in Sources */,
-				A1D5DD9E18C62A0E00FA005B /* Constants.m in Sources */,
 				A1D5DE0318C9F4CA00FA005B /* GBIFOccurrenceResults.m in Sources */,
 				A1EA6CC418CE641E002FCDDD /* NSString+UtilityMethods.m in Sources */,
 			);

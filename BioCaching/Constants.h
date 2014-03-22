@@ -6,13 +6,9 @@
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 
-@interface Constants : NSObject
+#define kOccurrenceSearch @"http://api.gbif.org/v0.9/occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&basisOfRecord=%@&institutionCode=%@&taxonKey=%@&collectorName=%@&year=%@&from=%@&to=%@&geometry=%@"
+#define kOccurrenceSearchPolygon @"http://api.gbif.org/v0.9/occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&geometry=%@"
 
-extern NSString * const kFlurryAPIKey;
-extern NSString * const kLocalyticsAPIKey;
-
-extern int const kHTTPStatusCodeOK;
-
-@end
+#define kDefaultLimit 300
+#define kDefaultOffset 0

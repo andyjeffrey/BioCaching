@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DropDownView.h"
+#import "TripOptions.h"
+#import "OptionsRecordType.h"
 
-@interface ExploreOptionsViewController : UIViewController
+@protocol ExploreOptionsDelegate <NSObject>
+- (void) saveOptions:(TripOptions *)savedTripOptions;
+@end
+
+@interface ExploreOptionsViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, DropDownViewDelegate>
+
+@property (nonatomic, weak) id <ExploreOptionsDelegate> delegate;
+@property (nonatomic, weak) TripOptions *tripOptions;
 
 @end

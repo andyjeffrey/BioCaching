@@ -7,13 +7,15 @@
 //
 
 #import "ExploreMapViewController.h"
+#import "ExploreListViewController.h"
 #import "ExploreOptionsViewController.h"
+#import "TripOptions.h"
 #import "GBIFCommunicator.h"
 #import "GBIFCommunicatorMock.h"
 #import "GBIFOccurrenceResults.h"
 #import "OccurrenceLocation.h"
-#import <UIKit/UIKit.h>
 
+#define kDefaultSearchAreaSpan 1000
 #define kDefaultViewSpan 5000
 #define kMapMarkersMax 100
 
@@ -23,6 +25,7 @@
     bool _followUser;
     CLLocation *_currentUserLocation;
     bool _annotationSelected;
+    TripOptions *_tripOptions;
 }
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -39,21 +42,25 @@
 {
     [super viewDidLoad];
     
+    _tripOptions = [TripOptions initWithDefaults];
+    
     _manager = [[GBIFManager alloc] init];
     _manager.delegate = self;
-#ifdef MOCKDATA
+#ifdef USE_MOCK_DATA
     _manager.communicator = [[GBIFCommunicatorMock alloc] init];
 #else
     _manager.communicator = [[GBIFCommunicator alloc] init];
 #endif
     _manager.communicator.delegate = _manager;
+    
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
     
     self.mapView.mapType = MKMapTypeStandard;
     [self.mapTypeButton setTitle:@"MapType: Standard" forState:UIControlStateNormal];
     
-    //_currentSearchAreaSize = 1000 * pow(2,areaStepper), i.e. default = 1000m
-    self.areaStepper.value = 1;
+    // configure search area stepper
+    _currentSearchAreaSpan = kDefaultSearchAreaSpan;
+    self.areaStepper.value = log2(_currentSearchAreaSpan/kDefaultSearchAreaSpan);
     self.areaStepper.maximumValue = 5;
     self.areaStepper.minimumValue = -5;
     [self updateSearchAreaLabel:self.areaStepper.value];
@@ -64,7 +71,7 @@
     [self updateCurrentMapView:defaultLocation latitudinalMeters:0 longitudinalMeters:kDefaultViewSpan];
 
     [self updateSearchAreaOverlay:defaultLocation areaSpan:_currentSearchAreaSpan];
-    [self searchArea:nil];
+    [self performSearch:nil];
 
     self.mapView.showsUserLocation = TRUE;
     _followUser = FALSE;
@@ -94,9 +101,7 @@
 
 - (void)updateSearchAreaLabel:(double)stepperValue
 {
-    _currentSearchAreaSpan = 1000 * pow(2, stepperValue);
     self.areaLabel.text = [NSString stringWithFormat:@"Span: %dm", _currentSearchAreaSpan];
-    
 }
 
 - (void)updateSearchAreaOverlay:(CLLocationCoordinate2D)location areaSpan:(double)areaSpan
@@ -133,10 +138,9 @@
 {
     [_mapView removeAnnotations:_mapView.annotations];
     
-    for (int i = 0; i < kMapMarkersMax && i < occurrenceResults.count; i++) {
+    for (int i = 0; i < _tripOptions.displayPoints && i < occurrenceResults.count; i++) {
         [self addOccurrenceAnnotation:occurrenceResults[i]];
     }
-    
 }
 
 - (void)addOccurrenceAnnotation:(GBIFOccurrence *)occurrence
@@ -147,8 +151,7 @@
 
 - (void)updateCurrentMapView:(CLLocationCoordinate2D)location latitudinalMeters:(int)latRegionSpan longitudinalMeters:(int)longRegionSpan
 {
-    MKCoordinateRegion region =
-    MKCoordinateRegionMakeWithDistance(location, latRegionSpan, longRegionSpan);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location, latRegionSpan, longRegionSpan);
     NSLog(@"MKCoordinationRegion.span: %.4f, %.4f", region.span.latitudeDelta, region.span.longitudeDelta);
     [self.mapView setRegion:region animated:YES];
 }
@@ -164,17 +167,21 @@
 
 - (IBAction)searchZoomChanged:(UIStepper *)sender
 {
+    _currentSearchAreaSpan = kDefaultSearchAreaSpan * pow(2, self.areaStepper.value);
     [self updateSearchAreaLabel:sender.value];
     [self updateSearchAreaOverlay:_currentSearchAreaPolygon.coordinate areaSpan:_currentSearchAreaSpan];
 }
 
 - (IBAction)zoomToLocation:(id)sender {
-    [self updateCurrentMapView:_currentSearchAreaPolygon.coordinate latitudinalMeters:0 longitudinalMeters:_currentSearchAreaSpan];
+    [self updateCurrentMapView:_currentSearchAreaPolygon.coordinate latitudinalMeters:_currentSearchAreaSpan longitudinalMeters:_currentSearchAreaSpan];
 }
 
-- (IBAction)searchArea:(id)sender
+- (IBAction)performSearch:(id)sender
 {
-    [_manager fetchOccurencesWithinArea:_currentSearchAreaPolygon];
+    _tripOptions.searchAreaPolygon = _currentSearchAreaPolygon;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//    [_manager fetchOccurrencesWithinArea:_currentSearchAreaPolygon];
+    [_manager fetchOccurrencesWithOptions:_tripOptions];
 }
 
 - (IBAction)changeMapType:(id)sender
@@ -201,9 +208,10 @@
 
 
 - (IBAction)searchOptions:(id)sender {
-    ExploreOptionsViewController *optionsVC = [[ExploreOptionsViewController alloc] init];
-    
-    
+//    OptionsTableViewController *optionsVC = [[OptionsTableViewController alloc] init];
+//    ExploreOptionsViewController *optionsVC = [[ExploreOptionsViewController alloc] init];
+//    optionsVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//   [self presentViewController:optionsVC animated:TRUE completion:nil];
 }
 
 
@@ -325,14 +333,28 @@
     return TRUE;
 }
 
+#pragma mark ExploreOptionsDelegate
+- (void)saveOptions:(TripOptions *)savedTripOptions
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateOccurrenceAnnotations:_occurrenceResults.Results];
+    });
+    
+//    _tripOptions = savedTripOptions;
+}
+
 #pragma mark GBIFManagerDelegate
 
 - (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
 {
     NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
-    [self updateOccurrenceAnnotations:occurrenceResults.Results];
-    [self zoomToLocation:nil];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateOccurrenceAnnotations:occurrenceResults.Results];
+        [self zoomToLocation:nil];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    });
 }
 
 - (void)fetchingResultsFailedWithError:(NSError *)error
@@ -349,6 +371,11 @@
         [vc setSearchAreaCenter:_currentSearchAreaPolygon.coordinate];
         [vc setSearchAreaSpan:_currentSearchAreaSpan];
         [vc setOccurenceResults:_occurrenceResults];
+    }
+    else if ([segue.identifier isEqualToString:@"ExploreOptionsSegue"]) {
+        ExploreOptionsViewController *optionsVC = [segue destinationViewController];
+        optionsVC.delegate = self;
+        optionsVC.tripOptions = _tripOptions;
     }
 }
 

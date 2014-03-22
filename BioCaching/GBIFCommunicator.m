@@ -11,16 +11,38 @@
 
 @implementation GBIFCommunicator
 
-NSString * const kOccurrenceSearch = @"http://api.gbif.org/v0.9/occurrence/search?limit=%d&offset=%d&geometry=%@";
-int const kDefaultLimit = 300;
-int const kDefaultOffset = 0;
-
-- (void)getOccurencesWithinPolygon:(MKPolygon *)polygon
+- (void)getOccurrencesWithinPolygon:(MKPolygon *)polygon
 {
-    NSString *requestString = [NSString stringWithFormat:kOccurrenceSearch,
+    NSString *requestString = [NSString stringWithFormat:kOccurrenceSearchPolygon,
                              kDefaultLimit, kDefaultOffset, [polygon convertToWKT]];
     NSLog(@"GBIFCommunicator RequestSent: %@", requestString);
 
+    NSURL *url = [[NSURL alloc] initWithString:requestString];
+    
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (connectionError) {
+            [self.delegate fetchingResultsFailedWithError:connectionError];
+        } else {
+            [self.delegate receivedResultsJSON:data];
+        }
+    }];
+}
+
+- (void)getOccurrencesWithTripOptions:(TripOptions *)tripOptions
+{
+    NSString *requestString = [NSString stringWithFormat:kOccurrenceSearch,
+                               kDefaultLimit,
+                               kDefaultOffset,
+                               [OptionsRecordType queryStringValue:tripOptions.recordType],
+                               [OptionsRecordSource queryStringValue:tripOptions.recordSource],
+                               [OptionsSpeciesFilter queryStringValue:tripOptions.speciesFilter],
+                               tripOptions.collectorName,
+                               tripOptions.year,
+                               tripOptions.yearFrom,
+                               tripOptions.yearTo,
+                               [tripOptions.searchAreaPolygon convertToWKT]];
+    NSLog(@"GBIFCommunicator RequestSent: %@", requestString);
+    
     NSURL *url = [[NSURL alloc] initWithString:requestString];
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {

@@ -12,16 +12,23 @@
 
 @implementation GBIFManager
 
-- (void)fetchOccurencesWithinArea:(MKPolygon *)polygonArea
+- (void)fetchOccurrencesWithinArea:(MKPolygon *)polygonArea
 {
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [TSMessage showNotificationInViewController:[UIApplication sharedApplication].keyWindow.rootViewController title:@"GBIF Search Request Made" subtitle:polygonArea.description type:TSMessageNotificationTypeMessage duration:1];
+        [TSMessage showNotificationInViewController:[UIApplication sharedApplication].keyWindow.rootViewController title:@"GBIF Search Request Made (Polygon)" subtitle:polygonArea.description type:TSMessageNotificationTypeMessage duration:1];
     });
 
-    [self.communicator getOccurencesWithinPolygon:polygonArea];
+    [self.communicator getOccurrencesWithinPolygon:polygonArea];
 }
 
+- (void)fetchOccurrencesWithOptions:(TripOptions *)tripOptions
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [TSMessage showNotificationInViewController:[UIApplication sharedApplication].keyWindow.rootViewController title:@"GBIF Search Request Made" subtitle:tripOptions.searchAreaPolygon.description type:TSMessageNotificationTypeMessage duration:1];
+    });
+    
+    [self.communicator getOccurrencesWithTripOptions:tripOptions];
+}
 
 #pragma mark - GBIFCommunicatorDelegate
 

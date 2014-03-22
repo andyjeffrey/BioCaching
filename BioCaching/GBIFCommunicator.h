@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "TripOptions.h"
 
 @protocol GBIFCommunicatorDelegate;
 
 @interface GBIFCommunicator : NSObject
 @property (weak, nonatomic) id<GBIFCommunicatorDelegate> delegate;
 
-- (void)getOccurencesWithinPolygon:(MKPolygon *)polygon;
+- (void)getOccurrencesWithinPolygon:(MKPolygon *)polygon;
+- (void)getOccurrencesWithTripOptions:(TripOptions *)tripOptions;
 
 @end

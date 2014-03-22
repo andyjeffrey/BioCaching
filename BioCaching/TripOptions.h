@@ -1,0 +1,34 @@
+//
+//  TripOptions.h
+//  BioCaching
+//
+//  Created by Andy Jeffrey on 17/03/2014.
+//  Copyright (c) 2014 MPApps.net. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "OptionsRecordType.h"
+#import "OptionsRecordSource.h"
+#import "OptionsSpeciesFilter.h"
+
+@interface TripOptions : NSObject
+
+@property (nonatomic, assign) CLLocationCoordinate2D searchAreaCentre;
+@property (nonatomic, assign) int searchAreaSpan;
+@property (nonatomic, strong) MKPolygon *searchAreaPolygon;
+@property (nonatomic, assign) int displayPoints;
+@property (nonatomic, assign) RecordType recordType;
+@property (nonatomic, assign) RecordSource recordSource;
+@property (nonatomic, assign) SpeciesFilter speciesFilter;
+@property (nonatomic, strong) NSString *collectorName;
+@property (nonatomic, strong) NSString *year;
+@property (nonatomic, strong) NSString *yearFrom;
+@property (nonatomic, strong) NSString *yearTo;
+
+@property (nonatomic, assign) BOOL fullSpeciesNames;
+@property (nonatomic, assign) BOOL uniqueSpecies;
+@property (nonatomic, assign) BOOL uniqueLocations;
+
++ (id)initWithDefaults;
+
+@end

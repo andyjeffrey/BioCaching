@@ -34,7 +34,7 @@
                                self.searchAreaCenter.latitude, self.searchAreaCenter.longitude];
     self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %dm",
                                self.searchAreaSpan];
-    self.labelOccurrenceCount.text = [NSString stringWithFormat:@"Record Count: %d",
+    self.labelOccurrenceCount.text = [NSString stringWithFormat:@"Total Record Count: %d",
                                       self.occurenceResults.Count.intValue];
 }
 

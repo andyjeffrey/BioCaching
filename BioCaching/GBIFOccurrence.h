@@ -10,6 +10,40 @@
 
 @interface GBIFOccurrence : NSObject
 
+typedef enum BasisOfRecordEnum {
+    FOSSIL_SPECIMEN,
+    HUMAN_OBSERVATION,
+    LITERATURE,
+    LIVING_SPECIMEN,
+    MACHINE_OBSERVATION,
+    OBSERVATION,
+    PRESERVED_SPECIMEN,
+    UNKNOWN
+} BasisOfRecordEnum;
+
+typedef enum CollectionCodeEnum {
+    All,
+    iNaturalist,
+    eBird
+} CollectionCodeEnum;
+
+typedef enum SpeciesFilterEnum {
+    Everything,
+    Plants,
+    Animals,
+    Mollusks,
+    Mammals,
+    Amphibians,
+    Birds,
+    Reptiles,
+    Fishes,
+    Insects,
+    Arachnids,
+    Fungi,
+    Chromista,
+    Protozoans
+} SpeciesFilterEnum;
+
 @property(nonatomic,strong) NSNumber * Key;
 @property(nonatomic,strong) NSString * Kingdom;
 @property(nonatomic,strong) NSString * Phylum;

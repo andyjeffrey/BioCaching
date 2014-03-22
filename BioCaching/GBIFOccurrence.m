@@ -140,6 +140,7 @@
     if (secondIndex < self.Species.length) {
         return [self.Species substringToIndex:secondIndex];
     }
+    
     return self.Species;
 }
 

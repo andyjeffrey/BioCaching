@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-
-#import "ExploreListViewController.h"
+#import "DropDownView.h"
+#import "ExploreOptionsViewController.h"
 #import "GBIFManager.h"
 #import "GBIFOccurrenceResults.h"
 
-@interface ExploreMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, GBIFManagerDelegate>
+@interface ExploreMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, ExploreOptionsDelegate, GBIFManagerDelegate, DropDownViewDelegate>
 {
     GBIFOccurrenceResults *_occurrenceResults;
     GBIFManager *_manager;

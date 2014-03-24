@@ -13,15 +13,9 @@
 
 @implementation DropDownView
 
-@synthesize uiTableView;
-
-@synthesize arrayData,heightOfCell,refView;
-
-@synthesize paddingLeft,paddingRight,paddingTop;
+@synthesize refView;
 
 @synthesize open,close;
-
-@synthesize heightTableView;
 
 @synthesize delegate;
 
@@ -51,15 +45,18 @@
 		
 		CGRect refFrame = refView.frame;
 		
-		self.view.frame = CGRectMake(refFrame.origin.x-paddingLeft,refFrame.origin.y+refFrame.size.height+paddingTop,refFrame.size.width+paddingRight, heightTableView);
+		self.view.frame = CGRectMake(refFrame.origin.x-tPaddingLeft,refFrame.origin.y+refFrame.size.height+tPaddingTop,refFrame.size.width+tPaddingRight, tHeightTableView);
 		
 		self.view.layer.shadowColor = [[UIColor blackColor] CGColor];
 		
-		self.view.layer.shadowOffset = CGSizeMake(5.0f, 5.0f);
+		self.view.layer.shadowOffset = CGSizeMake(0.0f, 3.0f);
 		
 		self.view.layer.shadowOpacity =1.0f;
 		
 		self.view.layer.shadowRadius = 5.0f;
+        
+        self.view.layer.borderWidth = 0.0f;
+        self.view.layer.borderColor = [[UIColor blackColor] CGColor];
 		
 		animationType = tAnimation;
 		
@@ -76,13 +73,13 @@
 	
 	CGRect refFrame = refView.frame;
 		
-	uiTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0,refFrame.size.width+paddingRight, (animationType == BOTH || animationType == BLENDIN)?heightTableView:1) style:UITableViewStylePlain];
+	self.uiTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0,refFrame.size.width+self.paddingRight, (animationType == BOTH || animationType == BLENDIN)?self.heightTableView:1) style:UITableViewStylePlain];
 	
-	uiTableView.dataSource = self;
+	self.uiTableView.dataSource = self;
 	
-	uiTableView.delegate = self;
+	self.uiTableView.delegate = self;
 	
-	[self.view addSubview:uiTableView];
+	[self.view addSubview:self.uiTableView];
 	
 	self.view.hidden = YES;
 	
@@ -111,14 +108,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	
-	return heightOfCell;
+	return self.heightOfCell;
 	
 	
 }	
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
 	
-	return [arrayData count];
+	return [self.arrayData count];
 	
 }	
 
@@ -134,7 +131,9 @@
 		
     }
     
-	cell.textLabel.text = [arrayData objectAtIndex:indexPath.row];
+	cell.textLabel.text = [self.arrayData objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont fontWithName:@"System" size:10];
+    [cell.textLabel sizeToFit];
 		
 	return cell;
 	
@@ -199,7 +198,7 @@
 	[UIView setAnimationDelay:0];
 	
 	if(animationType == BOTH || animationType == GROW)
-		self.uiTableView.frame = CGRectMake(uiTableView.frame.origin.x,uiTableView.frame.origin.y,uiTableView.frame.size.width, heightTableView);
+		self.uiTableView.frame = CGRectMake(self.uiTableView.frame.origin.x,self.uiTableView.frame.origin.y,self.uiTableView.frame.size.width, self.heightTableView);
 	
 	if(animationType == BOTH || animationType == BLENDIN)
 		self.view.alpha = 1;
@@ -227,7 +226,7 @@
 	[UIView setAnimationDelay:0];
 	
 	if(animationType == BOTH || animationType == GROW)
-		self.uiTableView.frame = CGRectMake(uiTableView.frame.origin.x,uiTableView.frame.origin.y,uiTableView.frame.size.width, 1);
+		self.uiTableView.frame = CGRectMake(self.uiTableView.frame.origin.x,self.uiTableView.frame.origin.y,self.uiTableView.frame.size.width, 1);
 	
 	if(animationType == BOTH || animationType == BLENDIN)
 		self.view.alpha = 0;
@@ -245,7 +244,11 @@
 	
 	self.view.hidden = YES;
 
-}	 
+}
+
+- (BOOL)isHidden {
+    return self.view.hidden;
+}
 
 
 @end

@@ -26,20 +26,6 @@ typedef enum {
 
 @interface DropDownView : UIViewController<UITableViewDelegate,UITableViewDataSource> {
 
-	UITableView *uiTableView;
-	
-	NSArray *arrayData;
-	
-	CGFloat heightOfCell;
-	
-	CGFloat paddingLeft;
-	
-	CGFloat paddingRight;
-	
-	CGFloat paddingTop;
-	
-	CGFloat heightTableView;
-	
 	UIView *refView;
 	
 	__unsafe_unretained id<DropDownViewDelegate> delegate;
@@ -52,21 +38,16 @@ typedef enum {
 	
 }
 
-@property (nonatomic,assign) id<DropDownViewDelegate> delegate;
-
-@property (nonatomic,retain)UITableView *uiTableView;
-
-@property (nonatomic,retain) NSArray *arrayData;
-
+@property (nonatomic, readonly) BOOL isHidden;
+@property (nonatomic,strong)UITableView *uiTableView;
+@property (nonatomic,strong) NSArray *arrayData;
 @property (nonatomic) CGFloat heightOfCell;
-
 @property (nonatomic) CGFloat paddingLeft;
-
 @property (nonatomic) CGFloat paddingRight;
-
 @property (nonatomic) CGFloat paddingTop;
-
 @property (nonatomic) CGFloat heightTableView;
+
+@property (nonatomic,assign) id<DropDownViewDelegate> delegate;
 
 @property (nonatomic,retain)UIView *refView;
 

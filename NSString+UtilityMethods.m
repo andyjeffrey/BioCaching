@@ -18,8 +18,9 @@
 
 - (long)secondIndexOf:(NSString *)subString
 {
-    NSRange secondInstance = [[self substringFromIndex:[self indexOf:subString] + subString.length] rangeOfString:subString];
-    return secondInstance.location;
+    long firstInstance = [self indexOf:subString];
+    NSRange secondInstance = [[self substringFromIndex:firstInstance + subString.length] rangeOfString:subString];
+    return firstInstance + subString.length + secondInstance.location;
 }
 
 - (NSString *)getSubstringBetweenString:(NSString *)separator

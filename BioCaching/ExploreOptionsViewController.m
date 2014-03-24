@@ -1,4 +1,4 @@
-//
+    //
 //  ExploreOptionsViewController.m
 //  BioCaching
 //
@@ -19,8 +19,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonOK;
 @property (weak, nonatomic) IBOutlet UISlider *sliderDisplayPoints;
 @property (weak, nonatomic) IBOutlet UILabel *labelPoints;
-@property (weak, nonatomic) IBOutlet UITextField *labelYearFrom;
-@property (weak, nonatomic) IBOutlet UITextField *labelYearTo;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldYearFrom;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldYearTo;
 @property (weak, nonatomic) IBOutlet UILabel *labelRecordType;
 @property (weak, nonatomic) IBOutlet UILabel *labelRecordSource;
 @property (weak, nonatomic) IBOutlet UILabel *labelSpeciesFilter;
@@ -39,7 +39,10 @@
 	DropDownView *dropDownView1;
 	DropDownView *dropDownView2;
 	DropDownView *dropDownView3;
+    NSArray *uiControls;
+    UIGestureRecognizer *tapper;
 }
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,11 +57,27 @@
 {
     [super viewDidLoad];
     
-    self.pickerView.hidden = TRUE;
+//    self.pickerView.hidden = TRUE;
     [self initiateSlider];
+    [self initiateTextFields];
     [self initiateDropDownLists];
     [self initiateSwitches];
     [self updateLabels];
+    
+    uiControls = [[NSArray alloc] initWithObjects:
+                  self.sliderDisplayPoints,
+                  self.textFieldYearFrom,
+                  self.textFieldYearTo,
+                  self.buttonRecordType,
+                  self.buttonRecordSource,
+                  self.buttonSpeciesFilter,
+                  self.buttonOK,
+                  nil];
+    
+    tapper = [[UITapGestureRecognizer alloc]
+              initWithTarget:self action:@selector(handleSingleTap:)];
+    tapper.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapper];
 }
 
 - (void)initiateSlider
@@ -66,6 +85,17 @@
     self.sliderDisplayPoints.minimumValue = 1;
     self.sliderDisplayPoints.maximumValue = 300;
     self.sliderDisplayPoints.value = self.tripOptions.displayPoints;
+}
+
+- (void)initiateTextFields
+{
+    if (self.tripOptions.yearFrom.length > 0) {
+        self.textFieldYearFrom.text = self.tripOptions.yearFrom;
+    }
+    
+    if (self.tripOptions.yearTo.length > 0) {
+        self.textFieldYearTo.text = self.tripOptions.yearTo;
+    }
 }
 
 - (void)initiateSwitches
@@ -112,6 +142,13 @@
     self.labelSpeciesFilter.text = [OptionsSpeciesFilter displayString:self.tripOptions.speciesFilter];
 }
 
+- (void)activateUIControls:(BOOL)enable
+{
+    for (UIControl *uiControl in uiControls) {
+        uiControl.userInteractionEnabled = enable;
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -126,28 +163,36 @@
 }
 
 - (IBAction)buttonOK:(id)sender {
-    [self.delegate saveOptions:self.tripOptions];
+//    [self.delegate saveOptions:self.tripOptions];
     [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
+    NSLog(@"buttonOK:\n%@,%@\n%@,%@",
+          self.textFieldYearFrom.text, self.tripOptions.yearFrom,
+          self.textFieldYearTo.text, self.tripOptions.yearTo);
 }
 
 - (IBAction)buttonRecordTypeTouch:(id)sender {
+    [self activateUIControls:FALSE];
     activeDropDownView = dropDownView1;
 	[dropDownView1 openAnimation];
 }
 - (IBAction)buttonRecordSourceTouch:(id)sender {
+    [self activateUIControls:FALSE];
     activeDropDownView = dropDownView2;
 	[dropDownView2 openAnimation];
  }
 - (IBAction)buttonSpeciesFilterTouch:(id)sender {
+    [self activateUIControls:FALSE];
     activeDropDownView = dropDownView3;
 	[dropDownView3 openAnimation];
  }
 
+/*
 - (IBAction)recordTypeButton:(id)sender {
     self.buttonOK.hidden = TRUE;
     self.pickerView.hidden = FALSE;
     [self.pickerView selectRow:self.tripOptions.recordType inComponent:0 animated:TRUE];
 }
+*/
 
 -(void)dropDownCellSelected:(NSInteger)returnIndex{
     if (activeDropDownView == dropDownView1) {
@@ -158,20 +203,44 @@
         self.tripOptions.speciesFilter = returnIndex;
     }
     [self updateLabels];
+    [self activateUIControls:TRUE];
 }
 
+/*
 -(id)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     id hitView = [self.view hitTest:point withEvent:event];
     if (hitView == self) return nil;
     else return hitView;
 }
+*/
 
+#pragma mark UITextFieldDelegate
 
-- (IBAction)textFromEnd:(id)sender {
-    
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    [self saveTextFieldToTripOptions:textField];
+    return NO;
 }
 
-#pragma markc UIPickerViewDataSource
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender
+{
+    [self.view endEditing:YES];
+}
+
+- (IBAction)textFieldFromEnd:(id)sender {
+    [self textFieldShouldReturn:sender];
+}
+
+- (void)saveTextFieldToTripOptions:(UITextField *)textField {
+    if (textField == self.textFieldYearFrom) {
+        self.tripOptions.yearFrom = textField.text;
+    } else if (textField == self.textFieldYearTo) {
+        self.tripOptions.yearTo = textField.text;
+    }
+}
+
+/*
+#pragma mark UIPickerViewDataSource
 // returns the number of 'columns' to display.
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
@@ -197,5 +266,6 @@
     self.pickerView.hidden = TRUE;
     [self updateLabels];
 }
+*/
 
 @end

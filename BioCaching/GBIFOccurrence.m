@@ -154,7 +154,12 @@
 
 - (NSString *)SubTitle
 {
-    NSString *subTitle = [NSString stringWithFormat:@"%@  %@  %@", [self.OccurrenceDate substringToIndex:10], self.CatalogNumber, self.InstitutionCode];
+    NSString *subTitle = [NSString stringWithFormat:@"%@  %@ %@  %@",
+                          [self.OccurrenceDate substringToIndex:10],
+                          self.Latitude,
+                          self.Longitude,
+//                          self.CatalogNumber,
+                          self.InstitutionCode];
     
     return subTitle;
 }

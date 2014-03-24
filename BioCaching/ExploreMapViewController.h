@@ -13,10 +13,13 @@
 #import "GBIFManager.h"
 #import "GBIFOccurrenceResults.h"
 
-@interface ExploreMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, ExploreOptionsDelegate, GBIFManagerDelegate, DropDownViewDelegate>
-{
-    GBIFOccurrenceResults *_occurrenceResults;
-    GBIFManager *_manager;
-}
+@interface ExploreMapViewController : UIViewController <
+    MKMapViewDelegate,
+    UIGestureRecognizerDelegate,
+//    ExploreOptionsDelegate,
+    GBIFManagerDelegate,
+    DropDownViewDelegate>
+
+@property (nonatomic, strong) GBIFManager *gbifManager;
 
 @end

@@ -9,9 +9,6 @@
 #import "GBIFCommunicatorMock.h"
 #import "GBIFCommunicatorDelegate.h"
 
-#define kMockOccurrenceResultsFile @"OccurrenceResultsCAS.json"
-#define kMockFilteredOccurrenceResultsFile @"OccurrenceResultsCASFilter.json"
-
 @implementation GBIFCommunicatorMock
 
 - (void)getOccurrencesWithinPolygon:(MKPolygon *)polygon
@@ -40,7 +37,7 @@
     
     NSLog(@"GBIFCommunicatorMock RequestString: %@", requestString);
     
-    NSData *mockResponseData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:kMockFilteredOccurrenceResultsFile ofType:nil]];
+    NSData *mockResponseData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:kMockOccurrenceResultsFile ofType:nil]];
     [self.delegate receivedResultsJSON:mockResponseData];
 }
 

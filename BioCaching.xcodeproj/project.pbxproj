@@ -77,10 +77,11 @@
 		A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CE718D23A87002FCDDD /* Images.xcassets */; };
 		A1FD87D518DB4F4F00003091 /* OccurrenceResultsCASFilter.json in Resources */ = {isa = PBXBuildFile; fileRef = A1FD87D418DB4F4F00003091 /* OccurrenceResultsCASFilter.json */; };
 		A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87DA18DB843100003091 /* OptionsRecordType.m */; };
-		A1FD87DE18DBA72600003091 /* TestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87DD18DBA72600003091 /* TestTableViewController.m */; };
 		A1FD87E118DC820100003091 /* OptionsSpeciesFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */; };
 		A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87E318DC821600003091 /* OptionsRecordSource.m */; };
 		A1FD87EF18DCE23C00003091 /* DropDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87EE18DCE23C00003091 /* DropDownView.m */; };
+		A1FD87F218DF63F700003091 /* LocationsArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87F118DF63F700003091 /* LocationsArray.m */; };
+		A1FD87F518E058E400003091 /* UIView+UtilityMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87F418E058E400003091 /* UIView+UtilityMethods.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -199,14 +200,16 @@
 		A1FD87D418DB4F4F00003091 /* OccurrenceResultsCASFilter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilter.json; path = Resources/TestData/OccurrenceResultsCASFilter.json; sourceTree = "<group>"; };
 		A1FD87D918DB843100003091 /* OptionsRecordType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsRecordType.h; sourceTree = "<group>"; };
 		A1FD87DA18DB843100003091 /* OptionsRecordType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsRecordType.m; sourceTree = "<group>"; };
-		A1FD87DC18DBA72600003091 /* TestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestTableViewController.h; sourceTree = "<group>"; };
-		A1FD87DD18DBA72600003091 /* TestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestTableViewController.m; sourceTree = "<group>"; };
 		A1FD87DF18DC820100003091 /* OptionsSpeciesFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsSpeciesFilter.h; sourceTree = "<group>"; };
 		A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsSpeciesFilter.m; sourceTree = "<group>"; };
 		A1FD87E218DC821600003091 /* OptionsRecordSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsRecordSource.h; sourceTree = "<group>"; };
 		A1FD87E318DC821600003091 /* OptionsRecordSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsRecordSource.m; sourceTree = "<group>"; };
 		A1FD87ED18DCE23C00003091 /* DropDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownView.h; sourceTree = "<group>"; };
 		A1FD87EE18DCE23C00003091 /* DropDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownView.m; sourceTree = "<group>"; };
+		A1FD87F018DF63F700003091 /* LocationsArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsArray.h; sourceTree = "<group>"; };
+		A1FD87F118DF63F700003091 /* LocationsArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsArray.m; sourceTree = "<group>"; };
+		A1FD87F318E058E400003091 /* UIView+UtilityMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UtilityMethods.h"; sourceTree = SOURCE_ROOT; };
+		A1FD87F418E058E400003091 /* UIView+UtilityMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UtilityMethods.m"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +301,8 @@
 				A1EA6CA618CD1AB2002FCDDD /* HexColor.m */,
 				A1EA6CC218CE641E002FCDDD /* NSString+UtilityMethods.h */,
 				A1EA6CC318CE641E002FCDDD /* NSString+UtilityMethods.m */,
+				A1FD87F318E058E400003091 /* UIView+UtilityMethods.h */,
+				A1FD87F418E058E400003091 /* UIView+UtilityMethods.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -384,6 +389,8 @@
 				A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */,
 				A1FD87E218DC821600003091 /* OptionsRecordSource.h */,
 				A1FD87E318DC821600003091 /* OptionsRecordSource.m */,
+				A1FD87F018DF63F700003091 /* LocationsArray.h */,
+				A1FD87F118DF63F700003091 /* LocationsArray.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -422,8 +429,6 @@
 				A1D5DE1218CA1A4100FA005B /* GBIFManagerDelegate.h */,
 				A1D5DE1318CB64C900FA005B /* GBIFManager.h */,
 				A1D5DE1418CB64C900FA005B /* GBIFManager.m */,
-				A1FD87DC18DBA72600003091 /* TestTableViewController.h */,
-				A1FD87DD18DBA72600003091 /* TestTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -625,10 +630,11 @@
 			files = (
 				A1D5DE1018CA137C00FA005B /* GBIFOccurenceResultsBuilder.m in Sources */,
 				A1EA20AC18B4F7AB00200D50 /* TripsViewController.m in Sources */,
+				A1FD87F518E058E400003091 /* UIView+UtilityMethods.m in Sources */,
 				A1D5DDA118C72E1500FA005B /* ExploreListViewController.m in Sources */,
 				A1D5DE0D18C9FED400FA005B /* MKPolygon+WKTParser.m in Sources */,
+				A1FD87F218DF63F700003091 /* LocationsArray.m in Sources */,
 				A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */,
-				A1FD87DE18DBA72600003091 /* TestTableViewController.m in Sources */,
 				A1EA6CA718CD1AB2002FCDDD /* HexColor.m in Sources */,
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
 				A18EBB4418D3332B00EF01E7 /* ExploreOptionsViewController.m in Sources */,

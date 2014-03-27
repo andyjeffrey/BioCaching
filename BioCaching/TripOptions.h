@@ -16,7 +16,7 @@
 @property (nonatomic, assign) CLLocationCoordinate2D searchAreaCentre;
 @property (nonatomic, assign) int searchAreaSpan;
 @property (nonatomic, strong) MKPolygon *searchAreaPolygon;
-@property (nonatomic, assign) int displayPoints;
+
 @property (nonatomic, assign) RecordType recordType;
 @property (nonatomic, assign) RecordSource recordSource;
 @property (nonatomic, assign) SpeciesFilter speciesFilter;
@@ -25,9 +25,10 @@
 @property (nonatomic, strong) NSString *yearFrom;
 @property (nonatomic, strong) NSString *yearTo;
 
-@property (nonatomic, assign) BOOL fullSpeciesNames;
+@property (nonatomic, assign) int displayPoints;
 @property (nonatomic, assign) BOOL uniqueSpecies;
 @property (nonatomic, assign) BOOL uniqueLocations;
+@property (nonatomic, assign) BOOL fullSpeciesNames;
 
 + (id)initWithDefaults;
 

@@ -11,17 +11,17 @@
 #import "TripOptions.h"
 //#import "OptionsRecordType.h"
 
-/*
+
 @protocol ExploreOptionsDelegate <NSObject>
 - (void) saveOptions:(TripOptions *)savedTripOptions;
 @end
-*/
+
 
 @interface ExploreOptionsViewController : UIViewController <
     //UIPickerViewDelegate, UIPickerViewDataSource,
     DropDownViewDelegate>
 
 @property (nonatomic, weak) TripOptions *tripOptions;
-//@property (nonatomic, weak) id <ExploreOptionsDelegate> delegate;
+@property (nonatomic, weak) id <ExploreOptionsDelegate> delegate;
 
 @end

@@ -8,6 +8,10 @@
 
 #import "LocationsArray.h"
 
+#define kDefaultLocation 0
+#define kDefaultSearchAreaSpan 1000
+#define kDefaultViewSpan 5000
+
 @implementation LocationsArray
 
 + (NSArray *)staticArray
@@ -17,9 +21,9 @@
     dispatch_once(&onceToken, ^{
         _staticArray = [[NSMutableArray alloc] init];
         
-        [_staticArray addObject:@[@"GoldenGate Park, CA", @37.769341, @-122.481937]];
-        [_staticArray addObject:@[@"Pepperwood Preserve, CA", @38.577085, @-122.700702]];
-        [_staticArray addObject:@[@"Lafayette Reservoir, CA", @37.879706, @-122.141128, @1000]];
+        [_staticArray addObject:@[@"GoldenGate Park, CA", @37.769341, @-122.481937, @1000, @2500]];
+        [_staticArray addObject:@[@"Pepperwood Preserve, CA", @38.577085, @-122.700702, @2000, @8000]];
+        [_staticArray addObject:@[@"Lafayette Reservoir, CA", @37.879706, @-122.141128, @2000, @4000]];
         [_staticArray addObject:@[@"Yosemite NP, CA", @37.899650, @-119.536363, @2000]];
         [_staticArray addObject:@[@"Yellowstone NP, WY", @44.545806, @-110.284237]];
         [_staticArray addObject:@[@"Great Smoky Mountains NP, TN", @35.619517, @-83.550113]];
@@ -35,7 +39,7 @@
         [_staticArray addObject:@[@"Gunung Mulu NP, Malaysia", @4.015155, @114.815863]];
 //        [_staticArray addObject:@[@"Komodo NP, Indonesia", @-8.512431, @119.484972]];
         [_staticArray addObject:@[@"Kakadu NP, Australia", @-13.025143, @132.400693]];
-        [_staticArray addObject:@[@"Great Barrier Reef, Australia", @-18.166250, @147.462269]];
+        [_staticArray addObject:@[@"Great Barrier Reef, Australia", @-14.684754, @145.451969, @4000, @8000]];
 //        [_staticArray addObject:@[@"Kruger NP, South Africa", @-23.853615, @31.532104]];
 //        [_staticArray addObject:@[@"Virunga NP, DRC", @0.094444, @29.499171]];
         [_staticArray addObject:@[@"Ngorongoro, Tanzania", @-2.983965, @35.339133]];
@@ -75,6 +79,31 @@
             [objectValuesArray[2] doubleValue]];
 }
 
++(int)locationSearchAreaSpan:(NSInteger)arrayIndex
+{
+    NSArray *objectValuesArray = [[self class] staticArray][arrayIndex];
+    if (objectValuesArray.count > 3) {
+        return [objectValuesArray[3] intValue];
+    } else {
+        return kDefaultSearchAreaSpan;
+    }
+}
+
++(int)locationViewSpan:(NSInteger)arrayIndex
+{
+    NSArray *objectValuesArray = [[self class] staticArray][arrayIndex];
+    if (objectValuesArray.count > 4) {
+        return [objectValuesArray[4] intValue];
+    } else {
+        return kDefaultViewSpan;
+    }
+}
+
++(CLLocationCoordinate2D)defaultLocation
+{
+    return [[self class] locationCoordinate:kDefaultLocation];
+}
+
 +(CLLocationCoordinate2D)locationCoordinate:(NSInteger)arrayIndex
 {
     NSArray *objectValuesArray = [[self class] staticArray][arrayIndex];
@@ -83,10 +112,6 @@
     return coordinate;
 }
 
-+(CLLocationCoordinate2D)defaultLocation
-{
-    return [[self class] locationCoordinate:0];
-}
 
 
 

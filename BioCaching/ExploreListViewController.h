@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TripOptions.h"
 #import "GBIFOccurrenceResults.h"
 
 @interface ExploreListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
@@ -15,5 +16,6 @@
 @property (nonatomic) CLLocationCoordinate2D searchAreaCenter;
 @property (nonatomic) int searchAreaSpan;
 @property (nonatomic) GBIFOccurrenceResults *occurenceResults;
+@property (nonatomic, weak) TripOptions *tripOptions;
 
 @end

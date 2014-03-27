@@ -22,7 +22,7 @@
 
 
 - (id)initWithArrayData:(NSArray*)data cellHeight:(CGFloat)cHeight heightTableView:(CGFloat)tHeightTableView paddingTop:(CGFloat)tPaddingTop paddingLeft:(CGFloat)tPaddingLeft paddingRight:(CGFloat)tPaddingRight refView:(UIView*)rView animation:(AnimationType)tAnimation openAnimationDuration:(CGFloat)openDuration closeAnimationDuration:(CGFloat)closeDuration{
-
+    
 	if ((self = [super init])) {
 		
 		self.arrayData = data;
@@ -106,69 +106,56 @@
 #pragma mark -
 #pragma mark UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-	
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	return self.heightOfCell;
-	
-	
-}	
+}
 
-- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
-	
+- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
+{
 	return [self.arrayData count];
-	
-}	
+}
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-	
-	static NSString *CellIdentifier = @"Cell";
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	static NSString *CellIdentifier = @"TableCell";
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	
 	if (cell == nil) {
-        
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-		
     }
-    
 	cell.textLabel.text = [self.arrayData objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont fontWithName:@"System" size:10];
     [cell.textLabel sizeToFit];
 		
 	return cell;
-	
-}	
+}
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	[delegate dropDownCellSelected:indexPath.row];
-	
 	[self closeAnimation];
-	
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
 	return 0;
-	
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
 	return 0;
-	
-}	
+}
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
 	return @"";
 }	
 
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
-
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
 	return @"";
-	
-}	
+}
 
 #pragma mark -
 #pragma mark DropDownViewDelegate
@@ -186,7 +173,7 @@
 	self.view.hidden = NO;
 	
 	NSValue *contextPoint = [NSValue valueWithCGPoint:self.view.center];
-	
+    	
 	[UIView beginAnimations:nil context:(__bridge void *)(contextPoint)];
 	
 	[UIView setAnimationDuration:open];

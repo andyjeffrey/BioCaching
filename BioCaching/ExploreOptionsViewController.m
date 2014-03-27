@@ -30,7 +30,6 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switchFullSpeciesNames;
 @property (weak, nonatomic) IBOutlet UISwitch *switchUniqueSpecies;
 @property (weak, nonatomic) IBOutlet UISwitch *switchUniqueLocations;
-@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 
 @end
 
@@ -163,7 +162,7 @@
 }
 
 - (IBAction)buttonOK:(id)sender {
-//    [self.delegate saveOptions:self.tripOptions];
+    [self.delegate saveOptions:self.tripOptions];
     [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
     NSLog(@"buttonOK:\n%@,%@\n%@,%@",
           self.textFieldYearFrom.text, self.tripOptions.yearFrom,

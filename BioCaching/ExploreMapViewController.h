@@ -16,7 +16,7 @@
 @interface ExploreMapViewController : UIViewController <
     MKMapViewDelegate,
     UIGestureRecognizerDelegate,
-//    ExploreOptionsDelegate,
+    ExploreOptionsDelegate,
     GBIFManagerDelegate,
     DropDownViewDelegate>
 

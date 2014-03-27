@@ -13,8 +13,12 @@
 
 + (NSUInteger)count;
 + (NSArray *)displayStringsArray;
+
 + (NSString *)displayString:(NSInteger)arrayIndex;
 + (NSString *)locationString:(NSInteger)arrayIndex;
++ (int)locationSearchAreaSpan:(NSInteger)arrayIndex;
++ (int)locationViewSpan:(NSInteger)arrayIndex;
+
 + (CLLocationCoordinate2D)locationCoordinate:(NSInteger)arrayIndex;
 + (CLLocationCoordinate2D)defaultLocation;
 

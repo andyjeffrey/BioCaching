@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "DropDownView.h"
-#import "ExploreOptionsViewController.h"
 #import "GBIFManager.h"
 #import "GBIFOccurrenceResults.h"
+#import "DropDownViewController.h"
+#import "ExploreOptionsDelegate.h"
 
 @interface ExploreMapViewController : UIViewController <
     MKMapViewDelegate,

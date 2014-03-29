@@ -8,7 +8,7 @@
 
 #import "LocationsArray.h"
 
-#define kDefaultLocation 0
+#define kDefaultLocation 1
 #define kDefaultSearchAreaSpan 1000
 #define kDefaultViewSpan 5000
 
@@ -21,28 +21,30 @@
     dispatch_once(&onceToken, ^{
         _staticArray = [[NSMutableArray alloc] init];
         
+        [_staticArray addObject:@[@"Current Location", @0, @0, @kDefaultSearchAreaSpan, @kDefaultViewSpan]];
+        
         [_staticArray addObject:@[@"GoldenGate Park, CA", @37.769341, @-122.481937, @1000, @2500]];
         [_staticArray addObject:@[@"Pepperwood Preserve, CA", @38.577085, @-122.700702, @2000, @8000]];
-        [_staticArray addObject:@[@"Lafayette Reservoir, CA", @37.879706, @-122.141128, @2000, @4000]];
+        [_staticArray addObject:@[@"Lafayette Reservoir, CA", @37.881188, @-122.145867, @1000, @4000]];
         [_staticArray addObject:@[@"Yosemite NP, CA", @37.899650, @-119.536363, @2000]];
-        [_staticArray addObject:@[@"Yellowstone NP, WY", @44.545806, @-110.284237]];
-        [_staticArray addObject:@[@"Great Smoky Mountains NP, TN", @35.619517, @-83.550113]];
-        [_staticArray addObject:@[@"Everglades National Park, FL", @25.321258, @-80.894518]];
+        [_staticArray addObject:@[@"Yellowstone NP, WY", @44.447702, @-110.590353, @8000, @16000]];
+        [_staticArray addObject:@[@"Great Smoky Mountains NP, TN", @35.661489, @-83.559093, @8000, @20000]];
+        [_staticArray addObject:@[@"Everglades National Park, FL", @25.167975, @-80.884781, @8000, @20000]];
 
         [_staticArray addObject:@[@"Tortuga Bay, Santa Cruz, Galapagos", @-0.764173, @-90.340036]];
         [_staticArray addObject:@[@"Seymour Norte, Galapagos", @-0.397408, @-90.288421]];
-        [_staticArray addObject:@[@"Genovesa, Galapagos", @0.318447, @-89.949594]];
+        [_staticArray addObject:@[@"Genovesa, Galapagos", @0.337141, @-89.961934, @2000, @8000]];
 
-        [_staticArray addObject:@[@"Alexandra Park, London, UK", @51.5935, @-0.1265]];
-        [_staticArray addObject:@[@"Exe Estuary MPA, UK", @50.647222, @-3.442222]];
+        [_staticArray addObject:@[@"Alexandra Park, London, UK", @51.588563, @-0.125871, @1000, @2500]];
+        [_staticArray addObject:@[@"Exe Estuary MPA, UK", @50.647222, @-3.442222, @2000, @5000]];
         
-        [_staticArray addObject:@[@"Gunung Mulu NP, Malaysia", @4.015155, @114.815863]];
+        [_staticArray addObject:@[@"Gunung Mulu NP, Malaysia", @4.144579, @114.930725, @8000, @30000]];
 //        [_staticArray addObject:@[@"Komodo NP, Indonesia", @-8.512431, @119.484972]];
-        [_staticArray addObject:@[@"Kakadu NP, Australia", @-13.025143, @132.400693]];
+        [_staticArray addObject:@[@"Kakadu NP, Australia", @-12.708650, @132.751885, @8000, @25000]];
         [_staticArray addObject:@[@"Great Barrier Reef, Australia", @-14.684754, @145.451969, @4000, @8000]];
 //        [_staticArray addObject:@[@"Kruger NP, South Africa", @-23.853615, @31.532104]];
 //        [_staticArray addObject:@[@"Virunga NP, DRC", @0.094444, @29.499171]];
-        [_staticArray addObject:@[@"Ngorongoro, Tanzania", @-2.983965, @35.339133]];
+        [_staticArray addObject:@[@"Ngorongoro, Tanzania", @-2.983820, @35.388311, @8000, @25000]];
         
 //        [_optionsArray addObject:@[@"NAME", @LAT, @LONG]];
     });

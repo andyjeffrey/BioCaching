@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "GBIFOccurrence.h"
 
-
 @interface OccurrenceLocation : NSObject<MKAnnotation>
 
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;

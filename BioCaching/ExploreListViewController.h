@@ -12,10 +12,7 @@
 
 @interface ExploreListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic) MKPolygon *searchArea;
-@property (nonatomic) CLLocationCoordinate2D searchAreaCenter;
-@property (nonatomic) int searchAreaSpan;
-@property (nonatomic) GBIFOccurrenceResults *occurenceResults;
-@property (nonatomic, weak) TripOptions *tripOptions;
+@property (nonatomic, strong) GBIFOccurrenceResults *occurenceResults;
+@property (nonatomic, strong) TripOptions *tripOptions;
 
 @end

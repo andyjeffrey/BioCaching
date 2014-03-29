@@ -8,11 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A162FD3918D6FF2100362A0A /* TripOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* TripOptions.m */; };
-		A162FD3B18D7060F00362A0A /* Genovesa, Galapagos.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */; };
-		A162FD3D18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */; };
-		A162FD3F18D708FD00362A0A /* Seymour Norte, Galapagos.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */; };
 		A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */; };
-		A18EBB4418D3332B00EF01E7 /* ExploreOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DD9B18C61FFB00FA005B /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */; };
@@ -32,8 +28,8 @@
 		A1D5DE1518CB64C900FA005B /* GBIFManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D5DE1418CB64C900FA005B /* GBIFManager.m */; };
 		A1D9A12F18E20FAC006C1988 /* IonIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D9A12B18E20FAC006C1988 /* IonIcons.m */; };
 		A1D9A13018E20FAC006C1988 /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1D9A12C18E20FAC006C1988 /* ionicons.ttf */; };
-		A1D9A13118E20FAC006C1988 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A1D9A12D18E20FAC006C1988 /* LICENSE */; };
-		A1D9A13218E20FAC006C1988 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A1D9A12E18E20FAC006C1988 /* README.md */; };
+		A1D9A13A18E49D38006C1988 /* NSCountedSet+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D9A13918E49D38006C1988 /* NSCountedSet+Sorting.m */; };
+		A1D9A14118E5993D006C1988 /* DropDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D9A14018E5993D006C1988 /* DropDownViewController.m */; };
 		A1EA209318B4F7AB00200D50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209218B4F7AB00200D50 /* Foundation.framework */; };
 		A1EA209718B4F7AB00200D50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209618B4F7AB00200D50 /* UIKit.framework */; };
 		A1EA209D18B4F7AB00200D50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1EA209B18B4F7AB00200D50 /* InfoPlist.strings */; };
@@ -44,10 +40,6 @@
 		A1EA20AC18B4F7AB00200D50 /* TripsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA20AB18B4F7AB00200D50 /* TripsViewController.m */; };
 		A1EA20CF18B4F7ED00200D50 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA20CE18B4F7ED00200D50 /* MapKit.framework */; };
 		A1EA20D518BDEED400200D50 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA20D418BDEED400200D50 /* ProfileViewController.m */; };
-		A1EA6C8918CD12C1002FCDDD /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C6618CD12C1002FCDDD /* .gitignore */; };
-		A1EA6C8A18CD12C1002FCDDD /* .gitmodules in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C6718CD12C1002FCDDD /* .gitmodules */; };
-		A1EA6C8B18CD12C1002FCDDD /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C6818CD12C1002FCDDD /* LICENSE */; };
-		A1EA6C8C18CD12C1002FCDDD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C6918CD12C1002FCDDD /* README.md */; };
 		A1EA6C8D18CD12C1002FCDDD /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6C6F18CD12C1002FCDDD /* TSMessage.m */; };
 		A1EA6C8E18CD12C1002FCDDD /* NotificationBackgroundError.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C7218CD12C1002FCDDD /* NotificationBackgroundError.png */; };
 		A1EA6C8F18CD12C1002FCDDD /* NotificationBackgroundError@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C7318CD12C1002FCDDD /* NotificationBackgroundError@2x.png */; };
@@ -68,7 +60,6 @@
 		A1EA6C9E18CD12C1002FCDDD /* TSMessagesDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C8218CD12C1002FCDDD /* TSMessagesDefaultDesign.json */; };
 		A1EA6C9F18CD12C1002FCDDD /* TSBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6C8518CD12C1002FCDDD /* TSBlurView.m */; };
 		A1EA6CA018CD12C1002FCDDD /* TSMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6C8718CD12C1002FCDDD /* TSMessageView.m */; };
-		A1EA6CA118CD12C1002FCDDD /* TSMessages.podspec in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6C8818CD12C1002FCDDD /* TSMessages.podspec */; };
 		A1EA6CA718CD1AB2002FCDDD /* HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CA618CD1AB2002FCDDD /* HexColor.m */; };
 		A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209418B4F7AB00200D50 /* CoreGraphics.framework */; };
 		A1EA6CC418CE641E002FCDDD /* NSString+UtilityMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CC318CE641E002FCDDD /* NSString+UtilityMethods.m */; };
@@ -76,14 +67,12 @@
 		A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CD318D0BE87002FCDDD /* GBIFCommunicatorMock.m */; };
 		A1EA6CD618D0BFD5002FCDDD /* OccurrenceResultsAP.json in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CD518D0BFD5002FCDDD /* OccurrenceResultsAP.json */; };
 		A1EA6CD818D1B19D002FCDDD /* OccurrenceResultsCAS.json in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CD718D1B19D002FCDDD /* OccurrenceResultsCAS.json */; };
-		A1EA6CDB18D1B574002FCDDD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CDA18D1B574002FCDDD /* Podfile */; };
 		A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */; };
 		A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CE718D23A87002FCDDD /* Images.xcassets */; };
 		A1FD87D518DB4F4F00003091 /* OccurrenceResultsCASFilter.json in Resources */ = {isa = PBXBuildFile; fileRef = A1FD87D418DB4F4F00003091 /* OccurrenceResultsCASFilter.json */; };
 		A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87DA18DB843100003091 /* OptionsRecordType.m */; };
 		A1FD87E118DC820100003091 /* OptionsSpeciesFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */; };
 		A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87E318DC821600003091 /* OptionsRecordSource.m */; };
-		A1FD87EF18DCE23C00003091 /* DropDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87EE18DCE23C00003091 /* DropDownView.m */; };
 		A1FD87F218DF63F700003091 /* LocationsArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87F118DF63F700003091 /* LocationsArray.m */; };
 		A1FD87F518E058E400003091 /* UIView+UtilityMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87F418E058E400003091 /* UIView+UtilityMethods.m */; };
 /* End PBXBuildFile section */
@@ -96,8 +85,6 @@
 		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FE4118D998DE00362A0A /* OptionsStaticTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsStaticTableViewController.h; sourceTree = "<group>"; };
 		A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsStaticTableViewController.m; sourceTree = "<group>"; };
-		A18EBB4118D3332B00EF01E7 /* ExploreOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreOptionsViewController.h; sourceTree = "<group>"; };
-		A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreOptionsViewController.m; sourceTree = "<group>"; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
 		A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Exe Estuary MPA, UK.gpx"; path = "Resources/TestData/Exe Estuary MPA, UK.gpx"; sourceTree = "<group>"; };
 		A1D5DD8518C61B6A00FA005B /* GoldenGate Park, CA.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "GoldenGate Park, CA.gpx"; path = "Resources/TestData/GoldenGate Park, CA.gpx"; sourceTree = "<group>"; };
@@ -148,6 +135,12 @@
 		A1D9A12D18E20FAC006C1988 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A1D9A12E18E20FAC006C1988 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		A1D9A13318E3696A006C1988 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		A1D9A13818E49D38006C1988 /* NSCountedSet+Sorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCountedSet+Sorting.h"; sourceTree = SOURCE_ROOT; };
+		A1D9A13918E49D38006C1988 /* NSCountedSet+Sorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCountedSet+Sorting.m"; sourceTree = SOURCE_ROOT; };
+		A1D9A13B18E5786F006C1988 /* DropDownViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropDownViewDelegate.h; sourceTree = "<group>"; };
+		A1D9A13F18E5993D006C1988 /* DropDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownViewController.h; sourceTree = "<group>"; };
+		A1D9A14018E5993D006C1988 /* DropDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownViewController.m; sourceTree = "<group>"; };
+		A1D9A14218E6D3D4006C1988 /* ExploreOptionsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExploreOptionsDelegate.h; sourceTree = "<group>"; };
 		A1EA208F18B4F7AB00200D50 /* BioCaching.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BioCaching.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EA209218B4F7AB00200D50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A1EA209418B4F7AB00200D50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -215,8 +208,6 @@
 		A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsSpeciesFilter.m; sourceTree = "<group>"; };
 		A1FD87E218DC821600003091 /* OptionsRecordSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsRecordSource.h; sourceTree = "<group>"; };
 		A1FD87E318DC821600003091 /* OptionsRecordSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsRecordSource.m; sourceTree = "<group>"; };
-		A1FD87ED18DCE23C00003091 /* DropDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownView.h; sourceTree = "<group>"; };
-		A1FD87EE18DCE23C00003091 /* DropDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownView.m; sourceTree = "<group>"; };
 		A1FD87F018DF63F700003091 /* LocationsArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsArray.h; sourceTree = "<group>"; };
 		A1FD87F118DF63F700003091 /* LocationsArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsArray.m; sourceTree = "<group>"; };
 		A1FD87F318E058E400003091 /* UIView+UtilityMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UtilityMethods.h"; sourceTree = SOURCE_ROOT; };
@@ -315,6 +306,8 @@
 				A1EA6CC318CE641E002FCDDD /* NSString+UtilityMethods.m */,
 				A1FD87F318E058E400003091 /* UIView+UtilityMethods.h */,
 				A1FD87F418E058E400003091 /* UIView+UtilityMethods.m */,
+				A1D9A13818E49D38006C1988 /* NSCountedSet+Sorting.h */,
+				A1D9A13918E49D38006C1988 /* NSCountedSet+Sorting.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -424,8 +417,9 @@
 		A1EA20D118B5078C00200D50 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A1FD87ED18DCE23C00003091 /* DropDownView.h */,
-				A1FD87EE18DCE23C00003091 /* DropDownView.m */,
+				A1D9A13B18E5786F006C1988 /* DropDownViewDelegate.h */,
+				A1D9A13F18E5993D006C1988 /* DropDownViewController.h */,
+				A1D9A14018E5993D006C1988 /* DropDownViewController.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -437,8 +431,7 @@
 				A1EA20A818B4F7AB00200D50 /* ExploreMapViewController.m */,
 				A1D5DD9F18C72E1500FA005B /* ExploreListViewController.h */,
 				A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */,
-				A18EBB4118D3332B00EF01E7 /* ExploreOptionsViewController.h */,
-				A18EBB4218D3332B00EF01E7 /* ExploreOptionsViewController.m */,
+				A1D9A14218E6D3D4006C1988 /* ExploreOptionsDelegate.h */,
 				A162FE4118D998DE00362A0A /* OptionsStaticTableViewController.h */,
 				A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */,
 				A1EA20AA18B4F7AB00200D50 /* TripsViewController.h */,
@@ -612,39 +605,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1EA6C8B18CD12C1002FCDDD /* LICENSE in Resources */,
 				A1EA6C9618CD12C1002FCDDD /* NotificationBackgroundSuccessIcon.png in Resources */,
-				A1EA6C8918CD12C1002FCDDD /* .gitignore in Resources */,
-				A162FD3D18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx in Resources */,
 				A1EA6C9118CD12C1002FCDDD /* NotificationBackgroundErrorIcon@2x.png in Resources */,
 				A1EA6C9018CD12C1002FCDDD /* NotificationBackgroundErrorIcon.png in Resources */,
 				A1EA6C8E18CD12C1002FCDDD /* NotificationBackgroundError.png in Resources */,
 				A1EA6C9518CD12C1002FCDDD /* NotificationBackgroundSuccess@2x.png in Resources */,
-				A1D9A13118E20FAC006C1988 /* LICENSE in Resources */,
 				A1EA6CD618D0BFD5002FCDDD /* OccurrenceResultsAP.json in Resources */,
-				A162FD3F18D708FD00362A0A /* Seymour Norte, Galapagos.gpx in Resources */,
 				A1EA6C9418CD12C1002FCDDD /* NotificationBackgroundSuccess.png in Resources */,
 				A1EA6C9B18CD12C1002FCDDD /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				A1D9A13018E20FAC006C1988 /* ionicons.ttf in Resources */,
 				A1EA6C9E18CD12C1002FCDDD /* TSMessagesDefaultDesign.json in Resources */,
 				A1EA6C8F18CD12C1002FCDDD /* NotificationBackgroundError@2x.png in Resources */,
 				A1EA6C9A18CD12C1002FCDDD /* NotificationBackgroundWarningIcon.png in Resources */,
-				A1D9A13218E20FAC006C1988 /* README.md in Resources */,
 				A1EA6C9C18CD12C1002FCDDD /* NotificationButtonBackground.png in Resources */,
 				A1EA6CD818D1B19D002FCDDD /* OccurrenceResultsCAS.json in Resources */,
-				A1EA6C8C18CD12C1002FCDDD /* README.md in Resources */,
 				A1EA6C9818CD12C1002FCDDD /* NotificationBackgroundWarning.png in Resources */,
 				A1EA6C9218CD12C1002FCDDD /* NotificationBackgroundMessage.png in Resources */,
-				A1EA6C8A18CD12C1002FCDDD /* .gitmodules in Resources */,
-				A1EA6CA118CD12C1002FCDDD /* TSMessages.podspec in Resources */,
 				A1EA6C9718CD12C1002FCDDD /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
 				A1EA209D18B4F7AB00200D50 /* InfoPlist.strings in Resources */,
 				A1EA6C9318CD12C1002FCDDD /* NotificationBackgroundMessage@2x.png in Resources */,
 				A1EA20A618B4F7AB00200D50 /* Main.storyboard in Resources */,
 				A1EA6C9918CD12C1002FCDDD /* NotificationBackgroundWarning@2x.png in Resources */,
-				A1EA6CDB18D1B574002FCDDD /* Podfile in Resources */,
 				A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */,
-				A162FD3B18D7060F00362A0A /* Genovesa, Galapagos.gpx in Resources */,
 				A1EA6C9D18CD12C1002FCDDD /* NotificationButtonBackground@2x.png in Resources */,
 				A1FD87D518DB4F4F00003091 /* OccurrenceResultsCASFilter.json in Resources */,
 			);
@@ -658,6 +640,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1D5DE1018CA137C00FA005B /* GBIFOccurenceResultsBuilder.m in Sources */,
+				A1D9A13A18E49D38006C1988 /* NSCountedSet+Sorting.m in Sources */,
 				A1EA20AC18B4F7AB00200D50 /* TripsViewController.m in Sources */,
 				A1FD87F518E058E400003091 /* UIView+UtilityMethods.m in Sources */,
 				A1D5DDA118C72E1500FA005B /* ExploreListViewController.m in Sources */,
@@ -666,7 +649,6 @@
 				A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */,
 				A1EA6CA718CD1AB2002FCDDD /* HexColor.m in Sources */,
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
-				A18EBB4418D3332B00EF01E7 /* ExploreOptionsViewController.m in Sources */,
 				A1EA6CA018CD12C1002FCDDD /* TSMessageView.m in Sources */,
 				A1EA6C9F18CD12C1002FCDDD /* TSBlurView.m in Sources */,
 				A1FD87E118DC820100003091 /* OptionsSpeciesFilter.m in Sources */,
@@ -687,7 +669,7 @@
 				A1EA209F18B4F7AB00200D50 /* main.m in Sources */,
 				A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */,
 				A1EA20D518BDEED400200D50 /* ProfileViewController.m in Sources */,
-				A1FD87EF18DCE23C00003091 /* DropDownView.m in Sources */,
+				A1D9A14118E5993D006C1988 /* DropDownViewController.m in Sources */,
 				A1EA6CC718D0A921002FCDDD /* GBIFOccurrence.m in Sources */,
 				A1D5DE0318C9F4CA00FA005B /* GBIFOccurrenceResults.m in Sources */,
 				A1EA6CC418CE641E002FCDDD /* NSString+UtilityMethods.m in Sources */,

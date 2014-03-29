@@ -18,8 +18,8 @@
     self = [super init];
     if (self) {
         _coordinate = CLLocationCoordinate2DMake(occurrence.Latitude.doubleValue, occurrence.Longitude.doubleValue);
-        _mainTitle = occurrence.MainTitle;
-        _subTitle = occurrence.SubTitle;
+        _mainTitle = occurrence.detailsMainTitle;
+        _subTitle = occurrence.detailsSubTitle;
 /*
         if ([occurrence.Kingdom isEqualToString:@"Animalia"]) {
             _mapMarkerImageFile = @"mapannotation_orange_black_solid";

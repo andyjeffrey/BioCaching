@@ -8,7 +8,7 @@
 
 #import "ExploreMapViewController.h"
 #import "ExploreListViewController.h"
-#import "ExploreOptionsViewController.h"
+#import "OptionsStaticTableViewController.h"
 #import "LocationsArray.h"
 #import "TripOptions.h"
 #import "GBIFCommunicator.h"
@@ -19,21 +19,7 @@
 #define kDefaultSearchAreaStepperValue 1000
 #define kInitialViewSpan 5000
 
-@interface ExploreMapViewController () {
-    CLLocationCoordinate2D _currentViewLocation;
-    int _currentSearchAreaSpan;
-    MKPolygon *_currentSearchAreaPolygon;
-    CLLocation *_currentUserLocation;
-    bool _followUser;
-    bool _annotationSelected;
-    TripOptions *_tripOptions;
-    GBIFOccurrenceResults *_occurrenceResults;
-    DropDownView *dropDownViewLocations;
-    UITapGestureRecognizer *singleTapRecognizer, *doubleTapRecognizer;
-    BOOL uiControlsDimmed;
-    UIView *uiControlsView;
-    NSArray *uiControls;
-}
+@interface ExploreMapViewController ()
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocationDetails;
@@ -48,31 +34,40 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonMapType;
 @property (weak, nonatomic) IBOutlet UIButton *buttonOptions;
 
+//@property (nonatomic, strong) UIView *viewBackgroundControls;
+
 @end
 
 @implementation ExploreMapViewController
+{
+    CLLocationCoordinate2D _currentViewLocation;
+    int _currentSearchAreaSpan;
+    MKPolygon *_currentSearchAreaPolygon;
+    CLLocation *_currentUserLocation;
+    bool _followUser;
+    TripOptions *_tripOptions;
+    GBIFOccurrenceResults *_occurrenceResults;
+    DropDownViewController *_dropDownViewLocations;
+    UIView *_viewBackgroundControls;
+}
 
 - (void)viewDidLoad
 {
 //    NSLog(@"viewDidAppear");
     [super viewDidLoad];
-    
-    uiControlsDimmed = NO;
-    [self configureViewsToDisable];
 
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
 
     _tripOptions = [TripOptions initWithDefaults];
 
-    self.mapView.showsUserLocation = TRUE;
-    _followUser = FALSE;
+    self.mapView.showsUserLocation = YES;
+    _followUser = NO;
 
     self.mapView.mapType = MKMapTypeStandard;
     [self.buttonMapType setTitle:@"MapType: Standard" forState:UIControlStateNormal];
 
     [self configureSearchAreaStepper:kDefaultSearchAreaStepperValue];
     [self configureSearchManager];
-    [self configureLocationDropDown];
 
     _currentViewLocation = LocationsArray.defaultLocation;
     //    CLLocationCoordinate2D defaultLocation = CLLocationCoordinate2DMake(37.769341, -122.481937);
@@ -87,9 +82,52 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self configureLocationDropDown];
+    [self configureBackgroundControlsView];
+    
 //    NSLog(@"viewDidAppear");
 }
 
+
+#pragma mark Initialisation Methods
+
+- (void)configureSearchManager
+{
+    self.gbifManager = [[GBIFManager alloc] init];
+    self.gbifManager.delegate = self;
+#ifdef USE_MOCK_DATA
+    self.gbifManager.communicator = [[GBIFCommunicatorMock alloc] init];
+#else
+    self.gbifManager.communicator = [[GBIFCommunicator alloc] init];
+#endif
+    self.gbifManager.communicator.delegate = self.gbifManager;
+}
+
+- (void)configureSearchAreaStepper:(int)searchAreaSpan
+{
+    _currentSearchAreaSpan = searchAreaSpan;
+    self.stepperSearchArea.value = log2(_currentSearchAreaSpan/kDefaultSearchAreaStepperValue);
+    self.stepperSearchArea.maximumValue = 5;
+    self.stepperSearchArea.minimumValue = -5;
+    [self updateSearchAreaLabel:self.stepperSearchArea.value];
+}
+
+- (void)configureGestureRecognizers
+{
+    UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapSingleClick:)];
+//    singleTapRecognizer.delaysTouchesBegan = YES;
+//    singleTapRecognizer.numberOfTapsRequired = 1;
+    [self.mapView addGestureRecognizer:singleTapRecognizer];
+    
+    UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapDoubleClick:)];
+    doubleTapRecognizer.numberOfTapsRequired = 2;
+//    doubleTapRecognizer.delegate = self;
+    [self.mapView addGestureRecognizer:doubleTapRecognizer];
+    [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+    
+}
+
+/*
 - (void)configureViewsToDisable
 {
     uiControls = [[NSArray alloc] initWithObjects:
@@ -115,40 +153,35 @@
         uiControlsDimmed = dimEnabled;
     }
 }
-
-- (void)configureSearchManager
-{
-    self.gbifManager = [[GBIFManager alloc] init];
-    self.gbifManager.delegate = self;
-#ifdef USE_MOCK_DATA
-    self.gbifManager.communicator = [[GBIFCommunicatorMock alloc] init];
-#else
-    self.gbifManager.communicator = [[GBIFCommunicator alloc] init];
-#endif
-    self.gbifManager.communicator.delegate = self.gbifManager;
-}
+*/
 
 - (void)configureLocationDropDown
 {
-	dropDownViewLocations = [[DropDownView alloc] initWithArrayData:[LocationsArray displayStringsArray] cellHeight:30 heightTableView:200 paddingTop:0 paddingLeft:0 paddingRight:0 refView:self.buttonLocationList animation:GROW openAnimationDuration:0.2 closeAnimationDuration:0.2];
-    [dropDownViewLocations closeAnimation];
-    [self.view addSubview:dropDownViewLocations.view];
-    
-    dropDownViewLocations.delegate = self;
-    
-    uiControlsView = [[UIView alloc] initWithFrame:self.view.frame];
-    uiControlsView.backgroundColor = [UIColor blackColor];
-    uiControlsView.alpha = 0.3f;
-    [self.view insertSubview:uiControlsView belowSubview:dropDownViewLocations.view];
-    uiControlsView.hidden = YES;
-    UIGestureRecognizer *uiControlViewTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uiControlViewClick:)];
-    //    singleTapRecognizer.delaysTouchesBegan = YES;
-    //    singleTapRecognizer.numberOfTapsRequired = 1;
-    [uiControlsView addGestureRecognizer:uiControlViewTapRecognizer];
+    _dropDownViewLocations = [[DropDownViewController alloc] initWithArrayData:[LocationsArray displayStringsArray] refFrame:self.buttonLocationList.frame tableViewHeight:260 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:30 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+    [self.view addSubview:_dropDownViewLocations.view];
+    _dropDownViewLocations.delegate = self;
     
     self.labelLocationList.text = nil;
     [self.labelLocationList setBackgroundColor:[UIColor colorWithPatternImage:[IonIcons imageWithIcon:icon_navicon size:self.labelLocationList.frame.size.width color:[UIColor darkGrayColor]]]];
 }
+
+- (void)configureBackgroundControlsView
+{
+//    _viewBackgroundControls = [[UIView alloc] initWithFrame:self.view.frame];
+    _viewBackgroundControls = [[UIView alloc] initWithFrame:[[UIApplication sharedApplication] keyWindow].frame];
+    _viewBackgroundControls.backgroundColor = [UIColor blackColor];
+    _viewBackgroundControls.alpha = 0.3f;
+    _viewBackgroundControls.hidden = YES;
+    [self.view insertSubview:_viewBackgroundControls belowSubview:_dropDownViewLocations.view];
+    
+    UIGestureRecognizer *uiControlViewTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewBackgroundControlsClick:)];
+    //    singleTapRecognizer.delaysTouchesBegan = YES;
+    //    singleTapRecognizer.numberOfTapsRequired = 1;
+    [_viewBackgroundControls addGestureRecognizer:uiControlViewTapRecognizer];
+}
+
+
+#pragma mark Update View Methods
 
 - (void)updateLocationLabelAndMapView:(CLLocationCoordinate2D)location mapViewSpan:(NSInteger)viewSpan
 {
@@ -159,44 +192,6 @@
 - (void)updateLocationLabelAndMapView:(CLLocationCoordinate2D)location
 {
     [self updateLocationLabelAndMapView:location mapViewSpan:kInitialViewSpan];
-}
-
-- (void)configureSearchAreaStepper:(int)searchAreaSpan
-{
-    _currentSearchAreaSpan = searchAreaSpan;
-    self.stepperSearchArea.value = log2(_currentSearchAreaSpan/kDefaultSearchAreaStepperValue);
-    self.stepperSearchArea.maximumValue = 5;
-    self.stepperSearchArea.minimumValue = -5;
-    [self updateSearchAreaLabel:self.stepperSearchArea.value];
-}
-
-- (void)configureGestureRecognizers
-{
-    singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapSingleClick:)];
-//    singleTapRecognizer.delaysTouchesBegan = YES;
-//    singleTapRecognizer.numberOfTapsRequired = 1;
-    [self.mapView addGestureRecognizer:singleTapRecognizer];
-
-    doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapDoubleClick:)];
-    doubleTapRecognizer.numberOfTapsRequired = 2;
-    doubleTapRecognizer.delegate = self;
-    [self.mapView addGestureRecognizer:doubleTapRecognizer];
-    [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
-    
-/*
-    UITapGestureRecognizer *doubleTapRecognizer =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapDoubleClick:)];
-    doubleTapRecognizer.numberOfTapsRequired = 2;
-    doubleTapRecognizer.delaysTouchesBegan = YES;
-    [self.view addGestureRecognizer:doubleTapRecognizer];
-    doubleTapRecognizer.delegate = self;
-
-    singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapSingleClick:)];
-    singleTapRecognizer.numberOfTapsRequired = 1;
-//    singleTapRecognizer.delaysTouchesEnded = YES;
-//    [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
-    [self.view addGestureRecognizer:singleTapRecognizer];
-*/
 }
 
 - (void)updateLocationLabel:(CLLocationCoordinate2D)location horizAccuracy:(double)accuracy {
@@ -258,8 +253,8 @@
 
 - (void)addOccurrenceAnnotation:(GBIFOccurrence *)occurrence
 {
-    OccurrenceLocation *location = [[OccurrenceLocation alloc] initWithGBIFOccurrence:occurrence];
-    [self.mapView addAnnotation:location];
+//    OccurrenceLocation *location = [[OccurrenceLocation alloc] initWithGBIFOccurrence:occurrence];
+    [self.mapView addAnnotation:occurrence];
 }
 
 - (void)updateCurrentMapView:(CLLocationCoordinate2D)location latitudinalMeters:(NSInteger)latRegionSpan longitudinalMeters:(NSInteger)longRegionSpan
@@ -276,11 +271,10 @@
     [self activateUIControls:FALSE];
 */
     NSLog(@"buttonLocationSelect");
-    uiControlsView.hidden = NO;
-    [dropDownViewLocations openAnimation];
-    [dropDownViewLocations.uiTableView flashScrollIndicators];
+    _viewBackgroundControls.hidden = NO;
+    [_dropDownViewLocations openAnimation];
+    [_dropDownViewLocations.uiTableView flashScrollIndicators];
 }
-
 
 - (IBAction)currentLocation:(id)sender {
     [self updateLocationLabel:_currentUserLocation.coordinate horizAccuracy:_currentUserLocation.horizontalAccuracy];
@@ -342,15 +336,6 @@
         [self.mapView setCenterCoordinate:userLocation.coordinate animated:TRUE];
         [self updateSearchAreaOverlay:userLocation.coordinate areaSpan:_currentSearchAreaSpan];
     }
-
-    /*
-    MKCoordinateRegion region =
-    MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 0, 5000);
-    NSLog(@"MKCoordinationRegion.span: %.4f, %.4f", region.span.latitudeDelta, region.span.longitudeDelta);
-    [self.mapView setRegion:region animated:YES];
-    
-    [self updateSearchAreaOverlay:userLocation.coordinate latitudeSpan:_currentSearchAreaSize longitudeSpan:_currentSearchAreaSize];
-     */
 }
 
 - (MKOverlayView *)mapView:(MKMapView *)map viewForOverlay:(id <MKOverlay>)overlay
@@ -380,7 +365,6 @@
     NSLog(@"regionDidChangeAnimated");
     [self updateLocationLabel:mapView.centerCoordinate horizAccuracy:0];
 //    singleTapRecognizer.cancelsTouchesInView = NO;
-    
 //    uiControlsDimmed = NO;
 }
 
@@ -407,7 +391,18 @@
             annotationView.image = [UIImage imageNamed:((OccurrenceLocation *)annotation).mapMarkerImageFile];
             annotationView.annotation = annotation;
         }
-        
+        return annotationView;
+    } else if ([annotation isKindOfClass:[GBIFOccurrence class]]) {
+        MKAnnotationView *annotationView = (MKAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:@"OccurrenceLocation"];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            annotationView.enabled = YES;
+            annotationView.canShowCallout = YES;
+            annotationView.image = [UIImage imageNamed:((GBIFOccurrence *)annotation).mapMarkerImageFile];
+        } else {
+            annotationView.image = [UIImage imageNamed:((GBIFOccurrence *)annotation).mapMarkerImageFile];
+            annotationView.annotation = annotation;
+        }
         return annotationView;
     }
     
@@ -417,7 +412,6 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     NSLog(@"didSelectAnnotationView");
-    _annotationSelected = TRUE;
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
@@ -429,7 +423,7 @@
 
 - (void)mapSingleClick:(UIGestureRecognizer *)gestureRecognizer
 {
-    NSLog(@"SingleClick, dropDownViewVisible:%@", !dropDownViewLocations.view.hidden ? @"YES" : @"NO");
+    NSLog(@"SingleClick, dropDownViewVisible:%@", !_dropDownViewLocations.view.hidden ? @"YES" : @"NO");
     
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
         return;
@@ -453,28 +447,28 @@
     NSLog(@"DoubleClick");
 }
 
-- (void)uiControlViewClick:(UIGestureRecognizer *)gestureRecognizer
+- (void)viewBackgroundControlsClick:(UIGestureRecognizer *)gestureRecognizer
 {
-    NSLog(@"uiControlViewClick");
-    [dropDownViewLocations closeAnimation];
-    uiControlsView.hidden = YES;
+    NSLog(@"viewBackgroundControlsClick");
+    [_dropDownViewLocations closeAnimation];
+    _viewBackgroundControls.hidden = YES;
 }
 
 #pragma mark UIGestureRecognizerDelegate
-
 /*
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     NSLog(@"shouldReceiveTouch: %@", [touch.view class]);
-    return (![touch.view isDescendantOfView:dropDownViewLocations.view]);
+    return (![touch.view isDescendantOfView:_dropDownViewLocations.view]);
+
 }
 */
-
+/*
 - (BOOL)shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)gr
 {
     return TRUE;
 }
-
+*/
 
 #pragma mark ExploreOptionsDelegate
 - (void)saveOptions:(TripOptions *)savedTripOptions
@@ -510,13 +504,19 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"ExploreListSegue"]) {
-        ExploreListViewController *vc = [segue destinationViewController];
-        [vc setSearchAreaCenter:_currentSearchAreaPolygon.coordinate];
-        [vc setSearchAreaSpan:_currentSearchAreaSpan];
-        [vc setOccurenceResults:_occurrenceResults];
+        ExploreListViewController *listVC = [segue destinationViewController];
+        listVC.occurenceResults = _occurrenceResults;
+        listVC.tripOptions = _tripOptions;
     }
-    else if ([segue.identifier isEqualToString:@"ExploreOptionsSegue"]) {
+/*    else if ([segue.identifier isEqualToString:@"ExploreOptionsSegue"]) {
         ExploreOptionsViewController *optionsVC = [segue destinationViewController];
+        optionsVC.delegate = self;
+        optionsVC.tripOptions = _tripOptions;
+    }
+*/    else if ([segue.identifier isEqualToString:@"OptionsStaticSegue"]) {
+        UINavigationController *navVC = [segue destinationViewController];
+        
+        OptionsStaticTableViewController *optionsVC = [navVC viewControllers][0];
         optionsVC.delegate = self;
         optionsVC.tripOptions = _tripOptions;
     }
@@ -525,13 +525,16 @@
 #pragma mark DropDownViewDelegate
 -(void)dropDownCellSelected:(NSInteger)returnIndex
 {
-    _currentViewLocation = [LocationsArray locationCoordinate:returnIndex];
+    if (returnIndex == 0) {
+        _currentViewLocation = _currentUserLocation.coordinate;
+    } else {
+        _currentViewLocation = [LocationsArray locationCoordinate:returnIndex];
+    }
     _currentSearchAreaSpan = [LocationsArray locationSearchAreaSpan:returnIndex];
     [self updateLocationLabelAndMapView:_currentViewLocation mapViewSpan:[LocationsArray locationViewSpan:returnIndex]];
     [self updateSearchAreaStepper:_currentSearchAreaSpan];
     [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_currentSearchAreaSpan];
-//    [self dimUIControls:NO];
-    uiControlsView.hidden = YES;
+    _viewBackgroundControls.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning

@@ -20,10 +20,10 @@
 @property (nonatomic, assign) RecordType recordType;
 @property (nonatomic, assign) RecordSource recordSource;
 @property (nonatomic, assign) SpeciesFilter speciesFilter;
-@property (nonatomic, strong) NSString *collectorName;
-@property (nonatomic, strong) NSString *year;
-@property (nonatomic, strong) NSString *yearFrom;
-@property (nonatomic, strong) NSString *yearTo;
+@property (nonatomic, copy) NSString *collectorName;
+@property (nonatomic, copy) NSString *year;
+@property (nonatomic, copy) NSString *yearFrom;
+@property (nonatomic, copy) NSString *yearTo;
 
 @property (nonatomic, assign) int displayPoints;
 @property (nonatomic, assign) BOOL uniqueSpecies;

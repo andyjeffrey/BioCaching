@@ -130,11 +130,14 @@
         County = [dictionary objectForKey:@"county"];
         Altitude = [dictionary objectForKey:@"altitude"];
         Depth = [dictionary objectForKey:@"depth"];
+        
+        _coordinate = CLLocationCoordinate2DMake(self.Latitude.doubleValue, self.Longitude.doubleValue);
+
     }
     return self;
 }
 
-- (NSString *)SpeciesBinomial
+- (NSString *)speciesBinomial
 {
     long secondIndex = [self.Species secondIndexOf:@" "];
     if (secondIndex < self.Species.length) {
@@ -144,15 +147,15 @@
     return self.Species;
 }
 
-- (NSString *)MainTitle
+- (NSString *)detailsMainTitle
 {
     NSString *mainTitle = [NSString stringWithFormat:@"%@ - %@",
-            self.Family, self.SpeciesBinomial];
+            self.Family, self.speciesBinomial];
     
     return mainTitle;
 }
 
-- (NSString *)SubTitle
+- (NSString *)detailsSubTitle
 {
     NSString *subTitle = [NSString stringWithFormat:@"%@  %@ %@  %@",
                           [self.OccurrenceDate substringToIndex:10],
@@ -162,6 +165,33 @@
                           self.InstitutionCode];
     
     return subTitle;
+}
+
+- (NSString *)mapMarkerImageFile
+{
+    NSString *mapMarkerImageFile;
+    
+    if ([self.Kingdom isEqualToString:@"Plantae"]) {
+        mapMarkerImageFile = @"mapannotation_green_white_solid";
+    } else if ([self.Clazz isEqualToString:@"Aves"]) {
+        mapMarkerImageFile = @"mapannotation_blue_white_solid";
+    } else if ([self.Clazz isEqualToString:@"Reptilia"]) {
+        mapMarkerImageFile = @"mapannotation_orange_white_solid";
+    } else {
+        mapMarkerImageFile = @"mapannotation_grey_white_solid";
+    }
+    
+    mapMarkerImageFile = [mapMarkerImageFile stringByReplacingOccurrencesOfString:@"white" withString:@"black"];
+    
+    return mapMarkerImageFile;
+}
+
+- (NSString *)title {
+    return self.detailsMainTitle;
+}
+
+- (NSString *)subtitle {
+    return self.detailsSubTitle;
 }
 
 @end

@@ -9,6 +9,7 @@
 #import "ExploreListViewController.h"
 
 @interface ExploreListViewController ()
+
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
 @property (weak, nonatomic) IBOutlet UILabel *labelOccurrenceCount;
@@ -30,10 +31,15 @@
 {
     [super viewDidLoad];
     
+//    self.view.backgroundColor = [UIColor whiteColor];
+    
     self.labelLocation.text = [NSString stringWithFormat:@"Location: %f,%f",
-                               self.searchAreaCenter.latitude, self.searchAreaCenter.longitude];
+                               self.tripOptions.searchAreaCentre.latitude,
+                               self.tripOptions.searchAreaCentre.longitude];
+
     self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %dm",
-                               self.searchAreaSpan];
+                               self.tripOptions.searchAreaSpan];
+
     self.labelOccurrenceCount.text = [NSString stringWithFormat:@"Total Record Count: %d",
                                       self.occurenceResults.Count.intValue];
 }
@@ -59,7 +65,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _occurenceResults.Results.count;
+    return self.occurenceResults.Results.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -68,8 +74,8 @@
     
     GBIFOccurrence *occurrence = self.occurenceResults.Results[indexPath.row];
 
-    cell.textLabel.text = occurrence.MainTitle;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.SubTitle];
+    cell.textLabel.text = occurrence.detailsMainTitle;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.detailsSubTitle];
     
     return cell;
 }

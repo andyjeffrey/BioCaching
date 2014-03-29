@@ -8,41 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GBIFOccurrence : NSObject
-
-typedef enum BasisOfRecordEnum {
-    FOSSIL_SPECIMEN,
-    HUMAN_OBSERVATION,
-    LITERATURE,
-    LIVING_SPECIMEN,
-    MACHINE_OBSERVATION,
-    OBSERVATION,
-    PRESERVED_SPECIMEN,
-    UNKNOWN
-} BasisOfRecordEnum;
-
-typedef enum CollectionCodeEnum {
-    All,
-    iNaturalist,
-    eBird
-} CollectionCodeEnum;
-
-typedef enum SpeciesFilterEnum {
-    Everything,
-    Plants,
-    Animals,
-    Mollusks,
-    Mammals,
-    Amphibians,
-    Birds,
-    Reptiles,
-    Fishes,
-    Insects,
-    Arachnids,
-    Fungi,
-    Chromista,
-    Protozoans
-} SpeciesFilterEnum;
+@interface GBIFOccurrence : NSObject<MKAnnotation>
 
 @property(nonatomic,strong) NSNumber * Key;
 @property(nonatomic,strong) NSString * Kingdom;
@@ -91,9 +57,17 @@ typedef enum SpeciesFilterEnum {
 @property(nonatomic,strong) NSNumber * Altitude;
 @property(nonatomic,strong) NSNumber * Depth;
 
-@property(nonatomic, strong, readonly) NSString *SpeciesBinomial;
-@property(nonatomic, strong, readonly) NSString *MainTitle;
-@property(nonatomic, strong, readonly) NSString *SubTitle;
+@property(nonatomic, readonly, copy) NSString *speciesBinomial;
+@property(nonatomic, readonly, copy) NSString *detailsMainTitle;
+@property(nonatomic, readonly, copy) NSString *detailsSubTitle;
+
+#pragma mark MKAnnotation
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+@property (nonatomic, readonly, copy) NSString *title;
+@property (nonatomic, readonly, copy) NSString *subtitle;
+
+@property (nonatomic, readonly, copy) NSString *mapMarkerImageFile;
+
 
 + (id) objectWithDictionary:(NSDictionary*)dictionary;
 - (id) initWithDictionary:(NSDictionary*)dictionary;

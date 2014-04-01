@@ -14,7 +14,7 @@
 @interface TripOptions : NSObject
 
 @property (nonatomic, assign) CLLocationCoordinate2D searchAreaCentre;
-@property (nonatomic, assign) int searchAreaSpan;
+@property (nonatomic, assign) NSUInteger searchAreaSpan;
 @property (nonatomic, strong) MKPolygon *searchAreaPolygon;
 
 @property (nonatomic, assign) RecordType recordType;
@@ -25,7 +25,7 @@
 @property (nonatomic, copy) NSString *yearFrom;
 @property (nonatomic, copy) NSString *yearTo;
 
-@property (nonatomic, assign) int displayPoints;
+@property (nonatomic, assign) NSUInteger displayPoints;
 @property (nonatomic, assign) BOOL uniqueSpecies;
 @property (nonatomic, assign) BOOL uniqueLocations;
 @property (nonatomic, assign) BOOL fullSpeciesNames;

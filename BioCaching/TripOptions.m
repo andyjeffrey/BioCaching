@@ -9,9 +9,9 @@
 #import "TripOptions.h"
 
 #define kDefaultDisplayPoints 100
-#define kDefaultFullSpeciesNames FALSE
-#define kDefaultUniqueSpecies FALSE
-#define kDefaultUniqueLocations FALSE
+#define kDefaultFullSpeciesNames YES
+#define kDefaultUniqueSpecies NO
+#define kDefaultUniqueLocations NO
 
 @implementation TripOptions
 

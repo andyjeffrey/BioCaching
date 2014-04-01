@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @protocol ExploreOptionsDelegate <NSObject>
-- (void) saveOptions:(TripOptions *)savedTripOptions;
+- (void) optionsUpdated:(TripOptions *)tripOptions;
 @end
 

@@ -20,6 +20,7 @@
 #import "MKPolygon+WKTParser.h"
 #import "NSString+UtilityMethods.h"
 #import "NSCountedSet+Sorting.h"
+#import "NSDictionary+Filtering.h"
 #import "TSMessage.h"
 #import "IonIcons.h"
 

@@ -66,6 +66,7 @@
 @property (nonatomic, readonly, copy) NSString *title;
 @property (nonatomic, readonly, copy) NSString *subtitle;
 
+@property (nonatomic, readonly, copy) NSString *locationString;
 @property (nonatomic, readonly, copy) NSString *mapMarkerImageFile;
 
 

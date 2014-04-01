@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A12B639318E9E33B00F9C4C0 /* ResultsSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B639218E9E33B00F9C4C0 /* ResultsSummaryViewController.m */; };
+		A12B639618EB519D00F9C4C0 /* NSDictionary+Filtering.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B639518EB519D00F9C4C0 /* NSDictionary+Filtering.m */; };
 		A162FD3918D6FF2100362A0A /* TripOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* TripOptions.m */; };
 		A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DD9B18C61FFB00FA005B /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */; };
-		A1D5DDA118C72E1500FA005B /* ExploreListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */; };
+		A1D5DDA118C72E1500FA005B /* ExploreDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D5DDA018C72E1500FA005B /* ExploreDetailsViewController.m */; };
 		A1D5DDE418C7BAA500FA005B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DDE318C7BAA500FA005B /* libz.dylib */; };
 		A1D5DDE618C7BAB900FA005B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DDE518C7BAB900FA005B /* libsqlite3.dylib */; };
 		A1D5DDF718C7C83800FA005B /* LocalyticsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D5DDEB18C7C83800FA005B /* LocalyticsDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -78,6 +80,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A12B639118E9E33B00F9C4C0 /* ResultsSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsSummaryViewController.h; sourceTree = "<group>"; };
+		A12B639218E9E33B00F9C4C0 /* ResultsSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsSummaryViewController.m; sourceTree = "<group>"; };
+		A12B639418EB519D00F9C4C0 /* NSDictionary+Filtering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Filtering.h"; sourceTree = SOURCE_ROOT; };
+		A12B639518EB519D00F9C4C0 /* NSDictionary+Filtering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Filtering.m"; sourceTree = SOURCE_ROOT; };
 		A162FD3718D6FF2100362A0A /* TripOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripOptions.h; sourceTree = "<group>"; };
 		A162FD3818D6FF2100362A0A /* TripOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripOptions.m; sourceTree = "<group>"; };
 		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
@@ -96,8 +102,8 @@
 		A1D5DD9918C61FFB00FA005B /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.3.2.a; sourceTree = "<group>"; };
 		A1D5DD9C18C62A0E00FA005B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		A1D5DD9F18C72E1500FA005B /* ExploreListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreListViewController.h; sourceTree = "<group>"; };
-		A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreListViewController.m; sourceTree = "<group>"; };
+		A1D5DD9F18C72E1500FA005B /* ExploreDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreDetailsViewController.h; sourceTree = "<group>"; };
+		A1D5DDA018C72E1500FA005B /* ExploreDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreDetailsViewController.m; sourceTree = "<group>"; };
 		A1D5DDE318C7BAA500FA005B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A1D5DDE518C7BAB900FA005B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A1D5DDE718C7C83800FA005B /* iOS_2.22.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = iOS_2.22.0.version; path = "Localytics-iOS-Client-2.22.0.source/iOS_2.22.0.version"; sourceTree = "<group>"; };
@@ -308,6 +314,8 @@
 				A1FD87F418E058E400003091 /* UIView+UtilityMethods.m */,
 				A1D9A13818E49D38006C1988 /* NSCountedSet+Sorting.h */,
 				A1D9A13918E49D38006C1988 /* NSCountedSet+Sorting.m */,
+				A12B639418EB519D00F9C4C0 /* NSDictionary+Filtering.h */,
+				A12B639518EB519D00F9C4C0 /* NSDictionary+Filtering.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -429,8 +437,10 @@
 			children = (
 				A1EA20A718B4F7AB00200D50 /* ExploreMapViewController.h */,
 				A1EA20A818B4F7AB00200D50 /* ExploreMapViewController.m */,
-				A1D5DD9F18C72E1500FA005B /* ExploreListViewController.h */,
-				A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */,
+				A1D5DD9F18C72E1500FA005B /* ExploreDetailsViewController.h */,
+				A1D5DDA018C72E1500FA005B /* ExploreDetailsViewController.m */,
+				A12B639118E9E33B00F9C4C0 /* ResultsSummaryViewController.h */,
+				A12B639218E9E33B00F9C4C0 /* ResultsSummaryViewController.m */,
 				A1D9A14218E6D3D4006C1988 /* ExploreOptionsDelegate.h */,
 				A162FE4118D998DE00362A0A /* OptionsStaticTableViewController.h */,
 				A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */,
@@ -642,8 +652,10 @@
 				A1D5DE1018CA137C00FA005B /* GBIFOccurenceResultsBuilder.m in Sources */,
 				A1D9A13A18E49D38006C1988 /* NSCountedSet+Sorting.m in Sources */,
 				A1EA20AC18B4F7AB00200D50 /* TripsViewController.m in Sources */,
+				A12B639318E9E33B00F9C4C0 /* ResultsSummaryViewController.m in Sources */,
 				A1FD87F518E058E400003091 /* UIView+UtilityMethods.m in Sources */,
-				A1D5DDA118C72E1500FA005B /* ExploreListViewController.m in Sources */,
+				A12B639618EB519D00F9C4C0 /* NSDictionary+Filtering.m in Sources */,
+				A1D5DDA118C72E1500FA005B /* ExploreDetailsViewController.m in Sources */,
 				A1D5DE0D18C9FED400FA005B /* MKPolygon+WKTParser.m in Sources */,
 				A1FD87F218DF63F700003091 /* LocationsArray.m in Sources */,
 				A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */,

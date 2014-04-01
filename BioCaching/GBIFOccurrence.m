@@ -137,34 +137,67 @@
     return self;
 }
 
+
 - (NSString *)speciesBinomial
 {
-    long secondIndex = [self.Species secondIndexOf:@" "];
-    if (secondIndex < self.Species.length) {
-        return [self.Species substringToIndex:secondIndex];
+    return [self speciesBinomialSp];
+}
+
+- (NSString *)speciesBinomialSp
+{
+//    NSLog(@"<%@>", self.Species);
+
+    long secondIndexSp = [self.Species secondIndexOf:@" "];
+    
+    if (secondIndexSp != NSNotFound) {
+        return [self.Species substringToIndex:secondIndexSp];
     }
     
     return self.Species;
 }
 
+- (NSString *)speciesBinomialSn
+{
+//    NSLog(@"<%@>", self.ScientificName);
+    
+    long secondIndexSn = [self.ScientificName secondIndexOf:@" "];
+    
+    if (secondIndexSn != NSNotFound) {
+//        NSLog(@"<%@>%ld", [self.ScientificName substringToIndex:secondIndexSn], secondIndexSn);
+        return [self.ScientificName substringToIndex:secondIndexSn];
+    } else {
+//        NSLog(@"<%@>%ld", self.ScientificName, secondIndexSn);
+    }
+    
+    return self.ScientificName;
+}
+
 - (NSString *)detailsMainTitle
 {
     NSString *mainTitle = [NSString stringWithFormat:@"%@ - %@",
-            self.Family, self.speciesBinomial];
+            self.Clazz, self.speciesBinomial];
     
     return mainTitle;
 }
 
 - (NSString *)detailsSubTitle
 {
+//    NSString *subTitle = [NSString stringWithFormat:@"%@ %@", self.Species, self.ScientificName];
+
     NSString *subTitle = [NSString stringWithFormat:@"%@  %@ %@  %@",
                           [self.OccurrenceDate substringToIndex:10],
                           self.Latitude,
                           self.Longitude,
 //                          self.CatalogNumber,
                           self.InstitutionCode];
-    
+
     return subTitle;
+}
+
+- (NSString *)locationString
+{
+    NSString *locationString = [NSString stringWithFormat:@"%f %f", self.coordinate.latitude, self.coordinate.longitude];
+    return locationString;
 }
 
 - (NSString *)mapMarkerImageFile
@@ -172,16 +205,29 @@
     NSString *mapMarkerImageFile;
     
     if ([self.Kingdom isEqualToString:@"Plantae"]) {
-        mapMarkerImageFile = @"mapannotation_green_white_solid";
-    } else if ([self.Clazz isEqualToString:@"Aves"]) {
-        mapMarkerImageFile = @"mapannotation_blue_white_solid";
-    } else if ([self.Clazz isEqualToString:@"Reptilia"]) {
-        mapMarkerImageFile = @"mapannotation_orange_white_solid";
-    } else {
-        mapMarkerImageFile = @"mapannotation_grey_white_solid";
+        mapMarkerImageFile = @"mapannotation_green_black_solid_plants";
+    } else if ([self.Kingdom isEqualToString:@"Animalia"]) {
+        if ([self.Phylum isEqualToString:@"Mollusca"]) {
+            mapMarkerImageFile = @"mapannotation_grey_black_solid";
+        } else if ([self.Phylum isEqualToString:@"Arthropoda"]) {
+            mapMarkerImageFile = @"mapannotation_red_black_solid";
+        } else if ([self.Phylum isEqualToString:@"Chordata"]) {
+            if ([self.Clazz isEqualToString:@"Mammalia"]) {
+                mapMarkerImageFile = @"mapannotation_grey_black_solid";
+            } else if ([self.Clazz isEqualToString:@"Amphibia"]) {
+                mapMarkerImageFile = @"mapannotation_grey_black_solid";
+            } else if ([self.Clazz isEqualToString:@"Aves"]) {
+                mapMarkerImageFile = @"mapannotation_blue_black_solid_birds";
+            } else if ([self.Clazz isEqualToString:@"Reptilia"]) {
+                mapMarkerImageFile = @"mapannotation_grey_black_solid";
+            } else if ([self.Clazz isEqualToString:@"Actinopterygii"]) {
+                mapMarkerImageFile = @"mapannotation_blue_black_solid_fish";
+            }
+        } else {
+                mapMarkerImageFile = @"mapannotation_blue_black_solid_unknown";        }
     }
     
-    mapMarkerImageFile = [mapMarkerImageFile stringByReplacingOccurrencesOfString:@"white" withString:@"black"];
+//    mapMarkerImageFile = [mapMarkerImageFile stringByReplacingOccurrencesOfString:@"black" withString:@"white"];
     
     return mapMarkerImageFile;
 }

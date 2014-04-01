@@ -34,7 +34,7 @@
         [_optionsArray replaceObjectAtIndex:SpeciesFilter_MOLLUSKS
                                  withObject:@[@"Mollusks", @"52"]];
         [_optionsArray replaceObjectAtIndex:SpeciesFilter_MAMMALS
-                                 withObject:@[@"Mammals", @"539"]];
+                                 withObject:@[@"Mammals", @"359"]];
         [_optionsArray replaceObjectAtIndex:SpeciesFilter_AMPHIBIANS
                                  withObject:@[@"Amphibians", @"131"]];
         [_optionsArray replaceObjectAtIndex:SpeciesFilter_BIRDS

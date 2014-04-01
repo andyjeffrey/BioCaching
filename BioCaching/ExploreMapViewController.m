@@ -7,7 +7,7 @@
 //
 
 #import "ExploreMapViewController.h"
-#import "ExploreListViewController.h"
+#import "ExploreDetailsViewController.h"
 #import "OptionsStaticTableViewController.h"
 #import "LocationsArray.h"
 #import "TripOptions.h"
@@ -22,17 +22,15 @@
 @interface ExploreMapViewController ()
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (weak, nonatomic) IBOutlet UILabel *labelLocationDetails;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocationList;
+@property (weak, nonatomic) IBOutlet UILabel *labelLocationDetails;
 @property (weak, nonatomic) IBOutlet UIButton *buttonLocationList;
+@property (weak, nonatomic) IBOutlet UIView *viewDropDownRef;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSearch;
 @property (weak, nonatomic) IBOutlet UILabel *labelSearchArea;
 @property (weak, nonatomic) IBOutlet UIStepper *stepperSearchArea;
-@property (weak, nonatomic) IBOutlet UIButton *buttonSearch;
-@property (weak, nonatomic) IBOutlet UIButton *buttonList;
 @property (weak, nonatomic) IBOutlet UIButton *buttonCurrentLocation;
-@property (weak, nonatomic) IBOutlet UIButton *buttonZoom;
 @property (weak, nonatomic) IBOutlet UIButton *buttonMapType;
-@property (weak, nonatomic) IBOutlet UIButton *buttonOptions;
 
 //@property (nonatomic, strong) UIView *viewBackgroundControls;
 
@@ -59,12 +57,17 @@
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
 
     _tripOptions = [TripOptions initWithDefaults];
-
+    
     self.mapView.showsUserLocation = YES;
     _followUser = NO;
 
     self.mapView.mapType = MKMapTypeStandard;
     [self.buttonMapType setTitle:@"MapType: Standard" forState:UIControlStateNormal];
+    
+    [self.buttonSearch setTitle:nil forState:UIControlStateNormal];
+    [self.buttonSearch setBackgroundImage:
+     [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor darkGrayColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+//     [IonIcons imageWithIcon:icon_settings size:30.0f color:[UIColor darkGrayColor]] forState:UIControlStateNormal];
 
     [self configureSearchAreaStepper:kDefaultSearchAreaStepperValue];
     [self configureSearchManager];
@@ -157,12 +160,15 @@
 
 - (void)configureLocationDropDown
 {
-    _dropDownViewLocations = [[DropDownViewController alloc] initWithArrayData:[LocationsArray displayStringsArray] refFrame:self.buttonLocationList.frame tableViewHeight:260 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:30 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+//[self.view convertRect:self.buttonRecordType.frame fromView:self.buttonRecordType.superview]
+    
+    _dropDownViewLocations = [[DropDownViewController alloc] initWithArrayData:[LocationsArray displayStringsArray] refFrame:[self.view.superview convertRect:self.viewDropDownRef.frame fromView:self.viewDropDownRef.superview] tableViewHeight:260 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     [self.view addSubview:_dropDownViewLocations.view];
     _dropDownViewLocations.delegate = self;
     
     self.labelLocationList.text = nil;
     [self.labelLocationList setBackgroundColor:[UIColor colorWithPatternImage:[IonIcons imageWithIcon:icon_navicon size:self.labelLocationList.frame.size.width color:[UIColor darkGrayColor]]]];
+//    [IonIcons label:self.labelLocationList setIcon:icon_navicon size:self.labelLocationList.frame.size.width color:[UIColor darkGrayColor] sizeToFit:YES];
 }
 
 - (void)configureBackgroundControlsView
@@ -195,10 +201,10 @@
 }
 
 - (void)updateLocationLabel:(CLLocationCoordinate2D)location horizAccuracy:(double)accuracy {
-    self.labelLocationDetails.text = [NSString stringWithFormat:@"Lat: %f Long: %f Acc: %.1fm",
+//    self.labelLocationDetails.text = [NSString stringWithFormat:@"Lat: %f Long: %f Acc: %.1fm",
+    self.labelLocationDetails.text = [NSString stringWithFormat:@"Lat: %f Long: %f",
                                       location.latitude,
-                                      location.longitude,
-                                      accuracy];
+                                      location.longitude];
 }
 
 - (void)updateSearchAreaStepper:(int)searchAreaSpan
@@ -471,10 +477,10 @@
 */
 
 #pragma mark ExploreOptionsDelegate
-- (void)saveOptions:(TripOptions *)savedTripOptions
+- (void)optionsUpdated:(TripOptions *)tripOptions
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateOccurrenceAnnotations:_occurrenceResults.Results];
+        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_tripOptions]];
     });
     
 //    _tripOptions = savedTripOptions;
@@ -486,9 +492,9 @@
 {
     NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateOccurrenceAnnotations:occurrenceResults.Results];
+        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_tripOptions]];
         [self zoomToLocation:nil];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     });
@@ -504,8 +510,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"ExploreListSegue"]) {
-        ExploreListViewController *listVC = [segue destinationViewController];
-        listVC.occurenceResults = _occurrenceResults;
+        ExploreDetailsViewController *listVC = [segue destinationViewController];
+        listVC.occurrenceResults = _occurrenceResults;
         listVC.tripOptions = _tripOptions;
     }
 /*    else if ([segue.identifier isEqualToString:@"ExploreOptionsSegue"]) {

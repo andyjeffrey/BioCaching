@@ -1,5 +1,5 @@
 //
-//  ExplorerListViewController.h
+//  ExploreDetailsViewController.h
 //  BioCaching
 //
 //  Created by Andy Jeffrey on 05/03/2014.
@@ -10,9 +10,9 @@
 #import "TripOptions.h"
 #import "GBIFOccurrenceResults.h"
 
-@interface ExploreListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface ExploreDetailsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) GBIFOccurrenceResults *occurenceResults;
+@property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
 @property (nonatomic, strong) TripOptions *tripOptions;
 
 @end

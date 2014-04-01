@@ -13,13 +13,22 @@
 - (long)indexOf:(NSString *)subString
 {
     NSRange firstInstance = [self rangeOfString:subString];
+    if (firstInstance.length == 0) {
+        return NSNotFound;
+    }
     return firstInstance.location;
 }
 
 - (long)secondIndexOf:(NSString *)subString
 {
     long firstInstance = [self indexOf:subString];
+    if (firstInstance == NSNotFound) {
+        return NSNotFound;
+    }
     NSRange secondInstance = [[self substringFromIndex:firstInstance + subString.length] rangeOfString:subString];
+    if (secondInstance.length == 0) {
+        return NSNotFound;
+    }
     return firstInstance + subString.length + secondInstance.location;
 }
 

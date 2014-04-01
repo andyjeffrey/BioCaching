@@ -29,50 +29,100 @@
     {
         _recordTypeCounts = [[NSCountedSet alloc] init];
         _recordSourceCounts = [[NSCountedSet alloc] init];
-//        _fullSpeciesBinomial = [[NSMutableSet alloc] init];
         _taxonKingdomCounts = [[NSCountedSet alloc] init];
+        _taxonPhylumCounts = [[NSCountedSet alloc] init];
         _taxonClassCounts = [[NSCountedSet alloc] init];
         _taxonSpeciesCounts = [[NSCountedSet alloc] init];
+
+        _dictRecordSource = [[NSMutableDictionary alloc] init];
+        _dictRecordType = [[NSMutableDictionary alloc] init];
+        _dictTaxonSpecies = [[NSMutableDictionary alloc] init];
+        _dictTaxonKingdom = [[NSMutableDictionary alloc] init];
+        _dictTaxonPhylum = [[NSMutableDictionary alloc] init];
+        _dictTaxonClass = [[NSMutableDictionary alloc] init];
+        _dictRecordLocation = [[NSMutableDictionary alloc] init];
+        
         
         Offset = [dictionary objectForKey:@"offset"];
         Limit = [dictionary objectForKey:@"limit"];
         EndOfRecords = [dictionary objectForKey:@"endOfRecords"];
         Count = [dictionary objectForKey:@"count"];
         
-        NSArray* temp =  [dictionary objectForKey:@"results"];
+        NSArray *resultsArray =  [dictionary objectForKey:@"results"];
         Results = [[NSMutableArray alloc] init];
-        for (NSDictionary *d in temp) {
+        for (NSDictionary *d in resultsArray) {
             GBIFOccurrence *occurrence = [GBIFOccurrence objectWithDictionary:d];
             //NSLog(@"Adding Record: %@", d);
             [Results addObject:occurrence];
             
+            NSMutableArray *tempArray;
             if (occurrence.BasisOfRecord) {
                 [self.recordTypeCounts addObject:occurrence.BasisOfRecord];
+                if (!(tempArray = [_dictRecordType objectForKey:occurrence.BasisOfRecord])) {
+                    tempArray = [[NSMutableArray alloc] init];
+                    [_dictRecordType setValue:tempArray forKey:occurrence.BasisOfRecord];
+                }
+                [tempArray addObject:occurrence];
             }
             
             if (occurrence.InstitutionCode) {
                 [self.recordSourceCounts addObject:occurrence.InstitutionCode];
+                if (!(tempArray = [_dictRecordSource objectForKey:occurrence.InstitutionCode])) {
+                    tempArray = [[NSMutableArray alloc] init];
+                    [_dictRecordSource setValue:tempArray forKey:occurrence.InstitutionCode];
+                }
+                [tempArray addObject:occurrence];
             }
             
             if (occurrence.Kingdom) {
                 [self.taxonKingdomCounts addObject:occurrence.Kingdom];
+                if (!(tempArray = [_dictTaxonKingdom objectForKey:occurrence.Kingdom])) {
+                    tempArray = [[NSMutableArray alloc] init];
+                    [_dictTaxonKingdom setValue:tempArray forKey:occurrence.Kingdom];
+                }
+                [tempArray addObject:occurrence];
+            }
+            
+            if (occurrence.Phylum) {
+                [self.taxonPhylumCounts addObject:occurrence.Phylum];
+                if (!(tempArray = [_dictTaxonPhylum objectForKey:occurrence.Phylum])) {
+                    tempArray = [[NSMutableArray alloc] init];
+                    [_dictTaxonPhylum setValue:tempArray forKey:occurrence.Phylum];
+                }
+                [tempArray addObject:occurrence];
             }
             
             if (occurrence.Clazz) {
                 [self.taxonClassCounts addObject:occurrence.Clazz];
+                if (!(tempArray = [_dictTaxonClass objectForKey:occurrence.Clazz])) {
+                    tempArray = [[NSMutableArray alloc] init];
+                    [_dictTaxonClass setValue:tempArray forKey:occurrence.Clazz];
+                }
+                [tempArray addObject:occurrence];
+            }
+
+            if (occurrence.speciesBinomial) {
+                if (!(tempArray = [_dictTaxonSpecies objectForKey:occurrence.speciesBinomial])) {
+                    tempArray = [[NSMutableArray alloc] init];
+                    [_dictTaxonSpecies setValue:tempArray forKey:occurrence.speciesBinomial];
+                }
+                [tempArray addObject:occurrence];
             }
             
-            if (occurrence.speciesBinomial) {
-                [self.taxonSpeciesCounts addObject:occurrence.speciesBinomial];
-//                [self.fullSpeciesBinomial addObject:occurrence];
+            if (occurrence.locationString) {
+                if (!(tempArray = [_dictRecordLocation objectForKey:occurrence.locationString])) {
+                    tempArray = [[NSMutableArray alloc] init];
+                    [_dictRecordLocation setValue:tempArray forKey:occurrence.locationString];
+                }
+                [tempArray addObject:occurrence];
             }
+
         }
 /*
         NSLog(@"Record Type Counts: %@", [self.recordTypeCounts sortByCountAscending:NO]);
         NSLog(@"Record Source Counts: %@", [self.recordSourceCounts sortByCountAscending:NO]);
-        NSLog(@"Full Species Binomial: %d", self.fullSpeciesBinomial.count);
-        NSLog(@"Unique Species: %d", self.taxonSpeciesCounts.count);
         NSLog(@"Taxon Kingdom Counts: %@", [self.taxonKingdomCounts sortByCountAscending:NO]);
+        NSLog(@"Taxon Phylum Counts: %@", [self.taxonPhylumCounts sortByCountAscending:NO]);
         NSLog(@"Taxon Class Counts: %@", [self.taxonClassCounts sortByCountAscending:NO]);
         NSLog(@"Taxon Species Counts: %@", [self.taxonSpeciesCounts sortByCountAscending:NO]);
 */
@@ -86,6 +136,51 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"speciesBinomial != nil"];
     NSArray *array = [self.Results filteredArrayUsingPredicate:predicate];
     return array;
+}
+
+- (NSArray *)uniqueSpecies
+{
+    return [_dictTaxonSpecies getUniqueElementsOfValueArrays];
+}
+
+- (NSArray *)uniqueLocations
+{
+    return [_dictRecordLocation getUniqueElementsOfValueArrays];
+}
+
+
+- (NSArray *) getFilteredResults:(TripOptions*)tripOptions
+{
+    NSMutableSet *filteredResults = [[NSMutableSet alloc] initWithArray:self.Results];
+    
+    if (tripOptions.fullSpeciesNames)
+    {
+        NSSet *tempSet = [[NSSet alloc] initWithArray:self.fullSpeciesBinomial];
+        [filteredResults intersectSet:tempSet];
+    }
+    if (tripOptions.uniqueSpecies)
+    {
+        NSSet *tempSet = [[NSSet alloc] initWithArray:self.uniqueSpecies];
+        [filteredResults intersectSet:tempSet];
+    }
+    if (tripOptions.uniqueLocations)
+    {
+        NSSet *tempSet = [[NSSet alloc] initWithArray:self.uniqueLocations];
+        [filteredResults intersectSet:tempSet];
+    }
+    
+    if (filteredResults.count > 0) {
+        return [filteredResults allObjects];
+    }
+    
+    return self.Results;
+/*
+    if (tripOptions.fullSpeciesNames)
+    {
+        return self.fullSpeciesBinomial;
+    }
+    return self.Results;
+*/
 }
 
 

@@ -100,7 +100,7 @@
     for (NSArray *optionArray in OptionsRecordType.optionsArray ) {
         [dropDownRecordType addObject:optionArray[0]];
     }
-    dropDownView1 = [[DropDownViewController alloc] initWithArrayData:dropDownRecordType refFrame:[self.view convertRect:self.buttonRecordType.frame fromView:self.buttonRecordType.superview] tableViewHeight:180 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:30 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+    dropDownView1 = [[DropDownViewController alloc] initWithArrayData:dropDownRecordType refFrame:[self.view convertRect:self.buttonRecordType.frame fromView:self.buttonRecordType.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     dropDownView1.delegate = self;
 	[self.view addSubview:dropDownView1.view];
     
@@ -108,7 +108,7 @@
     for (NSArray *optionArray in OptionsRecordSource.optionsArray ) {
         [dropDownRecordSource addObject:optionArray[0]];
     }
-    dropDownView2 = [[DropDownViewController alloc] initWithArrayData:dropDownRecordSource refFrame:[self.view convertRect:self.buttonRecordSource.frame fromView:self.buttonRecordSource.superview] tableViewHeight:180 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:30 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+    dropDownView2 = [[DropDownViewController alloc] initWithArrayData:dropDownRecordSource refFrame:[self.view convertRect:self.buttonRecordSource.frame fromView:self.buttonRecordSource.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     dropDownView2.delegate = self;
 	[self.view addSubview:dropDownView2.view];
     
@@ -116,7 +116,7 @@
     for (NSArray *optionArray in OptionsSpeciesFilter.optionsArray ) {
         [dropDownSpeciesFilter addObject:optionArray[0]];
     }
-    dropDownView3 = [[DropDownViewController alloc] initWithArrayData:dropDownSpeciesFilter refFrame:[self.view convertRect:self.buttonSpeciesFilter.frame fromView:self.buttonSpeciesFilter.superview] tableViewHeight:180 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:30 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+    dropDownView3 = [[DropDownViewController alloc] initWithArrayData:dropDownSpeciesFilter refFrame:[self.view convertRect:self.buttonSpeciesFilter.frame fromView:self.buttonSpeciesFilter.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     dropDownView3.delegate = self;
 	[self.view addSubview:dropDownView3.view];
     
@@ -164,11 +164,12 @@
 }
 
 - (IBAction)buttonDonePressed:(id)sender {
-    [self.delegate saveOptions:self.tripOptions];
+    self.tripOptions.fullSpeciesNames = self.switchFullSpeciesNames.on;
+    self.tripOptions.uniqueSpecies = self.switchUniqueSpecies.on;
+    self.tripOptions.uniqueLocations = self.switchUniqueLocations.on;
+    [self.delegate optionsUpdated:self.tripOptions];
     [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
-    NSLog(@"buttonOK:\n%@,%@\n%@,%@",
-          self.textFieldYearFrom.text, self.tripOptions.yearFrom,
-          self.textFieldYearTo.text, self.tripOptions.yearTo);
+//    NSLog(@"buttonOK:\n%@,%@\n%@,%@", self.textFieldYearFrom.text, self.tripOptions.yearFrom, self.textFieldYearTo.text, self.tripOptions.yearTo);
 }
 
 - (IBAction)buttonRecordTypeTouch:(id)sender {

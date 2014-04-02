@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		A12B639318E9E33B00F9C4C0 /* ResultsSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B639218E9E33B00F9C4C0 /* ResultsSummaryViewController.m */; };
 		A12B639618EB519D00F9C4C0 /* NSDictionary+Filtering.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B639518EB519D00F9C4C0 /* NSDictionary+Filtering.m */; };
+		A12B63AC18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B63AB18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m */; };
+		A12B63AF18EC53ED00F9C4C0 /* INatTaxaResults.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B63AE18EC53ED00F9C4C0 /* INatTaxaResults.m */; };
+		A12B63B218EC540600F9C4C0 /* INatTaxon.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B63B118EC540600F9C4C0 /* INatTaxon.m */; };
+		A12B63B518EC591700F9C4C0 /* 2275869327_b92df977d2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A12B63B318EC591700F9C4C0 /* 2275869327_b92df977d2.jpg */; };
+		A12B63B618EC591700F9C4C0 /* 8495880919_d80e1e4023_b.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A12B63B418EC591700F9C4C0 /* 8495880919_d80e1e4023_b.jpg */; };
+		A12B63B818EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A12B63B718EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg */; };
 		A162FD3918D6FF2100362A0A /* TripOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* TripOptions.m */; };
 		A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
@@ -84,6 +90,15 @@
 		A12B639218E9E33B00F9C4C0 /* ResultsSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsSummaryViewController.m; sourceTree = "<group>"; };
 		A12B639418EB519D00F9C4C0 /* NSDictionary+Filtering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Filtering.h"; sourceTree = SOURCE_ROOT; };
 		A12B639518EB519D00F9C4C0 /* NSDictionary+Filtering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Filtering.m"; sourceTree = SOURCE_ROOT; };
+		A12B63AA18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OccurrenceDetailsViewController.h; sourceTree = "<group>"; };
+		A12B63AB18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OccurrenceDetailsViewController.m; sourceTree = "<group>"; };
+		A12B63AD18EC53ED00F9C4C0 /* INatTaxaResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTaxaResults.h; sourceTree = "<group>"; };
+		A12B63AE18EC53ED00F9C4C0 /* INatTaxaResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTaxaResults.m; sourceTree = "<group>"; };
+		A12B63B018EC540600F9C4C0 /* INatTaxon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTaxon.h; sourceTree = "<group>"; };
+		A12B63B118EC540600F9C4C0 /* INatTaxon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTaxon.m; sourceTree = "<group>"; };
+		A12B63B318EC591700F9C4C0 /* 2275869327_b92df977d2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 2275869327_b92df977d2.jpg; path = Resources/TestData/Images/2275869327_b92df977d2.jpg; sourceTree = "<group>"; };
+		A12B63B418EC591700F9C4C0 /* 8495880919_d80e1e4023_b.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 8495880919_d80e1e4023_b.jpg; path = Resources/TestData/Images/8495880919_d80e1e4023_b.jpg; sourceTree = "<group>"; };
+		A12B63B718EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 2783288252_6f21bf941c.jpg; path = Resources/TestData/Images/2783288252_6f21bf941c.jpg; sourceTree = "<group>"; };
 		A162FD3718D6FF2100362A0A /* TripOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripOptions.h; sourceTree = "<group>"; };
 		A162FD3818D6FF2100362A0A /* TripOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripOptions.m; sourceTree = "<group>"; };
 		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
@@ -244,6 +259,9 @@
 		A1D5DCD118C10D1500FA005B /* TestData */ = {
 			isa = PBXGroup;
 			children = (
+				A12B63B718EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg */,
+				A12B63B318EC591700F9C4C0 /* 2275869327_b92df977d2.jpg */,
+				A12B63B418EC591700F9C4C0 /* 8495880919_d80e1e4023_b.jpg */,
 				A1EA6CD518D0BFD5002FCDDD /* OccurrenceResultsAP.json */,
 				A1EA6CD718D1B19D002FCDDD /* OccurrenceResultsCAS.json */,
 				A1FD87D418DB4F4F00003091 /* OccurrenceResultsCASFilter.json */,
@@ -418,6 +436,10 @@
 				A1FD87E318DC821600003091 /* OptionsRecordSource.m */,
 				A1FD87F018DF63F700003091 /* LocationsArray.h */,
 				A1FD87F118DF63F700003091 /* LocationsArray.m */,
+				A12B63AD18EC53ED00F9C4C0 /* INatTaxaResults.h */,
+				A12B63AE18EC53ED00F9C4C0 /* INatTaxaResults.m */,
+				A12B63B018EC540600F9C4C0 /* INatTaxon.h */,
+				A12B63B118EC540600F9C4C0 /* INatTaxon.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -441,6 +463,8 @@
 				A1D5DDA018C72E1500FA005B /* ExploreDetailsViewController.m */,
 				A12B639118E9E33B00F9C4C0 /* ResultsSummaryViewController.h */,
 				A12B639218E9E33B00F9C4C0 /* ResultsSummaryViewController.m */,
+				A12B63AA18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.h */,
+				A12B63AB18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m */,
 				A1D9A14218E6D3D4006C1988 /* ExploreOptionsDelegate.h */,
 				A162FE4118D998DE00362A0A /* OptionsStaticTableViewController.h */,
 				A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */,
@@ -616,6 +640,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1EA6C9618CD12C1002FCDDD /* NotificationBackgroundSuccessIcon.png in Resources */,
+				A12B63B818EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg in Resources */,
 				A1EA6C9118CD12C1002FCDDD /* NotificationBackgroundErrorIcon@2x.png in Resources */,
 				A1EA6C9018CD12C1002FCDDD /* NotificationBackgroundErrorIcon.png in Resources */,
 				A1EA6C8E18CD12C1002FCDDD /* NotificationBackgroundError.png in Resources */,
@@ -624,6 +649,7 @@
 				A1EA6C9418CD12C1002FCDDD /* NotificationBackgroundSuccess.png in Resources */,
 				A1EA6C9B18CD12C1002FCDDD /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				A1D9A13018E20FAC006C1988 /* ionicons.ttf in Resources */,
+				A12B63B518EC591700F9C4C0 /* 2275869327_b92df977d2.jpg in Resources */,
 				A1EA6C9E18CD12C1002FCDDD /* TSMessagesDefaultDesign.json in Resources */,
 				A1EA6C8F18CD12C1002FCDDD /* NotificationBackgroundError@2x.png in Resources */,
 				A1EA6C9A18CD12C1002FCDDD /* NotificationBackgroundWarningIcon.png in Resources */,
@@ -637,6 +663,7 @@
 				A1EA20A618B4F7AB00200D50 /* Main.storyboard in Resources */,
 				A1EA6C9918CD12C1002FCDDD /* NotificationBackgroundWarning@2x.png in Resources */,
 				A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */,
+				A12B63B618EC591700F9C4C0 /* 8495880919_d80e1e4023_b.jpg in Resources */,
 				A1EA6C9D18CD12C1002FCDDD /* NotificationButtonBackground@2x.png in Resources */,
 				A1FD87D518DB4F4F00003091 /* OccurrenceResultsCASFilter.json in Resources */,
 			);
@@ -663,10 +690,13 @@
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
 				A1EA6CA018CD12C1002FCDDD /* TSMessageView.m in Sources */,
 				A1EA6C9F18CD12C1002FCDDD /* TSBlurView.m in Sources */,
+				A12B63AF18EC53ED00F9C4C0 /* INatTaxaResults.m in Sources */,
 				A1FD87E118DC820100003091 /* OptionsSpeciesFilter.m in Sources */,
 				A1D5DDF718C7C83800FA005B /* LocalyticsDatabase.m in Sources */,
 				A1EA6C8D18CD12C1002FCDDD /* TSMessage.m in Sources */,
 				A1D9A12F18E20FAC006C1988 /* IonIcons.m in Sources */,
+				A12B63AC18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m in Sources */,
+				A12B63B218EC540600F9C4C0 /* INatTaxon.m in Sources */,
 				A1D5DDF818C7C83800FA005B /* LocalyticsDatapointHelper.m in Sources */,
 				A1D5DDF918C7C83800FA005B /* LocalyticsSession.m in Sources */,
 				A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */,

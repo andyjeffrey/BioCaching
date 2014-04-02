@@ -54,6 +54,7 @@
 //    NSLog(@"viewDidAppear");
     [super viewDidLoad];
 
+    self.navigationController.navigationBarHidden = YES;
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
 
     _tripOptions = [TripOptions initWithDefaults];
@@ -241,7 +242,7 @@
     // Polygon (square) area overlay
     _currentSearchAreaPolygon = [MKPolygon polygonWithCoordinates:searchPolygonCoords count:5];
     [self.mapView addOverlay:_currentSearchAreaPolygon];
-    NSLog(@"SearchArea: %@", _currentSearchAreaPolygon);
+    NSLog(@"%s SearchArea=%@", __PRETTY_FUNCTION__, _currentSearchAreaPolygon);
 
     // Circle area overlay
     //MKCircle *circle = [MKCircle circleWithCenterCoordinate:userLocation.coordinate radius:1000];
@@ -266,7 +267,7 @@
 - (void)updateCurrentMapView:(CLLocationCoordinate2D)location latitudinalMeters:(NSInteger)latRegionSpan longitudinalMeters:(NSInteger)longRegionSpan
 {
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location, latRegionSpan, longRegionSpan);
-    NSLog(@"MKCoordinationRegion.span: %.4f, %.4f", region.span.latitudeDelta, region.span.longitudeDelta);
+//    NSLog(@"%s, MKCoordinationRegion.span: %.4f, %.4f", __PRETTY_FUNCTION__, region.span.latitudeDelta, region.span.longitudeDelta);
     [self.mapView setRegion:region animated:YES];
 }
 
@@ -368,10 +369,8 @@
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    NSLog(@"regionDidChangeAnimated");
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self updateLocationLabel:mapView.centerCoordinate horizAccuracy:0];
-//    singleTapRecognizer.cancelsTouchesInView = NO;
-//    uiControlsDimmed = NO;
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
@@ -429,7 +428,7 @@
 
 - (void)mapSingleClick:(UIGestureRecognizer *)gestureRecognizer
 {
-    NSLog(@"SingleClick, dropDownViewVisible:%@", !_dropDownViewLocations.view.hidden ? @"YES" : @"NO");
+//    NSLog(@"%s dropDownViewVisible:%@", __PRETTY_FUNCTION__, !_dropDownViewLocations.view.hidden ? @"YES" : @"NO");
     
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
         return;
@@ -510,9 +509,10 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"ExploreListSegue"]) {
-        ExploreDetailsViewController *listVC = [segue destinationViewController];
-        listVC.occurrenceResults = _occurrenceResults;
-        listVC.tripOptions = _tripOptions;
+        UINavigationController *navVC = [segue destinationViewController];
+        ExploreDetailsViewController *detailsVC = [navVC viewControllers][0];
+        detailsVC.occurrenceResults = _occurrenceResults;
+        detailsVC.tripOptions = _tripOptions;
     }
 /*    else if ([segue.identifier isEqualToString:@"ExploreOptionsSegue"]) {
         ExploreOptionsViewController *optionsVC = [segue destinationViewController];
@@ -520,8 +520,8 @@
         optionsVC.tripOptions = _tripOptions;
     }
 */    else if ([segue.identifier isEqualToString:@"OptionsStaticSegue"]) {
+    
         UINavigationController *navVC = [segue destinationViewController];
-        
         OptionsStaticTableViewController *optionsVC = [navVC viewControllers][0];
         optionsVC.delegate = self;
         optionsVC.tripOptions = _tripOptions;

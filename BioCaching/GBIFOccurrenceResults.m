@@ -27,13 +27,14 @@
     self=[super init];
     if(self)
     {
+/*
         _recordTypeCounts = [[NSCountedSet alloc] init];
         _recordSourceCounts = [[NSCountedSet alloc] init];
         _taxonKingdomCounts = [[NSCountedSet alloc] init];
         _taxonPhylumCounts = [[NSCountedSet alloc] init];
         _taxonClassCounts = [[NSCountedSet alloc] init];
         _taxonSpeciesCounts = [[NSCountedSet alloc] init];
-
+*/
         _dictRecordSource = [[NSMutableDictionary alloc] init];
         _dictRecordType = [[NSMutableDictionary alloc] init];
         _dictTaxonSpecies = [[NSMutableDictionary alloc] init];
@@ -57,7 +58,7 @@
             
             NSMutableArray *tempArray;
             if (occurrence.BasisOfRecord) {
-                [self.recordTypeCounts addObject:occurrence.BasisOfRecord];
+//                [self.recordTypeCounts addObject:occurrence.BasisOfRecord];
                 if (!(tempArray = [_dictRecordType objectForKey:occurrence.BasisOfRecord])) {
                     tempArray = [[NSMutableArray alloc] init];
                     [_dictRecordType setValue:tempArray forKey:occurrence.BasisOfRecord];
@@ -66,7 +67,7 @@
             }
             
             if (occurrence.InstitutionCode) {
-                [self.recordSourceCounts addObject:occurrence.InstitutionCode];
+//                [self.recordSourceCounts addObject:occurrence.InstitutionCode];
                 if (!(tempArray = [_dictRecordSource objectForKey:occurrence.InstitutionCode])) {
                     tempArray = [[NSMutableArray alloc] init];
                     [_dictRecordSource setValue:tempArray forKey:occurrence.InstitutionCode];
@@ -75,7 +76,7 @@
             }
             
             if (occurrence.Kingdom) {
-                [self.taxonKingdomCounts addObject:occurrence.Kingdom];
+//                [self.taxonKingdomCounts addObject:occurrence.Kingdom];
                 if (!(tempArray = [_dictTaxonKingdom objectForKey:occurrence.Kingdom])) {
                     tempArray = [[NSMutableArray alloc] init];
                     [_dictTaxonKingdom setValue:tempArray forKey:occurrence.Kingdom];
@@ -84,7 +85,7 @@
             }
             
             if (occurrence.Phylum) {
-                [self.taxonPhylumCounts addObject:occurrence.Phylum];
+//                [self.taxonPhylumCounts addObject:occurrence.Phylum];
                 if (!(tempArray = [_dictTaxonPhylum objectForKey:occurrence.Phylum])) {
                     tempArray = [[NSMutableArray alloc] init];
                     [_dictTaxonPhylum setValue:tempArray forKey:occurrence.Phylum];
@@ -93,7 +94,7 @@
             }
             
             if (occurrence.Clazz) {
-                [self.taxonClassCounts addObject:occurrence.Clazz];
+//                [self.taxonClassCounts addObject:occurrence.Clazz];
                 if (!(tempArray = [_dictTaxonClass objectForKey:occurrence.Clazz])) {
                     tempArray = [[NSMutableArray alloc] init];
                     [_dictTaxonClass setValue:tempArray forKey:occurrence.Clazz];

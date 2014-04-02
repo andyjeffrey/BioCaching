@@ -31,20 +31,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
+
     filteredResults = [self.occurrenceResults getFilteredResults:self.tripOptions];
-    NSLog (@"ResultsSummaryViewController:viewDidLoad");
 
     self.labelRetrieved.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.Results.count];
     self.labelFiltered.text = [NSString stringWithFormat:@"%lu", [self.occurrenceResults getFilteredResults:self.tripOptions].count];
 
     self.labelUniqueSpecies.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictTaxonSpecies.count];
-    self.labelKingdoms.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.taxonKingdomCounts.count];
-    self.labelPhylums.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.taxonPhylumCounts.count];
-    self.labelClasses.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.taxonClassCounts.count];
+    self.labelKingdoms.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictTaxonKingdom.count];
+    self.labelPhylums.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictTaxonPhylum.count];
+    self.labelClasses.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictTaxonClass.count];
     
-    self.labelRecordTypes.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.recordTypeCounts.count];
-    self.labelRecordSources.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.recordSourceCounts.count];
+    self.labelRecordTypes.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictRecordType.count];
+    self.labelRecordSources.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictRecordSource.count];
     self.labelUniqueLocations.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictRecordLocation.count];
         
 /*

@@ -20,13 +20,14 @@
 
 //@property (nonatomic, strong) TripOptions *tripOptions;
 //@property (nonatomic, strong) NSDictionary *speciesDictionary;
+/*
 @property (nonatomic, readonly, strong) NSCountedSet *recordTypeCounts;
 @property (nonatomic, readonly, strong) NSCountedSet *recordSourceCounts;
 @property (nonatomic, readonly, strong) NSCountedSet *taxonSpeciesCounts;
 @property (nonatomic, readonly, strong) NSCountedSet *taxonKingdomCounts;
 @property (nonatomic, readonly, strong) NSCountedSet *taxonPhylumCounts;
 @property (nonatomic, readonly, strong) NSCountedSet *taxonClassCounts;
-
+*/
 @property (nonatomic, readonly, strong) NSDictionary *dictRecordSource;
 @property (nonatomic, readonly, strong) NSDictionary *dictRecordType;
 @property (nonatomic, readonly, strong) NSDictionary *dictTaxonSpecies;

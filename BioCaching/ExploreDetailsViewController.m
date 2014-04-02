@@ -8,6 +8,7 @@
 
 #import "ExploreDetailsViewController.h"
 #import "ResultsSummaryViewController.h"
+#import "OccurrenceDetailsViewController.h"
 
 @interface ExploreDetailsViewController ()
 
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelOccurrenceCount;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segControlContainerView;
 @property (weak, nonatomic) IBOutlet UIView *viewSummary;
+@property (weak, nonatomic) IBOutlet UITableView *tableViewResults;
 
 typedef enum {
     BCDetailsContainerViewSummary,
@@ -43,6 +45,8 @@ typedef enum {
 {
     [super viewDidLoad];
     
+    self.navigationController.navigationBarHidden = YES;
+    
     _filteredResults = [self.occurrenceResults getFilteredResults:self.tripOptions];
     
 //    self.view.backgroundColor = [UIColor whiteColor];
@@ -58,6 +62,10 @@ typedef enum {
                                       self.occurrenceResults.Count.intValue];
     
     [self indexChangedForSegmentedControl:self.segControlContainerView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,6 +103,12 @@ typedef enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+#ifdef DEBUG
+    if (_tripOptions.displayPoints < _filteredResults.count)
+    {
+        return _tripOptions.displayPoints;
+    }
+#endif
     return _filteredResults.count;
 }
 
@@ -114,14 +128,20 @@ typedef enum {
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+//    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
+//    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
+
     if ([segue.identifier isEqualToString:@"SummaryEmbed"]) {
         ResultsSummaryViewController *summaryVC = segue.destinationViewController;
         summaryVC.occurrenceResults = self.occurrenceResults;
         summaryVC.tripOptions = self.tripOptions;
+    } else if ([segue.identifier isEqualToString:@"OccurrenceDetails"]) {
+        OccurrenceDetailsViewController *detailsVC = segue.destinationViewController;
+        NSIndexPath *selectedIndexPath = [self.tableViewResults indexPathForSelectedRow];
+        NSLog(@"%@:%lu", selectedIndexPath, selectedIndexPath.row);
+        detailsVC.occurrence = _filteredResults[selectedIndexPath.row];
     }
     
-    
-    NSLog(@"ExploreListViewController:prepareForSegue, segue: %@", segue.identifier);
 }
 
 @end

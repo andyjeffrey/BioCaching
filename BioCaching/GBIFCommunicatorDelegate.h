@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @protocol GBIFCommunicatorDelegate
+
 - (void)receivedResultsJSON:(NSData *)objectNotation;
-- (void)fetchingResultsFailedWithError:(NSError *)error;
+- (void)GBIFCommunicatorFailedWithError:(NSError *)error;
+
 @end

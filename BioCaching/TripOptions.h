@@ -30,6 +30,8 @@
 @property (nonatomic, assign) BOOL uniqueLocations;
 @property (nonatomic, assign) BOOL fullSpeciesNames;
 
+@property (nonatomic, assign) BOOL testGBIFData;
+
 + (id)initWithDefaults;
 
 @end

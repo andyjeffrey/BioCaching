@@ -21,7 +21,7 @@
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (connectionError) {
-            [self.delegate fetchingResultsFailedWithError:connectionError];
+            [self.delegate GBIFCommunicatorFailedWithError:connectionError];
         } else {
             [self.delegate receivedResultsJSON:data];
         }
@@ -47,7 +47,7 @@
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (connectionError) {
-            [self.delegate fetchingResultsFailedWithError:connectionError];
+            [self.delegate GBIFCommunicatorFailedWithError:connectionError];
         } else {
             [self.delegate receivedResultsJSON:data];
         }

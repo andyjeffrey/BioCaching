@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
+//#define kMockOccurrenceResultsFile @"OccurrenceResultsCASv1.0.json"
+#define kMockOccurrenceResultsFile @"OccurrenceResultsCASFilterv1.0.json"
+
 #import "GBIFCommunicatorMock.h"
 #import "GBIFCommunicatorDelegate.h"
 

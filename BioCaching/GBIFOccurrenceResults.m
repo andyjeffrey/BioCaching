@@ -51,8 +51,8 @@
         
         NSArray *resultsArray =  [dictionary objectForKey:@"results"];
         Results = [[NSMutableArray alloc] init];
-        for (NSDictionary *d in resultsArray) {
-            GBIFOccurrence *occurrence = [GBIFOccurrence objectWithDictionary:d];
+        for (NSDictionary *dict in resultsArray) {
+            GBIFOccurrence *occurrence = [GBIFOccurrence objectWithDictionary:dict];
             //NSLog(@"Adding Record: %@", d);
             [Results addObject:occurrence];
             
@@ -150,7 +150,7 @@
 }
 
 
-- (NSArray *) getFilteredResults:(TripOptions*)tripOptions
+- (NSArray *) getFilteredResults:(TripOptions*)tripOptions limitToMapPoints:(BOOL)mapPoints
 {
     NSMutableSet *filteredResults = [[NSMutableSet alloc] initWithArray:self.Results];
     
@@ -170,18 +170,16 @@
         [filteredResults intersectSet:tempSet];
     }
     
-    if (filteredResults.count > 0) {
+    if (mapPoints)
+    {
+        NSArray *filteredArray = [filteredResults allObjects];
+        NSUInteger upperRange = MIN(filteredResults.count, tripOptions.displayPoints);
+        return [filteredArray subarrayWithRange:NSMakeRange(0, upperRange)];
+    }
+    else
+    {
         return [filteredResults allObjects];
     }
-    
-    return self.Results;
-/*
-    if (tripOptions.fullSpeciesNames)
-    {
-        return self.fullSpeciesBinomial;
-    }
-    return self.Results;
-*/
 }
 
 

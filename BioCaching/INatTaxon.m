@@ -10,4 +10,12 @@
 
 @implementation INatTaxon
 
++(JSONKeyMapper *)keyMapper
+{
+    return [[JSONKeyMapper alloc] initWithDictionary:@{
+                                                       @"common_name.name" : @"common_name",
+                                                       @"taxon_photos.photo" : @"taxon_photos"
+                                                       }];
+}
+
 @end

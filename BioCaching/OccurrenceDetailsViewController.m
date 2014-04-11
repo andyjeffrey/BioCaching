@@ -7,18 +7,26 @@
 //
 
 #import "OccurrenceDetailsViewController.h"
+#import "INatTaxonPhoto.h"
+#import "UIKit+AFNetworking.h"
 
 @interface OccurrenceDetailsViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *labelTaxonSpecies;
-@property (weak, nonatomic) IBOutlet UILabel *labelTaxonFamily;
 @property (weak, nonatomic) IBOutlet UILabel *labelDate;
 @property (weak, nonatomic) IBOutlet UILabel *labelObserver;
 @property (weak, nonatomic) IBOutlet UILabel *labelInstitution;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
+
+@property (weak, nonatomic) IBOutlet UILabel *labelPhotoCopyright;
+@property (weak, nonatomic) IBOutlet UIImageView *imageMainPhoto;
+@property (weak, nonatomic) IBOutlet UIImageView *imageTaxonIcon;
+@property (weak, nonatomic) IBOutlet UILabel *labelTaxonSpecies;
+@property (weak, nonatomic) IBOutlet UILabel *labelTaxonFamily;
 @end
 
-@implementation OccurrenceDetailsViewController
+@implementation OccurrenceDetailsViewController {
+    INatTaxonPhoto *iNatTaxonPhoto;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,8 +42,17 @@
     [super viewDidLoad];
 
     self.navigationController.navigationBarHidden = NO;
-//    self.navigationController.navigationItem.title = @"Species Common Name";
+    self.navigationItem.backBarButtonItem.title = @"";
+    self.navigationController.navigationItem.title = @"Common Name";
+    self.navigationItem.title = self.occurrence.iNatTaxon.common_name;
     
+//    [imageView setImageWithURL:[NSURL URLWithString:@"http://i.imgur.com/r4uwx.jpg"] placeholderImage:[UIImage imageNamed:@"placeholder-avatar"]];
+    
+    iNatTaxonPhoto = self.occurrence.iNatTaxon.taxon_photos[0];
+    
+    [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
+    
+    self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
     self.labelTaxonSpecies.text = self.occurrence.speciesBinomial;
     self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", self.occurrence.Clazz, self.occurrence.Family];
     self.labelDate.text = [self.occurrence.OccurrenceDate substringToIndex:10];
@@ -47,7 +64,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationItem.title = @"Species Common Name";
 }
 
 - (void)viewWillDisappear:(BOOL)animated

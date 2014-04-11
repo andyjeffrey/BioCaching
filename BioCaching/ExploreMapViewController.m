@@ -7,14 +7,19 @@
 //
 
 #import "ExploreMapViewController.h"
-#import "ExploreDetailsViewController.h"
+#import "ExploreListViewController.h"
 #import "OptionsStaticTableViewController.h"
 #import "LocationsArray.h"
 #import "TripOptions.h"
+#import "GBIFManager.h"
 #import "GBIFCommunicator.h"
 #import "GBIFCommunicatorMock.h"
 #import "GBIFOccurrenceResults.h"
 #import "OccurrenceLocation.h"
+#import "INatManager.h"
+#import "INatTaxon.h"
+#import "INatTaxonPhoto.h"
+#import "UIKit+AFNetworking.h"
 
 #define kDefaultSearchAreaStepperValue 1000
 #define kInitialViewSpan 5000
@@ -32,6 +37,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonCurrentLocation;
 @property (weak, nonatomic) IBOutlet UIButton *buttonMapType;
 
+@property (weak, nonatomic) IBOutlet UIView *viewCalloutRefFrame;
+@property (weak, nonatomic) IBOutlet UIView *viewTaxonInfo;
+@property (weak, nonatomic) IBOutlet UILabel *labelPhotoCopyright;
+@property (weak, nonatomic) IBOutlet UIImageView *imageMainPhoto;
+@property (weak, nonatomic) IBOutlet UIImageView *imageTaxonIcon;
+@property (weak, nonatomic) IBOutlet UILabel *labelTaxonSpecies;
+@property (weak, nonatomic) IBOutlet UILabel *labelTaxonFamily;
+
+
 //@property (nonatomic, strong) UIView *viewBackgroundControls;
 
 @end
@@ -47,13 +61,18 @@
     GBIFOccurrenceResults *_occurrenceResults;
     DropDownViewController *_dropDownViewLocations;
     UIView *_viewBackgroundControls;
+    GBIFManager *_gbifManager;
+    INatManager *_iNatManager;
+    CGRect _taxonInfoRefFrame;
 }
 
 - (void)viewDidLoad
 {
 //    NSLog(@"viewDidAppear");
     [super viewDidLoad];
-
+    
+    [TSMessage setDefaultViewController:self];
+    
     self.navigationController.navigationBarHidden = YES;
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
 
@@ -70,13 +89,17 @@
      [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor darkGrayColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
 //     [IonIcons imageWithIcon:icon_settings size:30.0f color:[UIColor darkGrayColor]] forState:UIControlStateNormal];
 
-    [self configureSearchAreaStepper:kDefaultSearchAreaStepperValue];
-    [self configureSearchManager];
+    [self configureGBIFManager];
+    [self configureINatManager];
 
     _currentViewLocation = LocationsArray.defaultLocation;
-    //    CLLocationCoordinate2D defaultLocation = CLLocationCoordinate2DMake(37.769341, -122.481937);
     [self updateLocationLabelAndMapView:_currentViewLocation];
+
+    [self configureSearchAreaStepper: (int)_tripOptions.searchAreaSpan];
     [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_currentSearchAreaSpan];
+    
+    _taxonInfoRefFrame = self.viewTaxonInfo.frame;
+    self.viewTaxonInfo.hidden = YES;
 
     [self configureGestureRecognizers];
     self.mapView.delegate = self;
@@ -95,16 +118,16 @@
 
 #pragma mark Initialisation Methods
 
-- (void)configureSearchManager
+- (void)configureGBIFManager
 {
-    self.gbifManager = [[GBIFManager alloc] init];
-    self.gbifManager.delegate = self;
-#ifdef USE_MOCK_DATA
-    self.gbifManager.communicator = [[GBIFCommunicatorMock alloc] init];
-#else
-    self.gbifManager.communicator = [[GBIFCommunicator alloc] init];
-#endif
-    self.gbifManager.communicator.delegate = self.gbifManager;
+    _gbifManager = [[GBIFManager alloc] init];
+    _gbifManager.delegate = self;
+}
+
+- (void)configureINatManager
+{
+    _iNatManager = [[INatManager alloc] init];
+    _iNatManager.delegate = self;
 }
 
 - (void)configureSearchAreaStepper:(int)searchAreaSpan
@@ -249,13 +272,21 @@
     //[mapView addOverlay:circle];
 }
 
-- (void)updateOccurrenceAnnotations:(NSArray *)occurrenceResults
+- (void)updateOccurrenceAnnotations:(NSArray *)occurrences
 {
     [self.mapView removeAnnotations:self.mapView.annotations];
     
-    for (int i = 0; i < _tripOptions.displayPoints && i < occurrenceResults.count; i++) {
-        [self addOccurrenceAnnotation:occurrenceResults[i]];
+    for (int i = 0; i < occurrences.count; i++) {
+        [self addOccurrenceAnnotation:occurrences[i]];
     }
+}
+
+- (void)addiNatTaxonInfoToOccurrences:(NSArray *)occurrences
+{
+    for (GBIFOccurrence *occurrence in occurrences) {
+        [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
+    }
+    
 }
 
 - (void)addOccurrenceAnnotation:(GBIFOccurrence *)occurrence
@@ -308,7 +339,7 @@
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 //    [self.gbifManager fetchOccurrencesWithinArea:_currentSearchAreaPolygon];
-    [self.gbifManager fetchOccurrencesWithOptions:_tripOptions];
+    [_gbifManager fetchOccurrencesWithOptions:_tripOptions];
 }
 
 - (IBAction)changeMapType:(id)sender
@@ -416,7 +447,51 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    NSLog(@"didSelectAnnotationView");
+    GBIFOccurrence *occurrence = (GBIFOccurrence *)view.annotation;
+    NSLog(@"didSelectAnnotationView: %@", occurrence.speciesBinomial);
+    
+    [self updateTaxonView:occurrence];
+    [self showTaxonView];
+}
+
+- (void)updateTaxonView:(GBIFOccurrence *)occurrence
+{
+    INatTaxonPhoto *iNatTaxonPhoto = occurrence.iNatTaxon.taxon_photos[0];
+    
+    [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
+    
+    self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
+    self.labelTaxonSpecies.text = occurrence.speciesBinomial;
+    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", occurrence.Clazz, occurrence.Family];
+}
+
+- (void)showTaxonView
+{
+    if (self.viewTaxonInfo.hidden) {
+        CGRect startFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, 0);
+        
+        self.viewTaxonInfo.frame = startFrame;
+        [UIView animateWithDuration:0.5f animations:^{
+            self.viewTaxonInfo.hidden = NO;
+            self.viewTaxonInfo.frame = _taxonInfoRefFrame;
+            self.viewTaxonInfo.alpha = 1.0f;
+        } completion:^(BOOL finished) {
+        }];
+    }
+}
+
+- (void)hideTaxonView
+{
+    if (!self.viewTaxonInfo.hidden) {
+        CGRect endFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, 0);
+        
+        [UIView animateWithDuration:0.5f animations:^{
+            self.viewTaxonInfo.frame = endFrame;
+            self.viewTaxonInfo.alpha = 0.1f;
+        } completion:^(BOOL finished) {
+            self.viewTaxonInfo.hidden = YES;
+        }];
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
@@ -438,13 +513,17 @@
     
     if ([selectedView isKindOfClass:[MKAnnotationView class]]) {
         NSLog(@"AnnotationView selected");
+        CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.viewCalloutRefFrame];
+        [self.mapView setCenterCoordinate:mapCoord animated:YES];
         return;
+    } else if (!self.viewTaxonInfo.hidden) {
+        [self hideTaxonView];
+        return;
+    } else {
+        CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
+        [self.mapView setCenterCoordinate:mapCoord animated:YES];
+        [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
     }
-    
-    CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
-    [self.mapView setCenterCoordinate:mapCoord animated:YES];
-    [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
-    
 }
 
 - (void)mapDoubleClick:(UIGestureRecognizer *)gestureRecognizer
@@ -479,7 +558,7 @@
 - (void)optionsUpdated:(TripOptions *)tripOptions
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_tripOptions]];
+        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_tripOptions limitToMapPoints:YES]];
     });
     
 //    _tripOptions = savedTripOptions;
@@ -491,9 +570,11 @@
 {
     NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
+    
+    [self addiNatTaxonInfoToOccurrences:[_occurrenceResults getFilteredResults:_tripOptions limitToMapPoints:YES]];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_tripOptions]];
+        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_tripOptions limitToMapPoints:YES]];
         [self zoomToLocation:nil];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     });
@@ -505,12 +586,33 @@
 }
 
 
+#pragma mark INatManagerDelegate
+
+- (void)iNatTaxonAddedToGBIFOccurrence:(GBIFOccurrence *)occurrence
+{
+    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__,
+          occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
+
+    if (occurrence.iNatTaxon)
+    {
+        if (occurrence.iNatTaxon.taxon_photos.count > 0)
+        {
+            INatTaxonPhoto *mainPhoto = occurrence.iNatTaxon.taxon_photos[0];
+            NSLog(@"Caching Image For Taxon:%@", occurrence.speciesBinomial);
+            UIImageView *tempImageView = [[UIImageView alloc] init];
+            [tempImageView setImageWithURL:[NSURL URLWithString:mainPhoto.medium_url]];
+        }
+    }
+
+    [self.mapView addAnnotation:occurrence];
+}
+
 #pragma mark UIStoryboard Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"ExploreListSegue"]) {
         UINavigationController *navVC = [segue destinationViewController];
-        ExploreDetailsViewController *detailsVC = [navVC viewControllers][0];
+        ExploreListViewController *detailsVC = [navVC viewControllers][0];
         detailsVC.occurrenceResults = _occurrenceResults;
         detailsVC.tripOptions = _tripOptions;
     }

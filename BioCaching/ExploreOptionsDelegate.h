@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TripOptions.h"
 
 @protocol ExploreOptionsDelegate <NSObject>
 - (void) optionsUpdated:(TripOptions *)tripOptions;

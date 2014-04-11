@@ -71,7 +71,7 @@
         Key = [dictionary objectForKey:@"key"];
         Kingdom = [dictionary objectForKey:@"kingdom"];
         Phylum = [dictionary objectForKey:@"phylum"];
-        Clazz = [dictionary objectForKey:@"clazz"];
+        Clazz = [dictionary objectForKey:@"class"];
         Order = [dictionary objectForKey:@"order"];
         Family = [dictionary objectForKey:@"family"];
         Genus = [dictionary objectForKey:@"genus"];
@@ -87,49 +87,17 @@
         CollectionCode = [dictionary objectForKey:@"collectionCode"];
         CatalogNumber = [dictionary objectForKey:@"catalogNumber"];
         DatasetKey = [dictionary objectForKey:@"datasetKey"];
-        OwningOrgKey = [dictionary objectForKey:@"owningOrgKey"];
         ScientificName = [dictionary objectForKey:@"scientificName"];
-        NubKey = [dictionary objectForKey:@"nubKey"];
         BasisOfRecord = [dictionary objectForKey:@"basisOfRecord"];
-        Longitude = [dictionary objectForKey:@"longitude"];
-        Latitude = [dictionary objectForKey:@"latitude"];
-        Locality = [dictionary objectForKey:@"locality"];
-        StateProvince = [dictionary objectForKey:@"stateProvince"];
+        Longitude = [dictionary objectForKey:@"decimalLongitude"];
+        Latitude = [dictionary objectForKey:@"decimalLatitude"];
         Country = [dictionary objectForKey:@"country"];
-        Continent = [dictionary objectForKey:@"continent"];
-        CollectorName = [dictionary objectForKey:@"collectorName"];
-        IdentifierName = [dictionary objectForKey:@"identifierName"];
-        OccurrenceYear = [dictionary objectForKey:@"occurrenceYear"];
-        OccurrenceMonth = [dictionary objectForKey:@"occurrenceMonth"];
-        OccurrenceDate = [dictionary objectForKey:@"occurrenceDate"];
-        TaxonomicIssue = [dictionary objectForKey:@"taxonomicIssue"];
-        GeospatialIssue = [dictionary objectForKey:@"geospatialIssue"];
-        OtherIssue = [dictionary objectForKey:@"otherIssue"];
-        Modified = [dictionary objectForKey:@"modified"];
-        GBIFProtocol = [dictionary objectForKey:@"protocol"];
-        HostCountry = [dictionary objectForKey:@"hostCountry"];
-        /*
-         NSArray* temp =  [dictionary objectForKey:@"Identifiers"];
-         Identifiers =  [[NSMutableArray alloc] init];
-         for (NSDictionary *d in temp) {
-         [Identifiers addObject:d];
-         }
-         
-         temp =  [dictionary objectForKey:@"Images"];
-         Images =  [[NSMutableArray alloc] init];
-         for (NSDictionary *d in temp) {
-         [Images addObject:d];
-         }
-         
-         temp =  [dictionary objectForKey:@"TypeDesignations"];
-         TypeDesignations =  [[NSMutableArray alloc] init];
-         for (NSDictionary *d in temp) {
-         [TypeDesignations addObject:d];
-         }
-         */
         County = [dictionary objectForKey:@"county"];
-        Altitude = [dictionary objectForKey:@"altitude"];
-        Depth = [dictionary objectForKey:@"depth"];
+        CollectorName = [dictionary objectForKey:@"recordedBy"];
+        OccurrenceYear = [dictionary objectForKey:@"year"];
+        OccurrenceMonth = [dictionary objectForKey:@"month"];
+        OccurrenceDate = [dictionary objectForKey:@"eventDate"];
+        GBIFProtocol = [dictionary objectForKey:@"protocol"];
         
         _coordinate = CLLocationCoordinate2DMake(self.Latitude.doubleValue, self.Longitude.doubleValue);
 
@@ -174,29 +142,39 @@
 
 - (NSString *)detailsMainTitle
 {
-    NSString *mainTitle = [NSString stringWithFormat:@"%@ - %@",
-            self.Clazz, self.speciesBinomial];
+    NSString *mainTitle;
+    
+    if (self.iNatTaxon)
+    {
+        mainTitle = self.iNatTaxon.common_name;
+    } else {
+        mainTitle = [NSString stringWithFormat:@"%@ - %@",
+                               self.Clazz, self.speciesBinomial];
+    }
     
     return mainTitle;
 }
 
 - (NSString *)detailsSubTitle
 {
-//    NSString *subTitle = [NSString stringWithFormat:@"%@ %@", self.Species, self.ScientificName];
-
-    NSString *subTitle = [NSString stringWithFormat:@"%@  %@ %@  %@",
-                          [self.OccurrenceDate substringToIndex:10],
-                          self.Latitude,
-                          self.Longitude,
-//                          self.CatalogNumber,
-                          self.InstitutionCode];
+    NSString *subTitle;
+    
+    if (self.iNatTaxon) {
+        subTitle = [NSString stringWithFormat:@"%@ - %@",
+                    self.Clazz, self.speciesBinomial];
+    } else {
+        subTitle = [NSString stringWithFormat:@"%@  %@  %@",
+                    [self.OccurrenceDate substringToIndex:10],
+                    self.locationString,
+                    self.InstitutionCode];
+    }
 
     return subTitle;
 }
 
 - (NSString *)locationString
 {
-    NSString *locationString = [NSString stringWithFormat:@"%f %f", self.coordinate.latitude, self.coordinate.longitude];
+    NSString *locationString = [NSString stringWithFormat:@"%.6f %.6f", self.coordinate.latitude, self.coordinate.longitude];
     return locationString;
 }
 

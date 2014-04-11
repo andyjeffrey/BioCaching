@@ -42,7 +42,7 @@
 //@property (nonatomic, readonly, strong) NSMutableSet *speciesUnique;
 //@property (nonatomic, readonly, strong) NSMutableSet *locationsUnique;
 
-- (NSArray *) getFilteredResults:(TripOptions*)tripOptions;
+- (NSArray *) getFilteredResults:(TripOptions*)tripOptions limitToMapPoints:(BOOL)mapPoints;
 
 + (id) objectWithDictionary:(NSDictionary*)dictionary;
 - (id) initWithDictionary:(NSDictionary*)dictionary;

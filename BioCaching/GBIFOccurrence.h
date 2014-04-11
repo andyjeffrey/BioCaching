@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "INatTaxon.h"
 
 @interface GBIFOccurrence : NSObject<MKAnnotation>
 
@@ -60,6 +61,8 @@
 @property(nonatomic, readonly, copy) NSString *speciesBinomial;
 @property(nonatomic, readonly, copy) NSString *detailsMainTitle;
 @property(nonatomic, readonly, copy) NSString *detailsSubTitle;
+
+@property(nonatomic, strong) INatTaxon *iNatTaxon;
 
 #pragma mark MKAnnotation
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;

@@ -8,15 +8,17 @@
 
 #import "OptionsStaticTableViewController.h"
 
-#define kDefaultDisplayPoints 20
-#define kTagLabelRecordType 1
-#define kTagLabelRecordSource 2
-#define kTagLabelRecord
+#define kDefaultAreaSpanSliderValue 1000
+#define kMinAreaSpanValue 50
+#define kMaxAreaSpanValue 25000
 
 @interface OptionsStaticTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldYearFrom;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldYearTo;
+
+@property (weak, nonatomic) IBOutlet UISlider *sliderAreaSpan;
+@property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
 @property (weak, nonatomic) IBOutlet UILabel *labelRecordType;
 @property (weak, nonatomic) IBOutlet UILabel *labelRecordSource;
 @property (weak, nonatomic) IBOutlet UILabel *labelSpeciesFilter;
@@ -29,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switchFullSpeciesNames;
 @property (weak, nonatomic) IBOutlet UISwitch *switchUniqueSpecies;
 @property (weak, nonatomic) IBOutlet UISwitch *switchUniqueLocations;
+@property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestData;
 
 @end
 
@@ -57,7 +60,8 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self initiateSlider];
+    [self initiateAreaSpan];
+    [self initiateDisplayPoints];
     [self initiateTextFields];
     [self initiateSwitches];
     [self updateLabels];
@@ -69,11 +73,18 @@
     [self configureBackgroundControlsView];
 }
 
-- (void)initiateSlider
+- (void)initiateDisplayPoints
 {
     self.sliderDisplayPoints.minimumValue = 1;
     self.sliderDisplayPoints.maximumValue = 300;
     self.sliderDisplayPoints.value = self.tripOptions.displayPoints;
+}
+
+- (void) initiateAreaSpan
+{
+    self.sliderAreaSpan.minimumValue = -5;
+    self.sliderAreaSpan.maximumValue = 5;
+    self.sliderAreaSpan.value = log2(self.tripOptions.searchAreaSpan/kDefaultAreaSpanSliderValue);
 }
 
 - (void)initiateTextFields
@@ -92,6 +103,7 @@
     self.switchFullSpeciesNames.on = self.tripOptions.fullSpeciesNames;
     self.switchUniqueSpecies.on = self.tripOptions.uniqueSpecies;
     self.switchUniqueLocations.on = self.tripOptions.uniqueLocations;
+    self.switchGBIFTestData.on = self.tripOptions.testGBIFData;
 }
 
 - (void)configureDropDownLists
@@ -145,16 +157,39 @@
     self.labelRecordType.text = [OptionsRecordType displayString:self.tripOptions.recordType];
     self.labelRecordSource.text = [OptionsRecordSource displayString:self.tripOptions.recordSource];
     self.labelSpeciesFilter.text = [OptionsSpeciesFilter displayString:self.tripOptions.speciesFilter];
+
+    [self updateLabelAreaSpan];
+}
+
+- (void)updateLabelAreaSpan
+{
+    if (self.tripOptions.searchAreaSpan < kDefaultAreaSpanSliderValue) {
+        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d m", (int) self.tripOptions.searchAreaSpan];
+    } else {
+        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d km", (int) self.tripOptions.searchAreaSpan / 1000];
+    }
 }
 
 /*
-- (void)activateUIControls:(BOOL)enable
+- (void)updateSearchAreaStepper:(int)searchAreaSpan
 {
-    for (UIControl *uiControl in uiControls) {
-        uiControl.userInteractionEnabled = enable;
-    }
+    self.stepperSearchArea.value = log2(searchAreaSpan/kDefaultSearchAreaStepperValue);
+    [self updateSearchAreaLabel:self.stepperSearchArea.value];
 }
+
 */
+
+#pragma mark IBActions
+
+- (IBAction)sliderAreaSpan:(id)sender {
+    self.tripOptions.searchAreaSpan = kDefaultAreaSpanSliderValue * pow(2, self.sliderAreaSpan.value);
+/*
+    int output = (int)self.sliderDisplayPoints.value;
+    self.tripOptions.searchAreaSpan =
+    self.sliderAreaSpan.value = log2(self.tripOptions.searchAreaSpan/kDefaultAreaSpan);
+*/
+    [self updateLabelAreaSpan];
+}
 
 - (IBAction)sliderPoints:(id)sender {
     int output = (int)self.sliderDisplayPoints.value;
@@ -167,6 +202,7 @@
     self.tripOptions.fullSpeciesNames = self.switchFullSpeciesNames.on;
     self.tripOptions.uniqueSpecies = self.switchUniqueSpecies.on;
     self.tripOptions.uniqueLocations = self.switchUniqueLocations.on;
+    self.tripOptions.testGBIFData = self.switchGBIFTestData.on;
     [self.delegate optionsUpdated:self.tripOptions];
     [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
 //    NSLog(@"buttonOK:\n%@,%@\n%@,%@", self.textFieldYearFrom.text, self.tripOptions.yearFrom, self.textFieldYearTo.text, self.tripOptions.yearTo);

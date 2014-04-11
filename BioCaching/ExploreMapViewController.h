@@ -8,18 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "GBIFManager.h"
-#import "GBIFOccurrenceResults.h"
 #import "DropDownViewController.h"
 #import "ExploreOptionsDelegate.h"
+#import "GBIFManagerDelegate.h"
+#import "INatManagerDelegate.h"
+
 
 @interface ExploreMapViewController : UIViewController <
     MKMapViewDelegate,
     UIGestureRecognizerDelegate,
     ExploreOptionsDelegate,
+    DropDownViewDelegate,
     GBIFManagerDelegate,
-    DropDownViewDelegate>
-
-@property (nonatomic, strong) GBIFManager *gbifManager;
+    INatManagerDelegate
+>
 
 @end

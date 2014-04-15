@@ -1,4 +1,6 @@
-platform :ios, '7.0'
+platform :ios, "6.0"
 
-pod 'TSMessages'
+pod "TSMessages"
+pod "JSONModel"
+pod "AFNetworking", "~> 2.0"
 

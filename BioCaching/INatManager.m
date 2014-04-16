@@ -20,6 +20,8 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
 {
     NSURLRequest *request = [self buildTaxaSearchRequest:occurrence.speciesBinomial];
     
+/*
+    // AFNetworking 2.0
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
     
@@ -27,6 +29,14 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
         occurrence.iNatTaxon = [self buildINatTaxonFromJSON:responseObject taxonSearchString:occurrence.speciesBinomial];
         [self.delegate iNatTaxonAddedToGBIFOccurrence:occurrence];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"iNat API Error: %@", error);
+    }];
+*/
+    // AFNetworking 1.3 (As used by RestKit)
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        occurrence.iNatTaxon = [self buildINatTaxonFromJSON:JSON taxonSearchString:occurrence.speciesBinomial];
+        [self.delegate iNatTaxonAddedToGBIFOccurrence:occurrence];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         NSLog(@"iNat API Error: %@", error);
     }];
     
@@ -38,7 +48,8 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
 - (void)getTaxonForSpeciesName:(NSString *)speciesName
 {
     NSURLRequest *request = [self buildTaxaSearchRequest:speciesName];
-    
+/*
+    // AFNetworking 2.0
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
     
@@ -46,6 +57,14 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
         INatTaxon *iNatTaxon = [self buildINatTaxonFromJSON:responseObject taxonSearchString:speciesName];
         [self.delegate iNatTaxonReceived:iNatTaxon];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"iNat API Error: %@", error);
+    }];
+*/
+    // AFNetworking 1.3 (As used by RestKit)
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        INatTaxon *iNatTaxon = [self buildINatTaxonFromJSON:JSON taxonSearchString:speciesName];
+        [self.delegate iNatTaxonReceived:iNatTaxon];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         NSLog(@"iNat API Error: %@", error);
     }];
     

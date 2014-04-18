@@ -19,5 +19,6 @@ DerivedData
 *.DS_Store
 .xcworkspace
 
+Pods/
 Libraries/
 Resources/TestData/

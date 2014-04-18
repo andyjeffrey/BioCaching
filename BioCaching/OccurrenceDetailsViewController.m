@@ -8,7 +8,6 @@
 
 #import "OccurrenceDetailsViewController.h"
 #import "INatTaxonPhoto.h"
-#import "UIKit+AFNetworking.h"
 
 @interface OccurrenceDetailsViewController ()
 
@@ -48,13 +47,14 @@
     
 //    [imageView setImageWithURL:[NSURL URLWithString:@"http://i.imgur.com/r4uwx.jpg"] placeholderImage:[UIImage imageNamed:@"placeholder-avatar"]];
     
-    iNatTaxonPhoto = self.occurrence.iNatTaxon.taxon_photos[0];
-    
-    [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
-    
-    self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
+    self.imageTaxonIcon.image = [UIImage imageNamed:[self.occurrence getINatIconicTaxaMainImageFile]];
     self.labelTaxonSpecies.text = self.occurrence.speciesBinomial;
     self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", self.occurrence.Clazz, self.occurrence.Family];
+    
+    iNatTaxonPhoto = self.occurrence.iNatTaxon.taxon_photos[0];
+    [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
+    self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
+
     self.labelDate.text = [self.occurrence.OccurrenceDate substringToIndex:10];
     self.labelObserver.text = self.occurrence.CollectorName;
     self.labelInstitution.text = self.occurrence.InstitutionCode;

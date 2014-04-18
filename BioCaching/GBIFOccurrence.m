@@ -178,44 +178,97 @@
     return locationString;
 }
 
-- (NSString *)mapMarkerImageFile
-{
-    NSString *mapMarkerImageFile;
-    
-    if ([self.Kingdom isEqualToString:@"Plantae"]) {
-        mapMarkerImageFile = @"mapannotation_green_black_solid_plants";
-    } else if ([self.Kingdom isEqualToString:@"Animalia"]) {
-        if ([self.Phylum isEqualToString:@"Mollusca"]) {
-            mapMarkerImageFile = @"mapannotation_grey_black_solid";
-        } else if ([self.Phylum isEqualToString:@"Arthropoda"]) {
-            mapMarkerImageFile = @"mapannotation_red_black_solid";
-        } else if ([self.Phylum isEqualToString:@"Chordata"]) {
-            if ([self.Clazz isEqualToString:@"Mammalia"]) {
-                mapMarkerImageFile = @"mapannotation_grey_black_solid";
-            } else if ([self.Clazz isEqualToString:@"Amphibia"]) {
-                mapMarkerImageFile = @"mapannotation_grey_black_solid";
-            } else if ([self.Clazz isEqualToString:@"Aves"]) {
-                mapMarkerImageFile = @"mapannotation_blue_black_solid_birds";
-            } else if ([self.Clazz isEqualToString:@"Reptilia"]) {
-                mapMarkerImageFile = @"mapannotation_grey_black_solid";
-            } else if ([self.Clazz isEqualToString:@"Actinopterygii"]) {
-                mapMarkerImageFile = @"mapannotation_blue_black_solid_fish";
-            }
-        } else {
-                mapMarkerImageFile = @"mapannotation_blue_black_solid_unknown";        }
-    }
-    
-//    mapMarkerImageFile = [mapMarkerImageFile stringByReplacingOccurrencesOfString:@"black" withString:@"white"];
-    
-    return mapMarkerImageFile;
-}
-
 - (NSString *)title {
     return self.detailsMainTitle;
 }
 
 - (NSString *)subtitle {
     return self.detailsSubTitle;
+}
+
+
+- (NSString *)getINatIconicTaxaMainImageFile
+{
+    NSString *iNatIconicTaxaImageFile;
+    
+    if ([self.Kingdom isEqualToString:@"Fungi"]) {
+        iNatIconicTaxaImageFile = @"iconic_taxon_fungi";
+    } else if ([self.Kingdom isEqualToString:@"Plantae"]) {
+        iNatIconicTaxaImageFile = @"iconic_taxon_plantae";
+    } else if ([self.Kingdom isEqualToString:@"Animalia"]) {
+        if ([self.Phylum isEqualToString:@"Mollusca"]) {
+            iNatIconicTaxaImageFile = @"iconic_taxon_mollusca";
+        } else if ([self.Phylum isEqualToString:@"Arthropoda"]) {
+            if ([self.Clazz isEqualToString:@"Insecta"]) {
+                iNatIconicTaxaImageFile = @"iconic_taxon_insecta";
+            } else if ([self.Clazz isEqualToString:@"Arachnida"]) {
+                iNatIconicTaxaImageFile = @"iconic_taxon_arachnida";
+            }
+        } else if ([self.Phylum isEqualToString:@"Chordata"]) {
+            if ([self.Clazz isEqualToString:@"Mammalia"]) {
+                iNatIconicTaxaImageFile = @"iconic_taxon_mammalia";
+            } else if ([self.Clazz isEqualToString:@"Amphibia"]) {
+                iNatIconicTaxaImageFile = @"iconic_taxon_amphibia";
+            } else if ([self.Clazz isEqualToString:@"Aves"]) {
+                iNatIconicTaxaImageFile = @"iconic_taxon_aves";
+            } else if ([self.Clazz isEqualToString:@"Reptilia"]) {
+                iNatIconicTaxaImageFile = @"iconic_taxon_reptilia";
+            } else if ([self.Clazz isEqualToString:@"Actinopterygii"]) {
+                iNatIconicTaxaImageFile = @"iconic_taxon_actinopterygii";
+            }
+        } else {
+            iNatIconicTaxaImageFile = @"iconic_taxon_animalia";
+        }
+    } else {
+        iNatIconicTaxaImageFile = @"iconic_taxon_unknown";
+    }
+    
+    return iNatIconicTaxaImageFile;
+
+    
+}
+
+- (NSString *)getINatIconicTaxaMapMarkerImageFile:(BOOL)highlighted
+{
+    NSString *mapMarkerImageFile;
+    
+    if ([self.Kingdom isEqualToString:@"Fungi"]) {
+        mapMarkerImageFile = @"mapannotation_fungi_black";
+    } else if ([self.Kingdom isEqualToString:@"Plantae"]) {
+        mapMarkerImageFile = @"mapannotation_plantae_black";
+    } else if ([self.Kingdom isEqualToString:@"Animalia"]) {
+        if ([self.Phylum isEqualToString:@"Mollusca"]) {
+            mapMarkerImageFile = @"mapannotation_mollusca_black";
+        } else if ([self.Phylum isEqualToString:@"Arthropoda"]) {
+            if ([self.Clazz isEqualToString:@"Insecta"]) {
+                mapMarkerImageFile = @"mapannotation_insecta_black";
+            } else if ([self.Clazz isEqualToString:@"Arachnida"]) {
+                mapMarkerImageFile = @"mapannotation_arachnida_black";
+            }
+        } else if ([self.Phylum isEqualToString:@"Chordata"]) {
+            if ([self.Clazz isEqualToString:@"Mammalia"]) {
+                mapMarkerImageFile = @"mapannotation_mammalia_black";
+            } else if ([self.Clazz isEqualToString:@"Amphibia"]) {
+                mapMarkerImageFile = @"mapannotation_amphibia_black";
+            } else if ([self.Clazz isEqualToString:@"Aves"]) {
+                mapMarkerImageFile = @"mapannotation_aves_black";
+            } else if ([self.Clazz isEqualToString:@"Reptilia"]) {
+                mapMarkerImageFile = @"mapannotation_reptilia_black";
+            } else if ([self.Clazz isEqualToString:@"Actinopterygii"]) {
+                mapMarkerImageFile = @"mapannotation_actinopterygii_black";
+            }
+        } else {
+            mapMarkerImageFile = @"mapannotation_animalia_black";
+        }
+    } else {
+        mapMarkerImageFile = @"mapannotation_unknown_black";
+    }
+    
+    if (highlighted) {
+        mapMarkerImageFile = [mapMarkerImageFile stringByReplacingOccurrencesOfString:@"black" withString:@"white"];
+    }
+    
+    return mapMarkerImageFile;
 }
 
 @end

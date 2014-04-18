@@ -24,7 +24,7 @@
         [_optionsArray replaceObjectAtIndex:RecordType_OBSERVATION
                                      withObject:@[@"Observation", @"OBSERVATION"]];
         [_optionsArray replaceObjectAtIndex:RecordType_PRESERVED_SPECIMEN
-                                     withObject:@[@"Preserved Specimen", @"PRESERVED_SPECIMEN"]];
+                                     withObject:@[@"Museum Specimen", @"PRESERVED_SPECIMEN"]];
         [_optionsArray replaceObjectAtIndex:RecordType_FOSSIL_SPECIMEN
                                      withObject:@[@"Fossil Specimen", @"FOSSIL_SPECIMEN"]];
         [_optionsArray replaceObjectAtIndex:RecordType_LIVING_SPECIMEN

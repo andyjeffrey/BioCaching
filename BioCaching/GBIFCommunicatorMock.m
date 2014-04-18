@@ -18,26 +18,17 @@
 {
     NSLog(@"GBIFCommunicatorMock.getOccurrencesWithinPolygon");
     
-    NSData *mockResponseData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:kMockOccurrenceResultsFile ofType:nil]];
-    [self.delegate receivedResultsJSON:mockResponseData];
+    TripOptions *tripOptions = [TripOptions initWithDefaults];
+    tripOptions.searchAreaPolygon = polygon;
+    
+    [self getOccurrencesWithTripOptions:tripOptions];
 }
 
 - (void)getOccurrencesWithTripOptions:(TripOptions *)tripOptions
 {
     NSLog(@"GBIFCommunicatorMock.getOccurrencesWithTripOptions");
-    
-    NSString *requestString = [NSString stringWithFormat:kOccurrenceSearch,
-                               kDefaultLimit,
-                               kDefaultOffset,
-                               [OptionsRecordType queryStringValue:tripOptions.recordType],
-                               [OptionsRecordSource queryStringValue:tripOptions.recordSource],
-                               [OptionsSpeciesFilter queryStringValue:tripOptions.speciesFilter],
-                               tripOptions.collectorName,
-                               tripOptions.year,
-                               tripOptions.yearFrom,
-                               tripOptions.yearTo,
-                               [tripOptions.searchAreaPolygon convertToWKT]];
-    
+
+    NSString *requestString = [GBIFCommunicator buildOccurrencesRequestString:tripOptions];
     NSLog(@"GBIFCommunicatorMock RequestString: %@", requestString);
     
     NSData *mockResponseData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:kMockOccurrenceResultsFile ofType:nil]];

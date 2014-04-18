@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		A12B639318E9E33B00F9C4C0 /* ResultsSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B639218E9E33B00F9C4C0 /* ResultsSummaryViewController.m */; };
 		A12B63AC18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B63AB18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m */; };
-		A12B63B818EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A12B63B718EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg */; };
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
 		A162FD3918D6FF2100362A0A /* TripOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* TripOptions.m */; };
@@ -19,13 +18,10 @@
 		A1875DFA18FD48A2001DC029 /* NSString+UtilityMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF518FD48A2001DC029 /* NSString+UtilityMethods.m */; };
 		A1875DFB18FD48A2001DC029 /* UIView+UtilityMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF718FD48A2001DC029 /* UIView+UtilityMethods.m */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
-		A1875E0C18FD5032001DC029 /* iOS_2.22.0.version in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFE18FD5032001DC029 /* iOS_2.22.0.version */; };
-		A1875E0D18FD5032001DC029 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFF18FD5032001DC029 /* LICENSE */; };
-		A1875E0E18FD5032001DC029 /* LocalyticsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875E0218FD5032001DC029 /* LocalyticsDatabase.m */; };
-		A1875E0F18FD5032001DC029 /* LocalyticsDatapointHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875E0418FD5032001DC029 /* LocalyticsDatapointHelper.m */; };
-		A1875E1018FD5032001DC029 /* LocalyticsSession.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875E0618FD5032001DC029 /* LocalyticsSession.m */; };
-		A1875E1118FD5032001DC029 /* LocalyticsUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875E0918FD5032001DC029 /* LocalyticsUploader.m */; };
-		A1875E1218FD5032001DC029 /* LocalyticsUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875E0B18FD5032001DC029 /* LocalyticsUtil.m */; };
+		A1875E2D18FD5CD3001DC029 /* iOSa_2.23.0.version in Resources */ = {isa = PBXBuildFile; fileRef = A1875E2818FD5CD3001DC029 /* iOSa_2.23.0.version */; };
+		A1875E2E18FD5CD3001DC029 /* libLocalyticsAMP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1875E2918FD5CD3001DC029 /* libLocalyticsAMP.a */; };
+		A1875E2F18FD5CD3001DC029 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A1875E2A18FD5CD3001DC029 /* LICENSE */; };
+		A1875E3218FECCBA001DC029 /* INatTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875E3118FECCBA001DC029 /* INatTrip.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DD9B18C61FFB00FA005B /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */; };
@@ -55,7 +51,6 @@
 		A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209418B4F7AB00200D50 /* CoreGraphics.framework */; };
 		A1EA6CC718D0A921002FCDDD /* GBIFOccurrence.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CC618D0A921002FCDDD /* GBIFOccurrence.m */; };
 		A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CD318D0BE87002FCDDD /* GBIFCommunicatorMock.m */; };
-		A1EA6CD618D0BFD5002FCDDD /* OccurrenceResultsAP.json in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CD518D0BFD5002FCDDD /* OccurrenceResultsAP.json */; };
 		A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */; };
 		A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CE718D23A87002FCDDD /* Images.xcassets */; };
 		A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87DA18DB843100003091 /* OptionsRecordType.m */; };
@@ -93,20 +88,14 @@
 		A1875DF618FD48A2001DC029 /* UIView+UtilityMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+UtilityMethods.h"; path = "BioCaching/UIView+UtilityMethods.h"; sourceTree = SOURCE_ROOT; };
 		A1875DF718FD48A2001DC029 /* UIView+UtilityMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+UtilityMethods.m"; path = "BioCaching/UIView+UtilityMethods.m"; sourceTree = SOURCE_ROOT; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
-		A1875DFE18FD5032001DC029 /* iOS_2.22.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = iOS_2.22.0.version; path = "Localytics-iOS-Client-2.22.0.source/iOS_2.22.0.version"; sourceTree = "<group>"; };
-		A1875DFF18FD5032001DC029 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = "Localytics-iOS-Client-2.22.0.source/LICENSE"; sourceTree = "<group>"; };
-		A1875E0018FD5032001DC029 /* LocalyticsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalyticsConstants.h; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsConstants.h"; sourceTree = "<group>"; };
-		A1875E0118FD5032001DC029 /* LocalyticsDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalyticsDatabase.h; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsDatabase.h"; sourceTree = "<group>"; };
-		A1875E0218FD5032001DC029 /* LocalyticsDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalyticsDatabase.m; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsDatabase.m"; sourceTree = "<group>"; };
-		A1875E0318FD5032001DC029 /* LocalyticsDatapointHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalyticsDatapointHelper.h; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsDatapointHelper.h"; sourceTree = "<group>"; };
-		A1875E0418FD5032001DC029 /* LocalyticsDatapointHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalyticsDatapointHelper.m; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsDatapointHelper.m"; sourceTree = "<group>"; };
-		A1875E0518FD5032001DC029 /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalyticsSession.h; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsSession.h"; sourceTree = "<group>"; };
-		A1875E0618FD5032001DC029 /* LocalyticsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalyticsSession.m; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsSession.m"; sourceTree = "<group>"; };
-		A1875E0718FD5032001DC029 /* LocalyticsSession+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LocalyticsSession+Private.h"; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsSession+Private.h"; sourceTree = "<group>"; };
-		A1875E0818FD5032001DC029 /* LocalyticsUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalyticsUploader.h; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsUploader.h"; sourceTree = "<group>"; };
-		A1875E0918FD5032001DC029 /* LocalyticsUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalyticsUploader.m; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsUploader.m"; sourceTree = "<group>"; };
-		A1875E0A18FD5032001DC029 /* LocalyticsUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalyticsUtil.h; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsUtil.h"; sourceTree = "<group>"; };
-		A1875E0B18FD5032001DC029 /* LocalyticsUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalyticsUtil.m; path = "Localytics-iOS-Client-2.22.0.source/LocalyticsUtil.m"; sourceTree = "<group>"; };
+		A1875E2818FD5CD3001DC029 /* iOSa_2.23.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOSa_2.23.0.version; sourceTree = "<group>"; };
+		A1875E2918FD5CD3001DC029 /* libLocalyticsAMP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLocalyticsAMP.a; sourceTree = "<group>"; };
+		A1875E2A18FD5CD3001DC029 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		A1875E2B18FD5CD3001DC029 /* LocalyticsAmpSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsAmpSession.h; sourceTree = "<group>"; };
+		A1875E2C18FD5CD3001DC029 /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsSession.h; sourceTree = "<group>"; };
+		A1875E3018FECCBA001DC029 /* INatTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTrip.h; sourceTree = "<group>"; };
+		A1875E3118FECCBA001DC029 /* INatTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTrip.m; sourceTree = "<group>"; };
+		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
 		A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Exe Estuary MPA, UK.gpx"; path = "Resources/TestData/Exe Estuary MPA, UK.gpx"; sourceTree = "<group>"; };
 		A1D5DD8518C61B6A00FA005B /* GoldenGate Park, CA.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "GoldenGate Park, CA.gpx"; path = "Resources/TestData/GoldenGate Park, CA.gpx"; sourceTree = "<group>"; };
@@ -117,7 +106,6 @@
 		A1D5DD9118C61D0F00FA005B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A1D5DD9918C61FFB00FA005B /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.3.2.a; sourceTree = "<group>"; };
-		A1D5DD9C18C62A0E00FA005B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A1D5DD9F18C72E1500FA005B /* ExploreListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreListViewController.h; sourceTree = "<group>"; };
 		A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreListViewController.m; sourceTree = "<group>"; };
 		A1D5DDE318C7BAA500FA005B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -200,6 +188,7 @@
 				A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */,
 				A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */,
 				A1EA209718B4F7AB00200D50 /* UIKit.framework in Frameworks */,
+				A1875E2E18FD5CD3001DC029 /* libLocalyticsAMP.a in Frameworks */,
 				A1EA209318B4F7AB00200D50 /* Foundation.framework in Frameworks */,
 				B338778CE5E9420C93C92294 /* libPods.a in Frameworks */,
 			);
@@ -252,20 +241,11 @@
 		A1D5DDD818C7BA0F00FA005B /* Localytics */ = {
 			isa = PBXGroup;
 			children = (
-				A1875DFE18FD5032001DC029 /* iOS_2.22.0.version */,
-				A1875DFF18FD5032001DC029 /* LICENSE */,
-				A1875E0018FD5032001DC029 /* LocalyticsConstants.h */,
-				A1875E0118FD5032001DC029 /* LocalyticsDatabase.h */,
-				A1875E0218FD5032001DC029 /* LocalyticsDatabase.m */,
-				A1875E0318FD5032001DC029 /* LocalyticsDatapointHelper.h */,
-				A1875E0418FD5032001DC029 /* LocalyticsDatapointHelper.m */,
-				A1875E0518FD5032001DC029 /* LocalyticsSession.h */,
-				A1875E0618FD5032001DC029 /* LocalyticsSession.m */,
-				A1875E0718FD5032001DC029 /* LocalyticsSession+Private.h */,
-				A1875E0818FD5032001DC029 /* LocalyticsUploader.h */,
-				A1875E0918FD5032001DC029 /* LocalyticsUploader.m */,
-				A1875E0A18FD5032001DC029 /* LocalyticsUtil.h */,
-				A1875E0B18FD5032001DC029 /* LocalyticsUtil.m */,
+				A1875E2818FD5CD3001DC029 /* iOSa_2.23.0.version */,
+				A1875E2918FD5CD3001DC029 /* libLocalyticsAMP.a */,
+				A1875E2A18FD5CD3001DC029 /* LICENSE */,
+				A1875E2B18FD5CD3001DC029 /* LocalyticsAmpSession.h */,
+				A1875E2C18FD5CD3001DC029 /* LocalyticsSession.h */,
 			);
 			path = Localytics;
 			sourceTree = "<group>";
@@ -341,7 +321,8 @@
 		A1EA209818B4F7AB00200D50 /* BioCaching */ = {
 			isa = PBXGroup;
 			children = (
-				A1D5DD9C18C62A0E00FA005B /* Constants.h */,
+				A1EA6CD918D1B278002FCDDD /* config.h */,
+				A1875E3318FED8D2001DC029 /* constants.h */,
 				A1EA20A118B4F7AB00200D50 /* AppDelegate.h */,
 				A1EA20A218B4F7AB00200D50 /* AppDelegate.m */,
 				A1EA20A418B4F7AB00200D50 /* Main.storyboard */,
@@ -362,7 +343,6 @@
 				A1EA209B18B4F7AB00200D50 /* InfoPlist.strings */,
 				A1EA209E18B4F7AB00200D50 /* main.m */,
 				A1EA20A018B4F7AB00200D50 /* BioCaching-Prefix.pch */,
-				A1EA6CD918D1B278002FCDDD /* config.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -390,6 +370,8 @@
 				A1DAC60218F4773300ABC9BA /* INatTaxon.m */,
 				A1DAC5FF18F4637F00ABC9BA /* INatTaxonPhoto.h */,
 				A1DAC60018F4637F00ABC9BA /* INatTaxonPhoto.m */,
+				A1875E3018FECCBA001DC029 /* INatTrip.h */,
+				A1875E3118FECCBA001DC029 /* INatTrip.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -501,17 +483,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1875E0C18FD5032001DC029 /* iOS_2.22.0.version in Resources */,
 				A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */,
 				A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */,
-				A1EA6CD618D0BFD5002FCDDD /* OccurrenceResultsAP.json in Resources */,
-				A12B63B818EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg in Resources */,
-				A1875E0D18FD5032001DC029 /* LICENSE in Resources */,
 				A1D9A13018E20FAC006C1988 /* ionicons.ttf in Resources */,
+				A1875E2F18FD5CD3001DC029 /* LICENSE in Resources */,
 				A1EA209D18B4F7AB00200D50 /* InfoPlist.strings in Resources */,
 				A1EA20A618B4F7AB00200D50 /* Main.storyboard in Resources */,
 				A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */,
 				A1875DFD18FD4A36001DC029 /* Podfile in Resources */,
+				A1875E2D18FD5CD3001DC029 /* iOSa_2.23.0.version in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,6 +538,7 @@
 				A1EA20AC18B4F7AB00200D50 /* TripsViewController.m in Sources */,
 				A1875DFA18FD48A2001DC029 /* NSString+UtilityMethods.m in Sources */,
 				A12B639318E9E33B00F9C4C0 /* ResultsSummaryViewController.m in Sources */,
+				A1875E3218FECCBA001DC029 /* INatTrip.m in Sources */,
 				A1DAC60318F4773300ABC9BA /* INatTaxon.m in Sources */,
 				A1875DF918FD48A2001DC029 /* NSDictionary+Filtering.m in Sources */,
 				A1DAC60118F4637F00ABC9BA /* INatTaxonPhoto.m in Sources */,
@@ -572,22 +553,17 @@
 				A12B63AC18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m in Sources */,
 				A1875DF818FD48A2001DC029 /* NSCountedSet+Sorting.m in Sources */,
 				A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */,
-				A1875E0F18FD5032001DC029 /* LocalyticsDatapointHelper.m in Sources */,
-				A1875E1118FD5032001DC029 /* LocalyticsUploader.m in Sources */,
 				A162FD3918D6FF2100362A0A /* TripOptions.m in Sources */,
 				A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */,
 				A1D5DE0718C9F93C00FA005B /* GBIFCommunicator.m in Sources */,
 				A1D5DE1518CB64C900FA005B /* GBIFManager.m in Sources */,
 				A1DAC5F718F320FD00ABC9BA /* INatManager.m in Sources */,
-				A1875E1218FD5032001DC029 /* LocalyticsUtil.m in Sources */,
 				A1EA20A918B4F7AB00200D50 /* ExploreMapViewController.m in Sources */,
 				A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */,
-				A1875E0E18FD5032001DC029 /* LocalyticsDatabase.m in Sources */,
 				A1EA209F18B4F7AB00200D50 /* main.m in Sources */,
 				A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */,
 				A1EA20D518BDEED400200D50 /* ProfileViewController.m in Sources */,
 				A1D9A14118E5993D006C1988 /* DropDownViewController.m in Sources */,
-				A1875E1018FD5032001DC029 /* LocalyticsSession.m in Sources */,
 				A1EA6CC718D0A921002FCDDD /* GBIFOccurrence.m in Sources */,
 				A1D5DE0318C9F4CA00FA005B /* GBIFOccurrenceResults.m in Sources */,
 			);

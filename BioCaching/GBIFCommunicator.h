@@ -18,4 +18,6 @@
 - (void)getOccurrencesWithinPolygon:(MKPolygon *)polygon;
 - (void)getOccurrencesWithTripOptions:(TripOptions *)tripOptions;
 
++ (NSString *)buildOccurrencesRequestString:(TripOptions *)tripOptions;
+
 @end

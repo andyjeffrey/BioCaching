@@ -8,19 +8,13 @@
 
 #import "TripOptions.h"
 
-#define kDefaultSearchAreaSpan 1000
-#define kDefaultDisplayPoints 20
-#define kDefaultFullSpeciesNames YES
-#define kDefaultUniqueSpecies YES
-#define kDefaultUniqueLocations YES
-
 @implementation TripOptions
 
 +(id)initWithDefaults
 {
     TripOptions *tripOptions = [[TripOptions alloc] init];
 
-    tripOptions.searchAreaSpan = kDefaultSearchAreaSpan;
+    tripOptions.searchAreaSpan = kOptionsDefaultSearchAreaSpan;
     tripOptions.recordType = RecordType_PRESERVED_SPECIMEN;
     tripOptions.recordSource = RecordSource_ALL;
     tripOptions.speciesFilter = SpeciesFilter_ALL;
@@ -29,10 +23,10 @@
     tripOptions.yearFrom = @"";
     tripOptions.yearTo = @"";
     
-    tripOptions.displayPoints = kDefaultDisplayPoints;
-    tripOptions.uniqueSpecies = kDefaultUniqueSpecies;
-    tripOptions.uniqueLocations = kDefaultUniqueLocations;
-    tripOptions.fullSpeciesNames = kDefaultFullSpeciesNames;
+    tripOptions.displayPoints = kOptionsDefaultDisplayPoints;
+    tripOptions.uniqueSpecies = kOptionsDefaultUniqueSpecies;
+    tripOptions.uniqueLocations = kOptionsDefaultUniqueLocations;
+    tripOptions.fullSpeciesNames = kOptionsDefaultFullSpeciesNames;
 
     tripOptions.testGBIFData = NO;
     

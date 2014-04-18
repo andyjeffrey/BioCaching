@@ -24,6 +24,7 @@
         [_staticArray addObject:@[@"Current Location", @0, @0, @kDefaultSearchAreaSpan, @kDefaultViewSpan]];
         
         [_staticArray addObject:@[@"GoldenGate Park, CA", @37.769341, @-122.481937, @1000, @2500]];
+        [_staticArray addObject:@[@"Pillar Point Harbor", @37.499484, @-122.488098, @1000, @2500]];
         [_staticArray addObject:@[@"Pepperwood Preserve, CA", @38.577085, @-122.700702, @2000, @8000]];
         [_staticArray addObject:@[@"Lafayette Reservoir, CA", @37.881188, @-122.145867, @1000, @4000]];
         [_staticArray addObject:@[@"Yosemite NP, CA", @37.899650, @-119.536363, @2000]];

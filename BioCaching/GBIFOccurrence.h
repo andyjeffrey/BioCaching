@@ -70,10 +70,11 @@
 @property (nonatomic, readonly, copy) NSString *subtitle;
 
 @property (nonatomic, readonly, copy) NSString *locationString;
-@property (nonatomic, readonly, copy) NSString *mapMarkerImageFile;
-
 
 + (id) objectWithDictionary:(NSDictionary*)dictionary;
 - (id) initWithDictionary:(NSDictionary*)dictionary;
+
+- (NSString *)getINatIconicTaxaMapMarkerImageFile:(BOOL)highlighted;
+- (NSString *)getINatIconicTaxaMainImageFile;
 
 @end

@@ -13,10 +13,18 @@
 
 - (void)getOccurrencesWithinPolygon:(MKPolygon *)polygon
 {
-    NSString *requestString = [NSString stringWithFormat:kOccurrenceSearchPolygon,
-                             kDefaultLimit, kDefaultOffset, [polygon convertToWKT]];
-    NSLog(@"GBIFCommunicator RequestSent: %@", requestString);
+    TripOptions *tripOptions = [TripOptions initWithDefaults];
+    tripOptions.searchAreaPolygon = polygon;
+    
+    [self getOccurrencesWithTripOptions:tripOptions];
+}
 
+- (void)getOccurrencesWithTripOptions:(TripOptions *)tripOptions
+{
+    NSString *requestString = [GBIFCommunicator buildOccurrencesRequestString:tripOptions];
+    
+    NSLog(@"GBIFCommunicator Request: %@", requestString);
+    
     NSURL *url = [[NSURL alloc] initWithString:requestString];
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -28,30 +36,24 @@
     }];
 }
 
-- (void)getOccurrencesWithTripOptions:(TripOptions *)tripOptions
++ (NSString *)buildOccurrencesRequestString:(TripOptions *)tripOptions
 {
-    NSString *requestString = [NSString stringWithFormat:kOccurrenceSearch,
-                               kDefaultLimit,
-                               kDefaultOffset,
-                               [OptionsRecordType queryStringValue:tripOptions.recordType],
-                               [OptionsRecordSource queryStringValue:tripOptions.recordSource],
-                               [OptionsSpeciesFilter queryStringValue:tripOptions.speciesFilter],
-                               tripOptions.collectorName,
-                               tripOptions.year,
-                               tripOptions.yearFrom,
-                               tripOptions.yearTo,
-                               [tripOptions.searchAreaPolygon convertToWKT]];
-    NSLog(@"GBIFCommunicator RequestSent: %@", requestString);
+    NSString *queryString = [NSString stringWithFormat:kGBIFOccurrenceSearch,
+                             kGBIFOccurrenceDefaultLimit,
+                             kGBIFOccurrenceDefaultOffset,
+                             [OptionsRecordType queryStringValue:tripOptions.recordType],
+                             [OptionsRecordSource queryStringValue:tripOptions.recordSource],
+                             [OptionsSpeciesFilter queryStringValue:tripOptions.speciesFilter],
+                             tripOptions.collectorName,
+                             tripOptions.year,
+                             tripOptions.yearFrom,
+                             tripOptions.yearTo,
+                             [tripOptions.searchAreaPolygon convertToWKT]];
     
-    NSURL *url = [[NSURL alloc] initWithString:requestString];
+    NSString *requestString = [NSString stringWithFormat:@"%@%@",
+                               kGBIFBaseURL, queryString];
     
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        if (connectionError) {
-            [self.delegate GBIFCommunicatorFailedWithError:connectionError];
-        } else {
-            [self.delegate receivedResultsJSON:data];
-        }
-    }];
+    return requestString;
 }
 
 @end

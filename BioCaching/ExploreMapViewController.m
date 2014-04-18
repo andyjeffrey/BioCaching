@@ -19,7 +19,6 @@
 #import "INatManager.h"
 #import "INatTaxon.h"
 #import "INatTaxonPhoto.h"
-#import "UIKit+AFNetworking.h"
 
 #define kDefaultSearchAreaStepperValue 1000
 #define kInitialViewSpan 5000
@@ -44,6 +43,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageTaxonIcon;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonSpecies;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonFamily;
+@property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxa;
 
 
 //@property (nonatomic, strong) UIView *viewBackgroundControls;
@@ -406,7 +406,7 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
-    static NSString *identifier = @"OccurrenceLocation";
+    static NSString *identifier = @"OccurrenceAnnotation";
     if ([annotation isKindOfClass:[OccurrenceLocation class]]) {
 /*
         MKPinAnnotationView *annotationView = (MKPinAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
@@ -417,7 +417,7 @@
             annotationView.canShowCallout = YES;
             annotationView.animatesDrop = YES;
 */
-        MKAnnotationView *annotationView = (MKAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:@"OccurrenceLocation"];
+        MKAnnotationView *annotationView = (MKAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:@"OccurrenceAnnotation"];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
             annotationView.enabled = YES;
@@ -425,42 +425,63 @@
             annotationView.image = [UIImage imageNamed:((OccurrenceLocation *)annotation).mapMarkerImageFile];
         } else {
             annotationView.image = [UIImage imageNamed:((OccurrenceLocation *)annotation).mapMarkerImageFile];
-            annotationView.annotation = annotation;
-        }
-        return annotationView;
-    } else if ([annotation isKindOfClass:[GBIFOccurrence class]]) {
-        MKAnnotationView *annotationView = (MKAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:@"OccurrenceLocation"];
-        if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-            annotationView.enabled = YES;
-            annotationView.canShowCallout = YES;
-            annotationView.image = [UIImage imageNamed:((GBIFOccurrence *)annotation).mapMarkerImageFile];
-        } else {
-            annotationView.image = [UIImage imageNamed:((GBIFOccurrence *)annotation).mapMarkerImageFile];
             annotationView.annotation = annotation;
         }
         return annotationView;
     }
+    else if ([annotation isKindOfClass:[GBIFOccurrence class]])
+    {
+        GBIFOccurrence *occurrence = (GBIFOccurrence *)annotation;
+        MKAnnotationView *annotationView = (MKAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:@"OccurrenceAnnotation"];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+            annotationView.enabled = YES;
+            annotationView.canShowCallout = YES;
+        } else {
+            annotationView.annotation = annotation;
+        }
+        annotationView.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:NO]];
+        return annotationView;
+    }
     
     return nil;
+}
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    GBIFOccurrence *occurrence = (GBIFOccurrence *)view.annotation;
+    NSLog(@"didDeselectAnnotationView: %@", occurrence.speciesBinomial);
+
+    view.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:NO]];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     GBIFOccurrence *occurrence = (GBIFOccurrence *)view.annotation;
     NSLog(@"didSelectAnnotationView: %@", occurrence.speciesBinomial);
+
+    view.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:YES]];
     
     [self updateTaxonView:occurrence];
     [self showTaxonView];
+    
 }
 
 - (void)updateTaxonView:(GBIFOccurrence *)occurrence
 {
-    INatTaxonPhoto *iNatTaxonPhoto = occurrence.iNatTaxon.taxon_photos[0];
+    INatTaxonPhoto *iNatTaxonPhoto;
     
-    [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
+    if (occurrence.iNatTaxon.taxon_photos.count > 0) {
+        iNatTaxonPhoto = occurrence.iNatTaxon.taxon_photos[0];
+
+        // Implement Image Cache
+        [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
+        self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
+    } else {
+        self.imageMainPhoto.image = nil;
+        self.labelPhotoCopyright.text = nil;
+    }
     
-    self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
+    self.imageIconicTaxa.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMainImageFile]];
     self.labelTaxonSpecies.text = occurrence.speciesBinomial;
     self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", occurrence.Clazz, occurrence.Family];
 }

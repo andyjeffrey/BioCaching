@@ -67,7 +67,7 @@
 {
     INatTrip *trip = _trips[indexPath.row];
     
-    NSLog(@"Row Selected: %lu - %@", indexPath.row, trip.id);
+    NSLog(@"Row Selected: %lu - %@", (long)indexPath.row, trip.id);
 }
 
 

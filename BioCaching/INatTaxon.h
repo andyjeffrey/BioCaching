@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONModel.h"
+#import <JSONModel.h>
 #import "INatTaxonPhoto.h"
 
 @class INatTaxonCommonName;

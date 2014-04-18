@@ -138,7 +138,7 @@ typedef enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    NSLog(@"Row Selected: %lu", indexPath.row);
-    GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
+//    GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
 }
 
 

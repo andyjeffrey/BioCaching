@@ -38,7 +38,7 @@
 
     self.labelRetrieved.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.Results.count];
     self.labelFiltered.text = [NSString stringWithFormat:@"%lu", (unsigned long)filteredResults.count];
-    self.labelDisplayed.text = [NSString stringWithFormat:@"%lu", MIN(_tripOptions.displayPoints, filteredResults.count)];
+    self.labelDisplayed.text = [NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_tripOptions.displayPoints, filteredResults.count))];
 
     self.labelUniqueSpecies.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonSpecies.count];
     self.labelKingdoms.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonKingdom.count];

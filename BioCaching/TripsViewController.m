@@ -8,7 +8,7 @@
 
 #import "TripsViewController.h"
 #import "INatTrip.h"
-#
+#import <RestKit/RestKit.h>
 
 @interface TripsViewController ()
 
@@ -30,13 +30,29 @@
 
 - (void)configureRestKit
 {
-//    NSURL *baseURL = [NSURL URLWithString:kINatBaseURL];
+    NSURL *baseURL = [NSURL URLWithString:kINatBaseURL];
+    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
+    
+    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    RKObjectMapping *iNatMapping = [RKObjectMapping mappingForClass:[INatTrip class]];
+    [iNatMapping addAttributeMappingsFromArray:@[@"title", @"created_at"]];
+    
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:iNatMapping method:RKRequestMethodGET pathPattern:kINatTripsPath keyPath:kINatTripsKey statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    [objectManager addResponseDescriptor:responseDescriptor];
     
 }
 
 - (void)loadTrips
 {
-    _trips = [[NSMutableArray alloc] initWithObjects:[[INatTrip alloc] init], nil];
+    [[RKObjectManager sharedManager] getObjectsAtPath:kINatTripsPath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        _trips = mappingResult.array;
+        [self.tableTrips reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"Error Loading Trips: %@", error);
+    }];
+    
+//    _trips = [[NSMutableArray alloc] initWithObjects:[[INatTrip alloc] init], nil];
 }
 
 #pragma mark UITableView

@@ -14,7 +14,10 @@
 #define kGBIFOccurrenceDefaultLimit 300
 #define kGBIFOccurrenceDefaultOffset 0
 
-#define kINatBaseURL @"http://www.inaturalist.org/";
+#define kINatBaseURL @"http://www.inaturalist.org/"
+#define kINatTripsPath @"trips.json"
+#define kINatTripsKey @"trips"
+
 
 #define kOptionsDefaultSearchAreaSpan 1000
 #define kOptionsDefaultDisplayPoints 20

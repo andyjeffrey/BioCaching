@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TripOptions.h"
+#import "BCOptions.h"
 #import "DropDownViewController.h"
 #import "ExploreOptionsDelegate.h"
 
 @interface OptionsStaticTableViewController : UITableViewController <DropDownViewDelegate>
 
-@property (nonatomic, weak) TripOptions *tripOptions;
+@property (nonatomic, weak) BCOptions *bcOptions;
 @property (nonatomic, weak) id <ExploreOptionsDelegate> delegate;
 
 @end

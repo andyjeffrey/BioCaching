@@ -13,15 +13,15 @@
 
 - (void)getOccurrencesWithinPolygon:(MKPolygon *)polygon
 {
-    TripOptions *tripOptions = [TripOptions initWithDefaults];
+    SearchOptions *tripOptions = [SearchOptions initWithDefaults];
     tripOptions.searchAreaPolygon = polygon;
     
     [self getOccurrencesWithTripOptions:tripOptions];
 }
 
-- (void)getOccurrencesWithTripOptions:(TripOptions *)tripOptions
+- (void)getOccurrencesWithTripOptions:(SearchOptions *)searchOptions
 {
-    NSString *requestString = [GBIFCommunicator buildOccurrencesRequestString:tripOptions];
+    NSString *requestString = [GBIFCommunicator buildOccurrencesRequestString:searchOptions];
     
     NSLog(@"GBIFCommunicator Request: %@", requestString);
     
@@ -36,19 +36,19 @@
     }];
 }
 
-+ (NSString *)buildOccurrencesRequestString:(TripOptions *)tripOptions
++ (NSString *)buildOccurrencesRequestString:(SearchOptions *)searchOptions
 {
     NSString *queryString = [NSString stringWithFormat:kGBIFOccurrenceSearch,
                              kGBIFOccurrenceDefaultLimit,
                              kGBIFOccurrenceDefaultOffset,
-                             [OptionsRecordType queryStringValue:tripOptions.recordType],
-                             [OptionsRecordSource queryStringValue:tripOptions.recordSource],
-                             [OptionsSpeciesFilter queryStringValue:tripOptions.speciesFilter],
-                             tripOptions.collectorName,
-                             tripOptions.year,
-                             tripOptions.yearFrom,
-                             tripOptions.yearTo,
-                             [tripOptions.searchAreaPolygon convertToWKT]];
+                             [OptionsRecordType queryStringValue:searchOptions.recordType],
+                             [OptionsRecordSource queryStringValue:searchOptions.recordSource],
+                             [OptionsSpeciesFilter queryStringValue:searchOptions.speciesFilter],
+                             searchOptions.collectorName,
+                             searchOptions.year,
+                             searchOptions.yearFrom,
+                             searchOptions.yearTo,
+                             [searchOptions.searchAreaPolygon convertToWKT]];
     
     NSString *requestString = [NSString stringWithFormat:@"%@%@",
                                kGBIFBaseURL, queryString];

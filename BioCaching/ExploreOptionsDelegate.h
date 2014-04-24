@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TripOptions.h"
+#import "BCOptions.h"
 
 @protocol ExploreOptionsDelegate <NSObject>
-- (void) optionsUpdated:(TripOptions *)tripOptions;
+- (void) optionsUpdated:(BCOptions *)bcOptions;
 @end
 

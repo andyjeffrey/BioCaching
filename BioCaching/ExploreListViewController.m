@@ -47,16 +47,16 @@ typedef enum {
     
     self.navigationController.navigationBarHidden = YES;
     
-    _filteredResults = [self.occurrenceResults getFilteredResults:self.tripOptions limitToMapPoints:YES];
+    _filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
     
 //    self.view.backgroundColor = [UIColor whiteColor];
     
     self.labelLocation.text = [NSString stringWithFormat:@"Location: %f,%f",
-                               self.tripOptions.searchAreaCentre.latitude,
-                               self.tripOptions.searchAreaCentre.longitude];
+                               self.bcOptions.searchOptions.searchAreaCentre.latitude,
+                               self.bcOptions.searchOptions.searchAreaCentre.longitude];
 
     self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %lum",
-                               (unsigned long)self.tripOptions.searchAreaSpan];
+                               (unsigned long)self.bcOptions.searchOptions.searchAreaSpan];
 
     self.labelOccurrenceCount.text = [NSString stringWithFormat:@"Total Record Count: %d",
                                       self.occurrenceResults.Count.intValue];
@@ -109,9 +109,9 @@ typedef enum {
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #ifdef DEBUG
-    if (_tripOptions.displayPoints < _filteredResults.count)
+    if (_bcOptions.displayOptions.displayPoints < _filteredResults.count)
     {
-        return _tripOptions.displayPoints;
+        return _bcOptions.displayOptions.displayPoints;
     }
 #endif
     return _filteredResults.count;
@@ -152,7 +152,7 @@ typedef enum {
     if ([segue.identifier isEqualToString:@"SummaryEmbed"]) {
         ResultsSummaryViewController *summaryVC = segue.destinationViewController;
         summaryVC.occurrenceResults = self.occurrenceResults;
-        summaryVC.tripOptions = self.tripOptions;
+        summaryVC.bcOptions = self.bcOptions;
     } else if ([segue.identifier isEqualToString:@"OccurrenceDetails"]) {
         OccurrenceDetailsViewController *detailsVC = segue.destinationViewController;
         NSIndexPath *selectedIndexPath = [self.tableViewResults indexPathForSelectedRow];

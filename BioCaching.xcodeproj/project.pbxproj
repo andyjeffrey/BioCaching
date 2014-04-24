@@ -11,17 +11,20 @@
 		A12B63AC18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B63AB18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m */; };
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
-		A162FD3918D6FF2100362A0A /* TripOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* TripOptions.m */; };
+		A162FD3918D6FF2100362A0A /* SearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* SearchOptions.m */; };
 		A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */; };
 		A1875DF818FD48A2001DC029 /* NSCountedSet+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF118FD48A2001DC029 /* NSCountedSet+Sorting.m */; };
 		A1875DF918FD48A2001DC029 /* NSDictionary+Filtering.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF318FD48A2001DC029 /* NSDictionary+Filtering.m */; };
 		A1875DFA18FD48A2001DC029 /* NSString+UtilityMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF518FD48A2001DC029 /* NSString+UtilityMethods.m */; };
 		A1875DFB18FD48A2001DC029 /* UIView+UtilityMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF718FD48A2001DC029 /* UIView+UtilityMethods.m */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
-		A1875E2D18FD5CD3001DC029 /* iOSa_2.23.0.version in Resources */ = {isa = PBXBuildFile; fileRef = A1875E2818FD5CD3001DC029 /* iOSa_2.23.0.version */; };
-		A1875E2E18FD5CD3001DC029 /* libLocalyticsAMP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1875E2918FD5CD3001DC029 /* libLocalyticsAMP.a */; };
-		A1875E2F18FD5CD3001DC029 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A1875E2A18FD5CD3001DC029 /* LICENSE */; };
 		A1875E3218FECCBA001DC029 /* INatTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875E3118FECCBA001DC029 /* INatTrip.m */; };
+		A18AAAA01907E14200FB75A5 /* DisplayOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A18AAA9F1907E14200FB75A5 /* DisplayOptions.m */; };
+		A18AAAA31907E1A300FB75A5 /* BCOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A18AAAA21907E1A300FB75A5 /* BCOptions.m */; };
+		A18AAABF1908100400FB75A5 /* iOSa_2.23.0.version in Resources */ = {isa = PBXBuildFile; fileRef = A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */; };
+		A18AAAC01908100400FB75A5 /* libLocalyticsAMP_x64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A18AAABA1908100400FB75A5 /* libLocalyticsAMP_x64.a */; };
+		A18AAAC21908100400FB75A5 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A18AAABC1908100400FB75A5 /* LICENSE */; };
+		A18C53C6190696CD001D6A9E /* CrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = A18C53C5190696CD001D6A9E /* CrossHairView.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DD9B18C61FFB00FA005B /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */; };
@@ -73,8 +76,8 @@
 		A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv1.0.json; path = Resources/TestData/OccurrenceResultsCASFilterv1.0.json; sourceTree = "<group>"; };
 		A13B8F2318F75AAE000C522B /* OccurrenceResultsCASv0.9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASv0.9.json; path = Resources/TestData/OccurrenceResultsCASv0.9.json; sourceTree = "<group>"; };
 		A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASv1.0.json; path = Resources/TestData/OccurrenceResultsCASv1.0.json; sourceTree = "<group>"; };
-		A162FD3718D6FF2100362A0A /* TripOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripOptions.h; sourceTree = "<group>"; };
-		A162FD3818D6FF2100362A0A /* TripOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripOptions.m; sourceTree = "<group>"; };
+		A162FD3718D6FF2100362A0A /* SearchOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOptions.h; sourceTree = "<group>"; };
+		A162FD3818D6FF2100362A0A /* SearchOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOptions.m; sourceTree = "<group>"; };
 		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Tortuga Bay, Santa Cruz, Galapagos.gpx"; path = "Resources/TestData/Tortuga Bay, Santa Cruz, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
@@ -89,14 +92,21 @@
 		A1875DF618FD48A2001DC029 /* UIView+UtilityMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+UtilityMethods.h"; path = "BioCaching/UIView+UtilityMethods.h"; sourceTree = SOURCE_ROOT; };
 		A1875DF718FD48A2001DC029 /* UIView+UtilityMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+UtilityMethods.m"; path = "BioCaching/UIView+UtilityMethods.m"; sourceTree = SOURCE_ROOT; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A1875E2818FD5CD3001DC029 /* iOSa_2.23.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOSa_2.23.0.version; sourceTree = "<group>"; };
-		A1875E2918FD5CD3001DC029 /* libLocalyticsAMP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLocalyticsAMP.a; sourceTree = "<group>"; };
-		A1875E2A18FD5CD3001DC029 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		A1875E2B18FD5CD3001DC029 /* LocalyticsAmpSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsAmpSession.h; sourceTree = "<group>"; };
-		A1875E2C18FD5CD3001DC029 /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsSession.h; sourceTree = "<group>"; };
 		A1875E3018FECCBA001DC029 /* INatTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTrip.h; sourceTree = "<group>"; };
 		A1875E3118FECCBA001DC029 /* INatTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTrip.m; sourceTree = "<group>"; };
 		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
+		A18AAA9B1907D98300FB75A5 /* MapViewLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewLayoutGuide.h; sourceTree = "<group>"; };
+		A18AAA9E1907E14200FB75A5 /* DisplayOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayOptions.h; sourceTree = "<group>"; };
+		A18AAA9F1907E14200FB75A5 /* DisplayOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayOptions.m; sourceTree = "<group>"; };
+		A18AAAA11907E1A300FB75A5 /* BCOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCOptions.h; sourceTree = "<group>"; };
+		A18AAAA21907E1A300FB75A5 /* BCOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCOptions.m; sourceTree = "<group>"; };
+		A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOSa_2.23.0.version; sourceTree = "<group>"; };
+		A18AAABA1908100400FB75A5 /* libLocalyticsAMP_x64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLocalyticsAMP_x64.a; sourceTree = "<group>"; };
+		A18AAABC1908100400FB75A5 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		A18AAABD1908100400FB75A5 /* LocalyticsAmpSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsAmpSession.h; sourceTree = "<group>"; };
+		A18AAABE1908100400FB75A5 /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsSession.h; sourceTree = "<group>"; };
+		A18C53C4190696CD001D6A9E /* CrossHairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossHairView.h; sourceTree = "<group>"; };
+		A18C53C5190696CD001D6A9E /* CrossHairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossHairView.m; sourceTree = "<group>"; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
 		A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Exe Estuary MPA, UK.gpx"; path = "Resources/TestData/Exe Estuary MPA, UK.gpx"; sourceTree = "<group>"; };
 		A1D5DD8518C61B6A00FA005B /* GoldenGate Park, CA.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "GoldenGate Park, CA.gpx"; path = "Resources/TestData/GoldenGate Park, CA.gpx"; sourceTree = "<group>"; };
@@ -186,11 +196,11 @@
 				A1D5DDE418C7BAA500FA005B /* libz.dylib in Frameworks */,
 				A1D5DD9B18C61FFB00FA005B /* libFlurry_4.3.2.a in Frameworks */,
 				A1EA20CF18B4F7ED00200D50 /* MapKit.framework in Frameworks */,
+				A18AAAC01908100400FB75A5 /* libLocalyticsAMP_x64.a in Frameworks */,
 				A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */,
 				A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */,
 				A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */,
 				A1EA209718B4F7AB00200D50 /* UIKit.framework in Frameworks */,
-				A1875E2E18FD5CD3001DC029 /* libLocalyticsAMP.a in Frameworks */,
 				A1EA209318B4F7AB00200D50 /* Foundation.framework in Frameworks */,
 				B338778CE5E9420C93C92294 /* libPods.a in Frameworks */,
 			);
@@ -243,11 +253,11 @@
 		A1D5DDD818C7BA0F00FA005B /* Localytics */ = {
 			isa = PBXGroup;
 			children = (
-				A1875E2818FD5CD3001DC029 /* iOSa_2.23.0.version */,
-				A1875E2918FD5CD3001DC029 /* libLocalyticsAMP.a */,
-				A1875E2A18FD5CD3001DC029 /* LICENSE */,
-				A1875E2B18FD5CD3001DC029 /* LocalyticsAmpSession.h */,
-				A1875E2C18FD5CD3001DC029 /* LocalyticsSession.h */,
+				A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */,
+				A18AAABA1908100400FB75A5 /* libLocalyticsAMP_x64.a */,
+				A18AAABC1908100400FB75A5 /* LICENSE */,
+				A18AAABD1908100400FB75A5 /* LocalyticsAmpSession.h */,
+				A18AAABE1908100400FB75A5 /* LocalyticsSession.h */,
 			);
 			path = Localytics;
 			sourceTree = "<group>";
@@ -355,8 +365,12 @@
 			children = (
 				A1EA6CDC18D1F935002FCDDD /* OccurrenceLocation.h */,
 				A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */,
-				A162FD3718D6FF2100362A0A /* TripOptions.h */,
-				A162FD3818D6FF2100362A0A /* TripOptions.m */,
+				A18AAAA11907E1A300FB75A5 /* BCOptions.h */,
+				A18AAAA21907E1A300FB75A5 /* BCOptions.m */,
+				A162FD3718D6FF2100362A0A /* SearchOptions.h */,
+				A162FD3818D6FF2100362A0A /* SearchOptions.m */,
+				A18AAA9E1907E14200FB75A5 /* DisplayOptions.h */,
+				A18AAA9F1907E14200FB75A5 /* DisplayOptions.m */,
 				A1FD87D918DB843100003091 /* OptionsRecordType.h */,
 				A1FD87DA18DB843100003091 /* OptionsRecordType.m */,
 				A1FD87DF18DC820100003091 /* OptionsSpeciesFilter.h */,
@@ -382,9 +396,12 @@
 		A1EA20D118B5078C00200D50 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A18C53C4190696CD001D6A9E /* CrossHairView.h */,
+				A18C53C5190696CD001D6A9E /* CrossHairView.m */,
 				A1D9A13B18E5786F006C1988 /* DropDownViewDelegate.h */,
 				A1D9A13F18E5993D006C1988 /* DropDownViewController.h */,
 				A1D9A14018E5993D006C1988 /* DropDownViewController.m */,
+				A18AAA9B1907D98300FB75A5 /* MapViewLayoutGuide.h */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -490,12 +507,12 @@
 				A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */,
 				A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */,
 				A1D9A13018E20FAC006C1988 /* ionicons.ttf in Resources */,
-				A1875E2F18FD5CD3001DC029 /* LICENSE in Resources */,
+				A18AAAC21908100400FB75A5 /* LICENSE in Resources */,
+				A18AAABF1908100400FB75A5 /* iOSa_2.23.0.version in Resources */,
 				A1EA209D18B4F7AB00200D50 /* InfoPlist.strings in Resources */,
 				A1EA20A618B4F7AB00200D50 /* Main.storyboard in Resources */,
 				A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */,
 				A1875DFD18FD4A36001DC029 /* Podfile in Resources */,
-				A1875E2D18FD5CD3001DC029 /* iOSa_2.23.0.version in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,6 +559,7 @@
 				A1EA20AC18B4F7AB00200D50 /* TripsViewController.m in Sources */,
 				A1875DFA18FD48A2001DC029 /* NSString+UtilityMethods.m in Sources */,
 				A12B639318E9E33B00F9C4C0 /* ResultsSummaryViewController.m in Sources */,
+				A18AAAA31907E1A300FB75A5 /* BCOptions.m in Sources */,
 				A1875E3218FECCBA001DC029 /* INatTrip.m in Sources */,
 				A1DAC60318F4773300ABC9BA /* INatTaxon.m in Sources */,
 				A1875DF918FD48A2001DC029 /* NSDictionary+Filtering.m in Sources */,
@@ -557,8 +575,10 @@
 				A12B63AC18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m in Sources */,
 				A1875DF818FD48A2001DC029 /* NSCountedSet+Sorting.m in Sources */,
 				A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */,
-				A162FD3918D6FF2100362A0A /* TripOptions.m in Sources */,
+				A162FD3918D6FF2100362A0A /* SearchOptions.m in Sources */,
+				A18C53C6190696CD001D6A9E /* CrossHairView.m in Sources */,
 				A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */,
+				A18AAAA01907E14200FB75A5 /* DisplayOptions.m in Sources */,
 				A1D5DE0718C9F93C00FA005B /* GBIFCommunicator.m in Sources */,
 				A1D5DE1518CB64C900FA005B /* GBIFManager.m in Sources */,
 				A1DAC5F718F320FD00ABC9BA /* INatManager.m in Sources */,
@@ -686,6 +706,7 @@
 					"$(inherited)",
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching/Libraries/Flurry,
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching/Libraries/Localytics,
+					"$(PROJECT_DIR)/Libraries/Localytics",
 				);
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-ObjC",
@@ -717,6 +738,7 @@
 					"$(inherited)",
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching/Libraries/Flurry,
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching/Libraries/Localytics,
+					"$(PROJECT_DIR)/Libraries/Localytics",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2D99F65F-F73E-48D0-84E9-3C3968900CAE";

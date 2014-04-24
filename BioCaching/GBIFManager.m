@@ -22,9 +22,9 @@
     [self.communicator getOccurrencesWithinPolygon:polygonArea];
 }
 
-- (void)fetchOccurrencesWithOptions:(TripOptions *)tripOptions
+- (void)fetchOccurrencesWithOptions:(SearchOptions *)searchOptions
 {
-    if (tripOptions.testGBIFData) {
+    if (searchOptions.testGBIFData) {
         self.communicator = [[GBIFCommunicatorMock alloc] init];
     } else {
         self.communicator = [[GBIFCommunicator alloc] init];
@@ -32,10 +32,10 @@
     self.communicator.delegate = self;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [TSMessage showNotificationInViewController:TSMessage.defaultViewController title:@"GBIF Search Request Made" subtitle:tripOptions.searchAreaPolygon.description type:TSMessageNotificationTypeMessage duration:1];
+        [TSMessage showNotificationInViewController:TSMessage.defaultViewController title:@"GBIF Search Request Made" subtitle:searchOptions.searchAreaPolygon.description type:TSMessageNotificationTypeMessage duration:1];
     });
     
-    [self.communicator getOccurrencesWithTripOptions:tripOptions];
+    [self.communicator getOccurrencesWithTripOptions:searchOptions];
 }
 
 #pragma mark - GBIFCommunicatorDelegate

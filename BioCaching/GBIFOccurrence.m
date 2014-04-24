@@ -146,8 +146,9 @@
     
     if (self.iNatTaxon)
     {
-        mainTitle = self.iNatTaxon.common_name;
-    } else {
+        mainTitle = [self.iNatTaxon.common_name capitalizedString];
+    } else
+    {
         mainTitle = [NSString stringWithFormat:@"%@ - %@",
                                self.Clazz, self.speciesBinomial];
     }

@@ -8,10 +8,6 @@
 
 #import "OptionsStaticTableViewController.h"
 
-#define kDefaultAreaSpanSliderValue 1000
-#define kMinAreaSpanValue 50
-#define kMaxAreaSpanValue 25000
-
 @interface OptionsStaticTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldYearFrom;
@@ -31,6 +27,9 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switchFullSpeciesNames;
 @property (weak, nonatomic) IBOutlet UISwitch *switchUniqueSpecies;
 @property (weak, nonatomic) IBOutlet UISwitch *switchUniqueLocations;
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segControlMapType;
+
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestData;
 
 @end
@@ -77,33 +76,36 @@
 {
     self.sliderDisplayPoints.minimumValue = 1;
     self.sliderDisplayPoints.maximumValue = 300;
-    self.sliderDisplayPoints.value = self.tripOptions.displayPoints;
+    self.sliderDisplayPoints.value = self.bcOptions.displayOptions.displayPoints;
 }
 
 - (void) initiateAreaSpan
 {
     self.sliderAreaSpan.minimumValue = -5;
     self.sliderAreaSpan.maximumValue = 5;
-    self.sliderAreaSpan.value = log2(self.tripOptions.searchAreaSpan/kDefaultAreaSpanSliderValue);
+    self.sliderAreaSpan.value = (int)log2((double)self.bcOptions.searchOptions.searchAreaSpan/kDefaultSearchAreaSpan);
 }
 
 - (void)initiateTextFields
 {
-    if (self.tripOptions.yearFrom.length > 0) {
-        self.textFieldYearFrom.text = self.tripOptions.yearFrom;
+    if (self.bcOptions.searchOptions.yearFrom.length > 0) {
+        self.textFieldYearFrom.text = self.bcOptions.searchOptions.yearFrom;
     }
     
-    if (self.tripOptions.yearTo.length > 0) {
-        self.textFieldYearTo.text = self.tripOptions.yearTo;
+    if (self.bcOptions.searchOptions.yearTo.length > 0) {
+        self.textFieldYearTo.text = self.bcOptions.searchOptions.yearTo;
     }
 }
 
 - (void)initiateSwitches
 {
-    self.switchFullSpeciesNames.on = self.tripOptions.fullSpeciesNames;
-    self.switchUniqueSpecies.on = self.tripOptions.uniqueSpecies;
-    self.switchUniqueLocations.on = self.tripOptions.uniqueLocations;
-    self.switchGBIFTestData.on = self.tripOptions.testGBIFData;
+    self.switchFullSpeciesNames.on = self.bcOptions.displayOptions.fullSpeciesNames;
+    self.switchUniqueSpecies.on = self.bcOptions.displayOptions.uniqueSpecies;
+    self.switchUniqueLocations.on = self.bcOptions.displayOptions.uniqueLocations;
+    
+    self.segControlMapType.selectedSegmentIndex = self.bcOptions.displayOptions.mapType;
+    
+    self.switchGBIFTestData.on = self.bcOptions.searchOptions.testGBIFData;
 }
 
 - (void)configureDropDownLists
@@ -153,20 +155,21 @@
 
 - (void)updateLabels
 {
-    self.labelPoints.text = [NSString stringWithFormat:@"%d", (int) self.sliderDisplayPoints.value];
-    self.labelRecordType.text = [OptionsRecordType displayString:self.tripOptions.recordType];
-    self.labelRecordSource.text = [OptionsRecordSource displayString:self.tripOptions.recordSource];
-    self.labelSpeciesFilter.text = [OptionsSpeciesFilter displayString:self.tripOptions.speciesFilter];
-
     [self updateLabelAreaSpan];
+
+    self.labelRecordType.text = [OptionsRecordType displayString:self.bcOptions.searchOptions.recordType];
+    self.labelRecordSource.text = [OptionsRecordSource displayString:self.bcOptions.searchOptions.recordSource];
+    self.labelSpeciesFilter.text = [OptionsSpeciesFilter displayString:self.bcOptions.searchOptions.speciesFilter];
+
+    self.labelPoints.text = [NSString stringWithFormat:@"%d", (int) self.sliderDisplayPoints.value];
 }
 
 - (void)updateLabelAreaSpan
 {
-    if (self.tripOptions.searchAreaSpan < kDefaultAreaSpanSliderValue) {
-        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d m", (int) self.tripOptions.searchAreaSpan];
+    if (self.bcOptions.searchOptions.searchAreaSpan < kDefaultSearchAreaSpan) {
+        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d m", (int) self.bcOptions.searchOptions.searchAreaSpan];
     } else {
-        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d km", (int) self.tripOptions.searchAreaSpan / 1000];
+        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d km", (int) self.bcOptions.searchOptions.searchAreaSpan / 1000];
     }
 }
 
@@ -182,30 +185,17 @@
 #pragma mark IBActions
 
 - (IBAction)sliderAreaSpan:(id)sender {
-    self.tripOptions.searchAreaSpan = kDefaultAreaSpanSliderValue * pow(2, self.sliderAreaSpan.value);
-/*
-    int output = (int)self.sliderDisplayPoints.value;
-    self.tripOptions.searchAreaSpan =
-    self.sliderAreaSpan.value = log2(self.tripOptions.searchAreaSpan/kDefaultAreaSpan);
-*/
+    int sliderIntValue = (int)self.sliderAreaSpan.value;
+    self.sliderAreaSpan.value = sliderIntValue;
+    self.bcOptions.searchOptions.searchAreaSpan = kDefaultSearchAreaSpan * pow(2, sliderIntValue);
     [self updateLabelAreaSpan];
 }
 
 - (IBAction)sliderPoints:(id)sender {
     int output = (int)self.sliderDisplayPoints.value;
     self.sliderDisplayPoints.value = 10 * floor(((output+5)/10)+0.5);
-    self.tripOptions.displayPoints = self.sliderDisplayPoints.value;
+    self.bcOptions.displayOptions.displayPoints = self.sliderDisplayPoints.value;
     [self updateLabels];
-}
-
-- (IBAction)buttonDonePressed:(id)sender {
-    self.tripOptions.fullSpeciesNames = self.switchFullSpeciesNames.on;
-    self.tripOptions.uniqueSpecies = self.switchUniqueSpecies.on;
-    self.tripOptions.uniqueLocations = self.switchUniqueLocations.on;
-    self.tripOptions.testGBIFData = self.switchGBIFTestData.on;
-    [self.delegate optionsUpdated:self.tripOptions];
-    [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
-//    NSLog(@"buttonOK:\n%@,%@\n%@,%@", self.textFieldYearFrom.text, self.tripOptions.yearFrom, self.textFieldYearTo.text, self.tripOptions.yearTo);
 }
 
 - (IBAction)buttonRecordTypeTouch:(id)sender {
@@ -226,14 +216,30 @@
     [dropDownView.uiTableView flashScrollIndicators];
 }
 
+
+- (IBAction)buttonDonePressed:(id)sender {
+    self.bcOptions.displayOptions.fullSpeciesNames = self.switchFullSpeciesNames.on;
+    self.bcOptions.displayOptions.uniqueSpecies = self.switchUniqueSpecies.on;
+    self.bcOptions.displayOptions.uniqueLocations = self.switchUniqueLocations.on;
+    
+    self.bcOptions.displayOptions.mapType = self.segControlMapType.selectedSegmentIndex;
+    
+    self.bcOptions.searchOptions.testGBIFData = self.switchGBIFTestData.on;
+    
+    [self.delegate optionsUpdated:self.bcOptions];
+    [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
+    //    NSLog(@"buttonOK:\n%@,%@\n%@,%@", self.textFieldYearFrom.text, self.tripOptions.yearFrom, self.textFieldYearTo.text, self.tripOptions.yearTo);
+}
+
+
 #pragma mark DropDownViewDelegate
 -(void)dropDownCellSelected:(NSInteger)returnIndex{
     if (activeDropDownView == dropDownView1) {
-        self.tripOptions.recordType = returnIndex;
+        self.bcOptions.searchOptions.recordType = returnIndex;
     } else if (activeDropDownView == dropDownView2) {
-        self.tripOptions.recordSource = returnIndex;
+        self.bcOptions.searchOptions.recordSource = returnIndex;
     } else if (activeDropDownView == dropDownView3) {
-        self.tripOptions.speciesFilter = returnIndex;
+        self.bcOptions.searchOptions.speciesFilter = returnIndex;
     }
     [self updateLabels];
     _viewBackgroundControls.hidden = YES;
@@ -273,9 +279,9 @@
 
 - (void)saveTextFieldToTripOptions:(UITextField *)textField {
     if (textField == self.textFieldYearFrom) {
-        self.tripOptions.yearFrom = textField.text;
+        self.bcOptions.searchOptions.yearFrom = textField.text;
     } else if (textField == self.textFieldYearTo) {
-        self.tripOptions.yearTo = textField.text;
+        self.bcOptions.searchOptions.yearTo = textField.text;
     }
 }
 

@@ -21,5 +21,6 @@
 
 + (CLLocationCoordinate2D)locationCoordinate:(NSInteger)arrayIndex;
 + (CLLocationCoordinate2D)defaultLocation;
++ (NSUInteger)defaultLocationIndex;
 
 @end

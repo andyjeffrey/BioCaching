@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-#import "TripOptions.h"
+#import "SearchOptions.h"
 
 @protocol GBIFCommunicatorDelegate;
 
@@ -16,8 +16,8 @@
 @property (weak, nonatomic) id<GBIFCommunicatorDelegate> delegate;
 
 - (void)getOccurrencesWithinPolygon:(MKPolygon *)polygon;
-- (void)getOccurrencesWithTripOptions:(TripOptions *)tripOptions;
+- (void)getOccurrencesWithTripOptions:(SearchOptions *)searchOptions;
 
-+ (NSString *)buildOccurrencesRequestString:(TripOptions *)tripOptions;
++ (NSString *)buildOccurrencesRequestString:(SearchOptions *)searchOptions;
 
 @end

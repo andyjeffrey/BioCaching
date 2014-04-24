@@ -42,4 +42,15 @@
     return descString;
 }
 
++ (MKPolygon *)approximatedPolygonFromCircle:(MKCircle *)circle count:(NSUInteger)numberOfPoints
+{
+    
+    for (int i = 0; i <= numberOfPoints; i++) {
+        
+    }
+
+    return nil;
+//    return [MKPolygon polygonWithCoordinates:<#(CLLocationCoordinate2D *)#> count:<#(NSUInteger)#>
+}
+
 @end

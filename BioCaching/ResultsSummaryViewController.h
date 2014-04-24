@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "GBIFOccurrenceResults.h"
+#import "BCOptions.h"
 
 @interface ResultsSummaryViewController : UIViewController
 
 @property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
-@property (nonatomic, strong) TripOptions *tripOptions;
+@property (nonatomic, strong) BCOptions *bcOptions;
 
 @end

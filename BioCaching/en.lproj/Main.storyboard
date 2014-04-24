@@ -27,6 +27,16 @@
                                     <outlet property="delegate" destination="CZ4-MO-1fc" id="QxO-KI-s0G"/>
                                 </connections>
                             </mapView>
+                            <view hidden="YES" contentMode="scaleToFill" id="Uh3-wm-mad">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="280"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="Hpk-uJ-UWN" customClass="CrossHairView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <view opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" id="T0s-Dr-woy">
                                 <rect key="frame" x="0.0" y="20" width="320" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -73,7 +83,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
-                            <view opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" id="3ZN-mJ-foE">
+                            <view hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" id="3ZN-mJ-foE">
                                 <rect key="frame" x="5" y="65" width="94" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -87,19 +97,16 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
-                            <stepper opaque="NO" clipsSubviews="YES" alpha="0.79999999999999982" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="dDE-WQ-JM5">
+                            <stepper hidden="YES" opaque="NO" clipsSubviews="YES" alpha="0.79999999999999982" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="dDE-WQ-JM5">
                                 <rect key="frame" x="5" y="95" width="94" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <action selector="searchZoomChanged:" destination="CZ4-MO-1fc" eventType="valueChanged" id="9Mm-dN-v44"/>
-                                </connections>
                             </stepper>
                             <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="waL-bK-bay">
-                                <rect key="frame" x="120" y="65" width="80" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="230" y="477" width="80" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -133,7 +140,7 @@
                                     <action selector="currentLocation:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="Fi0-1N-cVy"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gxV-sU-HJh">
+                            <button hidden="YES" opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gxV-sU-HJh">
                                 <rect key="frame" x="8" y="485" width="60" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -143,8 +150,19 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="zoomToLocation:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="t4I-mM-5jU"/>
+                                    <action selector="zoomToSearchArea:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="um6-po-vZ5"/>
                                 </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hH7-nZ-ZRi">
+                                <rect key="frame" x="100" y="485" width="120" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="-49" maxX="0.0" maxY="49"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="tintColor" red="0.99262617689999999" green="1" blue="0.53201681180000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="MapType:">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                             </button>
                             <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CdN-Mv-1YG">
                                 <rect key="frame" x="255" y="485" width="60" height="30"/>
@@ -159,34 +177,20 @@
                                     <segue destination="l8c-iI-Spk" kind="modal" identifier="OptionsStaticSegue" modalTransitionStyle="coverVertical" id="nOy-rr-vMU"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hH7-nZ-ZRi">
-                                <rect key="frame" x="100" y="485" width="120" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="-49" maxX="0.0" maxY="49"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="tintColor" red="0.99262617689999999" green="1" blue="0.53201681180000004" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="MapType:">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="changeMapType:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="Wq8-pR-l8j"/>
-                                </connections>
-                            </button>
-                            <view alpha="0.10000000000000001" contentMode="scaleToFill" id="tgA-I9-SYQ">
+                            <view hidden="YES" alpha="0.10000000000000001" contentMode="scaleToFill" id="tgA-I9-SYQ">
                                 <rect key="frame" x="0.0" y="279" width="320" height="240"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="gOg-Sd-Amq">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="gOg-Sd-Amq">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" id="7eA-f4-ZGK">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <view alpha="0.79999999999999982" contentMode="scaleToFill" id="052-2k-PWq">
+                                            <view alpha="0.75" contentMode="scaleToFill" id="052-2k-PWq">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -217,9 +221,9 @@
                                     </view>
                                     <view contentMode="scaleToFill" id="EYt-n4-kIM">
                                         <rect key="frame" x="0.0" y="224" width="320" height="16"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                         <subviews>
-                                            <view alpha="0.60000002384185791" contentMode="scaleToFill" id="HDA-K0-KBM">
+                                            <view alpha="0.75" contentMode="scaleToFill" id="HDA-K0-KBM">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="16"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -245,7 +249,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="65H-mI-PA5">
                                         <rect key="frame" x="180" y="190" width="120" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <color key="backgroundColor" red="0.77862453460000003" green="0.0" blue="0.033106833699999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Ignore">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -254,21 +258,14 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" id="rJN-20-lrF">
-                                <rect key="frame" x="0.0" y="60" width="320" height="221"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Explore" image="tabicon-search-line" id="u1e-5L-l1D"/>
-                    <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="buttonCurrentLocation" destination="ZXI-5S-beh" id="1IN-CV-zL0"/>
                         <outlet property="buttonLocationList" destination="oFL-KV-fYU" id="2sX-Ww-Z0e"/>
-                        <outlet property="buttonMapType" destination="hH7-nZ-ZRi" id="sQh-Jm-oIn"/>
-                        <outlet property="buttonSearch" destination="jRl-9b-kil" id="hdZ-hq-AYz"/>
+                        <outlet property="buttonSettings" destination="jRl-9b-kil" id="xI2-TI-3rl"/>
                         <outlet property="imageIconicTaxa" destination="gRN-gR-xdd" id="5mP-ZX-rG3"/>
                         <outlet property="imageMainPhoto" destination="gOg-Sd-Amq" id="jJB-kg-0jB"/>
                         <outlet property="imageTaxonIcon" destination="gRN-gR-xdd" id="ynn-7A-Tog"/>
@@ -279,9 +276,9 @@
                         <outlet property="labelTaxonFamily" destination="sDv-BJ-J3t" id="3yL-5k-wnp"/>
                         <outlet property="labelTaxonSpecies" destination="Byu-wV-Q29" id="Tmd-WT-wTG"/>
                         <outlet property="mapView" destination="zBW-XX-5ce" id="mX9-AR-8wP"/>
-                        <outlet property="stepperSearchArea" destination="dDE-WQ-JM5" id="7Gw-Be-VRu"/>
-                        <outlet property="viewCalloutRefFrame" destination="rJN-20-lrF" id="bTa-rP-n52"/>
                         <outlet property="viewDropDownRef" destination="It8-c5-apm" id="qyl-OB-OPO"/>
+                        <outlet property="viewMapAnnotationRefFrame" destination="Uh3-wm-mad" id="uxi-MW-B09"/>
+                        <outlet property="viewMapCrossHair" destination="Hpk-uJ-UWN" id="QMs-i2-gaG"/>
                         <outlet property="viewTaxonInfo" destination="tgA-I9-SYQ" id="mfp-VA-82t"/>
                     </connections>
                 </viewController>
@@ -289,7 +286,7 @@
             </objects>
             <point key="canvasLocation" x="677" y="-578"/>
         </scene>
-        <!--Options Static Table View Controller - Trip Options-->
+        <!--Options Static Table View Controller - Settings-->
         <scene sceneID="gCr-gp-mda">
             <objects>
                 <tableViewController id="XoO-7K-Law" customClass="OptionsStaticTableViewController" sceneMemberID="viewController">
@@ -300,7 +297,7 @@
                         <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="JSq-g3-eyk">
-                            <rect key="frame" x="0.0" y="506" width="320" height="125"/>
+                            <rect key="frame" x="0.0" y="592" width="320" height="125"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.93731731176376343" green="0.93728923797607422" blue="0.93730515241622925" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
@@ -308,7 +305,7 @@
                             <tableViewSection headerTitle="Search Options" id="EQO-Ql-O1i">
                                 <cells>
                                     <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vWT-4v-Fll">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vWT-4v-Fll" id="9y1-Lq-CR3">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -320,9 +317,10 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="34w-A4-q3r">
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="34w-A4-q3r">
                                                     <rect key="frame" x="105" y="4" width="154" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="sliderAreaSpan:" destination="XoO-7K-Law" eventType="valueChanged" id="Tzd-jV-fCb"/>
                                                         <action selector="sliderPoints:" destination="XoO-7K-Law" eventType="valueChanged" id="qhl-Jo-iPK"/>
@@ -340,7 +338,7 @@
                                         <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="e5H-H9-Oro">
-                                        <rect key="frame" x="0.0" y="110" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e5H-H9-Oro" id="EmO-C6-18l">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -375,7 +373,7 @@
                                         <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="lXf-O0-LxD">
-                                        <rect key="frame" x="0.0" y="154" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="174" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lXf-O0-LxD" id="xOS-Xp-1Fh">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -410,7 +408,7 @@
                                         <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="U8k-oU-rTj">
-                                        <rect key="frame" x="0.0" y="198" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="218" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U8k-oU-rTj" id="0Bf-oL-ILi">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -446,10 +444,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Display Filters" id="NDp-YW-C5d">
+                            <tableViewSection headerTitle="Trip List Filters" id="NDp-YW-C5d">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vKk-tu-hcO">
-                                        <rect key="frame" x="0.0" y="264" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="284" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vKk-tu-hcO" id="wWg-Rj-aKH">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -464,6 +462,7 @@
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="zF9-rW-RDy">
                                                     <rect key="frame" x="105" y="5" width="154" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="sliderPoints:" destination="XoO-7K-Law" eventType="valueChanged" id="qPE-tZ-TOL"/>
                                                     </connections>
@@ -480,7 +479,7 @@
                                         <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="KTs-OB-Htp">
-                                        <rect key="frame" x="0.0" y="308" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="328" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KTs-OB-Htp" id="TRz-cT-OfE">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -498,13 +497,14 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
+                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="2Pv-Go-A20">
-                                        <rect key="frame" x="0.0" y="352" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="372" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Pv-Go-A20" id="qCi-Tu-dTp">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -522,13 +522,14 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
+                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="fxl-Ns-rw5">
-                                        <rect key="frame" x="0.0" y="396" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="416" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fxl-Ns-rw5" id="tKf-UP-Aka">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -546,6 +547,7 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
+                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -553,27 +555,59 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Testing Configuration" id="Np9-ly-IAX">
+                            <tableViewSection headerTitle="Display Options" id="Np9-ly-IAX">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Urv-fl-O6N">
-                                        <rect key="frame" x="0.0" y="462" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="482" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Urv-fl-O6N" id="Z3O-M2-7JD">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use GBIF Test Data" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z0D-df-p5d">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z0D-df-p5d">
+                                                    <rect key="frame" x="20" y="11" width="91" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="8Sf-IA-yXi">
+                                                    <rect key="frame" x="114" y="8" width="191" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <segments>
+                                                        <segment title="Map"/>
+                                                        <segment title="Satellite"/>
+                                                        <segment title="Hybrid"/>
+                                                    </segments>
+                                                    <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </segmentedControl>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Testing Configuration" id="dtn-zX-EFa">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="fUq-Ec-kdY">
+                                        <rect key="frame" x="0.0" y="548" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fUq-Ec-kdY" id="fZy-Ll-NHh">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use GBIF Test Data" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="afl-xS-v4q">
                                                     <rect key="frame" x="20" y="11" width="206" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="pCz-st-pZW">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="chB-yG-BrZ">
                                                     <rect key="frame" x="223" y="8" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
+                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -588,7 +622,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Trip Options" id="NfJ-yE-OXm">
+                    <navigationItem key="navigationItem" title="Settings" id="NfJ-yE-OXm">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="945-wz-LP8">
                             <connections>
                                 <action selector="buttonDonePressed:" destination="XoO-7K-Law" id="sYM-6q-jeB"/>
@@ -604,10 +638,11 @@
                         <outlet property="labelRecordSource" destination="TIl-2R-EYg" id="hiz-QD-K1Y"/>
                         <outlet property="labelRecordType" destination="URM-Ei-khI" id="Aas-WG-fbT"/>
                         <outlet property="labelSpeciesFilter" destination="jTN-gt-nkJ" id="c6N-Jv-IdT"/>
+                        <outlet property="segControlMapType" destination="8Sf-IA-yXi" id="mve-2d-EaN"/>
                         <outlet property="sliderAreaSpan" destination="34w-A4-q3r" id="kxA-Ri-83z"/>
                         <outlet property="sliderDisplayPoints" destination="zF9-rW-RDy" id="U1l-lS-AHP"/>
                         <outlet property="switchFullSpeciesNames" destination="G3a-9G-kLd" id="Jvz-bJ-Q7f"/>
-                        <outlet property="switchGBIFTestData" destination="pCz-st-pZW" id="ThL-RB-1mv"/>
+                        <outlet property="switchGBIFTestData" destination="chB-yG-BrZ" id="qn0-Gr-Znw"/>
                         <outlet property="switchUniqueLocations" destination="RMZ-9f-MK2" id="5D7-IS-Amw"/>
                         <outlet property="switchUniqueSpecies" destination="9Pt-fU-TYz" id="7Xp-X1-dGX"/>
                     </connections>

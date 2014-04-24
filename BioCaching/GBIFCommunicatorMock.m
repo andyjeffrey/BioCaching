@@ -18,13 +18,13 @@
 {
     NSLog(@"GBIFCommunicatorMock.getOccurrencesWithinPolygon");
     
-    TripOptions *tripOptions = [TripOptions initWithDefaults];
+    SearchOptions *tripOptions = [SearchOptions initWithDefaults];
     tripOptions.searchAreaPolygon = polygon;
     
     [self getOccurrencesWithTripOptions:tripOptions];
 }
 
-- (void)getOccurrencesWithTripOptions:(TripOptions *)tripOptions
+- (void)getOccurrencesWithTripOptions:(SearchOptions *)tripOptions
 {
     NSLog(@"GBIFCommunicatorMock.getOccurrencesWithTripOptions");
 

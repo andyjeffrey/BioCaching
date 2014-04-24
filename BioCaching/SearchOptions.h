@@ -11,7 +11,7 @@
 #import "OptionsRecordSource.h"
 #import "OptionsSpeciesFilter.h"
 
-@interface TripOptions : NSObject
+@interface SearchOptions : NSObject
 
 @property (nonatomic, assign) CLLocationCoordinate2D searchAreaCentre;
 @property (nonatomic, assign) NSUInteger searchAreaSpan;
@@ -24,11 +24,6 @@
 @property (nonatomic, copy) NSString *year;
 @property (nonatomic, copy) NSString *yearFrom;
 @property (nonatomic, copy) NSString *yearTo;
-
-@property (nonatomic, assign) NSUInteger displayPoints;
-@property (nonatomic, assign) BOOL uniqueSpecies;
-@property (nonatomic, assign) BOOL uniqueLocations;
-@property (nonatomic, assign) BOOL fullSpeciesNames;
 
 @property (nonatomic, assign) BOOL testGBIFData;
 

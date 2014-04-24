@@ -25,6 +25,11 @@
 #define kOptionsDefaultUniqueSpecies YES
 #define kOptionsDefaultUniqueLocations YES
 
+#define kOptionsDefaultMapType MKMapTypeStandard
+
+#define kDefaultSearchAreaSpan 1000
+#define kDefaultViewSpan 5000
+
 /*
 #define kOccurrenceSearch @"http://api.gbif.org/v0.9/occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&basisOfRecord=%@&institutionCode=%@&taxonKey=%@&collectorName=%@&year=%@&from=%@&to=%@&geometry=%@"
 #define kOccurrenceSearchPolygon @"http://api.gbif.org/v0.9/occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&geometry=%@"

@@ -10,7 +10,7 @@
 #import "ExploreListViewController.h"
 #import "OptionsStaticTableViewController.h"
 #import "LocationsArray.h"
-#import "TripOptions.h"
+#import "BCOptions.h"
 #import "GBIFManager.h"
 #import "GBIFCommunicator.h"
 #import "GBIFCommunicatorMock.h"
@@ -19,24 +19,30 @@
 #import "INatManager.h"
 #import "INatTaxon.h"
 #import "INatTaxonPhoto.h"
+#import "CrossHairView.h"
+#import "MapViewLayoutGuide.h"
 
 #define kDefaultSearchAreaStepperValue 1000
-#define kInitialViewSpan 5000
 
-@interface ExploreMapViewController ()
+@interface ExploreMapViewController () {
+    MKCircle *_currentSearchAreaCircle;
+}
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+
+@property (weak, nonatomic) IBOutlet CrossHairView *viewMapCrossHair;
+@property (weak, nonatomic) IBOutlet UIView *viewMapAnnotationRefFrame;
+
 @property (weak, nonatomic) IBOutlet UILabel *labelLocationList;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocationDetails;
 @property (weak, nonatomic) IBOutlet UIButton *buttonLocationList;
 @property (weak, nonatomic) IBOutlet UIView *viewDropDownRef;
-@property (weak, nonatomic) IBOutlet UIButton *buttonSearch;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSettings;
 @property (weak, nonatomic) IBOutlet UILabel *labelSearchArea;
 @property (weak, nonatomic) IBOutlet UIStepper *stepperSearchArea;
 @property (weak, nonatomic) IBOutlet UIButton *buttonCurrentLocation;
 @property (weak, nonatomic) IBOutlet UIButton *buttonMapType;
 
-@property (weak, nonatomic) IBOutlet UIView *viewCalloutRefFrame;
 @property (weak, nonatomic) IBOutlet UIView *viewTaxonInfo;
 @property (weak, nonatomic) IBOutlet UILabel *labelPhotoCopyright;
 @property (weak, nonatomic) IBOutlet UIImageView *imageMainPhoto;
@@ -45,19 +51,18 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonFamily;
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxa;
 
-
 //@property (nonatomic, strong) UIView *viewBackgroundControls;
 
 @end
 
 @implementation ExploreMapViewController
 {
+    BCOptions *_bcOptions;
     CLLocationCoordinate2D _currentViewLocation;
-    int _currentSearchAreaSpan;
+//    int _currentSearchAreaSpan;
     MKPolygon *_currentSearchAreaPolygon;
     CLLocation *_currentUserLocation;
     bool _followUser;
-    TripOptions *_tripOptions;
     GBIFOccurrenceResults *_occurrenceResults;
     DropDownViewController *_dropDownViewLocations;
     UIView *_viewBackgroundControls;
@@ -68,24 +73,20 @@
 
 - (void)viewDidLoad
 {
-//    NSLog(@"viewDidAppear");
     [super viewDidLoad];
     
     [TSMessage setDefaultViewController:self];
-    
     self.navigationController.navigationBarHidden = YES;
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
 
-    _tripOptions = [TripOptions initWithDefaults];
+    _bcOptions = [[BCOptions alloc] initWithDefaults];
     
+    self.mapView.mapType = _bcOptions.displayOptions.mapType;
     self.mapView.showsUserLocation = YES;
     _followUser = NO;
-
-    self.mapView.mapType = MKMapTypeStandard;
-    [self.buttonMapType setTitle:@"MapType: Standard" forState:UIControlStateNormal];
     
-    [self.buttonSearch setTitle:nil forState:UIControlStateNormal];
-    [self.buttonSearch setBackgroundImage:
+    [self.buttonSettings setTitle:nil forState:UIControlStateNormal];
+    [self.buttonSettings setBackgroundImage:
      [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor darkGrayColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
 //     [IonIcons imageWithIcon:icon_settings size:30.0f color:[UIColor darkGrayColor]] forState:UIControlStateNormal];
 
@@ -93,10 +94,11 @@
     [self configureINatManager];
 
     _currentViewLocation = LocationsArray.defaultLocation;
-    [self updateLocationLabelAndMapView:_currentViewLocation];
+    [self updateLocationLabelAndMapView:_currentViewLocation mapViewSpan:[LocationsArray locationViewSpan:LocationsArray.defaultLocationIndex]];
 
-    [self configureSearchAreaStepper: (int)_tripOptions.searchAreaSpan];
-    [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_currentSearchAreaSpan];
+//    [self configureSearchAreaStepper:_bcOptions.searchOptions.searchAreaSpan];
+    _bcOptions.searchOptions.searchAreaSpan = [LocationsArray locationSearchAreaSpan:LocationsArray.defaultLocationIndex];
+    [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     
     _taxonInfoRefFrame = self.viewTaxonInfo.frame;
     self.viewTaxonInfo.hidden = YES;
@@ -132,11 +134,11 @@
 
 - (void)configureSearchAreaStepper:(int)searchAreaSpan
 {
-    _currentSearchAreaSpan = searchAreaSpan;
-    self.stepperSearchArea.value = log2(_currentSearchAreaSpan/kDefaultSearchAreaStepperValue);
-    self.stepperSearchArea.maximumValue = 5;
-    self.stepperSearchArea.minimumValue = -5;
-    [self updateSearchAreaLabel:self.stepperSearchArea.value];
+//    _currentSearchAreaSpan = searchAreaSpan;
+//    self.stepperSearchArea.value = log2(_currentSearchAreaSpan/kDefaultSearchAreaStepperValue);
+//    self.stepperSearchArea.maximumValue = 5;
+//    self.stepperSearchArea.minimumValue = -5;
+//    [self updateSearchAreaLabel:self.stepperSearchArea.value];
 }
 
 - (void)configureGestureRecognizers
@@ -221,7 +223,7 @@
 
 - (void)updateLocationLabelAndMapView:(CLLocationCoordinate2D)location
 {
-    [self updateLocationLabelAndMapView:location mapViewSpan:kInitialViewSpan];
+    [self updateLocationLabelAndMapView:location mapViewSpan:kDefaultViewSpan];
 }
 
 - (void)updateLocationLabel:(CLLocationCoordinate2D)location horizAccuracy:(double)accuracy {
@@ -239,7 +241,7 @@
 
 - (void)updateSearchAreaLabel:(double)stepperValue
 {
-    self.labelSearchArea.text = [NSString stringWithFormat:@"Span: %dm", _currentSearchAreaSpan];
+    self.labelSearchArea.text = [NSString stringWithFormat:@"Span: %dm", _bcOptions.searchOptions.searchAreaSpan];
 }
 
 - (void)updateSearchAreaOverlay:(CLLocationCoordinate2D)location areaSpan:(double)areaSpan
@@ -253,6 +255,11 @@
         [self.mapView removeOverlay:_currentSearchAreaPolygon];
     }
     
+    if (_currentSearchAreaCircle) {
+        [self.mapView removeOverlay:_currentSearchAreaCircle];
+    }
+    
+    // Polygon (square) area overlay
     MKCoordinateRegion searchRegion = MKCoordinateRegionMakeWithDistance(location, latSpan, longSpan);
     MKCoordinateSpan searchSpan = searchRegion.span;
     CLLocationCoordinate2D searchPolygonCoords[5] = {
@@ -262,14 +269,13 @@
         CLLocationCoordinate2DMake(location.latitude + searchSpan.latitudeDelta, location.longitude - searchSpan.longitudeDelta),
         CLLocationCoordinate2DMake(location.latitude - searchSpan.latitudeDelta, location.longitude - searchSpan.longitudeDelta)};
     
-    // Polygon (square) area overlay
     _currentSearchAreaPolygon = [MKPolygon polygonWithCoordinates:searchPolygonCoords count:5];
-    [self.mapView addOverlay:_currentSearchAreaPolygon];
+//    [self.mapView addOverlay:_currentSearchAreaPolygon];
     NSLog(@"%s SearchArea=%@", __PRETTY_FUNCTION__, _currentSearchAreaPolygon);
 
     // Circle area overlay
-    //MKCircle *circle = [MKCircle circleWithCenterCoordinate:userLocation.coordinate radius:1000];
-    //[mapView addOverlay:circle];
+    _currentSearchAreaCircle = [MKCircle circleWithCenterCoordinate:location radius:longSpan];
+    [self.mapView addOverlay:_currentSearchAreaCircle];
 }
 
 - (void)updateOccurrenceAnnotations:(NSArray *)occurrences
@@ -297,9 +303,28 @@
 
 - (void)updateCurrentMapView:(CLLocationCoordinate2D)location latitudinalMeters:(NSInteger)latRegionSpan longitudinalMeters:(NSInteger)longRegionSpan
 {
+//    self.mapView.centerCoordinate = location;
+
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    NSLog(@"Location:(%.6f,%.6f)", location.latitude, location.longitude);
+    NSLog(@"MapView CenterCoords:(%.6f,%.6f)", self.mapView.centerCoordinate.latitude, self.mapView.centerCoordinate.longitude);
+    NSLog(@"MapView CenterPoint:(%.0f,%.0f)", self.mapView.center.x, self.mapView.center.y);
+    NSLog(@"CrossHair CenterPoint:(%.0f,%.0f)", self.viewMapCrossHair.center.x , self.viewMapCrossHair.center.y);
+    NSLog(@"VC Frame:%@", self.view.description);
+    NSLog(@"MapView Frame:%@", self.mapView.description);
+
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location, latRegionSpan, longRegionSpan);
-//    NSLog(@"%s, MKCoordinationRegion.span: %.4f, %.4f", __PRETTY_FUNCTION__, region.span.latitudeDelta, region.span.longitudeDelta);
     [self.mapView setRegion:region animated:YES];
+    
+    NSLog(@"Region: center=(%.6f,%.6f) span=(%.20f,%.20f)", region.center.latitude, region.center.longitude, region.span.latitudeDelta, region.span.longitudeDelta);
+    NSLog(@"MapView CenterCoords:(%.6f,%.6f)", self.mapView.centerCoordinate.latitude, self.mapView.centerCoordinate.longitude);
+    NSLog(@"MapView CenterPoint:(%.0f,%.0f)", self.mapView.center.x, self.mapView.center.y);
+    NSLog(@"CrossHair CenterPoint:(%.0f,%.0f)", self.viewMapCrossHair.center.x , self.viewMapCrossHair.center.y);
+    
+    NSLog(@"%@", [self.topLayoutGuide debugDescription]);
+    NSLog(@"%@", [self.bottomLayoutGuide debugDescription]);
+    
+    //    [self.mapView setCenterCoordinate:location];
 }
 
 
@@ -309,39 +334,46 @@
     [self activateUIControls:FALSE];
 */
     NSLog(@"buttonLocationSelect");
+    [self hideTaxonView];
     _viewBackgroundControls.hidden = NO;
     [_dropDownViewLocations openAnimation];
     [_dropDownViewLocations.uiTableView flashScrollIndicators];
 }
 
 - (IBAction)currentLocation:(id)sender {
-    [self updateLocationLabel:_currentUserLocation.coordinate horizAccuracy:_currentUserLocation.horizontalAccuracy];
-    [self updateSearchAreaOverlay:_currentUserLocation.coordinate areaSpan:_currentSearchAreaSpan];
-    [self updateCurrentMapView:_currentUserLocation.coordinate latitudinalMeters:0 longitudinalMeters:kInitialViewSpan];
+//    [self updateLocationLabel:_currentUserLocation.coordinate horizAccuracy:_currentUserLocation.horizontalAccuracy];
+//    [self updateSearchAreaOverlay:_currentUserLocation.coordinate areaSpan:_currentSearchAreaSpan];
+//    [self updateCurrentMapView:_currentUserLocation.coordinate latitudinalMeters:0 longitudinalMeters:kDefaultViewSpan];
 }
 
 - (IBAction)searchZoomChanged:(UIStepper *)sender
 {
-    _currentSearchAreaSpan = kDefaultSearchAreaStepperValue * pow(2, self.stepperSearchArea.value);
-    [self updateSearchAreaLabel:sender.value];
-    [self updateSearchAreaOverlay:_currentSearchAreaPolygon.coordinate areaSpan:_currentSearchAreaSpan];
+//    _currentSearchAreaSpan = kDefaultSearchAreaStepperValue * pow(2, self.stepperSearchArea.value);
+//    [self updateSearchAreaLabel:sender.value];
+//    [self updateSearchAreaOverlay:_currentSearchAreaPolygon.coordinate areaSpan:_currentSearchAreaSpan];
 }
 
-- (IBAction)zoomToLocation:(id)sender {
-    [self updateCurrentMapView:_currentSearchAreaPolygon.coordinate latitudinalMeters:_currentSearchAreaSpan longitudinalMeters:_currentSearchAreaSpan];
+- (IBAction)zoomToSearchArea:(id)sender {
+    [self updateCurrentMapView:_bcOptions.searchOptions.searchAreaCentre latitudinalMeters:0 longitudinalMeters:_bcOptions.searchOptions.searchAreaSpan];
 }
 
 - (IBAction)performSearch:(id)sender
 {
-    _tripOptions.searchAreaSpan = _currentSearchAreaSpan;
-    _tripOptions.searchAreaPolygon = _currentSearchAreaPolygon;
-    _tripOptions.searchAreaCentre = _currentSearchAreaPolygon.coordinate;
+    [self hideTaxonView];
+    
+    _bcOptions.searchOptions.searchAreaCentre = _currentViewLocation;
+    [self updateSearchAreaOverlay:_bcOptions.searchOptions.searchAreaCentre areaSpan:_bcOptions.searchOptions.searchAreaSpan];
+
+//    _bcOptions.searchOptions.searchAreaSpan = _currentSearchAreaSpan;
+    _bcOptions.searchOptions.searchAreaPolygon = _currentSearchAreaPolygon;
+//    _bcOptions.searchOptions.searchAreaCentre = _currentSearchAreaPolygon.coordinate;
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 //    [self.gbifManager fetchOccurrencesWithinArea:_currentSearchAreaPolygon];
-    [_gbifManager fetchOccurrencesWithOptions:_tripOptions];
+    [_gbifManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
 }
 
+/*
 - (IBAction)changeMapType:(id)sender
 {
     NSString *mapType = @"MapType: %@";
@@ -363,7 +395,7 @@
             break;
     }
 }
-
+*/
 
 #pragma mark MKMapViewDelegate
 
@@ -372,7 +404,7 @@
     
     if (_followUser) {
         [self.mapView setCenterCoordinate:userLocation.coordinate animated:TRUE];
-        [self updateSearchAreaOverlay:userLocation.coordinate areaSpan:_currentSearchAreaSpan];
+//        [self updateSearchAreaOverlay:userLocation.coordinate areaSpan:_currentSearchAreaSpan];
     }
 }
 
@@ -383,7 +415,7 @@
         circleView.strokeColor = [UIColor grayColor];
         circleView.lineWidth = 2.0;
         [circleView setLineDashPattern:@[@10, @10]];
-        circleView.fillColor = [[UIColor grayColor] colorWithAlphaComponent:0.2];
+        circleView.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.1];
         return circleView;
     }
     else if ([overlay isKindOfClass:[MKPolygon class]]) {
@@ -401,6 +433,7 @@
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
+    _currentViewLocation = mapView.centerCoordinate;
     [self updateLocationLabel:mapView.centerCoordinate horizAccuracy:0];
 }
 
@@ -436,7 +469,7 @@
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
             annotationView.enabled = YES;
-            annotationView.canShowCallout = YES;
+            annotationView.canShowCallout = NO;
         } else {
             annotationView.annotation = annotation;
         }
@@ -472,9 +505,18 @@
     
     if (occurrence.iNatTaxon.taxon_photos.count > 0) {
         iNatTaxonPhoto = occurrence.iNatTaxon.taxon_photos[0];
+        
+        CGRect imageFrame = self.imageMainPhoto.frame;
 
         // Implement Image Cache
         [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
+
+        if (self.imageMainPhoto.image.size.height > imageFrame.size.height) {
+            self.imageMainPhoto.contentMode = UIViewContentModeScaleAspectFit;
+        } else {
+            self.imageMainPhoto.contentMode = UIViewContentModeScaleAspectFill;
+        }
+            
         self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
     } else {
         self.imageMainPhoto.image = nil;
@@ -482,8 +524,9 @@
     }
     
     self.imageIconicTaxa.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMainImageFile]];
-    self.labelTaxonSpecies.text = occurrence.speciesBinomial;
-    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", occurrence.Clazz, occurrence.Family];
+    self.labelTaxonSpecies.text = occurrence.title;
+    self.labelTaxonFamily.text = occurrence.subtitle;
+//    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", occurrence.Clazz, occurrence.Family];
 }
 
 - (void)showTaxonView
@@ -532,10 +575,16 @@
     CGPoint touchPoint = [gestureRecognizer locationInView:self.view];
     UIView *selectedView = [self.view hitTest:touchPoint withEvent:nil];
     
+    CGRect visibleRect = CGRectIntersection(self.mapView.frame, self.view.frame
+                                            );
+    NSString *coordsString = [NSString stringWithFormat:@"(%.f,%.f)->(%.f,%.f)", visibleRect.origin.x, visibleRect.origin.y, visibleRect.origin.x + visibleRect.size.width, visibleRect.origin.y + visibleRect.size.height];
+    NSLog(@"Visible Rect:%@", coordsString);
+    
     if ([selectedView isKindOfClass:[MKAnnotationView class]]) {
-        NSLog(@"AnnotationView selected");
-        CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.viewCalloutRefFrame];
+       CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:CGPointMake(touchPoint.x, touchPoint.y + 100) toCoordinateFromView:self.mapView];
+//        [self.mapView setCenterCoordinate:mapCoord animated:YES];
         [self.mapView setCenterCoordinate:mapCoord animated:YES];
+        
         return;
     } else if (!self.viewTaxonInfo.hidden) {
         [self hideTaxonView];
@@ -543,7 +592,7 @@
     } else {
         CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
         [self.mapView setCenterCoordinate:mapCoord animated:YES];
-        [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
+//        [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
     }
 }
 
@@ -576,10 +625,18 @@
 */
 
 #pragma mark ExploreOptionsDelegate
-- (void)optionsUpdated:(TripOptions *)tripOptions
+- (void)optionsUpdated:(BCOptions *)bcOptions
 {
+    self.mapView.mapType = bcOptions.displayOptions.mapType;
+
+    if (_currentSearchAreaCircle) {
+        [self.mapView removeOverlay:_currentSearchAreaCircle];
+    }
+    
+    [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_bcOptions.searchOptions.searchAreaSpan];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_tripOptions limitToMapPoints:YES]];
+        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:bcOptions.displayOptions limitToMapPoints:YES]];
     });
     
 //    _tripOptions = savedTripOptions;
@@ -592,11 +649,11 @@
     NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
     
-    [self addiNatTaxonInfoToOccurrences:[_occurrenceResults getFilteredResults:_tripOptions limitToMapPoints:YES]];
+    [self addiNatTaxonInfoToOccurrences:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_tripOptions limitToMapPoints:YES]];
-        [self zoomToLocation:nil];
+        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
+        [self zoomToSearchArea:nil];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     });
 }
@@ -611,15 +668,14 @@
 
 - (void)iNatTaxonAddedToGBIFOccurrence:(GBIFOccurrence *)occurrence
 {
-    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__,
-          occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
+//    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
 
     if (occurrence.iNatTaxon)
     {
         if (occurrence.iNatTaxon.taxon_photos.count > 0)
         {
             INatTaxonPhoto *mainPhoto = occurrence.iNatTaxon.taxon_photos[0];
-            NSLog(@"Caching Image For Taxon:%@", occurrence.speciesBinomial);
+//            NSLog(@"Caching Image For Taxon:%@", occurrence.speciesBinomial);
             UIImageView *tempImageView = [[UIImageView alloc] init];
             [tempImageView setImageWithURL:[NSURL URLWithString:mainPhoto.medium_url]];
         }
@@ -635,7 +691,7 @@
         UINavigationController *navVC = [segue destinationViewController];
         ExploreListViewController *detailsVC = [navVC viewControllers][0];
         detailsVC.occurrenceResults = _occurrenceResults;
-        detailsVC.tripOptions = _tripOptions;
+        detailsVC.bcOptions = _bcOptions;
     }
 /*    else if ([segue.identifier isEqualToString:@"ExploreOptionsSegue"]) {
         ExploreOptionsViewController *optionsVC = [segue destinationViewController];
@@ -647,7 +703,7 @@
         UINavigationController *navVC = [segue destinationViewController];
         OptionsStaticTableViewController *optionsVC = [navVC viewControllers][0];
         optionsVC.delegate = self;
-        optionsVC.tripOptions = _tripOptions;
+        optionsVC.bcOptions = _bcOptions;
     }
 }
 
@@ -659,12 +715,26 @@
     } else {
         _currentViewLocation = [LocationsArray locationCoordinate:returnIndex];
     }
-    _currentSearchAreaSpan = [LocationsArray locationSearchAreaSpan:returnIndex];
+    _bcOptions.searchOptions.searchAreaSpan = [LocationsArray locationSearchAreaSpan:returnIndex];
     [self updateLocationLabelAndMapView:_currentViewLocation mapViewSpan:[LocationsArray locationViewSpan:returnIndex]];
-    [self updateSearchAreaStepper:_currentSearchAreaSpan];
-    [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_currentSearchAreaSpan];
+//    [self updateSearchAreaStepper:_currentSearchAreaSpan];
+    [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     _viewBackgroundControls.hidden = YES;
 }
+
+
+#pragma mark UILayoutSupport Overrides
+// Fix for Map View Issues on iOS7, where setRegion calls move map 20px off center in y axis
+// http://stackoverflow.com/questions/18903808/ios7-compass-in-mapview-placing
+
+- (id<UILayoutSupport>)topLayoutGuide {
+    return [[MapViewLayoutGuide alloc]initWithLength:20];
+}
+
+- (id<UILayoutSupport>)bottomLayoutGuide {
+    return [[MapViewLayoutGuide alloc]initWithLength:20];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

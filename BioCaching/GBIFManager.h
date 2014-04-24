@@ -10,7 +10,7 @@
 
 #import "GBIFManagerDelegate.h"
 #import "GBIFCommunicatorDelegate.h"
-#import "TripOptions.h"
+#import "SearchOptions.h"
 
 @class GBIFCommunicator;
 
@@ -19,6 +19,6 @@
 @property (weak, nonatomic) id<GBIFManagerDelegate> delegate;
 
 - (void)fetchOccurrencesWithinArea:(MKPolygon *)polygonArea;
-- (void)fetchOccurrencesWithOptions:(TripOptions *)tripOptions;
+- (void)fetchOccurrencesWithOptions:(SearchOptions *)searchOptions;
 
 @end

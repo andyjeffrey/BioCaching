@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GBIFOccurrence.h"
-#import "TripOptions.h"
+#import "DisplayOptions.h"
 
 @interface GBIFOccurrenceResults : NSObject
 
@@ -42,10 +42,10 @@
 //@property (nonatomic, readonly, strong) NSMutableSet *speciesUnique;
 //@property (nonatomic, readonly, strong) NSMutableSet *locationsUnique;
 
-- (NSArray *) getFilteredResults:(TripOptions*)tripOptions limitToMapPoints:(BOOL)mapPoints;
+- (NSArray *) getFilteredResults:(DisplayOptions *)displayOptions limitToMapPoints:(BOOL)mapPoints;
 
-+ (id) objectWithDictionary:(NSDictionary*)dictionary;
-- (id) initWithDictionary:(NSDictionary*)dictionary;
++ (id) objectWithDictionary:(NSDictionary *)dictionary;
+- (id) initWithDictionary:(NSDictionary *)dictionary;
 
 @end
 

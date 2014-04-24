@@ -150,21 +150,21 @@
 }
 
 
-- (NSArray *) getFilteredResults:(TripOptions*)tripOptions limitToMapPoints:(BOOL)mapPoints
+- (NSArray *) getFilteredResults:(DisplayOptions *)displayOptions limitToMapPoints:(BOOL)mapPoints
 {
     NSMutableSet *filteredResults = [[NSMutableSet alloc] initWithArray:self.Results];
     
-    if (tripOptions.fullSpeciesNames)
+    if (displayOptions.fullSpeciesNames)
     {
         NSSet *tempSet = [[NSSet alloc] initWithArray:self.fullSpeciesBinomial];
         [filteredResults intersectSet:tempSet];
     }
-    if (tripOptions.uniqueSpecies)
+    if (displayOptions.uniqueSpecies)
     {
         NSSet *tempSet = [[NSSet alloc] initWithArray:self.uniqueSpecies];
         [filteredResults intersectSet:tempSet];
     }
-    if (tripOptions.uniqueLocations)
+    if (displayOptions.uniqueLocations)
     {
         NSSet *tempSet = [[NSSet alloc] initWithArray:self.uniqueLocations];
         [filteredResults intersectSet:tempSet];
@@ -173,7 +173,7 @@
     if (mapPoints)
     {
         NSArray *filteredArray = [filteredResults allObjects];
-        NSUInteger upperRange = MIN(filteredResults.count, tripOptions.displayPoints);
+        NSUInteger upperRange = MIN(filteredResults.count, displayOptions.displayPoints);
         return [filteredArray subarrayWithRange:NSMakeRange(0, upperRange)];
     }
     else

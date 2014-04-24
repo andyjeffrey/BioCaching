@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TripOptions.h"
+#import "BCOptions.h"
 #import "GBIFOccurrenceResults.h"
 
 @interface ExploreListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
-@property (nonatomic, strong) TripOptions *tripOptions;
+@property (nonatomic, strong) BCOptions *bcOptions;
 
 @end

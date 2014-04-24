@@ -34,11 +34,11 @@
     [super viewDidLoad];
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 
-    filteredResults = [self.occurrenceResults getFilteredResults:self.tripOptions limitToMapPoints:NO];
+    filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:NO];
 
     self.labelRetrieved.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.Results.count];
     self.labelFiltered.text = [NSString stringWithFormat:@"%lu", (unsigned long)filteredResults.count];
-    self.labelDisplayed.text = [NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_tripOptions.displayPoints, filteredResults.count))];
+    self.labelDisplayed.text = [NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_bcOptions.displayOptions.displayPoints, filteredResults.count))];
 
     self.labelUniqueSpecies.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonSpecies.count];
     self.labelKingdoms.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonKingdom.count];

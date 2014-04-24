@@ -40,7 +40,7 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
         NSLog(@"iNat API Error: %@", error);
     }];
     
-    NSLog(@"INat API Call Initiated");
+//    NSLog(@"INat API Call Initiated");
     [operation start];
     
 }
@@ -68,7 +68,7 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
         NSLog(@"iNat API Error: %@", error);
     }];
     
-    NSLog(@"INat API Call Initiated");
+//    NSLog(@"INat API Call Initiated");
     [operation start];
 }
 
@@ -97,9 +97,7 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
         if (error) {
             NSLog(@"INatManager:buildINatTaxonFromJSON: %@", error.debugDescription);
         } else {
-            NSLog(@"INatTaxon Created:%@ - %@",
-                  iNatTaxon.name,
-                  iNatTaxon.common_name);
+//            NSLog(@"INatTaxon Created:%@ - %@", iNatTaxon.name, iNatTaxon.common_name);
         }
     } else {
         NSLog(@"%s No Taxon Results For Species: %@", __PRETTY_FUNCTION__, speciesName);

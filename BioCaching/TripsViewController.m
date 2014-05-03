@@ -10,9 +10,12 @@
 #import "INatTrip.h"
 #import <RestKit/RestKit.h>
 
+#import "SWRevealViewController.h"
+
 @interface TripsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableTrips;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSidebar;
 
 @end
 
@@ -23,6 +26,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setupSidebar];
     
     [self configureRestKit];
     [self loadTrips];
@@ -69,7 +74,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell2" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TripsTableCell" forIndexPath:indexPath];
     
     INatTrip *trip = _trips[indexPath.row];
     
@@ -93,5 +98,20 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)setupSidebar
+{
+    [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
+    [self.buttonSidebar setBackgroundImage:
+     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor darkGrayColor] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    
+    // Change button color
+    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
+}
+
+- (IBAction)buttonSidebar:(id)sender {
+    [self.revealViewController revealToggleAnimated:YES];
+}
+
 
 @end

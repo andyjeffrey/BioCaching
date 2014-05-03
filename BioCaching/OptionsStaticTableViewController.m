@@ -32,6 +32,13 @@
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestData;
 
+
+@property (weak, nonatomic) IBOutlet UILabel *labelMemCacheCap;
+@property (weak, nonatomic) IBOutlet UILabel *labelMemCacheCurr;
+@property (weak, nonatomic) IBOutlet UILabel *labelDiskCacheCap;
+@property (weak, nonatomic) IBOutlet UILabel *labelDiskCacheCurr;
+
+
 @end
 
 @implementation OptionsStaticTableViewController
@@ -64,6 +71,7 @@
     [self initiateTextFields];
     [self initiateSwitches];
     [self updateLabels];
+    [self updateCacheLabels];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -173,6 +181,18 @@
     }
 }
 
+- (void)updateCacheLabels
+{
+    NSURLCache *urlCache = [NSURLCache sharedURLCache];
+    
+    self.labelMemCacheCap.text = [NSByteCountFormatter stringFromByteCount:urlCache.memoryCapacity countStyle:NSByteCountFormatterCountStyleMemory];
+    self.labelMemCacheCurr.text = [NSByteCountFormatter stringFromByteCount:urlCache.currentMemoryUsage countStyle:NSByteCountFormatterCountStyleMemory];
+    self.labelDiskCacheCap.text = [NSByteCountFormatter stringFromByteCount:urlCache.diskCapacity countStyle:NSByteCountFormatterCountStyleFile];
+    self.labelDiskCacheCurr.text = [NSByteCountFormatter stringFromByteCount:urlCache.currentDiskUsage countStyle:NSByteCountFormatterCountStyleFile];
+                            
+}
+
+
 /*
 - (void)updateSearchAreaStepper:(int)searchAreaSpan
 {
@@ -216,6 +236,10 @@
     [dropDownView.uiTableView flashScrollIndicators];
 }
 
+- (IBAction)buttonClearCaches:(id)sender {
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [self updateCacheLabels];
+}
 
 - (IBAction)buttonDonePressed:(id)sender {
     self.bcOptions.displayOptions.fullSpeciesNames = self.switchFullSpeciesNames.on;

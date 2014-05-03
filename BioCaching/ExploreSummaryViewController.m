@@ -1,14 +1,14 @@
 //
-//  ResultsSummaryViewController.m
+//  ExploreSummaryViewController.m
 //  BioCaching
 //
 //  Created by Andy Jeffrey on 31/03/2014.
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
-#import "ResultsSummaryViewController.h"
+#import "ExploreSummaryViewController.h"
 
-@interface ResultsSummaryViewController ()
+@interface ExploreSummaryViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *labelRetrieved;
 @property (weak, nonatomic) IBOutlet UILabel *labelFiltered;
@@ -25,7 +25,7 @@
 
 @end
 
-@implementation ResultsSummaryViewController {
+@implementation ExploreSummaryViewController {
     NSArray *filteredResults;
 }
 

@@ -9,6 +9,7 @@
 #import "ExploreMapViewController.h"
 #import "ExploreListViewController.h"
 #import "OptionsStaticTableViewController.h"
+#import "TaxonInfoViewController.h"
 #import "LocationsArray.h"
 #import "BCOptions.h"
 #import "GBIFManager.h"
@@ -21,8 +22,12 @@
 #import "INatTaxonPhoto.h"
 #import "CrossHairView.h"
 #import "MapViewLayoutGuide.h"
+#import "ImageCache.h"
 
-#define kDefaultSearchAreaStepperValue 1000
+#import "SWRevealViewController.h"
+
+static float const kOccurrenceAnnotationOffset = 50.0f;
+static int const kDefaultSearchAreaStepperValue = 1000;
 
 @interface ExploreMapViewController () {
     MKCircle *_currentSearchAreaCircle;
@@ -33,23 +38,29 @@
 @property (weak, nonatomic) IBOutlet CrossHairView *viewMapCrossHair;
 @property (weak, nonatomic) IBOutlet UIView *viewMapAnnotationRefFrame;
 
-@property (weak, nonatomic) IBOutlet UILabel *labelLocationList;
+@property (weak, nonatomic) IBOutlet UIView *viewTopBar;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSidebar;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocationDetails;
 @property (weak, nonatomic) IBOutlet UIButton *buttonLocationList;
 @property (weak, nonatomic) IBOutlet UIView *viewDropDownRef;
+@property (weak, nonatomic) IBOutlet UIButton *buttonRefreshSearch;
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonSettings;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segCtrlView;
+
+
 @property (weak, nonatomic) IBOutlet UILabel *labelSearchArea;
 @property (weak, nonatomic) IBOutlet UIStepper *stepperSearchArea;
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonCurrentLocation;
-@property (weak, nonatomic) IBOutlet UIButton *buttonMapType;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageButtonSave;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageButtonStart;
+@property (weak, nonatomic) IBOutlet UILabel *labelButtonStart;
 
 @property (weak, nonatomic) IBOutlet UIView *viewTaxonInfo;
-@property (weak, nonatomic) IBOutlet UILabel *labelPhotoCopyright;
-@property (weak, nonatomic) IBOutlet UIImageView *imageMainPhoto;
-@property (weak, nonatomic) IBOutlet UIImageView *imageTaxonIcon;
-@property (weak, nonatomic) IBOutlet UILabel *labelTaxonSpecies;
-@property (weak, nonatomic) IBOutlet UILabel *labelTaxonFamily;
-@property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxa;
+
 
 //@property (nonatomic, strong) UIView *viewBackgroundControls;
 
@@ -57,7 +68,6 @@
 
 @implementation ExploreMapViewController
 {
-    BCOptions *_bcOptions;
     CLLocationCoordinate2D _currentViewLocation;
 //    int _currentSearchAreaSpan;
     MKPolygon *_currentSearchAreaPolygon;
@@ -69,26 +79,28 @@
     GBIFManager *_gbifManager;
     INatManager *_iNatManager;
     CGRect _taxonInfoRefFrame;
+    
+    TaxonInfoViewController *_taxonInfoVC;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    // TODO: Remove from here (passed in from parent/container controller)
+    _bcOptions = [[BCOptions alloc] initWithDefaults];
+    
     [TSMessage setDefaultViewController:self];
     self.navigationController.navigationBarHidden = YES;
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
 
-    _bcOptions = [[BCOptions alloc] initWithDefaults];
-    
+    [self setupSidebar];
+    [self setupButtons];
+    [self setupTaxonInfoView];
+
     self.mapView.mapType = _bcOptions.displayOptions.mapType;
     self.mapView.showsUserLocation = YES;
     _followUser = NO;
-    
-    [self.buttonSettings setTitle:nil forState:UIControlStateNormal];
-    [self.buttonSettings setBackgroundImage:
-     [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor darkGrayColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-//     [IonIcons imageWithIcon:icon_settings size:30.0f color:[UIColor darkGrayColor]] forState:UIControlStateNormal];
 
     [self configureGBIFManager];
     [self configureINatManager];
@@ -100,9 +112,6 @@
     _bcOptions.searchOptions.searchAreaSpan = [LocationsArray locationSearchAreaSpan:LocationsArray.defaultLocationIndex];
     [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     
-    _taxonInfoRefFrame = self.viewTaxonInfo.frame;
-    self.viewTaxonInfo.hidden = YES;
-
     [self configureGestureRecognizers];
     self.mapView.delegate = self;
 
@@ -192,8 +201,8 @@
     [self.view addSubview:_dropDownViewLocations.view];
     _dropDownViewLocations.delegate = self;
     
-    self.labelLocationList.text = nil;
-    [self.labelLocationList setBackgroundColor:[UIColor colorWithPatternImage:[IonIcons imageWithIcon:icon_navicon size:self.labelLocationList.frame.size.width color:[UIColor darkGrayColor]]]];
+//    self.labelLocationList.text = nil;
+//    [self.labelLocationList setBackgroundColor:[UIColor colorWithPatternImage:[IonIcons imageWithIcon:icon_navicon size:self.labelLocationList.frame.size.width color:[UIColor darkGrayColor]]]];
 //    [IonIcons label:self.labelLocationList setIcon:icon_navicon size:self.labelLocationList.frame.size.width color:[UIColor darkGrayColor] sizeToFit:YES];
 }
 
@@ -479,13 +488,6 @@
     
     return nil;
 }
-- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
-{
-    GBIFOccurrence *occurrence = (GBIFOccurrence *)view.annotation;
-    NSLog(@"didDeselectAnnotationView: %@", occurrence.speciesBinomial);
-
-    view.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:NO]];
-}
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
@@ -494,49 +496,44 @@
 
     view.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:YES]];
     
-    [self updateTaxonView:occurrence];
+    _taxonInfoVC.occurrence = occurrence;
+    
+    [self centerMapWithOffset:CGPointMake(0, kOccurrenceAnnotationOffset)from:occurrence.coordinate];
     [self showTaxonView];
-    
 }
 
-- (void)updateTaxonView:(GBIFOccurrence *)occurrence
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
 {
-    INatTaxonPhoto *iNatTaxonPhoto;
+    GBIFOccurrence *occurrence = (GBIFOccurrence *)view.annotation;
+    NSLog(@"didDeselectAnnotationView: %@", occurrence.speciesBinomial);
     
-    if (occurrence.iNatTaxon.taxon_photos.count > 0) {
-        iNatTaxonPhoto = occurrence.iNatTaxon.taxon_photos[0];
-        
-        CGRect imageFrame = self.imageMainPhoto.frame;
-
-        // Implement Image Cache
-        [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
-
-        if (self.imageMainPhoto.image.size.height > imageFrame.size.height) {
-            self.imageMainPhoto.contentMode = UIViewContentModeScaleAspectFit;
-        } else {
-            self.imageMainPhoto.contentMode = UIViewContentModeScaleAspectFill;
-        }
-            
-        self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
-    } else {
-        self.imageMainPhoto.image = nil;
-        self.labelPhotoCopyright.text = nil;
-    }
-    
-    self.imageIconicTaxa.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMainImageFile]];
-    self.labelTaxonSpecies.text = occurrence.title;
-    self.labelTaxonFamily.text = occurrence.subtitle;
-//    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", occurrence.Clazz, occurrence.Family];
+    view.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:NO]];
 }
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    NSLog(@"calloutAccessoryControlTapped");
+}
+
+
+- (void)centerMapWithOffset:(CGPoint)offset from:(CLLocationCoordinate2D)coordinate
+{
+    CGPoint point = [self.mapView convertCoordinate:coordinate toPointToView:self.mapView];
+    point.x += offset.x;
+    point.y += offset.y;
+    CLLocationCoordinate2D center = [self.mapView convertPoint:point toCoordinateFromView:self.mapView];
+    [self.mapView setCenterCoordinate:center animated:YES];
+}
+
 
 - (void)showTaxonView
 {
+    [_taxonInfoVC viewWillAppear:YES];
     if (self.viewTaxonInfo.hidden) {
-        CGRect startFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, 0);
-        
+        self.viewTaxonInfo.hidden = NO;
+        CGRect startFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, _taxonInfoRefFrame.size.height);
         self.viewTaxonInfo.frame = startFrame;
         [UIView animateWithDuration:0.5f animations:^{
-            self.viewTaxonInfo.hidden = NO;
             self.viewTaxonInfo.frame = _taxonInfoRefFrame;
             self.viewTaxonInfo.alpha = 1.0f;
         } completion:^(BOOL finished) {
@@ -547,21 +544,17 @@
 - (void)hideTaxonView
 {
     if (!self.viewTaxonInfo.hidden) {
-        CGRect endFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, 0);
+        CGRect endFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, _taxonInfoRefFrame.size.height);
         
         [UIView animateWithDuration:0.5f animations:^{
             self.viewTaxonInfo.frame = endFrame;
-            self.viewTaxonInfo.alpha = 0.1f;
+            self.viewTaxonInfo.alpha = 0.0f;
         } completion:^(BOOL finished) {
             self.viewTaxonInfo.hidden = YES;
         }];
     }
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
-{
-    NSLog(@"calloutAccessoryControlTapped");
-}
 
 #pragma mark UIGestureRecognizer Methods
 
@@ -572,28 +565,42 @@
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
         return;
     
-    CGPoint touchPoint = [gestureRecognizer locationInView:self.view];
-    UIView *selectedView = [self.view hitTest:touchPoint withEvent:nil];
+    CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
+    UIView *selectedView = [self.mapView hitTest:touchPoint withEvent:nil];
+
+    /*
+     if ([selectedView isKindOfClass:[MKAnnotationView class]]) {
+     CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:CGPointMake(touchPoint.x, touchPoint.y + 100) toCoordinateFromView:self.mapView];
+     [self.mapView setCenterCoordinate:mapCoord animated:YES];
+     
+     return;
+     } else if (!self.viewTaxonInfo.hidden) {
+     [self hideTaxonView];
+     return;
+     } else {
+     CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
+     [self.mapView setCenterCoordinate:mapCoord animated:YES];
+     //        [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
+     }
+     */
     
-    CGRect visibleRect = CGRectIntersection(self.mapView.frame, self.view.frame
-                                            );
+    if ([selectedView isKindOfClass:[MKAnnotationView class]]) {
+        CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:CGPointMake(touchPoint.x, touchPoint.y + kOccurrenceAnnotationOffset) toCoordinateFromView:self.mapView];
+        [self.mapView setCenterCoordinate:mapCoord animated:YES];
+        return;
+    } else if (!self.viewTaxonInfo.hidden) {
+        [self.mapView deselectAnnotation:[self.mapView selectedAnnotations][0] animated:NO];
+        [self hideTaxonView];
+        return;
+    }
+
+    CGRect visibleRect = CGRectIntersection(self.mapView.frame, self.view.frame);
     NSString *coordsString = [NSString stringWithFormat:@"(%.f,%.f)->(%.f,%.f)", visibleRect.origin.x, visibleRect.origin.y, visibleRect.origin.x + visibleRect.size.width, visibleRect.origin.y + visibleRect.size.height];
     NSLog(@"Visible Rect:%@", coordsString);
     
-    if ([selectedView isKindOfClass:[MKAnnotationView class]]) {
-       CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:CGPointMake(touchPoint.x, touchPoint.y + 100) toCoordinateFromView:self.mapView];
-//        [self.mapView setCenterCoordinate:mapCoord animated:YES];
-        [self.mapView setCenterCoordinate:mapCoord animated:YES];
-        
-        return;
-    } else if (!self.viewTaxonInfo.hidden) {
-        [self hideTaxonView];
-        return;
-    } else {
-        CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
-        [self.mapView setCenterCoordinate:mapCoord animated:YES];
+    CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
+    [self.mapView setCenterCoordinate:mapCoord animated:YES];
 //        [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
-    }
 }
 
 - (void)mapDoubleClick:(UIGestureRecognizer *)gestureRecognizer
@@ -675,9 +682,7 @@
         if (occurrence.iNatTaxon.taxon_photos.count > 0)
         {
             INatTaxonPhoto *mainPhoto = occurrence.iNatTaxon.taxon_photos[0];
-//            NSLog(@"Caching Image For Taxon:%@", occurrence.speciesBinomial);
-            UIImageView *tempImageView = [[UIImageView alloc] init];
-            [tempImageView setImageWithURL:[NSURL URLWithString:mainPhoto.medium_url]];
+            [ImageCache saveImageForURL:mainPhoto.medium_url];
         }
     }
 
@@ -704,7 +709,9 @@
         OptionsStaticTableViewController *optionsVC = [navVC viewControllers][0];
         optionsVC.delegate = self;
         optionsVC.bcOptions = _bcOptions;
-    }
+} else if ([segue.identifier isEqualToString:@"embedTaxonInfo"]) {
+    _taxonInfoVC = segue.destinationViewController;
+}
 }
 
 #pragma mark DropDownViewDelegate
@@ -724,7 +731,7 @@
 
 
 #pragma mark UILayoutSupport Overrides
-// Fix for Map View Issues on iOS7, where setRegion calls move map 20px off center in y axis
+// Fix for MapView issue on iOS7, where setRegion calls move map 20px off center in y axis
 // http://stackoverflow.com/questions/18903808/ios7-compass-in-mapview-placing
 
 - (id<UILayoutSupport>)topLayoutGuide {
@@ -740,6 +747,64 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupTaxonInfoView
+{
+    _taxonInfoRefFrame = self.viewTaxonInfo.frame;
+    self.viewTaxonInfo.hidden = YES;
+    self.viewTaxonInfo.alpha = 0.0f;
+}
+
+- (void)setupButtons
+{
+    self.viewTopBar.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.8];
+    
+    [self setupSidebar];
+    
+    [self.buttonRefreshSearch setTitle:nil forState:UIControlStateNormal];
+    [self.buttonRefreshSearch setBackgroundImage:
+     [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackground];
+    self.buttonRefreshSearch.tintColor = [UIColor redColor];
+    
+    self.buttonLocationList.backgroundColor = [UIColor kColorButtonBackground];
+    self.labelLocationDetails.textColor = [UIColor kColorButtonLabel];
+
+    self.buttonSettings.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+    [self.buttonSettings setBackgroundImage:
+     [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor whiteColor] iconSize:28.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
+
+    self.labelButtonStart.textColor = [UIColor kColorINatGreen];
+    self.imageButtonStart.image =
+    [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+    
+    self.imageButtonSave.image =
+    [IonIcons imageWithIcon:icon_archive iconColor:[UIColor lightGrayColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+    
+}
+
+- (void)setupSegControl
+{
+    self.segCtrlView.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+}
+
+
+#pragma mark Sidebar Methods
+
+- (void)setupSidebar
+{
+    self.buttonSidebar.alpha = 1.0f;
+    self.buttonSidebar.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+    [self.buttonSidebar setBackgroundImage:
+     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    
+    // Change button color
+    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
+}
+
+- (IBAction)buttonSidebar:(id)sender {
+    [self.revealViewController revealToggleAnimated:YES];
 }
 
 

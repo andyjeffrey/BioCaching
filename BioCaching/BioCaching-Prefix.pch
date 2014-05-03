@@ -17,6 +17,7 @@
 
 #import "config.h"
 #import "constants.h"
+#import "UIColor+BCColors.h"
 
 #import "MKPolygon+WKTParser.h"
 #import "NSString+UtilityMethods.h"

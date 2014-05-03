@@ -18,7 +18,6 @@
 #define kINatTripsPath @"trips.json"
 #define kINatTripsKey @"trips"
 
-
 #define kOptionsDefaultSearchAreaSpan 1000
 #define kOptionsDefaultDisplayPoints 20
 #define kOptionsDefaultFullSpeciesNames YES
@@ -34,7 +33,5 @@
 #define kOccurrenceSearch @"http://api.gbif.org/v0.9/occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&basisOfRecord=%@&institutionCode=%@&taxonKey=%@&collectorName=%@&year=%@&from=%@&to=%@&geometry=%@"
 #define kOccurrenceSearchPolygon @"http://api.gbif.org/v0.9/occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&geometry=%@"
 */
-
-
 
 #endif

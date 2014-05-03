@@ -1,5 +1,5 @@
 //
-//  ResultsSummaryViewController.h
+//  ExploreSummaryViewController.h
 //  BioCaching
 //
 //  Created by Andy Jeffrey on 31/03/2014.
@@ -10,7 +10,7 @@
 #import "GBIFOccurrenceResults.h"
 #import "BCOptions.h"
 
-@interface ResultsSummaryViewController : UIViewController
+@interface ExploreSummaryViewController : UIViewController
 
 @property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
 @property (nonatomic, strong) BCOptions *bcOptions;

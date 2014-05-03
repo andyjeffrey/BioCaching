@@ -7,7 +7,7 @@
 //
 
 #import "ExploreListViewController.h"
-#import "ResultsSummaryViewController.h"
+#import "ExploreSummaryViewController.h"
 #import "OccurrenceDetailsViewController.h"
 
 @interface ExploreListViewController ()
@@ -150,7 +150,7 @@ typedef enum {
 //    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
 
     if ([segue.identifier isEqualToString:@"SummaryEmbed"]) {
-        ResultsSummaryViewController *summaryVC = segue.destinationViewController;
+        ExploreSummaryViewController *summaryVC = segue.destinationViewController;
         summaryVC.occurrenceResults = self.occurrenceResults;
         summaryVC.bcOptions = self.bcOptions;
     } else if ([segue.identifier isEqualToString:@"OccurrenceDetails"]) {

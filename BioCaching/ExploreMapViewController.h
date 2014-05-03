@@ -23,4 +23,6 @@
     INatManagerDelegate
 >
 
+@property (nonatomic, strong) BCOptions *bcOptions;
+
 @end

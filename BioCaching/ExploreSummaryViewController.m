@@ -7,21 +7,10 @@
 //
 
 #import "ExploreSummaryViewController.h"
+#import "ExploreSummaryTableViewController.h"
 
 @interface ExploreSummaryViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *labelRetrieved;
-@property (weak, nonatomic) IBOutlet UILabel *labelFiltered;
-@property (weak, nonatomic) IBOutlet UILabel *labelDisplayed;
-
-@property (weak, nonatomic) IBOutlet UILabel *labelUniqueSpecies;
-@property (weak, nonatomic) IBOutlet UILabel *labelKingdoms;
-@property (weak, nonatomic) IBOutlet UILabel *labelPhylums;
-@property (weak, nonatomic) IBOutlet UILabel *labelClasses;
-
-@property (weak, nonatomic) IBOutlet UILabel *labelRecordTypes;
-@property (weak, nonatomic) IBOutlet UILabel *labelRecordSources;
-@property (weak, nonatomic) IBOutlet UILabel *labelUniqueLocations;
 
 @end
 
@@ -36,18 +25,6 @@
 
     filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:NO];
 
-    self.labelRetrieved.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.Results.count];
-    self.labelFiltered.text = [NSString stringWithFormat:@"%lu", (unsigned long)filteredResults.count];
-    self.labelDisplayed.text = [NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_bcOptions.displayOptions.displayPoints, filteredResults.count))];
-
-    self.labelUniqueSpecies.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonSpecies.count];
-    self.labelKingdoms.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonKingdom.count];
-    self.labelPhylums.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonPhylum.count];
-    self.labelClasses.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonClass.count];
-    
-    self.labelRecordTypes.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordType.count];
-    self.labelRecordSources.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordSource.count];
-    self.labelUniqueLocations.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordLocation.count];
         
 /*
     self.labelRetrieved.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.Results.count];
@@ -67,6 +44,16 @@
 {
     
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"embedSummaryTable"]) {
+        ExploreSummaryTableViewController *summaryTableVC = segue.destinationViewController;
+        summaryTableVC.bcOptions = _bcOptions;
+        summaryTableVC.occurrenceResults = _occurrenceResults;
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

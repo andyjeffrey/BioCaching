@@ -11,11 +11,22 @@
 #import "ExploreListViewController.h"
 #import "ExploreSummaryViewController.h"
 
+static int const defaultEmbeddedView = 0;
+
 @interface ExploreContainerViewController ()
+
+@property (weak, nonatomic) IBOutlet UIView *viewExploreContainer;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segControlView;
+
+@property (nonatomic, strong) NSArray *embeddedVCs;
+@property (assign, nonatomic) BOOL transitionInProgress;
 
 @end
 
-@implementation ExploreContainerViewController
+@implementation ExploreContainerViewController {
+    NSString *_currentEmbeddedSegueId;
+    GBIFOccurrenceResults *_occurrenceResults;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,36 +40,109 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self initEmbeddedVCs];
+    [self setupSegControl];
+
+    [self performSegueWithIdentifier:_currentEmbeddedSegueId sender:nil];
+
 }
+
+- (void)initEmbeddedVCs
+{
+    NSMutableArray *embeddedVCs = [[NSMutableArray alloc] initWithCapacity:self.segControlView.numberOfSegments];
+    [embeddedVCs addObject:[NSMutableArray arrayWithArray:@[@"embedExploreMap", [NSNull null]]]];
+    [embeddedVCs addObject:[NSMutableArray arrayWithArray:@[@"embedExploreList", [NSNull null]]]];
+    [embeddedVCs addObject:[NSMutableArray arrayWithArray:@[@"embedExploreSummary", [NSNull null]]]];
+    self.embeddedVCs = embeddedVCs;
+}
+
+- (void)setupSegControl
+{
+    self.segControlView.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+    self.segControlView.selectedSegmentIndex = defaultEmbeddedView;
+    _currentEmbeddedSegueId = self.embeddedVCs[self.segControlView.selectedSegmentIndex][0];
+}
+
+
+#pragma mark - IBActions
+
+- (IBAction)segControlChanged:(id)sender
+{
+    _currentEmbeddedSegueId = self.embeddedVCs[self.segControlView.selectedSegmentIndex][0];
+    [self performSegueWithIdentifier:_currentEmbeddedSegueId sender:nil];
+}
+
+
+#pragma mark - Embedded Segues/VCs
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
-    //    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
+//    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
+//    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
     
-    if ([segue.identifier isEqualToString:@"embedExploreMap"]) {
-        ExploreMapViewController *exploreMapVC = segue.destinationViewController;
-        exploreMapVC.bcOptions = _bcOptions;
+    // Keep track of embedded VC instances to save reloading each time
+    NSMutableArray *embeddedVC = self.embeddedVCs[self.segControlView.selectedSegmentIndex];
+    UIViewController *destVC = [embeddedVC objectAtIndex:1];
+    if ([destVC isEqual:[NSNull null]]) {
+        destVC = segue.destinationViewController;
+
+        //Nasty way of passing shared data through to child VCs 
+        //TODO : Move shared data (BCOptions and GBIFOccurrenceResults) to ContainerVC (or NSUserDefaults)
+        if ([segue.identifier isEqualToString:@"embedExploreMap"]) {
+            ExploreMapViewController *mapVC = (ExploreMapViewController *)destVC;
+            mapVC.bcOptions = _bcOptions;
+            mapVC.occurrenceResults = _occurrenceResults;
+        } else {
+            ExploreMapViewController *mapVC = (ExploreMapViewController *)self.embeddedVCs[defaultEmbeddedView][1];
+            if ([segue.identifier isEqualToString:@"embedExploreList"]) {
+                ExploreListViewController *listVC = (ExploreListViewController *)destVC;
+                listVC.bcOptions = mapVC.bcOptions;
+                listVC.occurrenceResults = mapVC.occurrenceResults;
+            } else if ([segue.identifier isEqualToString:@"embedExploreSummary"]) {
+                ExploreSummaryViewController *summVC = (ExploreSummaryViewController *)destVC;
+                summVC.bcOptions = mapVC.bcOptions;
+                summVC.occurrenceResults = mapVC.occurrenceResults;
+            }
+        }
+    
+        [embeddedVC replaceObjectAtIndex:1 withObject:destVC];
+    }
+
+    // If embedded VC already loaded, swap open, else do initial load and add child VC/subview
+    if (self.childViewControllers.count > 0) {
+        [self swapFromViewController:[self.childViewControllers objectAtIndex:0] toViewController:destVC];
+    }
+    else {
+        [self addChildViewController:segue.destinationViewController];
+        UIView* destView = ((UIViewController *)segue.destinationViewController).view;
+        destView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        destView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        [self.viewExploreContainer addSubview:destView];
+        [segue.destinationViewController didMoveToParentViewController:self];
     }
 }
 
+- (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController
+{
+	NSLog(@"ContainerViewController - swapFromViewController\n from:%@\n to:%@", fromViewController, toViewController);
+    
+    toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    
+    [fromViewController willMoveToParentViewController:nil];
+    [self addChildViewController:toViewController];
+    
+    [self transitionFromViewController:fromViewController toViewController:toViewController duration:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:nil completion:^(BOOL finished) {
+        [fromViewController removeFromParentViewController];
+        [toViewController didMoveToParentViewController:self];
+        self.transitionInProgress = NO;
+    }];
+}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

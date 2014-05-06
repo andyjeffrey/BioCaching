@@ -13,7 +13,7 @@
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
 		A162FD3918D6FF2100362A0A /* SearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* SearchOptions.m */; };
-		A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */; };
+		A162FE4318D998DE00362A0A /* ExploreOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FE4218D998DE00362A0A /* ExploreOptionsViewController.m */; };
 		A17BDE561917B57200A804A4 /* OptionsRecordType.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BDE551917B57200A804A4 /* OptionsRecordType.m */; };
 		A17BDE5C1917ECD000A804A4 /* APIOption.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BDE5B1917ECD000A804A4 /* APIOption.m */; };
 		A1875DF818FD48A2001DC029 /* NSCountedSet+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF118FD48A2001DC029 /* NSCountedSet+Sorting.m */; };
@@ -28,6 +28,8 @@
 		A18AAAC01908100400FB75A5 /* libLocalyticsAMP_x64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A18AAABA1908100400FB75A5 /* libLocalyticsAMP_x64.a */; };
 		A18AAAC21908100400FB75A5 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A18AAABC1908100400FB75A5 /* LICENSE */; };
 		A18C53C6190696CD001D6A9E /* CrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = A18C53C5190696CD001D6A9E /* CrossHairView.m */; };
+		A1B9232D1919140A005092F4 /* CustomEmbedSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B9232C1919140A005092F4 /* CustomEmbedSegue.m */; };
+		A1B92333191962B1005092F4 /* ExploreSummaryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B92332191962B1005092F4 /* ExploreSummaryTableViewController.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DD9B18C61FFB00FA005B /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */; };
@@ -44,7 +46,6 @@
 		A1DAC5F718F320FD00ABC9BA /* INatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DAC5F618F320FD00ABC9BA /* INatManager.m */; };
 		A1DAC60118F4637F00ABC9BA /* INatTaxonPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DAC60018F4637F00ABC9BA /* INatTaxonPhoto.m */; };
 		A1DAC60318F4773300ABC9BA /* INatTaxon.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DAC60218F4773300ABC9BA /* INatTaxon.m */; };
-		A1E78110190FB67000A3200F /* OccurrenceImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E7810F190FB67000A3200F /* OccurrenceImageViewController.m */; };
 		A1E78115190FD21400A3200F /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E78114190FD21400A3200F /* SWRevealViewController.m */; };
 		A1E78118190FD32000A3200F /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E78117190FD32000A3200F /* SidebarViewController.m */; };
 		A1E7811B190FEC6200A3200F /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E7811A190FEC6200A3200F /* MainViewController.m */; };
@@ -91,8 +92,8 @@
 		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Tortuga Bay, Santa Cruz, Galapagos.gpx"; path = "Resources/TestData/Tortuga Bay, Santa Cruz, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
-		A162FE4118D998DE00362A0A /* OptionsStaticTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsStaticTableViewController.h; sourceTree = "<group>"; };
-		A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsStaticTableViewController.m; sourceTree = "<group>"; };
+		A162FE4118D998DE00362A0A /* ExploreOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreOptionsViewController.h; sourceTree = "<group>"; };
+		A162FE4218D998DE00362A0A /* ExploreOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreOptionsViewController.m; sourceTree = "<group>"; };
 		A17BDE541917B57200A804A4 /* OptionsRecordType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsRecordType.h; sourceTree = "<group>"; };
 		A17BDE551917B57200A804A4 /* OptionsRecordType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsRecordType.m; sourceTree = "<group>"; };
 		A17BDE5A1917ECD000A804A4 /* APIOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIOption.h; sourceTree = "<group>"; };
@@ -121,6 +122,10 @@
 		A18AAABE1908100400FB75A5 /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsSession.h; sourceTree = "<group>"; };
 		A18C53C4190696CD001D6A9E /* CrossHairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossHairView.h; sourceTree = "<group>"; };
 		A18C53C5190696CD001D6A9E /* CrossHairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossHairView.m; sourceTree = "<group>"; };
+		A1B9232B1919140A005092F4 /* CustomEmbedSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomEmbedSegue.h; sourceTree = "<group>"; };
+		A1B9232C1919140A005092F4 /* CustomEmbedSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomEmbedSegue.m; sourceTree = "<group>"; };
+		A1B92331191962B1005092F4 /* ExploreSummaryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreSummaryTableViewController.h; sourceTree = "<group>"; };
+		A1B92332191962B1005092F4 /* ExploreSummaryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreSummaryTableViewController.m; sourceTree = "<group>"; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
 		A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Exe Estuary MPA, UK.gpx"; path = "Resources/TestData/Exe Estuary MPA, UK.gpx"; sourceTree = "<group>"; };
 		A1D5DD8518C61B6A00FA005B /* GoldenGate Park, CA.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "GoldenGate Park, CA.gpx"; path = "Resources/TestData/GoldenGate Park, CA.gpx"; sourceTree = "<group>"; };
@@ -163,8 +168,6 @@
 		A1DAC5FF18F4637F00ABC9BA /* INatTaxonPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTaxonPhoto.h; sourceTree = "<group>"; };
 		A1DAC60018F4637F00ABC9BA /* INatTaxonPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTaxonPhoto.m; sourceTree = "<group>"; };
 		A1DAC60218F4773300ABC9BA /* INatTaxon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTaxon.m; sourceTree = "<group>"; };
-		A1E7810E190FB67000A3200F /* OccurrenceImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OccurrenceImageViewController.h; sourceTree = "<group>"; };
-		A1E7810F190FB67000A3200F /* OccurrenceImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OccurrenceImageViewController.m; sourceTree = "<group>"; };
 		A1E78113190FD21400A3200F /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		A1E78114190FD21400A3200F /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		A1E78116190FD32000A3200F /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
@@ -440,6 +443,8 @@
 				A18AAA9B1907D98300FB75A5 /* MapViewLayoutGuide.h */,
 				A1E7811F19102AFE00A3200F /* UIColor+BCColors.h */,
 				A1E7812019102AFE00A3200F /* UIColor+BCColors.m */,
+				A1B9232B1919140A005092F4 /* CustomEmbedSegue.h */,
+				A1B9232C1919140A005092F4 /* CustomEmbedSegue.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -453,19 +458,21 @@
 				A1E7811A190FEC6200A3200F /* MainViewController.m */,
 				A1E7811C190FFE9900A3200F /* ExploreContainerViewController.h */,
 				A1E7811D190FFE9900A3200F /* ExploreContainerViewController.m */,
+				A1D9A14218E6D3D4006C1988 /* ExploreOptionsDelegate.h */,
+				A162FE4118D998DE00362A0A /* ExploreOptionsViewController.h */,
+				A162FE4218D998DE00362A0A /* ExploreOptionsViewController.m */,
 				A1EA20A718B4F7AB00200D50 /* ExploreMapViewController.h */,
 				A1EA20A818B4F7AB00200D50 /* ExploreMapViewController.m */,
 				A1D5DD9F18C72E1500FA005B /* ExploreListViewController.h */,
 				A1D5DDA018C72E1500FA005B /* ExploreListViewController.m */,
 				A12B639118E9E33B00F9C4C0 /* ExploreSummaryViewController.h */,
 				A12B639218E9E33B00F9C4C0 /* ExploreSummaryViewController.m */,
+				A1B92331191962B1005092F4 /* ExploreSummaryTableViewController.h */,
+				A1B92332191962B1005092F4 /* ExploreSummaryTableViewController.m */,
 				A1E78138191295F600A3200F /* TaxonInfoViewController.h */,
 				A1E78139191295F600A3200F /* TaxonInfoViewController.m */,
 				A12B63AA18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.h */,
 				A12B63AB18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m */,
-				A1D9A14218E6D3D4006C1988 /* ExploreOptionsDelegate.h */,
-				A162FE4118D998DE00362A0A /* OptionsStaticTableViewController.h */,
-				A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */,
 				A1EA20AA18B4F7AB00200D50 /* TripsViewController.h */,
 				A1EA20AB18B4F7AB00200D50 /* TripsViewController.m */,
 				A1EA20D318BDEED400200D50 /* ProfileViewController.h */,
@@ -481,8 +488,6 @@
 				A1DAC5FB18F44AE600ABC9BA /* INatManagerDelegate.h */,
 				A1DAC5F518F320FD00ABC9BA /* INatManager.h */,
 				A1DAC5F618F320FD00ABC9BA /* INatManager.m */,
-				A1E7810E190FB67000A3200F /* OccurrenceImageViewController.h */,
-				A1E7810F190FB67000A3200F /* OccurrenceImageViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -610,6 +615,7 @@
 				A12B639318E9E33B00F9C4C0 /* ExploreSummaryViewController.m in Sources */,
 				A18AAAA31907E1A300FB75A5 /* BCOptions.m in Sources */,
 				A17BDE5C1917ECD000A804A4 /* APIOption.m in Sources */,
+				A1B9232D1919140A005092F4 /* CustomEmbedSegue.m in Sources */,
 				A1875E3218FECCBA001DC029 /* INatTrip.m in Sources */,
 				A1DAC60318F4773300ABC9BA /* INatTaxon.m in Sources */,
 				A1875DF918FD48A2001DC029 /* NSDictionary+Filtering.m in Sources */,
@@ -618,11 +624,12 @@
 				A1D5DDA118C72E1500FA005B /* ExploreListViewController.m in Sources */,
 				A1D5DE0D18C9FED400FA005B /* MKPolygon+WKTParser.m in Sources */,
 				A1FD87F218DF63F700003091 /* LocationsArray.m in Sources */,
-				A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */,
+				A162FE4318D998DE00362A0A /* ExploreOptionsViewController.m in Sources */,
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
 				A1875DFB18FD48A2001DC029 /* UIView+UtilityMethods.m in Sources */,
 				A1FD87E118DC820100003091 /* OptionsSpeciesFilter.m in Sources */,
 				A1D9A12F18E20FAC006C1988 /* IonIcons.m in Sources */,
+				A1B92333191962B1005092F4 /* ExploreSummaryTableViewController.m in Sources */,
 				A12B63AC18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m in Sources */,
 				A1875DF818FD48A2001DC029 /* NSCountedSet+Sorting.m in Sources */,
 				A162FD3918D6FF2100362A0A /* SearchOptions.m in Sources */,
@@ -636,7 +643,6 @@
 				A1EA20A918B4F7AB00200D50 /* ExploreMapViewController.m in Sources */,
 				A130095B190E8DE400069DA4 /* ImageCache.m in Sources */,
 				A1E7813A191295F600A3200F /* TaxonInfoViewController.m in Sources */,
-				A1E78110190FB67000A3200F /* OccurrenceImageViewController.m in Sources */,
 				A1E7812119102AFE00A3200F /* UIColor+BCColors.m in Sources */,
 				A1EA209F18B4F7AB00200D50 /* main.m in Sources */,
 				A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */,

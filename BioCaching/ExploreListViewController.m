@@ -15,8 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
 @property (weak, nonatomic) IBOutlet UILabel *labelOccurrenceCount;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segControlContainerView;
-@property (weak, nonatomic) IBOutlet UIView *viewSummary;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableViewResults;
 
 typedef enum {
@@ -49,19 +48,28 @@ typedef enum {
     
     _filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
     
-//    self.view.backgroundColor = [UIColor whiteColor];
+    [self setupLabels];
+    [self setupTable];
     
+}
+
+- (void)setupLabels
+{
     self.labelLocation.text = [NSString stringWithFormat:@"Location: %f,%f",
                                self.bcOptions.searchOptions.searchAreaCentre.latitude,
                                self.bcOptions.searchOptions.searchAreaCentre.longitude];
-
+    
     self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %lum",
                                (unsigned long)self.bcOptions.searchOptions.searchAreaSpan];
-
+    
     self.labelOccurrenceCount.text = [NSString stringWithFormat:@"Total Record Count: %d",
                                       self.occurrenceResults.Count.intValue];
     
-    [self indexChangedForSegmentedControl:self.segControlContainerView];
+}
+
+- (void)setupTable
+{
+    self.tableViewResults.backgroundColor = [UIColor kColorTableBackgroundColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -82,22 +90,6 @@ typedef enum {
 
 # pragma mark IBActions
 
-- (IBAction)returnToMap:(id)sender
-{
-    [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
-}
-
-- (IBAction)indexChangedForSegmentedControl:(UISegmentedControl *)sender
-{
-    if (sender.selectedSegmentIndex == BCDetailsContainerViewSummary)
-    {
-        self.viewSummary.hidden = NO;
-    }
-    else
-    {
-        self.viewSummary.hidden = YES;
-    }
-}
 
 #pragma mark UITableView
 

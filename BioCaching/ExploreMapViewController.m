@@ -8,7 +8,7 @@
 
 #import "ExploreMapViewController.h"
 #import "ExploreListViewController.h"
-#import "OptionsStaticTableViewController.h"
+#import "ExploreOptionsViewController.h"
 #import "TaxonInfoViewController.h"
 #import "LocationsArray.h"
 #import "BCOptions.h"
@@ -87,9 +87,8 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     [super viewDidLoad];
     
     // TODO: Remove from here (passed in from parent/container controller)
-    _bcOptions = [[BCOptions alloc] initWithDefaults];
+//    _bcOptions = [[BCOptions alloc] initWithDefaults];
     
-    [TSMessage setDefaultViewController:self];
     self.navigationController.navigationBarHidden = YES;
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
 
@@ -101,6 +100,8 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     self.mapView.showsUserLocation = YES;
     _followUser = NO;
 
+    // TODO: Use observer/notification pattern to get updated results
+    _occurrenceResults = self.occurrenceResults;
     [self configureGBIFManager];
     [self configureINatManager];
 
@@ -665,7 +666,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 */    else if ([segue.identifier isEqualToString:@"OptionsStaticSegue"]) {
     
         UINavigationController *navVC = [segue destinationViewController];
-        OptionsStaticTableViewController *optionsVC = [navVC viewControllers][0];
+        ExploreOptionsViewController *optionsVC = [navVC viewControllers][0];
         optionsVC.delegate = self;
         optionsVC.bcOptions = _bcOptions;
 } else if ([segue.identifier isEqualToString:@"embedTaxonInfo"]) {
@@ -741,11 +742,6 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     self.imageButtonSave.image =
     [IonIcons imageWithIcon:icon_archive iconColor:[UIColor lightGrayColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
     
-}
-
-- (void)setupSegControl
-{
-    self.segCtrlView.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
 }
 
 

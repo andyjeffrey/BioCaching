@@ -14,6 +14,8 @@
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
 		A162FD3918D6FF2100362A0A /* SearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* SearchOptions.m */; };
 		A162FE4318D998DE00362A0A /* OptionsStaticTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */; };
+		A17BDE561917B57200A804A4 /* OptionsRecordType.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BDE551917B57200A804A4 /* OptionsRecordType.m */; };
+		A17BDE5C1917ECD000A804A4 /* APIOption.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BDE5B1917ECD000A804A4 /* APIOption.m */; };
 		A1875DF818FD48A2001DC029 /* NSCountedSet+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF118FD48A2001DC029 /* NSCountedSet+Sorting.m */; };
 		A1875DF918FD48A2001DC029 /* NSDictionary+Filtering.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF318FD48A2001DC029 /* NSDictionary+Filtering.m */; };
 		A1875DFA18FD48A2001DC029 /* NSString+UtilityMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A1875DF518FD48A2001DC029 /* NSString+UtilityMethods.m */; };
@@ -62,10 +64,8 @@
 		A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209418B4F7AB00200D50 /* CoreGraphics.framework */; };
 		A1EA6CC718D0A921002FCDDD /* GBIFOccurrence.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CC618D0A921002FCDDD /* GBIFOccurrence.m */; };
 		A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CD318D0BE87002FCDDD /* GBIFCommunicatorMock.m */; };
-		A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */; };
 		A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CE718D23A87002FCDDD /* Images.xcassets */; };
 		A1F2E12D190161110010B647 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A1F2E12C190161110010B647 /* .gitignore */; };
-		A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87DA18DB843100003091 /* OptionsRecordType.m */; };
 		A1FD87E118DC820100003091 /* OptionsSpeciesFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */; };
 		A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87E318DC821600003091 /* OptionsRecordSource.m */; };
 		A1FD87F218DF63F700003091 /* LocationsArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD87F118DF63F700003091 /* LocationsArray.m */; };
@@ -93,6 +93,10 @@
 		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FE4118D998DE00362A0A /* OptionsStaticTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsStaticTableViewController.h; sourceTree = "<group>"; };
 		A162FE4218D998DE00362A0A /* OptionsStaticTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsStaticTableViewController.m; sourceTree = "<group>"; };
+		A17BDE541917B57200A804A4 /* OptionsRecordType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsRecordType.h; sourceTree = "<group>"; };
+		A17BDE551917B57200A804A4 /* OptionsRecordType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsRecordType.m; sourceTree = "<group>"; };
+		A17BDE5A1917ECD000A804A4 /* APIOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIOption.h; sourceTree = "<group>"; };
+		A17BDE5B1917ECD000A804A4 /* APIOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIOption.m; sourceTree = "<group>"; };
 		A1875DF018FD48A2001DC029 /* NSCountedSet+Sorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCountedSet+Sorting.h"; path = "BioCaching/NSCountedSet+Sorting.h"; sourceTree = SOURCE_ROOT; };
 		A1875DF118FD48A2001DC029 /* NSCountedSet+Sorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCountedSet+Sorting.m"; path = "BioCaching/NSCountedSet+Sorting.m"; sourceTree = SOURCE_ROOT; };
 		A1875DF218FD48A2001DC029 /* NSDictionary+Filtering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Filtering.h"; path = "BioCaching/NSDictionary+Filtering.h"; sourceTree = SOURCE_ROOT; };
@@ -196,12 +200,8 @@
 		A1EA6CD318D0BE87002FCDDD /* GBIFCommunicatorMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBIFCommunicatorMock.m; sourceTree = "<group>"; };
 		A1EA6CD518D0BFD5002FCDDD /* OccurrenceResultsAP.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsAP.json; path = Resources/TestData/OccurrenceResultsAP.json; sourceTree = "<group>"; };
 		A1EA6CD918D1B278002FCDDD /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		A1EA6CDC18D1F935002FCDDD /* OccurrenceLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OccurrenceLocation.h; sourceTree = "<group>"; };
-		A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OccurrenceLocation.m; sourceTree = "<group>"; };
 		A1EA6CE718D23A87002FCDDD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A1F2E12C190161110010B647 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		A1FD87D918DB843100003091 /* OptionsRecordType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsRecordType.h; sourceTree = "<group>"; };
-		A1FD87DA18DB843100003091 /* OptionsRecordType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsRecordType.m; sourceTree = "<group>"; };
 		A1FD87DF18DC820100003091 /* OptionsSpeciesFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsSpeciesFilter.h; sourceTree = "<group>"; };
 		A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsSpeciesFilter.m; sourceTree = "<group>"; };
 		A1FD87E218DC821600003091 /* OptionsRecordSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsRecordSource.h; sourceTree = "<group>"; };
@@ -399,20 +399,20 @@
 		A1EA20D018B4FAA900200D50 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A1EA6CDC18D1F935002FCDDD /* OccurrenceLocation.h */,
-				A1EA6CDD18D1F935002FCDDD /* OccurrenceLocation.m */,
 				A18AAAA11907E1A300FB75A5 /* BCOptions.h */,
 				A18AAAA21907E1A300FB75A5 /* BCOptions.m */,
 				A162FD3718D6FF2100362A0A /* SearchOptions.h */,
 				A162FD3818D6FF2100362A0A /* SearchOptions.m */,
 				A18AAA9E1907E14200FB75A5 /* DisplayOptions.h */,
 				A18AAA9F1907E14200FB75A5 /* DisplayOptions.m */,
-				A1FD87D918DB843100003091 /* OptionsRecordType.h */,
-				A1FD87DA18DB843100003091 /* OptionsRecordType.m */,
-				A1FD87DF18DC820100003091 /* OptionsSpeciesFilter.h */,
-				A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */,
+				A17BDE5A1917ECD000A804A4 /* APIOption.h */,
+				A17BDE5B1917ECD000A804A4 /* APIOption.m */,
+				A17BDE541917B57200A804A4 /* OptionsRecordType.h */,
+				A17BDE551917B57200A804A4 /* OptionsRecordType.m */,
 				A1FD87E218DC821600003091 /* OptionsRecordSource.h */,
 				A1FD87E318DC821600003091 /* OptionsRecordSource.m */,
+				A1FD87DF18DC820100003091 /* OptionsSpeciesFilter.h */,
+				A1FD87E018DC820100003091 /* OptionsSpeciesFilter.m */,
 				A1FD87F018DF63F700003091 /* LocationsArray.h */,
 				A1FD87F118DF63F700003091 /* LocationsArray.m */,
 				A1D5DE0118C9F4CA00FA005B /* GBIFOccurrenceResults.h */,
@@ -609,6 +609,7 @@
 				A1875DFA18FD48A2001DC029 /* NSString+UtilityMethods.m in Sources */,
 				A12B639318E9E33B00F9C4C0 /* ExploreSummaryViewController.m in Sources */,
 				A18AAAA31907E1A300FB75A5 /* BCOptions.m in Sources */,
+				A17BDE5C1917ECD000A804A4 /* APIOption.m in Sources */,
 				A1875E3218FECCBA001DC029 /* INatTrip.m in Sources */,
 				A1DAC60318F4773300ABC9BA /* INatTaxon.m in Sources */,
 				A1875DF918FD48A2001DC029 /* NSDictionary+Filtering.m in Sources */,
@@ -624,7 +625,6 @@
 				A1D9A12F18E20FAC006C1988 /* IonIcons.m in Sources */,
 				A12B63AC18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m in Sources */,
 				A1875DF818FD48A2001DC029 /* NSCountedSet+Sorting.m in Sources */,
-				A1FD87DB18DB843100003091 /* OptionsRecordType.m in Sources */,
 				A162FD3918D6FF2100362A0A /* SearchOptions.m in Sources */,
 				A18C53C6190696CD001D6A9E /* CrossHairView.m in Sources */,
 				A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */,
@@ -636,11 +636,11 @@
 				A1EA20A918B4F7AB00200D50 /* ExploreMapViewController.m in Sources */,
 				A130095B190E8DE400069DA4 /* ImageCache.m in Sources */,
 				A1E7813A191295F600A3200F /* TaxonInfoViewController.m in Sources */,
-				A1EA6CDE18D1F935002FCDDD /* OccurrenceLocation.m in Sources */,
 				A1E78110190FB67000A3200F /* OccurrenceImageViewController.m in Sources */,
 				A1E7812119102AFE00A3200F /* UIColor+BCColors.m in Sources */,
 				A1EA209F18B4F7AB00200D50 /* main.m in Sources */,
 				A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */,
+				A17BDE561917B57200A804A4 /* OptionsRecordType.m in Sources */,
 				A1EA20D518BDEED400200D50 /* ProfileViewController.m in Sources */,
 				A1E78115190FD21400A3200F /* SWRevealViewController.m in Sources */,
 				A1D9A14118E5993D006C1988 /* DropDownViewController.m in Sources */,

@@ -8,45 +8,68 @@
 
 #import "OptionsRecordSource.h"
 
+static int const defaultOptionIndex = 0;
+
+/*
+ typedef enum {
+ RecordSource_ALL, // 382373384
+ RecordSource_CAS, // CAS 1568966
+ RecordSource_INAT, // iNaturalist 226862
+ RecordSource_EBIRD, // CLO 108630077
+ RecordSource_NMNH, // USNM 1505321
+ RecordSource_ANTWEB, // casent 331162
+ //    RecordSource_KEW, // K 181026
+ //    RecordSource_FISHBASE, // FishBase 805691
+ //    RecordSource_DIVEBOARD, // Diveboard 18178
+ //    RecordSource_MBA, // Marine%20Biological%20Association 213188
+ //    RecordSource_MCS, // Marine%20Conservation%20Society 403772
+ RecordSourceCount
+ } RecordSource;
+*/
+
 @implementation OptionsRecordSource
 
-+ (NSArray *)optionsArray
++ (NSArray *)staticArray
 {
-    static NSMutableArray *_optionsArray;
+    static NSMutableArray *_staticArray;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _optionsArray = [[NSMutableArray alloc] initWithCapacity:RecordSourceCount];
-        for (int i=0; i < RecordSourceCount; i++) {
-            [_optionsArray addObject:@""];
-        }
-        [_optionsArray replaceObjectAtIndex:RecordSource_ALL
-                                 withObject:@[@"All", @""]];
-        [_optionsArray replaceObjectAtIndex:RecordSource_CAS
-                                 withObject:@[@"California Academy of Sciences", @"CAS"]];
-        [_optionsArray replaceObjectAtIndex:RecordSource_INAT
-                                 withObject:@[@"iNaturalist", @"iNaturalist"]];
-        [_optionsArray replaceObjectAtIndex:RecordSource_EBIRD
-                                 withObject:@[@"Cornell/eBird", @"CLO"]];
-        [_optionsArray replaceObjectAtIndex:RecordSource_NMNH
-                                 withObject:@[@"NMNH/Smithsonian", @"USNM"]];
-        [_optionsArray replaceObjectAtIndex:RecordSource_ANTWEB
-                                 withObject:@[@"AntWeb (CAS)", @"casent"]];
+        _staticArray = [[NSMutableArray alloc] init];
+        
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"All" queryStringValueGBIF:@""]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"California Academy of Sciences" queryStringValueGBIF:@"CAS"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"iNaturalist" queryStringValueGBIF:@"iNaturalist"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Cornell/eBird" queryStringValueGBIF:@"CLO"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"NMNH/Smithsonian" queryStringValueGBIF:@"USNM"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"AntWeb (CAS)" queryStringValueGBIF:@"casent"]];    
     });
     
-    
-    return _optionsArray;
+    return _staticArray;
 }
 
-+(NSString *)displayString:(RecordSource)optionEnum
++ (NSArray *)displayStrings
 {
-    NSArray *optionValuesArray = [[self class] optionsArray][optionEnum];;
-    return optionValuesArray[0];
+    NSMutableArray *displayStrings = [[NSMutableArray alloc] init];
+    for (APIOption *apiOption in [self staticArray]) {
+        [displayStrings addObject:apiOption.displayString];
+    }
+    return displayStrings;
 }
 
-+(NSString *)queryStringValue:(RecordSource)optionEnum
++ (APIOption *)defaultOption
 {
-    NSArray *optionValuesArray = [[self class] optionsArray][optionEnum];;
-    return optionValuesArray[1];
+    APIOption *apiOption = [[self staticArray] objectAtIndex:defaultOptionIndex];
+    return apiOption;
+}
+
++ (APIOption *)objectAtIndex:(NSUInteger)index
+{
+    return (APIOption *) [self staticArray][index];
+}
+
++ (NSUInteger)count
+{
+    return [[self staticArray] count];
 }
 
 @end

@@ -16,7 +16,6 @@
 #import "GBIFCommunicator.h"
 #import "GBIFCommunicatorMock.h"
 #import "GBIFOccurrenceResults.h"
-#import "OccurrenceLocation.h"
 #import "INatManager.h"
 #import "INatTaxon.h"
 #import "INatTaxonPhoto.h"
@@ -301,12 +300,10 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     for (GBIFOccurrence *occurrence in occurrences) {
         [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
     }
-    
 }
 
 - (void)addOccurrenceAnnotation:(GBIFOccurrence *)occurrence
 {
-//    OccurrenceLocation *location = [[OccurrenceLocation alloc] initWithGBIFOccurrence:occurrence];
     [self.mapView addAnnotation:occurrence];
 }
 
@@ -449,29 +446,8 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     static NSString *identifier = @"OccurrenceAnnotation";
-    if ([annotation isKindOfClass:[OccurrenceLocation class]]) {
-/*
-        MKPinAnnotationView *annotationView = (MKPinAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-        if (!annotationView) {
-            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-            annotationView.pinColor = MKPinAnnotationColorRed;
-            annotationView.enabled = YES;
-            annotationView.canShowCallout = YES;
-            annotationView.animatesDrop = YES;
-*/
-        MKAnnotationView *annotationView = (MKAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:@"OccurrenceAnnotation"];
-        if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-            annotationView.enabled = YES;
-            annotationView.canShowCallout = YES;
-            annotationView.image = [UIImage imageNamed:((OccurrenceLocation *)annotation).mapMarkerImageFile];
-        } else {
-            annotationView.image = [UIImage imageNamed:((OccurrenceLocation *)annotation).mapMarkerImageFile];
-            annotationView.annotation = annotation;
-        }
-        return annotationView;
-    }
-    else if ([annotation isKindOfClass:[GBIFOccurrence class]])
+    
+    if ([annotation isKindOfClass:[GBIFOccurrence class]])
     {
         GBIFOccurrence *occurrence = (GBIFOccurrence *)annotation;
         MKAnnotationView *annotationView = (MKAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:@"OccurrenceAnnotation"];
@@ -567,22 +543,6 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     
     CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
     UIView *selectedView = [self.mapView hitTest:touchPoint withEvent:nil];
-
-    /*
-     if ([selectedView isKindOfClass:[MKAnnotationView class]]) {
-     CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:CGPointMake(touchPoint.x, touchPoint.y + 100) toCoordinateFromView:self.mapView];
-     [self.mapView setCenterCoordinate:mapCoord animated:YES];
-     
-     return;
-     } else if (!self.viewTaxonInfo.hidden) {
-     [self hideTaxonView];
-     return;
-     } else {
-     CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
-     [self.mapView setCenterCoordinate:mapCoord animated:YES];
-     //        [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
-     }
-     */
     
     if ([selectedView isKindOfClass:[MKAnnotationView class]]) {
         CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:CGPointMake(touchPoint.x, touchPoint.y + kOccurrenceAnnotationOffset) toCoordinateFromView:self.mapView];
@@ -600,7 +560,6 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     
     CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
     [self.mapView setCenterCoordinate:mapCoord animated:YES];
-//        [self updateSearchAreaOverlay:mapCoord areaSpan:_currentSearchAreaSpan];
 }
 
 - (void)mapDoubleClick:(UIGestureRecognizer *)gestureRecognizer

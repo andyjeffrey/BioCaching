@@ -7,6 +7,9 @@
 //
 
 #import "OptionsStaticTableViewController.h"
+#import "OptionsRecordType.h"
+#import "OptionsRecordSource.h"
+#import "OptionsSpeciesFilter.h"
 
 @interface OptionsStaticTableViewController ()
 
@@ -118,27 +121,23 @@
 
 - (void)configureDropDownLists
 {
-    NSMutableArray *dropDownRecordType = [[NSMutableArray alloc] init];
-    for (NSArray *optionArray in OptionsRecordType.optionsArray ) {
-        [dropDownRecordType addObject:optionArray[0]];
-    }
-    dropDownView1 = [[DropDownViewController alloc] initWithArrayData:dropDownRecordType refFrame:[self.view convertRect:self.buttonRecordType.frame fromView:self.buttonRecordType.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+    dropDownView1 = [[DropDownViewController alloc] initWithArrayData:[OptionsRecordType displayStrings] refFrame:[self.view convertRect:self.buttonRecordType.frame fromView:self.buttonRecordType.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     dropDownView1.delegate = self;
 	[self.view addSubview:dropDownView1.view];
     
-    NSMutableArray *dropDownRecordSource = [[NSMutableArray alloc] init];
-    for (NSArray *optionArray in OptionsRecordSource.optionsArray ) {
-        [dropDownRecordSource addObject:optionArray[0]];
-    }
-    dropDownView2 = [[DropDownViewController alloc] initWithArrayData:dropDownRecordSource refFrame:[self.view convertRect:self.buttonRecordSource.frame fromView:self.buttonRecordSource.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+//    NSMutableArray *dropDownRecordSource = [[NSMutableArray alloc] init];
+//    for (NSArray *optionArray in OptionsRecordSource.optionsArray ) {
+//        [dropDownRecordSource addObject:optionArray[0]];
+//    }
+    dropDownView2 = [[DropDownViewController alloc] initWithArrayData:[OptionsRecordSource displayStrings] refFrame:[self.view convertRect:self.buttonRecordSource.frame fromView:self.buttonRecordSource.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     dropDownView2.delegate = self;
 	[self.view addSubview:dropDownView2.view];
     
-    NSMutableArray *dropDownSpeciesFilter = [[NSMutableArray alloc] init];
-    for (NSArray *optionArray in OptionsSpeciesFilter.optionsArray ) {
-        [dropDownSpeciesFilter addObject:optionArray[0]];
-    }
-    dropDownView3 = [[DropDownViewController alloc] initWithArrayData:dropDownSpeciesFilter refFrame:[self.view convertRect:self.buttonSpeciesFilter.frame fromView:self.buttonSpeciesFilter.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+//    NSMutableArray *dropDownSpeciesFilter = [[NSMutableArray alloc] init];
+//    for (NSArray *optionArray in OptionsSpeciesFilter.optionsArray ) {
+//        [dropDownSpeciesFilter addObject:optionArray[0]];
+//    }
+    dropDownView3 = [[DropDownViewController alloc] initWithArrayData:[OptionsSpeciesFilter displayStrings] refFrame:[self.view convertRect:self.buttonSpeciesFilter.frame fromView:self.buttonSpeciesFilter.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     dropDownView3.delegate = self;
 	[self.view addSubview:dropDownView3.view];
     
@@ -165,9 +164,12 @@
 {
     [self updateLabelAreaSpan];
 
-    self.labelRecordType.text = [OptionsRecordType displayString:self.bcOptions.searchOptions.recordType];
-    self.labelRecordSource.text = [OptionsRecordSource displayString:self.bcOptions.searchOptions.recordSource];
-    self.labelSpeciesFilter.text = [OptionsSpeciesFilter displayString:self.bcOptions.searchOptions.speciesFilter];
+    self.labelRecordType.text = self.bcOptions.searchOptions.recordType.displayString;
+//    [OptionsRecordType displayString:self.bcOptions.searchOptions.recordType];
+    self.labelRecordSource.text = self.bcOptions.searchOptions.recordSource.displayString;
+//    [OptionsRecordSource displayString:self.bcOptions.searchOptions.recordSource];
+    self.labelSpeciesFilter.text = self.bcOptions.searchOptions.speciesFilter.displayString;
+//    [OptionsSpeciesFilter displayString:self.bcOptions.searchOptions.speciesFilter];
 
     self.labelPoints.text = [NSString stringWithFormat:@"%d", (int) self.sliderDisplayPoints.value];
 }
@@ -259,11 +261,11 @@
 #pragma mark DropDownViewDelegate
 -(void)dropDownCellSelected:(NSInteger)returnIndex{
     if (activeDropDownView == dropDownView1) {
-        self.bcOptions.searchOptions.recordType = returnIndex;
+        self.bcOptions.searchOptions.recordType = [OptionsRecordType objectAtIndex:returnIndex];
     } else if (activeDropDownView == dropDownView2) {
-        self.bcOptions.searchOptions.recordSource = returnIndex;
+        self.bcOptions.searchOptions.recordSource = [OptionsRecordSource objectAtIndex:returnIndex];
     } else if (activeDropDownView == dropDownView3) {
-        self.bcOptions.searchOptions.speciesFilter = returnIndex;
+        self.bcOptions.searchOptions.speciesFilter = [OptionsSpeciesFilter objectAtIndex:returnIndex];
     }
     [self updateLabels];
     _viewBackgroundControls.hidden = YES;

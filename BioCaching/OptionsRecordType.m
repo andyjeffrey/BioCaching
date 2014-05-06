@@ -2,52 +2,73 @@
 //  OptionsRecordType.m
 //  BioCaching
 //
-//  Created by Andy Jeffrey on 20/03/2014.
+//  Created by Andy Jeffrey on 21/03/2014.
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
 #import "OptionsRecordType.h"
 
+static int const defaultOptionIndex = 2;
+
+/*
+ typedef enum {
+ RecordType_ALL, // 439101885
+ RecordType_OBSERVATION, // 309166576
+ RecordType_PRESERVED_SPECIMEN, // 94612722
+ RecordType_FOSSIL_SPECIMEN, // 2727243
+ RecordType_LIVING_SPECIMEN, // 766357
+ RecordType_LITERATURE, // 402974
+ RecordType_UNKNOWN, // 31426013
+ //    RecordType_HUMAN_OBSERVATION, // 0
+ //    RecordType_MACHINE_OBSERVATION, // 0
+ RecordTypeCount
+ } RecordType;
+*/
+
 @implementation OptionsRecordType
 
-+ (NSArray *)optionsArray
++ (NSArray *)staticArray
 {
-    static NSMutableArray *_optionsArray;
+    static NSMutableArray *_staticArray;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _optionsArray = [[NSMutableArray alloc] initWithCapacity:RecordTypeCount];
-        for (int i=0; i < RecordTypeCount; i++) {
-            [_optionsArray addObject:@""];
-        }
-        [_optionsArray replaceObjectAtIndex:RecordType_ALL
-                                     withObject:@[@"All", @""]];
-        [_optionsArray replaceObjectAtIndex:RecordType_OBSERVATION
-                                     withObject:@[@"Observation", @"OBSERVATION"]];
-        [_optionsArray replaceObjectAtIndex:RecordType_PRESERVED_SPECIMEN
-                                     withObject:@[@"Museum Specimen", @"PRESERVED_SPECIMEN"]];
-        [_optionsArray replaceObjectAtIndex:RecordType_FOSSIL_SPECIMEN
-                                     withObject:@[@"Fossil Specimen", @"FOSSIL_SPECIMEN"]];
-        [_optionsArray replaceObjectAtIndex:RecordType_LIVING_SPECIMEN
-                                     withObject:@[@"Living Specimen", @"LIVING_SPECIMEN"]];
-        [_optionsArray replaceObjectAtIndex:RecordType_LITERATURE
-                                     withObject:@[@"Literature", @"LITERATURE"]];
-        [_optionsArray replaceObjectAtIndex:RecordType_UNKNOWN
-                                     withObject:@[@"Unknown", @"UNKNOWN"]];
+        _staticArray = [[NSMutableArray alloc] init];
+        
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"All" queryStringValueGBIF:@""]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Observation" queryStringValueGBIF:@"OBSERVATION"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Museum Specimen" queryStringValueGBIF:@"PRESERVED_SPECIMEN"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Fossil Specimen" queryStringValueGBIF:@"FOSSIL_SPECIMEN"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Living Specimen" queryStringValueGBIF:@"LIVING_SPECIMEN"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Literature" queryStringValueGBIF:@"LITERATURE"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Unknown" queryStringValueGBIF:@"Unknown"]];
     });
     
-    return _optionsArray;
+    return _staticArray;
 }
 
-+(NSString *)displayString:(RecordType)optionEnum
++ (NSArray *)displayStrings
 {
-    NSArray *optionValuesArray = [[self class] optionsArray][optionEnum];;
-    return optionValuesArray[0];
+    NSMutableArray *displayStrings = [[NSMutableArray alloc] init];
+    for (APIOption *apiOption in [self staticArray]) {
+        [displayStrings addObject:apiOption.displayString];
+    }
+    return displayStrings;
 }
 
-+(NSString *)queryStringValue:(RecordType)optionEnum
++ (APIOption *)defaultOption
 {
-    NSArray *optionValuesArray = [[self class] optionsArray][optionEnum];;
-    return optionValuesArray[1];
+    APIOption *apiOption = [[self staticArray] objectAtIndex:defaultOptionIndex];
+    return apiOption;
+}
+
++ (APIOption *)objectAtIndex:(NSUInteger)index
+{
+    return (APIOption *) [self staticArray][index];
+}
+
++ (NSUInteger)count
+{
+    return [[self staticArray] count];
 }
 
 @end

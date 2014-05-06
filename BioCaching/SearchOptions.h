@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OptionsRecordType.h"
-#import "OptionsRecordSource.h"
-#import "OptionsSpeciesFilter.h"
+#import "APIOption.h"
 
 @interface SearchOptions : NSObject
 
@@ -17,9 +15,12 @@
 @property (nonatomic, assign) NSUInteger searchAreaSpan;
 @property (nonatomic, strong) MKPolygon *searchAreaPolygon;
 
-@property (nonatomic, assign) RecordType recordType;
-@property (nonatomic, assign) RecordSource recordSource;
-@property (nonatomic, assign) SpeciesFilter speciesFilter;
+@property (nonatomic, strong) APIOption *recordType;
+@property (nonatomic, strong) APIOption *recordSource;
+@property (nonatomic, strong) APIOption *speciesFilter;
+//@property (nonatomic, assign) RecordType recordType;
+//@property (nonatomic, assign) RecordSource recordSource;
+//@property (nonatomic, assign) SpeciesFilter speciesFilter;
 @property (nonatomic, copy) NSString *collectorName;
 @property (nonatomic, copy) NSString *year;
 @property (nonatomic, copy) NSString *yearFrom;

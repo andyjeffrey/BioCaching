@@ -8,60 +8,81 @@
 
 #import "OptionsSpeciesFilter.h"
 
+static int const defaultOptionIndex = 0;
+
+/*
+ typedef enum {
+ SpeciesFilter_ALL, // 439214255
+ SpeciesFilter_PLANTS, // 122616649
+ SpeciesFilter_ANIMALS, // 294766533
+ SpeciesFilter_MAMMALS, // 15842
+ SpeciesFilter_AMPHIBIANS, // 3479295
+ SpeciesFilter_BIRDS, // 210129123
+ SpeciesFilter_REPTILES, // 3795142
+ SpeciesFilter_FISHES, // 12904442
+ SpeciesFilter_INSECTS, // 35857680
+ SpeciesFilter_ARACHNIDS, // 1422714
+ SpeciesFilter_MOLLUSKS, // 7048984
+ SpeciesFilter_FUNGI, // 8211158
+ SpeciesFilter_CHROMISTA, // 2145559
+ SpeciesFilter_PROTOZOA, // 4639275
+ SpeciesFilterCount
+ } SpeciesFilter;
+*/
+
 @implementation OptionsSpeciesFilter
 
-+ (NSArray *)optionsArray
++ (NSArray *)staticArray
 {
-    static NSMutableArray *_optionsArray;
+    static NSMutableArray *_staticArray;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _optionsArray = [[NSMutableArray alloc] initWithCapacity:SpeciesFilterCount];
-        for (int i=0; i < SpeciesFilterCount; i++) {
-            [_optionsArray addObject:@""];
-        }
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_ALL
-                                 withObject:@[@"All", @""]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_PLANTS
-                                 withObject:@[@"Plants", @"6"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_FUNGI
-                                 withObject:@[@"Fungi & Lichen", @"5"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_CHROMISTA
-                                 withObject:@[@"Kelp, Diatoms & Allies", @"4"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_PROTOZOA
-                                 withObject:@[@"Protozoans", @"7"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_ANIMALS
-                                 withObject:@[@"Animals", @"1"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_MOLLUSKS
-                                 withObject:@[@"Mollusks", @"52"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_MAMMALS
-                                 withObject:@[@"Mammals", @"359"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_AMPHIBIANS
-                                 withObject:@[@"Amphibians", @"131"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_BIRDS
-                                 withObject:@[@"Birds", @"212"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_REPTILES
-                                 withObject:@[@"Reptiles", @"358"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_FISHES
-                                 withObject:@[@"Ray-finned Fishes", @"204"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_INSECTS
-                                 withObject:@[@"Insects", @"216"]];
-        [_optionsArray replaceObjectAtIndex:SpeciesFilter_ARACHNIDS
-                                 withObject:@[@"Arachnids", @"367"]];
+        _staticArray = [[NSMutableArray alloc] init];
+        
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"All" queryStringValueGBIF:@""]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Plants" queryStringValueGBIF:@"6"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Animals" queryStringValueGBIF:@"1"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Mammals" queryStringValueGBIF:@"359"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Amphibians" queryStringValueGBIF:@"131"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Birds" queryStringValueGBIF:@"212"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Reptiles" queryStringValueGBIF:@"358"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Ray-finned Fishes" queryStringValueGBIF:@"204"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Insects" queryStringValueGBIF:@"216"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Arachnids" queryStringValueGBIF:@"367"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Mollusks" queryStringValueGBIF:@"52"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Fungi & Lichen" queryStringValueGBIF:@"5"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Kelp, Diatoms & Allies" queryStringValueGBIF:@"4"]];
+        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Protozoans" queryStringValueGBIF:@"7"]];
+
     });
     
-    
-    return _optionsArray;
+    return _staticArray;
 }
 
-+(NSString *)displayString:(SpeciesFilter)optionEnum
++ (NSArray *)displayStrings
 {
-    NSArray *optionValuesArray = [[self class] optionsArray][optionEnum];;
-    return optionValuesArray[0];
+    NSMutableArray *displayStrings = [[NSMutableArray alloc] init];
+    for (APIOption *apiOption in [self staticArray]) {
+        [displayStrings addObject:apiOption.displayString];
+    }
+    return displayStrings;
 }
 
-+(NSString *)queryStringValue:(SpeciesFilter)optionEnum
++ (APIOption *)defaultOption
 {
-    NSArray *optionValuesArray = [[self class] optionsArray][optionEnum];;
-    return optionValuesArray[1];
+    APIOption *apiOption = [[self staticArray] objectAtIndex:defaultOptionIndex];
+    return apiOption;
 }
+
++ (APIOption *)objectAtIndex:(NSUInteger)index
+{
+    return (APIOption *) [self staticArray][index];
+}
+
++ (NSUInteger)count
+{
+    return [[self staticArray] count];
+}
+
 @end
+

@@ -13,7 +13,7 @@
 #import "ExploreMapViewController.h"
 #import "TripsViewController.h"
 #import "ProfileViewController.h"
-#import "OptionsStaticTableViewController.h"
+#import "ExploreOptionsViewController.h"
 
 @interface SidebarViewController ()
 
@@ -94,7 +94,7 @@
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue *)segue;
         if ([segue.identifier isEqualToString:@"segueOptions"]) {
             UINavigationController *navVC = (UINavigationController *)segue.destinationViewController;
-            OptionsStaticTableViewController *optionsVC = [navVC viewControllers][0];
+            ExploreOptionsViewController *optionsVC = [navVC viewControllers][0];
             optionsVC.bcOptions = mainVC.bcOptions;
             optionsVC.delegate = [mainVC childViewControllers][0];
             

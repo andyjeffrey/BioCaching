@@ -31,8 +31,6 @@
 		A1B9232D1919140A005092F4 /* CustomEmbedSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B9232C1919140A005092F4 /* CustomEmbedSegue.m */; };
 		A1B92333191962B1005092F4 /* ExploreSummaryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B92332191962B1005092F4 /* ExploreSummaryTableViewController.m */; };
 		A1B92339191BA54C005092F4 /* TaxonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B92338191BA54C005092F4 /* TaxonListCell.m */; };
-		A1B9233C191BAF91005092F4 /* UIView+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B9233B191BAF91005092F4 /* UIView+Colors.m */; };
-		A1B92342191BB5BC005092F4 /* UILabel+Appearance.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B92341191BB5BC005092F4 /* UILabel+Appearance.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DD9B18C61FFB00FA005B /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9A18C61FFB00FA005B /* libFlurry_4.3.2.a */; };
@@ -168,10 +166,6 @@
 		A1B92332191962B1005092F4 /* ExploreSummaryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreSummaryTableViewController.m; sourceTree = "<group>"; };
 		A1B92337191BA54C005092F4 /* TaxonListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonListCell.h; sourceTree = "<group>"; };
 		A1B92338191BA54C005092F4 /* TaxonListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonListCell.m; sourceTree = "<group>"; };
-		A1B9233A191BAF91005092F4 /* UIView+Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Colors.h"; sourceTree = SOURCE_ROOT; };
-		A1B9233B191BAF91005092F4 /* UIView+Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Colors.m"; sourceTree = SOURCE_ROOT; };
-		A1B92340191BB5BC005092F4 /* UILabel+Appearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Appearance.h"; sourceTree = SOURCE_ROOT; };
-		A1B92341191BB5BC005092F4 /* UILabel+Appearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Appearance.m"; sourceTree = SOURCE_ROOT; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
 		A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Exe Estuary MPA, UK.gpx"; path = "Resources/TestData/Exe Estuary MPA, UK.gpx"; sourceTree = "<group>"; };
 		A1D5DD8518C61B6A00FA005B /* GoldenGate Park, CA.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "GoldenGate Park, CA.gpx"; path = "Resources/TestData/GoldenGate Park, CA.gpx"; sourceTree = "<group>"; };
@@ -431,10 +425,6 @@
 				A1875DF718FD48A2001DC029 /* UIView+UtilityMethods.m */,
 				A1D5DE0B18C9FED400FA005B /* MKPolygon+WKTParser.h */,
 				A1D5DE0C18C9FED400FA005B /* MKPolygon+WKTParser.m */,
-				A1B9233A191BAF91005092F4 /* UIView+Colors.h */,
-				A1B9233B191BAF91005092F4 /* UIView+Colors.m */,
-				A1B92340191BB5BC005092F4 /* UILabel+Appearance.h */,
-				A1B92341191BB5BC005092F4 /* UILabel+Appearance.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -906,7 +896,6 @@
 				A1EB2249192271F2005650D9 /* NIOperations.m in Sources */,
 				A1EB223C192271F2005650D9 /* NIButtonUtilities.m in Sources */,
 				A1EA12731923A37C00449327 /* _BCManagedObject.m in Sources */,
-				A1B92342191BB5BC005092F4 /* UILabel+Appearance.m in Sources */,
 				A1875DF818FD48A2001DC029 /* NSCountedSet+Sorting.m in Sources */,
 				A162FD3918D6FF2100362A0A /* SearchOptions.m in Sources */,
 				A1B92339191BA54C005092F4 /* TaxonListCell.m in Sources */,
@@ -932,7 +921,6 @@
 				A1EB223F192271F2005650D9 /* NIDebuggingTools.m in Sources */,
 				A1E7812119102AFE00A3200F /* UIColor+Defaults.m in Sources */,
 				A1EA209F18B4F7AB00200D50 /* main.m in Sources */,
-				A1B9233C191BAF91005092F4 /* UIView+Colors.m in Sources */,
 				A1FD87E418DC821600003091 /* OptionsRecordSource.m in Sources */,
 				A1EB224A192271F2005650D9 /* NIPaths.m in Sources */,
 				A1EB224D192271F2005650D9 /* NISnapshotRotation.m in Sources */,

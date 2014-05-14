@@ -19,6 +19,8 @@ DerivedData
 *.DS_Store
 .xcworkspace
 
+Reveal.framework
+
 Pods/
 Libraries/
 Resources/TestData/

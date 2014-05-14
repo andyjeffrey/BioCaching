@@ -393,6 +393,14 @@
                                 <rect key="frame" x="20" y="522" width="120" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="it3-Hv-Zur">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="36"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="buttonStart:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="mVE-F4-PN8"/>
+                                        </connections>
+                                    </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="HYF-Yl-wba">
                                         <rect key="frame" x="8" y="2" width="32" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -400,7 +408,7 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gBt-8r-SJE">
                                         <rect key="frame" x="50" y="2" width="65" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -411,6 +419,16 @@
                                 <rect key="frame" x="180" y="522" width="120" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cen-uK-Wgx">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="36"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="buttonSave:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="cHa-30-r5y"/>
+                                        </connections>
+                                    </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="V43-8F-297">
                                         <rect key="frame" x="5" y="2" width="32" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1788,7 +1806,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jkP-ed-gW4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2550" y="-10"/>
+            <point key="canvasLocation" x="2534" y="-18"/>
         </scene>
         <!--Occurrence Details View Controller - Occurrence Details-->
         <scene sceneID="rd0-Y3-jXI">
@@ -2225,6 +2243,6 @@
         <segue reference="rms-2z-mS2"/>
         <segue reference="uqP-Eb-j3E"/>
         <segue reference="PUC-BS-dlq"/>
-        <segue reference="EdR-Ir-BFA"/>
+        <segue reference="rRP-sO-8ox"/>
     </inferredMetricsTieBreakers>
 </document>

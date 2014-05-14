@@ -18,7 +18,7 @@
 @end
 
 @implementation ExploreSummaryViewController {
-    NSArray *filteredResults;
+    ExploreSummaryTableViewController *summaryTableVC;
 }
 
 - (void)viewDidLoad
@@ -26,10 +26,14 @@
     [super viewDidLoad];
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 
-    filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:NO];
-    
     [self setupUI];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [self setupLabels];
+    summaryTableVC.bcOptions = _bcOptions;
+    summaryTableVC.occurrenceResults = _occurrenceResults;
 }
 
 - (void)setupUI
@@ -50,17 +54,10 @@
                                                  self.occurrenceResults.Count.intValue] color:[UIColor kColorHeaderText]];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"embedSummaryTable"]) {
-        ExploreSummaryTableViewController *summaryTableVC = segue.destinationViewController;
-        summaryTableVC.bcOptions = _bcOptions;
-        summaryTableVC.occurrenceResults = _occurrenceResults;
+        summaryTableVC = segue.destinationViewController;
     }
 }
 

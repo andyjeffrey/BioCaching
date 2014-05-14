@@ -53,10 +53,20 @@ typedef enum {
     
     self.navigationController.navigationBarHidden = YES;
     
-    _filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
-    
     [self setupUI];
-    [self setupLabels];    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    _filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
+    [self setupLabels];
+    [self.tableViewResults reloadData];
+//    [self.tableViewResults performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self.tableViewResults deselectRowAtIndexPath:[self.tableViewResults indexPathForSelectedRow] animated:YES];
 }
 
 - (void)setupUI
@@ -80,14 +90,6 @@ typedef enum {
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [self.tableViewResults deselectRowAtIndexPath:[self.tableViewResults indexPathForSelectedRow] animated:YES];
-}
 
 - (void)didReceiveMemoryWarning
 {

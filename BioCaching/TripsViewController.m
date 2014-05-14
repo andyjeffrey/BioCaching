@@ -7,9 +7,10 @@
 //
 
 #import "TripsViewController.h"
+#import "TripsDataManager.h"
 #import "ExploreListViewController.h"
 #import "TripsListCell.h"
-#import "INatTrip.h"
+#import "INatTripPreCD.h"
 #import <RestKit/RestKit.h>
 
 #import "SWRevealViewController.h"
@@ -60,6 +61,10 @@
     [self loadTrips];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self.tableTrips reloadData];
+}
+
 - (void)setupUI
 {
     self.view.backgroundColor = [UIColor kColorHeaderBackground];
@@ -95,7 +100,7 @@
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
     
     RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
-    RKObjectMapping *iNatMapping = [RKObjectMapping mappingForClass:[INatTrip class]];
+    RKObjectMapping *iNatMapping = [RKObjectMapping mappingForClass:[INatTripPreCD class]];
     [iNatMapping addAttributeMappingsFromArray:@[@"title", @"created_at"]];
     
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:iNatMapping method:RKRequestMethodGET pathPattern:kINatTripsPath keyPath:kINatTripsKey statusCodes:[NSIndexSet indexSetWithIndex:200]];
@@ -125,10 +130,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger rowCount = 1;
-    if (section == 2) {
+    NSInteger rowCount;
+    if (section == TripStatusCreated) {
+        rowCount = [TripsDataManager sharedInstance].createdTrips.count;
+    } else if (section == TripStatusInProgress) {
+        rowCount = [TripsDataManager sharedInstance].inProgressTrips.count;
+    } else {
         rowCount = _trips.count;
     }
+    
+    if (rowCount == 0) {
+        rowCount = 1;
+    }
+        
     
     return rowCount;
 }
@@ -152,18 +166,26 @@
 {
     TripsListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TripsListCell" forIndexPath:indexPath];
 
-    if (indexPath.section == 2) {
+    INatTripPreCD *trip;
     
-        INatTrip *trip = _trips[indexPath.row];
-    
-        cell.labelTripTitle.text = trip.title;
-        cell.labelTripSubtitle.text = [NSString stringWithFormat:@"%@", trip.created_at];
-        cell.labelTripSummaryStats.text = [NSString stringWithFormat:@"%d / %d",
-                                       0,
-                                       0];
-        cell.labelBackground.text = @"";
-    
+    if (indexPath.section == 0) {
+        if ([TripsDataManager sharedInstance].createdTrips.count > 0) {
+            trip = [TripsDataManager sharedInstance].createdTrips[indexPath.row];
+        }
+    } else if (indexPath.section == TripStatusInProgress) {
+        if ([TripsDataManager sharedInstance].inProgressTrips.count > 0) {
+            trip = [TripsDataManager sharedInstance].inProgressTrips[indexPath.row];
+        }
     } else {
+        trip = _trips[indexPath.row];
+    }
+
+    cell.labelTripTitle.text = trip.title;
+    cell.labelTripSubtitle.text = [NSString stringWithFormat:@"%@", trip.created_at];
+    cell.labelTripSummaryStats.text = [NSString stringWithFormat:@"%d / %d", 0, 0];
+    cell.labelBackground.text = @"";
+    
+    if (!trip) {
         cell.labelTripTitle.text = @"";
         cell.labelTripSubtitle.text = @"";
         cell.labelTripSummaryStats.text = @"";
@@ -175,7 +197,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    INatTrip *trip = _trips[indexPath.row];
+    INatTripPreCD *trip = _trips[indexPath.row];
     
     NSLog(@"Row Selected: %lu - %@", (long)indexPath.row, trip.id);
 }

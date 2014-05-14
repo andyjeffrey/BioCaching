@@ -43,9 +43,22 @@
     [super viewDidLoad];
     
     [self setupUI];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:NO];
-    
+    [self setupLabels];
+}
+
+- (void)setupUI
+{
+    self.view.backgroundColor = [UIColor darkGrayColor];
+    self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
+}
+
+- (void)setupLabels
+{
     [self.labelRetrieved setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.Results.count]];
     [self.labelFiltered setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)filteredResults.count]];
     [self.labelDisplayed setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_bcOptions.displayOptions.displayPoints, filteredResults.count))]];
@@ -58,19 +71,6 @@
     [self.labelRecordTypes setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordType.count]];
     [self.labelRecordSources setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordSource.count]];
     [self.labelUniqueLocations setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordLocation.count]];
-    
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-- (void)setupUI
-{
-    self.view.backgroundColor = [UIColor darkGrayColor];
-    self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
 }
 
 - (void)didReceiveMemoryWarning

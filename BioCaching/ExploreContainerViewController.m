@@ -25,7 +25,6 @@ static int const defaultEmbeddedView = 0;
 
 @implementation ExploreContainerViewController {
     NSString *_currentEmbeddedSegueId;
-    GBIFOccurrenceResults *_occurrenceResults;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -95,30 +94,30 @@ static int const defaultEmbeddedView = 0;
     if ([destVC isEqual:[NSNull null]]) {
         destVC = segue.destinationViewController;
 
-        //Pass shared data through to child VCs 
+        //Occurrence data (and options) currently managed/updated by MapVC, so need to pass through to child VCs
         //TODO : Move shared data (BCOptions and GBIFOccurrenceResults) to ContainerVC (or NSUserDefaults)
         if ([segue.identifier isEqualToString:@"embedExploreMap"]) {
             ExploreMapViewController *mapVC = (ExploreMapViewController *)destVC;
             mapVC.bcOptions = _bcOptions;
-            mapVC.occurrenceResults = _occurrenceResults;
-        } else {
-            ExploreMapViewController *mapVC = (ExploreMapViewController *)self.embeddedVCs[defaultEmbeddedView][1];
-            if ([segue.identifier isEqualToString:@"embedExploreList"]) {
-                ExploreListViewController *listVC = (ExploreListViewController *)destVC;
-                listVC.bcOptions = mapVC.bcOptions;
-                listVC.occurrenceResults = mapVC.occurrenceResults;
-            } else if ([segue.identifier isEqualToString:@"embedExploreSummary"]) {
-                ExploreSummaryViewController *summVC = (ExploreSummaryViewController *)destVC;
-                summVC.bcOptions = mapVC.bcOptions;
-                summVC.occurrenceResults = mapVC.occurrenceResults;
-            }
         }
-    
+        
         [embeddedVC replaceObjectAtIndex:1 withObject:destVC];
     }
 
     // If embedded VC already loaded, swap open, else do initial load and add child VC/subview
     if (self.childViewControllers.count > 0) {
+
+        ExploreMapViewController *mapVC = (ExploreMapViewController *)self.embeddedVCs[defaultEmbeddedView][1];
+        if ([segue.identifier isEqualToString:@"embedExploreList"]) {
+            ExploreListViewController *listVC = (ExploreListViewController *)destVC;
+            listVC.bcOptions = mapVC.bcOptions;
+            listVC.occurrenceResults = mapVC.occurrenceResults;
+        } else if ([segue.identifier isEqualToString:@"embedExploreSummary"]) {
+            ExploreSummaryViewController *summVC = (ExploreSummaryViewController *)destVC;
+            summVC.bcOptions = mapVC.bcOptions;
+            summVC.occurrenceResults = mapVC.occurrenceResults;
+        }
+        
         [self swapFromViewController:[self.childViewControllers objectAtIndex:0] toViewController:destVC];
     }
     else {

@@ -22,6 +22,7 @@
 #import "CrossHairView.h"
 #import "MapViewLayoutGuide.h"
 #import "ImageCache.h"
+#import "TripsDataManager.h"
 
 #import "SWRevealViewController.h"
 
@@ -60,6 +61,8 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 @property (weak, nonatomic) IBOutlet UIView *viewTaxonInfo;
 
+- (IBAction)buttonStart:(id)sender;
+- (IBAction)buttonSave:(id)sender;
 
 //@property (nonatomic, strong) UIView *viewBackgroundControls;
 
@@ -768,6 +771,21 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 - (IBAction)buttonSidebar:(id)sender {
     [self.revealViewController revealToggleAnimated:YES];
 }
+
+
+- (IBAction)buttonStart:(id)sender {
+    [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:self.occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusInProgress];
+    self.labelButtonStart.textColor = [UIColor orangeColor];
+    self.labelButtonStart.text = @"Pause";
+    self.imageButtonStart.image =
+    [IonIcons imageWithIcon:icon_pause iconColor:[UIColor orangeColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+    
+}
+
+- (IBAction)buttonSave:(id)sender {
+    [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:self.occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusCreated];
+}
+
 
 
 @end

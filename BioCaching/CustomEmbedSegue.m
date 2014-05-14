@@ -13,7 +13,8 @@
 - (id)initWithIdentifier:(NSString *)identifier source:(UIViewController *)source destination:(UIViewController *)destination {
 	
 	self = [super initWithIdentifier:identifier source:source destination:destination];
-	NSLog(@"EmptySegue - initWithIdentifier\n source:%@\n destination:%@", source.class, destination.class);
+    NSLog(@"%s\n source:%@\n destination:%@", __PRETTY_FUNCTION__, source.class, destination.class);
+    
     //	if (self) {
     //
     //		if (![self.sourceViewController isKindOfClass:[SBSegmentedViewController class]]) {
@@ -30,7 +31,7 @@
 
 - (void)perform
 {
-    NSLog(@"EmptySegue - perform");
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     
     // Nothing. The ContainerViewController class handles all of the view
     // controller action.

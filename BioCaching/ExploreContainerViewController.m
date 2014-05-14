@@ -31,15 +31,23 @@ static int const defaultEmbeddedView = 0;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (self) {
         // Custom initialization
     }
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     
     [self initEmbeddedVCs];
     [self setupSegControl];
@@ -79,7 +87,7 @@ static int const defaultEmbeddedView = 0;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
-//    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
+    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
     
     // Keep track of embedded VC instances to save reloading each time
     NSMutableArray *embeddedVC = self.embeddedVCs[self.segControlView.selectedSegmentIndex];
@@ -87,7 +95,7 @@ static int const defaultEmbeddedView = 0;
     if ([destVC isEqual:[NSNull null]]) {
         destVC = segue.destinationViewController;
 
-        //Nasty way of passing shared data through to child VCs 
+        //Pass shared data through to child VCs 
         //TODO : Move shared data (BCOptions and GBIFOccurrenceResults) to ContainerVC (or NSUserDefaults)
         if ([segue.identifier isEqualToString:@"embedExploreMap"]) {
             ExploreMapViewController *mapVC = (ExploreMapViewController *)destVC;

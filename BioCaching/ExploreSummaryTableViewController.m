@@ -42,20 +42,22 @@
 {
     [super viewDidLoad];
     
+    [self setupUI];
+    
     filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:NO];
     
-    self.labelRetrieved.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.Results.count];
-    self.labelFiltered.text = [NSString stringWithFormat:@"%lu", (unsigned long)filteredResults.count];
-    self.labelDisplayed.text = [NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_bcOptions.displayOptions.displayPoints, filteredResults.count))];
+    [self.labelRetrieved setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.Results.count]];
+    [self.labelFiltered setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)filteredResults.count]];
+    [self.labelDisplayed setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_bcOptions.displayOptions.displayPoints, filteredResults.count))]];
     
-    self.labelUniqueSpecies.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonSpecies.count];
-    self.labelKingdoms.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonKingdom.count];
-    self.labelPhylums.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonPhylum.count];
-    self.labelClasses.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonClass.count];
+    [self.labelUniqueSpecies setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonSpecies.count]];
+    [self.labelKingdoms setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonKingdom.count]];
+    [self.labelPhylums setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonPhylum.count]];
+    [self.labelClasses setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonClass.count]];
     
-    self.labelRecordTypes.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordType.count];
-    self.labelRecordSources.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordSource.count];
-    self.labelUniqueLocations.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordLocation.count];
+    [self.labelRecordTypes setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordType.count]];
+    [self.labelRecordSources setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordSource.count]];
+    [self.labelUniqueLocations setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictRecordLocation.count]];
     
     
     // Uncomment the following line to preserve selection between presentations.
@@ -63,6 +65,12 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)setupUI
+{
+    self.view.backgroundColor = [UIColor darkGrayColor];
+    self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
 }
 
 - (void)didReceiveMemoryWarning

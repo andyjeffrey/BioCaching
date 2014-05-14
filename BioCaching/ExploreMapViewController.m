@@ -82,12 +82,29 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     TaxonInfoViewController *_taxonInfoVC;
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     
     // TODO: Remove from here (passed in from parent/container controller)
-//    _bcOptions = [[BCOptions alloc] initWithDefaults];
+    _bcOptions = [[BCOptions alloc] initWithDefaults];
     
     self.navigationController.navigationBarHidden = YES;
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
@@ -118,12 +135,16 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     [self performSearch:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self configureLocationDropDown];
     [self configureBackgroundControlsView];
-    
-//    NSLog(@"viewDidAppear");
 }
 
 
@@ -652,26 +673,14 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 #pragma mark UIStoryboard Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"ExploreListSegue"]) {
-        UINavigationController *navVC = [segue destinationViewController];
-        ExploreListViewController *detailsVC = [navVC viewControllers][0];
-        detailsVC.occurrenceResults = _occurrenceResults;
-        detailsVC.bcOptions = _bcOptions;
-    }
-/*    else if ([segue.identifier isEqualToString:@"ExploreOptionsSegue"]) {
-        ExploreOptionsViewController *optionsVC = [segue destinationViewController];
-        optionsVC.delegate = self;
-        optionsVC.tripOptions = _tripOptions;
-    }
-*/    else if ([segue.identifier isEqualToString:@"OptionsStaticSegue"]) {
-    
+    if ([segue.identifier isEqualToString:@"exploreOptionsSegue"]) {
         UINavigationController *navVC = [segue destinationViewController];
         ExploreOptionsViewController *optionsVC = [navVC viewControllers][0];
         optionsVC.delegate = self;
         optionsVC.bcOptions = _bcOptions;
-} else if ([segue.identifier isEqualToString:@"embedTaxonInfo"]) {
-    _taxonInfoVC = segue.destinationViewController;
-}
+    } else if ([segue.identifier isEqualToString:@"embedTaxonInfo"]) {
+        _taxonInfoVC = segue.destinationViewController;
+    }
 }
 
 #pragma mark DropDownViewDelegate
@@ -718,7 +727,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 - (void)setupButtons
 {
-    self.viewTopBar.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.8];
+    self.viewTopBar.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
     
     [self setupSidebar];
     
@@ -726,9 +735,8 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     [self.buttonRefreshSearch setBackgroundImage:
      [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackground];
-    self.buttonRefreshSearch.tintColor = [UIColor redColor];
     
-    self.buttonLocationList.backgroundColor = [UIColor kColorButtonBackground];
+    self.buttonLocationList.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     self.labelLocationDetails.textColor = [UIColor kColorButtonLabel];
 
     self.buttonSettings.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
@@ -749,13 +757,12 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 - (void)setupSidebar
 {
-    self.buttonSidebar.alpha = 1.0f;
-    self.buttonSidebar.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+//    self.buttonSidebar.alpha = 1.0f;
     [self.buttonSidebar setBackgroundImage:
      [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     
     // Change button color
-    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
+//    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
 }
 
 - (IBAction)buttonSidebar:(id)sender {

@@ -7,14 +7,14 @@
 //
 
 #import "ExploreListViewController.h"
-#import "ExploreSummaryViewController.h"
 #import "OccurrenceDetailsViewController.h"
+#import "TaxonListCell.h"
 
 @interface ExploreListViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
-@property (weak, nonatomic) IBOutlet UILabel *labelOccurrenceCount;
+@property (weak, nonatomic) IBOutlet UILabel *labelTotalResults;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewResults;
 
@@ -33,43 +33,51 @@ typedef enum {
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (self) {
         // Custom initialization
     }
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    return self;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     
     self.navigationController.navigationBarHidden = YES;
     
     _filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
     
-    [self setupLabels];
-    [self setupTable];
-    
+    [self setupUI];
+    [self setupLabels];    
 }
+
+- (void)setupUI
+{
+    self.view.backgroundColor = [UIColor darkGrayColor];
+    self.tableViewResults.backgroundColor = [UIColor kColorTableBackgroundColor];
+}
+
 
 - (void)setupLabels
 {
-    self.labelLocation.text = [NSString stringWithFormat:@"Location: %f,%f",
+    [self.labelLocation setTextWithColor:[NSString stringWithFormat:@"Location: %f,%f",
                                self.bcOptions.searchOptions.searchAreaCentre.latitude,
-                               self.bcOptions.searchOptions.searchAreaCentre.longitude];
+                               self.bcOptions.searchOptions.searchAreaCentre.longitude] color:[UIColor kColorHeaderText]];
     
-    self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %lum",
-                               (unsigned long)self.bcOptions.searchOptions.searchAreaSpan];
+    [self.labelAreaSpan setTextWithColor:[NSString stringWithFormat:@"Area Span: %lum",
+                               (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
     
-    self.labelOccurrenceCount.text = [NSString stringWithFormat:@"Total Record Count: %d",
-                                      self.occurrenceResults.Count.intValue];
+    [self.labelTotalResults setTextWithColor:[NSString stringWithFormat:@"Total Record Count: %d",
+                                      self.occurrenceResults.Count.intValue] color:[UIColor kColorHeaderText]];
     
-}
-
-- (void)setupTable
-{
-    self.tableViewResults.backgroundColor = [UIColor kColorTableBackgroundColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -111,17 +119,17 @@ typedef enum {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
-    
     GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
 
-    cell.textLabel.text = occurrence.detailsMainTitle;
+    TaxonListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaxonListCell" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor kColorTableBackgroundColor];
+    
+    cell.imageIconicTaxon.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMainImageFile]];
+    [cell.labelTaxonTitle setTextWithDefaults:occurrence.title];
+    [cell.labelTaxonSubTitle setTextWithDefaults:occurrence.subtitle];
 
-#ifndef DEBUG
-    cell.detailTextLabel.text = occurrence.detailsSubTitle;
-#else
-//  TableViewCell with row index
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.detailsSubTitle];
+#ifdef DEBUG
+    cell.labelTaxonSubTitle.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.detailsSubTitle];
 #endif
 
     return cell;
@@ -129,7 +137,8 @@ typedef enum {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSLog(@"Row Selected: %lu", indexPath.row);
+    NSLog(@"Row Selected: %lu", indexPath.row);
+//    tableView.editing = YES;
 //    GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
 }
 
@@ -140,12 +149,8 @@ typedef enum {
 {
 //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
 //    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
-
-    if ([segue.identifier isEqualToString:@"SummaryEmbed"]) {
-        ExploreSummaryViewController *summaryVC = segue.destinationViewController;
-        summaryVC.occurrenceResults = self.occurrenceResults;
-        summaryVC.bcOptions = self.bcOptions;
-    } else if ([segue.identifier isEqualToString:@"OccurrenceDetails"]) {
+    
+    if ([segue.identifier isEqualToString:@"OccurrenceDetails"]) {
         OccurrenceDetailsViewController *detailsVC = segue.destinationViewController;
         NSIndexPath *selectedIndexPath = [self.tableViewResults indexPathForSelectedRow];
 //        NSLog(@"%@:%lu", selectedIndexPath, (long)selectedIndexPath.row);

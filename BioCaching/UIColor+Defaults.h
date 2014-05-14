@@ -1,5 +1,5 @@
 //
-//  UIColor+BCColors.h
+//  UIColor+Defaults.h
 //  BioCaching
 //
 //  Created by Andy Jeffrey on 29/04/2014.
@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIColor (BCColors)
+@interface UIColor (Defaults)
 
 +(UIColor*) kColorBackground;
 +(UIColor*) kColorLabelText;
+
++(UIColor*) kColorHeaderBackground;
++(UIColor*) kColorHeaderText;
+
 +(UIColor*) kColorTableBackgroundColor;
 +(UIColor*) kColorTableCellText;
 +(UIColor*) kColorTableCellSeparator;

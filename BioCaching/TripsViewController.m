@@ -7,6 +7,8 @@
 //
 
 #import "TripsViewController.h"
+#import "ExploreListViewController.h"
+#import "TripsListCell.h"
 #import "INatTrip.h"
 #import <RestKit/RestKit.h>
 
@@ -14,24 +16,78 @@
 
 @interface TripsViewController ()
 
+@property (weak, nonatomic) IBOutlet UIView *viewTopBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableTrips;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSidebar;
 
+- (IBAction)buttonSidebar:(id)sender;
 @end
 
 @implementation TripsViewController {
     NSMutableArray *_trips;
+    NSArray *_tableSections;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
+    if (self) {
+        // Custom initialization
+    }
+    return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     
-    [self setupSidebar];
+    [self setupUI];
+    [self setupTable];
     
     [self configureRestKit];
     [self loadTrips];
 }
+
+- (void)setupUI
+{
+    self.view.backgroundColor = [UIColor kColorHeaderBackground];
+    self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
+    self.tableTrips.backgroundColor = [UIColor kColorTableBackgroundColor];
+    [self setupSidebar];
+}
+
+- (void)setupSidebar
+{
+    [self.buttonSidebar setBackgroundImage:
+     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
+    
+    // Change button color
+    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
+}
+
+
+- (void)setupTable
+{
+    NSMutableArray *sections = [[NSMutableArray alloc] initWithCapacity:3];
+    [sections addObject:@[@"Created", [NSNumber numberWithInt:TripStatusCreated]]];
+    [sections addObject:@[@"In Progress", [NSNumber numberWithInt:TripStatusInProgress]]];
+    [sections addObject:@[@"Completed", [NSNumber numberWithInt:TripStatusCompleted]]];
+    _tableSections = [[NSArray alloc] initWithArray:sections];
+}
+
 
 - (void)configureRestKit
 {
@@ -64,23 +120,56 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return _tableSections.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _trips.count;
+    NSInteger rowCount = 1;
+    if (section == 2) {
+        rowCount = _trips.count;
+    }
+    
+    return rowCount;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return _tableSections[section][0];
+    
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    // Text Color
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    header.contentView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
+    [header.textLabel setTextColor:[UIColor kColorLabelText]];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TripsTableCell" forIndexPath:indexPath];
-    
-    INatTrip *trip = _trips[indexPath.row];
-    
-    cell.textLabel.text = trip.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", trip.created_at];
+    TripsListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TripsListCell" forIndexPath:indexPath];
 
+    if (indexPath.section == 2) {
+    
+        INatTrip *trip = _trips[indexPath.row];
+    
+        cell.labelTripTitle.text = trip.title;
+        cell.labelTripSubtitle.text = [NSString stringWithFormat:@"%@", trip.created_at];
+        cell.labelTripSummaryStats.text = [NSString stringWithFormat:@"%d / %d",
+                                       0,
+                                       0];
+        cell.labelBackground.text = @"";
+    
+    } else {
+        cell.labelTripTitle.text = @"";
+        cell.labelTripSubtitle.text = @"";
+        cell.labelTripSummaryStats.text = @"";
+        cell.labelBackground.text = @"[No Trips]";
+    }
+    
     return cell;
 }
 
@@ -91,6 +180,14 @@
     NSLog(@"Row Selected: %lu - %@", (long)indexPath.row, trip.id);
 }
 
+#pragma mark UIStoryboard Methods
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"pushTripTaxaList"]) {
+        ExploreListViewController *exploreVC = segue.destinationViewController;
+        exploreVC.iNatTrip = _trips[self.tableTrips.indexPathForSelectedRow.row];
+    }
+}
 
 
 - (void)didReceiveMemoryWarning
@@ -99,19 +196,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupSidebar
-{
-    [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
-    [self.buttonSidebar setBackgroundImage:
-     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor darkGrayColor] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    
-    // Change button color
-    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
-}
 
 - (IBAction)buttonSidebar:(id)sender {
     [self.revealViewController revealToggleAnimated:YES];
 }
-
 
 @end

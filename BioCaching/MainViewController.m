@@ -8,12 +8,25 @@
 
 #import "MainViewController.h"
 #import "SWRevealViewController.h"
+#import "SidebarViewController.h"
 #import "ExploreContainerViewController.h"
 
 @implementation MainViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
     if (self) {
         _bcOptions = [[BCOptions alloc] initWithDefaults];
     }
@@ -23,7 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [TSMessage setDefaultViewController:self];
     
     //Setup Sidebar
@@ -38,13 +51,25 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"MainViewController:viewWillAppear");
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
-    //    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
+//    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
+    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
     
-    if ([segue.identifier isEqualToString:@"embedExplore"]) {
-        ExploreContainerViewController *exploreVC = segue.destinationViewController;
+    SidebarViewController *sidebarVC = (SidebarViewController*)self.revealViewController.rearViewController;
+    if ([segue.identifier isEqualToString:@"ExploreVC"]) {
+        UINavigationController *exploreNavVC = segue.destinationViewController;
+        
+        if (![sidebarVC.viewControllersCache objectForKey:segue.identifier]) {
+            [sidebarVC.viewControllersCache setObject:exploreNavVC forKey:segue.identifier];
+        }
+        
+        ExploreContainerViewController *exploreVC = (ExploreContainerViewController *)exploreNavVC.topViewController;
         exploreVC.bcOptions = _bcOptions;
     }
 }

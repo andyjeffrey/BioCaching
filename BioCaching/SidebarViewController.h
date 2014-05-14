@@ -10,4 +10,6 @@
 
 @interface SidebarViewController : UITableViewController
 
+@property (nonatomic, strong) NSMutableDictionary *viewControllersCache;
+
 @end

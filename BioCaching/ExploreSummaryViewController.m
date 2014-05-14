@@ -11,6 +11,9 @@
 
 @interface ExploreSummaryViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *labelLocation;
+@property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
+@property (weak, nonatomic) IBOutlet UILabel *labelTotalResults;
 
 @end
 
@@ -24,20 +27,27 @@
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 
     filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:NO];
+    
+    [self setupUI];
+    [self setupLabels];
+}
 
-        
-/*
-    self.labelRetrieved.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.Results.count];
-    self.labelFiltered.text = [NSString stringWithFormat:@"%lu", [self.occurrenceResults getFilteredResults:self.tripOptions].count];
+- (void)setupUI
+{
+    self.view.backgroundColor = [UIColor darkGrayColor];
+}
+
+- (void)setupLabels
+{    
+    [self.labelLocation setTextWithColor:[NSString stringWithFormat:@"Location: %f,%f",
+                               self.bcOptions.searchOptions.searchAreaCentre.latitude,
+                                             self.bcOptions.searchOptions.searchAreaCentre.longitude] color:[UIColor kColorHeaderText]];
     
-    self.labelUniqueSpecies.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictTaxonSpecies.count];
-    self.labelKingdoms.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictTaxonKingdom.count];
-    self.labelPhylums.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictTaxonPhylum.count];
-    self.labelClasses.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictTaxonClass.count];
+    [self.labelAreaSpan setTextWithColor:[NSString stringWithFormat:@"Area Span: %lum",
+                                             (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
     
-    self.labelRecordTypes.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictRecordType.count];
-    self.labelRecordSources.text = [NSString stringWithFormat:@"%lu", self.occurrenceResults.dictRecordSource.count];
-*/
+    [self.labelTotalResults setTextWithColor:[NSString stringWithFormat:@"Total Record Count: %d",
+                                                 self.occurrenceResults.Count.intValue] color:[UIColor kColorHeaderText]];
 }
 
 - (void)viewDidAppear:(BOOL)animated

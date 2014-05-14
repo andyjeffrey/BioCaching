@@ -18,6 +18,9 @@
 #define kINatTripsPath @"trips.json"
 #define kINatTripsKey @"trips"
 
+#define kBHLBaseURL @"http://www.biodiversitylibrary.org/"
+#define kBHLSpeciesBiblioPath @"name/"
+
 #define kOptionsDefaultSearchAreaSpan 1000
 #define kOptionsDefaultDisplayPoints 20
 #define kOptionsDefaultFullSpeciesNames YES

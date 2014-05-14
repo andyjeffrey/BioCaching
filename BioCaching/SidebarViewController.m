@@ -10,7 +10,7 @@
 #import "SWRevealViewController.h"
 
 #import "MainViewController.h"
-#import "ExploreMapViewController.h"
+#import "ExploreContainerViewController.h"
 #import "TripsViewController.h"
 #import "ProfileViewController.h"
 #import "ExploreOptionsViewController.h"
@@ -26,20 +26,29 @@
 
 @end
 
-@implementation SidebarViewController
+@implementation SidebarViewController 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (self) {
         // Custom initialization
     }
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    self.viewControllersCache = [NSMutableDictionary dictionary];
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     
     [self setColors];
     [self setupIcons];
@@ -87,42 +96,52 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    MainViewController *mainVC = (MainViewController *)self.revealViewController.frontViewController;
-
+    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
+    
     if ([segue isKindOfClass:[SWRevealViewControllerSegue class]]) {
-
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue *)segue;
-        if ([segue.identifier isEqualToString:@"segueOptions"]) {
-            UINavigationController *navVC = (UINavigationController *)segue.destinationViewController;
-            ExploreOptionsViewController *optionsVC = [navVC viewControllers][0];
-            optionsVC.bcOptions = mainVC.bcOptions;
-            optionsVC.delegate = [mainVC childViewControllers][0];
-            
-            swSegue.performBlock = ^(SWRevealViewControllerSegue *rvc_segue, UIViewController *svc, UIViewController *dvc) {
-                [navVC pushViewController:dvc animated:NO];
-                
-                
-//                UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
-//                [navVC setViewControllers:@[dvc] animated:NO];
-                [self.revealViewController setFrontViewController:dvc];
-                [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-            };
-        } else {
+        
         swSegue.performBlock = ^(SWRevealViewControllerSegue *rvc_segue, UIViewController *svc, UIViewController *dvc) {
-//            UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
-//            [navVC setViewControllers:@[dvc] animated:NO];
+            if (rvc_segue.identifier) {
+                UIViewController *cachedVC = [self.viewControllersCache objectForKey:rvc_segue.identifier];
+                if (cachedVC != nil) {
+                    dvc = cachedVC;
+                } else {
+                    [self.viewControllersCache setObject:dvc forKey:rvc_segue.identifier];
+                }
+            }
+            //            UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+            //            [navVC setViewControllers:@[dvc] animated:NO];
             [self.revealViewController setFrontViewController:dvc];
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
         };
-        }
     }
-/*
-    UINavigationController *navVC = [segue destinationViewController];
-    OptionsStaticTableViewController *optionsVC = [navVC viewControllers][0];
-    optionsVC.delegate = self;
-    optionsVC.bcOptions = _bcOptions;
-*/
 }
+
+
+//        if ([segue.identifier isEqualToString:@"segueOptions"]) {
+//            UINavigationController *navVC = (UINavigationController *)segue.destinationViewController;
+//            ExploreOptionsViewController *optionsVC = [navVC viewControllers][0];
+//            optionsVC.bcOptions = mainVC.bcOptions;
+//            optionsVC.delegate = [mainVC childViewControllers][0];
+//            
+//            swSegue.performBlock = ^(SWRevealViewControllerSegue *rvc_segue, UIViewController *svc, UIViewController *dvc) {
+//                [navVC pushViewController:dvc animated:NO];
+//                
+//                
+////                UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+////                [navVC setViewControllers:@[dvc] animated:NO];
+//                [self.revealViewController setFrontViewController:dvc];
+//                [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+//            };
+//        } else {
+//        swSegue.performBlock = ^(SWRevealViewControllerSegue *rvc_segue, UIViewController *svc, UIViewController *dvc) {
+//            if (rvc_segue.identifier) {
+//                UIViewController *cachedVC = [mainVC.viewControllersCache objectForKey:rvc_segue.identifier];
+//                if (cachedVC != nil) {
+//                    dvc = cachedVC;
+//                }
+//            }
 
 /*
 - (void) prepareForSegue: (UIStoryboardSegue *) segue sender: (id) sender
@@ -173,18 +192,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

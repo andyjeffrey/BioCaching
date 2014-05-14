@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
+// Switch to NSUserDefaults
+
 #import <Foundation/Foundation.h>
 #import "SearchOptions.h"
 #import "DisplayOptions.h"

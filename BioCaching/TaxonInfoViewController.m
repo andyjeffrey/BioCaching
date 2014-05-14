@@ -12,11 +12,12 @@
 @interface TaxonInfoViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageMainPhoto;
+@property (weak, nonatomic) IBOutlet UILabel *labelPhotoCopyright;
+@property (weak, nonatomic) IBOutlet UIButton *buttonDetails;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxon;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonTitle;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonSubTitle;
-@property (weak, nonatomic) IBOutlet UILabel *labelPhotoCopyright;
-@property (weak, nonatomic) IBOutlet UIButton *buttonDetails;
 
 @property (weak, nonatomic) IBOutlet UIView *viewOverlayMask;
 @property (weak, nonatomic) IBOutlet UIView *viewRemoveButton;

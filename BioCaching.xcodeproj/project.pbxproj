@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		A12B639318E9E33B00F9C4C0 /* ExploreSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B639218E9E33B00F9C4C0 /* ExploreSummaryViewController.m */; };
 		A12B63AC18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B63AB18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m */; };
-		A130095B190E8DE400069DA4 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A130095A190E8DE400069DA4 /* ImageCache.m */; };
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
 		A162FD3918D6FF2100362A0A /* SearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A162FD3818D6FF2100362A0A /* SearchOptions.m */; };
@@ -60,6 +59,9 @@
 		A1EA12771923A37C00449327 /* INatTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12701923A37C00449327 /* INatTrip.m */; };
 		A1EA12781923A37C00449327 /* INatTripTaxon.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12721923A37C00449327 /* INatTripTaxon.m */; };
 		A1EA127B1923A4E400449327 /* TripsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA127A1923A4E400449327 /* TripsDataManager.m */; };
+		A1EA12821923C03400449327 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA127D1923C03400449327 /* ImageCache.m */; };
+		A1EA12831923C03400449327 /* UILabel+Appearance.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA127F1923C03400449327 /* UILabel+Appearance.m */; };
+		A1EA12841923C03400449327 /* UIView+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12811923C03400449327 /* UIView+Colors.m */; };
 		A1EA209318B4F7AB00200D50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209218B4F7AB00200D50 /* Foundation.framework */; };
 		A1EA209718B4F7AB00200D50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209618B4F7AB00200D50 /* UIKit.framework */; };
 		A1EA209D18B4F7AB00200D50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1EA209B18B4F7AB00200D50 /* InfoPlist.strings */; };
@@ -119,8 +121,6 @@
 		A12B63AB18EC3A3C00F9C4C0 /* OccurrenceDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OccurrenceDetailsViewController.m; sourceTree = "<group>"; };
 		A12B63B018EC540600F9C4C0 /* INatTaxon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTaxon.h; sourceTree = "<group>"; };
 		A12B63B718EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 2783288252_6f21bf941c.jpg; path = Resources/TestData/Images/2783288252_6f21bf941c.jpg; sourceTree = "<group>"; };
-		A1300959190E8DE400069DA4 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = SOURCE_ROOT; };
-		A130095A190E8DE400069DA4 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = SOURCE_ROOT; };
 		A13B8F2118F75AAE000C522B /* OccurrenceResultsCASFilterv0.9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv0.9.json; path = Resources/TestData/OccurrenceResultsCASFilterv0.9.json; sourceTree = "<group>"; };
 		A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv1.0.json; path = Resources/TestData/OccurrenceResultsCASFilterv1.0.json; sourceTree = "<group>"; };
 		A13B8F2318F75AAE000C522B /* OccurrenceResultsCASv0.9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASv0.9.json; path = Resources/TestData/OccurrenceResultsCASv0.9.json; sourceTree = "<group>"; };
@@ -234,6 +234,12 @@
 		A1EA12721923A37C00449327 /* INatTripTaxon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTripTaxon.m; sourceTree = "<group>"; };
 		A1EA12791923A4E400449327 /* TripsDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripsDataManager.h; sourceTree = "<group>"; };
 		A1EA127A1923A4E400449327 /* TripsDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripsDataManager.m; sourceTree = "<group>"; };
+		A1EA127C1923C03400449327 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCache.h; path = BioCaching/ImageCache.h; sourceTree = SOURCE_ROOT; };
+		A1EA127D1923C03400449327 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCache.m; path = BioCaching/ImageCache.m; sourceTree = SOURCE_ROOT; };
+		A1EA127E1923C03400449327 /* UILabel+Appearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILabel+Appearance.h"; path = "BioCaching/UILabel+Appearance.h"; sourceTree = SOURCE_ROOT; };
+		A1EA127F1923C03400449327 /* UILabel+Appearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILabel+Appearance.m"; path = "BioCaching/UILabel+Appearance.m"; sourceTree = SOURCE_ROOT; };
+		A1EA12801923C03400449327 /* UIView+Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Colors.h"; path = "BioCaching/UIView+Colors.h"; sourceTree = SOURCE_ROOT; };
+		A1EA12811923C03400449327 /* UIView+Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Colors.m"; path = "BioCaching/UIView+Colors.m"; sourceTree = SOURCE_ROOT; };
 		A1EA208F18B4F7AB00200D50 /* BioCaching.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BioCaching.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EA209218B4F7AB00200D50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A1EA209418B4F7AB00200D50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -413,8 +419,12 @@
 		A1D5DE0018C7F1E000FA005B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				A1300959190E8DE400069DA4 /* ImageCache.h */,
-				A130095A190E8DE400069DA4 /* ImageCache.m */,
+				A1EA127C1923C03400449327 /* ImageCache.h */,
+				A1EA127D1923C03400449327 /* ImageCache.m */,
+				A1EA127E1923C03400449327 /* UILabel+Appearance.h */,
+				A1EA127F1923C03400449327 /* UILabel+Appearance.m */,
+				A1EA12801923C03400449327 /* UIView+Colors.h */,
+				A1EA12811923C03400449327 /* UIView+Colors.m */,
 				A1875DF018FD48A2001DC029 /* NSCountedSet+Sorting.h */,
 				A1875DF118FD48A2001DC029 /* NSCountedSet+Sorting.m */,
 				A1875DF218FD48A2001DC029 /* NSDictionary+Filtering.h */,
@@ -901,6 +911,7 @@
 				A1B92339191BA54C005092F4 /* TaxonListCell.m in Sources */,
 				A1EA12751923A37C00449327 /* _INatTripTaxon.m in Sources */,
 				A1EB22541922721B005650D9 /* NIWebController.m in Sources */,
+				A1EA12841923C03400449327 /* UIView+Colors.m in Sources */,
 				A18C53C6190696CD001D6A9E /* CrossHairView.m in Sources */,
 				A1EB2247192271F2005650D9 /* NINonEmptyCollectionTesting.m in Sources */,
 				A1EA6CD418D0BE87002FCDDD /* GBIFCommunicatorMock.m in Sources */,
@@ -913,9 +924,10 @@
 				A1DAC5F718F320FD00ABC9BA /* INatManager.m in Sources */,
 				A1EB224B192271F2005650D9 /* NIRuntimeClassModifications.m in Sources */,
 				A1EB1C5419223E91005650D9 /* BioCaching.xcdatamodeld in Sources */,
+				A1EA12831923C03400449327 /* UILabel+Appearance.m in Sources */,
+				A1EA12821923C03400449327 /* ImageCache.m in Sources */,
 				A1EA20A918B4F7AB00200D50 /* ExploreMapViewController.m in Sources */,
 				A1EA12781923A37C00449327 /* INatTripTaxon.m in Sources */,
-				A130095B190E8DE400069DA4 /* ImageCache.m in Sources */,
 				A1EB2241192271F2005650D9 /* NIError.m in Sources */,
 				A1E7813A191295F600A3200F /* TaxonInfoViewController.m in Sources */,
 				A1EB223F192271F2005650D9 /* NIDebuggingTools.m in Sources */,

@@ -24,3 +24,5 @@ Reveal.framework
 Pods/
 Libraries/
 Resources/TestData/
+
+BioCaching/config.h

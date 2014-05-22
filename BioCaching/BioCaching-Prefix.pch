@@ -18,8 +18,8 @@
     #import <NXOAuth2.h>
 #endif
 
-#import "config.h"
 #import "constants.h"
+#import "config.h"
 
 #import "UIColor+Defaults.h"
 #import "UIView+Colors.h"

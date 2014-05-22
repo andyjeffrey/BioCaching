@@ -8,9 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+@class LoginManager;
+
+@protocol LoginManagerDelegate <NSObject>
+@optional
+- (void)loginSuccess;
+- (void)loginFailure;
+- (void)logoutCompleted;
+@end
+
 @interface LoginManager : NSObject
 
-@property (nonatomic, assign) BOOL loggedIn;
+@property (nonatomic, weak) id <LoginManagerDelegate> delegate;
+@property (nonatomic, readonly, assign) BOOL loggedIn;
 
 + (instancetype)sharedInstance;
 

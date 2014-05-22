@@ -42,6 +42,14 @@
     return self;
 }
 
+- (BOOL)loggedIn
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kINatAuthTokenPrefKey]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
 - (void)configureOAuth2Client{
     NXOAuth2AccountStore *sharedStore = [NXOAuth2AccountStore sharedStore];
@@ -89,6 +97,7 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kINatAuthTokenPrefKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [[RKObjectManager sharedManager].HTTPClient setDefaultHeader:@"Authorization" value:nil];
+    [self.delegate logoutCompleted];
     
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Logged Out", nil)
                                                  message:NSLocalizedString(@"You are now signed out of iNaturalist.org", nil)
@@ -96,7 +105,6 @@
                                        cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                        otherButtonTitles:nil];
     [av show];
-    
 }
 
 
@@ -127,6 +135,8 @@
                                                   usingBlock:^(NSNotification *aNotification){
                                                       // Do something with the error
                                                       if (!isLoginCompleted) {
+                                                          [self.delegate loginFailure];
+
                                                           UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Login Failed", nil)
                                                                                               message:NSLocalizedString(@"Authentication credentials were invalid", nil)
                                                                                              delegate:self
@@ -171,19 +181,16 @@
             NSLog(@"Login Success, Response: %@", responseObject);
             [[NSUserDefaults standardUserDefaults] setValue:INatAccessToken forKey:kINatAuthTokenPrefKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [self.delegate loginSuccess];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Login Error, Response: %@", error);
             [[NSUserDefaults standardUserDefaults] setValue:nil forKey:kINatAuthTokenPrefKey];
+            [self.delegate loginFailure];
         }];
     }
     else {
         NSLog(@"finishWithAuth2Login failedLogin");
     }
-}
-
-- (void)addOAuth2Observers
-{
-    
 }
 
 - (void)removeOAuth2Observers

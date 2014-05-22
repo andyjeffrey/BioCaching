@@ -14,9 +14,15 @@
 #define kGBIFOccurrenceDefaultLimit 300
 #define kGBIFOccurrenceDefaultOffset 0
 
-#define kINatBaseURL @"http://www.inaturalist.org/"
-#define kINatTripsPath @"trips.json"
-#define kINatTripsKey @"trips"
+#define kINatAuthService @"INatAuthService"
+#define kINatAuthServiceExtToken @"INatAuthServiceExtToken"
+#define kINatAuthUsernamePrefKey @"INatUsernamePrefKey"
+#define kINatAuthPasswordPrefKey @"INatPasswordPrefKey"
+#define kINatAuthTokenPrefKey @"INatTokenPrefKey"
+
+#define kINatBaseURL @"https://www.inaturalist.org/"
+#define kINatTripsPathPattern @"trips"
+#define kINatTripsKeyPath @"trips"
 
 #define kBHLBaseURL @"http://www.biodiversitylibrary.org/"
 #define kBHLSpeciesBiblioPath @"name/"

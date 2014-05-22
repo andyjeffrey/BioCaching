@@ -55,7 +55,7 @@
 
 - (void)setupUI
 {
-    self.view.backgroundColor = [UIColor kColorTableBackgroundColor];
+    self.view.backgroundColor = [UIColor kColorHeaderBackground];
     self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
     [self setupSidebar];
 }

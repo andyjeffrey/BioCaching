@@ -10,7 +10,7 @@
 #import "TripsDataManager.h"
 #import "ExploreListViewController.h"
 #import "TripsListCell.h"
-#import "INatTripPreCD.h"
+#import "INatTrip.h"
 #import <RestKit/RestKit.h>
 
 #import "SWRevealViewController.h"
@@ -25,28 +25,9 @@
 @end
 
 @implementation TripsViewController {
-    NSMutableArray *_trips;
+    TripsDataManager *tripsDataManager;
+//    NSArray *_trips;
     NSArray *_tableSections;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
-    if (self) {
-        // Custom initialization
-    }
-    return self;
 }
 
 - (void)viewDidLoad
@@ -57,8 +38,9 @@
     [self setupUI];
     [self setupTable];
     
-    [self configureRestKit];
-    [self loadTrips];
+//    [self configureRestKit];
+    tripsDataManager = [TripsDataManager sharedInstance];
+    [self loadCompletedTripsFromINat];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -87,7 +69,7 @@
 - (void)setupTable
 {
     NSMutableArray *sections = [[NSMutableArray alloc] initWithCapacity:3];
-    [sections addObject:@[@"Created", [NSNumber numberWithInt:TripStatusCreated]]];
+    [sections addObject:@[@"Saved For Later", [NSNumber numberWithInt:TripStatusCreated]]];
     [sections addObject:@[@"In Progress", [NSNumber numberWithInt:TripStatusInProgress]]];
     [sections addObject:@[@"Completed", [NSNumber numberWithInt:TripStatusCompleted]]];
     _tableSections = [[NSArray alloc] initWithArray:sections];
@@ -96,29 +78,26 @@
 
 - (void)configureRestKit
 {
+/*
     NSURL *baseURL = [NSURL URLWithString:kINatBaseURL];
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
     
     RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
-    RKObjectMapping *iNatMapping = [RKObjectMapping mappingForClass:[INatTripPreCD class]];
+    RKObjectMapping *iNatMapping = [RKObjectMapping mappingForClass:[INatTrip class]];
     [iNatMapping addAttributeMappingsFromArray:@[@"title", @"created_at"]];
     
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:iNatMapping method:RKRequestMethodGET pathPattern:kINatTripsPath keyPath:kINatTripsKey statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
     [objectManager addResponseDescriptor:responseDescriptor];
-    
+*/
 }
 
-- (void)loadTrips
+- (void)loadCompletedTripsFromINat
 {
-    [[RKObjectManager sharedManager] getObjectsAtPath:kINatTripsPath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        _trips = mappingResult.array;
+    [tripsDataManager loadAllTrips:nil success:^(NSArray *trips) {
+//        _trips = trips;
         [self.tableTrips reloadData];
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"Error Loading Trips: %@", error);
     }];
-    
-//    _trips = [[NSMutableArray alloc] initWithObjects:[[INatTrip alloc] init], nil];
 }
 
 #pragma mark UITableView
@@ -136,7 +115,7 @@
     } else if (section == TripStatusInProgress) {
         rowCount = [TripsDataManager sharedInstance].inProgressTrips.count;
     } else {
-        rowCount = _trips.count;
+        rowCount = [TripsDataManager sharedInstance].completedTrips.count;
     }
     
     if (rowCount == 0) {
@@ -166,22 +145,24 @@
 {
     TripsListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TripsListCell" forIndexPath:indexPath];
 
-    INatTripPreCD *trip;
+    INatTrip *trip;
     
-    if (indexPath.section == 0) {
-        if ([TripsDataManager sharedInstance].createdTrips.count > 0) {
-            trip = [TripsDataManager sharedInstance].createdTrips[indexPath.row];
+    if (indexPath.section == TripStatusCreated) {
+        if (tripsDataManager.createdTrips.count > 0) {
+            trip = tripsDataManager.createdTrips[indexPath.row];
         }
     } else if (indexPath.section == TripStatusInProgress) {
-        if ([TripsDataManager sharedInstance].inProgressTrips.count > 0) {
-            trip = [TripsDataManager sharedInstance].inProgressTrips[indexPath.row];
+        if (tripsDataManager.inProgressTrips.count > 0) {
+            trip = tripsDataManager.inProgressTrips[indexPath.row];
         }
     } else {
-        trip = _trips[indexPath.row];
+        if (tripsDataManager.completedTrips.count > 0) {
+            trip = tripsDataManager.completedTrips[indexPath.row];
+        }
     }
 
     cell.labelTripTitle.text = trip.title;
-    cell.labelTripSubtitle.text = [NSString stringWithFormat:@"%@", trip.created_at];
+    cell.labelTripSubtitle.text = [NSString stringWithFormat:@"%@", trip.createdAt];
     cell.labelTripSummaryStats.text = [NSString stringWithFormat:@"%d / %d", 0, 0];
     cell.labelBackground.text = @"";
     
@@ -197,9 +178,39 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    INatTripPreCD *trip = _trips[indexPath.row];
+    INatTrip *trip;
     
-    NSLog(@"Row Selected: %lu - %@", (long)indexPath.row, trip.id);
+    if (indexPath.section == TripStatusCreated) {
+        if (tripsDataManager.createdTrips.count > 0) {
+            trip = tripsDataManager.createdTrips[indexPath.row];
+        }
+    } else if (indexPath.section == TripStatusInProgress) {
+        if (tripsDataManager.inProgressTrips.count > 0) {
+            trip = tripsDataManager.inProgressTrips[indexPath.row];
+        }
+    } else {
+        if (tripsDataManager.completedTrips.count > 0) {
+            trip = tripsDataManager.completedTrips[indexPath.row];
+        }
+    }
+    
+    if (!trip) {
+        NSLog(@"Cell Selected: %lu-%lu: NO TRIP", (long)indexPath.section, (long)indexPath.row);
+    } else if (trip.status == [NSNumber numberWithInt:TripStatusCompleted]) {
+        NSLog(@"Cell Selected: %lu-%lu: %@", (long)indexPath.section, (long)indexPath.row, trip.objectId);
+        
+        [[RKObjectManager sharedManager] getObject:trip path:nil parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+            NSLog(@"Loading mapping result: %@", mappingResult);
+        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+            NSLog(@"Error mapping result: %@", error);
+        }];
+    } else {
+        NSLog(@"Cell Selected: %lu-%lu: Saving Trip...", (long)indexPath.section, (long)indexPath.row);
+        [tripsDataManager saveTrip:trip];
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
 }
 
 #pragma mark UIStoryboard Methods
@@ -207,7 +218,7 @@
 {
     if ([segue.identifier isEqualToString:@"pushTripTaxaList"]) {
         ExploreListViewController *exploreVC = segue.destinationViewController;
-        exploreVC.iNatTrip = _trips[self.tableTrips.indexPathForSelectedRow.row];
+//        exploreVC.iNatTrip = _trips[self.tableTrips.indexPathForSelectedRow.row];
     }
 }
 

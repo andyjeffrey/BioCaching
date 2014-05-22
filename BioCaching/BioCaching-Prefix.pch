@@ -13,14 +13,17 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+    #import <RestKit/RestKit.h>
+    #import <NXOAuth2.h>
 #endif
 
 #import "config.h"
 #import "constants.h"
+
 #import "UIColor+Defaults.h"
 #import "UIView+Colors.h"
 #import "UILabel+Appearance.h"
-
 #import "MKPolygon+WKTParser.h"
 #import "NSString+UtilityMethods.h"
 #import "NSCountedSet+Sorting.h"

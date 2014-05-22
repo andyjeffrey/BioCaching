@@ -122,7 +122,6 @@
 		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Tortuga Bay, Santa Cruz, Galapagos.gpx"; path = "Resources/TestData/Tortuga Bay, Santa Cruz, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
-		A17CC6A3192E60750050E620 /* customconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = customconfig.h; sourceTree = "<group>"; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOSa_2.23.0.version; sourceTree = "<group>"; };
@@ -629,7 +628,6 @@
 			isa = PBXGroup;
 			children = (
 				A1EA6CD918D1B278002FCDDD /* config.h */,
-				A17CC6A3192E60750050E620 /* customconfig.h */,
 				A1875E3318FED8D2001DC029 /* constants.h */,
 				A1EA20A018B4F7AB00200D50 /* BioCaching-Prefix.pch */,
 				A1EA20A118B4F7AB00200D50 /* AppDelegate.h */,

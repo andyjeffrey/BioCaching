@@ -25,4 +25,5 @@ Pods/
 Libraries/
 Resources/TestData/
 
-BioCaching/config.h
+BioCaching/customconfig.h
+

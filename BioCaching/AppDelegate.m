@@ -73,7 +73,7 @@
 
 - (void)configureDebugging
 {
-//    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
 //    RKLogConfigureByName("RestKit/Network/Core Data", RKLogLevelTrace);
 //    RKLogConfigureByName("RestKit/Core Data", RKLogLevelTrace);
 //    RKLogConfigureByName("RestKit/Core Data/Cache", RKLogLevelTrace);
@@ -144,7 +144,7 @@
     // Create HTTP Client User-Agent and save to UserDefaults
     UIDevice *d = [UIDevice currentDevice];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    NSString *userAgent = [NSString stringWithFormat:@"iNaturalist/%@ (iOS %@ %@ %@)",
+    NSString *userAgent = [NSString stringWithFormat:@"BioCaching/%@ (iOS %@ %@ %@)",
                            appVersion,
                            d.systemName,
                            d.systemVersion,
@@ -195,12 +195,14 @@
     RKEntityMapping *postMappingTrip = [RKEntityMapping mappingForEntityForName:@"INatTrip" inManagedObjectStore:managedObjectStore];
     [postMappingTrip addAttributeMappingsFromDictionary:iNatTripObjectMapping];
     
-    RKRequestDescriptor *reqDescTrip = [RKRequestDescriptor requestDescriptorWithMapping:[postMappingTrip inverseMapping] objectClass:[INatTrip class] rootKeyPath:@"trip" method:RKRequestMethodPOST];
+    RKRequestDescriptor *reqDescTripPost = [RKRequestDescriptor requestDescriptorWithMapping:[postMappingTrip inverseMapping] objectClass:[INatTrip class] rootKeyPath:@"trip" method:RKRequestMethodPOST];
+    [objectManager addRequestDescriptor:reqDescTripPost];
+    RKResponseDescriptor *respDescTripsPost = [RKResponseDescriptor responseDescriptorWithMapping:entityMappingTrip method:RKRequestMethodPOST pathPattern:kINatTripsPathPattern keyPath:@"trip" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [objectManager addResponseDescriptor:respDescTripsPost];
     
 //    objectManager.requestSerializationMIMEType = RKMIMETypeJSON;
 //    [objectManager setAcceptHeaderWithMIMEType:RKMIMETypeJSON];
 //    [RKMIMETypeSerialization registerClass:[RKMIMETypeSerialization class] forMIMEType:@"application/json"];
-    [objectManager addRequestDescriptor:reqDescTrip];
 
 /*
     NSDictionary *iNatTripTaxaAttObjectMapping = @{

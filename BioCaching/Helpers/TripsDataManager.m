@@ -109,7 +109,9 @@
 
 - (void)saveTrip:(INatTrip *)trip
 {
-    [[RKObjectManager sharedManager] postObject:trip path:kINatTripsPathPattern parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    NSDictionary *queryParams = @{@"publish" : @"Publish"};
+    
+    [[RKObjectManager sharedManager] postObject:trip path:kINatTripsPathPattern parameters:queryParams success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"saveTrip Success: %@", mappingResult);
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"saveTrip Error: %@", error);

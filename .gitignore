@@ -25,5 +25,6 @@ Pods/
 Libraries/
 Resources/TestData/
 
+Resources/dev.config.h
 BioCaching/config.h
 

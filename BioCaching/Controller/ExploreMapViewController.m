@@ -54,15 +54,18 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonCurrentLocation;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageButtonSave;
 
+@property (weak, nonatomic) IBOutlet UIView *viewButtonSave;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSave;
+@property (weak, nonatomic) IBOutlet UIImageView *imageButtonSave;
+- (IBAction)buttonSave:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *buttonStart;
 @property (weak, nonatomic) IBOutlet UIImageView *imageButtonStart;
 @property (weak, nonatomic) IBOutlet UILabel *labelButtonStart;
+- (IBAction)buttonStart:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *viewTaxonInfo;
-
-- (IBAction)buttonStart:(id)sender;
-- (IBAction)buttonSave:(id)sender;
 
 //@property (nonatomic, strong) UIView *viewBackgroundControls;
 
@@ -83,6 +86,8 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     CGRect _taxonInfoRefFrame;
     
     TaxonInfoViewController *_taxonInfoVC;
+    
+    INatTrip *_currentTrip;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -135,7 +140,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     [self configureGestureRecognizers];
     self.mapView.delegate = self;
 
-    [self performSearch:nil];
+    [self performSearch];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -247,6 +252,30 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 
 #pragma mark Update View Methods
+
+- (void)updateButtons {
+    if (!_currentTrip) {
+        self.viewButtonSave.hidden = NO;
+        
+        self.labelButtonStart.textColor = [UIColor kColorINatGreen];
+        self.labelButtonStart.text = @"Start";
+        self.imageButtonStart.image =
+        [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+    }
+    else {
+        if (_currentTrip.status.intValue == TripStatusInProgress) {
+            self.labelButtonStart.textColor = [UIColor orangeColor];
+            self.labelButtonStart.text = @"Stop";
+            self.imageButtonStart.image =
+            [IonIcons imageWithIcon:icon_stop iconColor:[UIColor orangeColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+        } else if (_currentTrip.status.intValue == TripStatusFinished) {
+            self.labelButtonStart.textColor = [UIColor cyanColor];
+            self.labelButtonStart.text = @"Upload";
+            self.imageButtonStart.image =
+            [IonIcons imageWithIcon:icon_upload iconColor:[UIColor cyanColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+        }
+    }
+}
 
 - (void)updateLocationLabelAndMapView:(CLLocationCoordinate2D)location mapViewSpan:(NSInteger)viewSpan
 {
@@ -388,45 +417,100 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     [self updateCurrentMapView:_bcOptions.searchOptions.searchAreaCentre latitudinalMeters:0 longitudinalMeters:_bcOptions.searchOptions.searchAreaSpan];
 }
 
-- (IBAction)performSearch:(id)sender
+
+
+- (IBAction)buttonRefreshSearch:(id)sender
 {
     [self hideTaxonView];
-    
-    _bcOptions.searchOptions.searchAreaCentre = _currentViewLocation;
-    [self updateSearchAreaOverlay:_bcOptions.searchOptions.searchAreaCentre areaSpan:_bcOptions.searchOptions.searchAreaSpan];
 
-//    _bcOptions.searchOptions.searchAreaSpan = _currentSearchAreaSpan;
-    _bcOptions.searchOptions.searchAreaPolygon = _currentSearchAreaPolygon;
-//    _bcOptions.searchOptions.searchAreaCentre = _currentSearchAreaPolygon.coordinate;
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    [self.gbifManager fetchOccurrencesWithinArea:_currentSearchAreaPolygon];
-    [_gbifManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
+    if (!_currentTrip) {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Create New Trip", nil)
+                                                     message:NSLocalizedString(@"Unsaved Trip Will Be Lost \n\nTODO: Add OK/Cancel Option", nil)
+                                                    delegate:self
+                                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                           otherButtonTitles:nil];
+        [av show];
+    }
+    _currentTrip = nil;
+    [self updateButtons];
+    [self performSearch];
 }
 
-/*
-- (IBAction)changeMapType:(id)sender
-{
-    NSString *mapType = @"MapType: %@";
-    
-    switch (self.mapView.mapType) {
-        case MKMapTypeStandard:
-            [self.mapView setMapType:MKMapTypeSatellite];
-            [self.buttonMapType setTitle:[NSString stringWithFormat:mapType, @"Satellite"] forState:UIControlStateNormal];
-            break;
-            
-        case MKMapTypeSatellite:
-            [self.mapView setMapType:MKMapTypeHybrid];
-            [self.buttonMapType setTitle:[NSString stringWithFormat:mapType, @"Hybrid"] forState:UIControlStateNormal];
-            break;
 
-        default:
-            [self.mapView setMapType:MKMapTypeStandard];
-            [self.buttonMapType setTitle:[NSString stringWithFormat:mapType, @"Standard"] forState:UIControlStateNormal];
-            break;
+- (IBAction)buttonStart:(id)sender {
+    if (!_currentTrip) {
+        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:self.occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusInProgress];
+    } else {
+        if (_currentTrip.status.intValue == TripStatusCreated) {
+            _currentTrip.status = [NSNumber numberWithInt:TripStatusInProgress];
+
+            //TODO: Change TripsDataManager to use single array with predicates/FetchedResultsController
+            [[TripsDataManager sharedInstance].savedTrips removeObject:_currentTrip];
+            [[TripsDataManager sharedInstance].inProgressTrips addObject:_currentTrip];
+            
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Started and Saved to Trips Page", nil)
+                                                         message:NSLocalizedString(@"Animate button disappearing to trips menu/button", nil)
+                                                        delegate:self
+                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                               otherButtonTitles:nil];
+            [av show];
+            
+        } else if (_currentTrip.status.intValue == TripStatusInProgress){
+            _currentTrip.status = [NSNumber numberWithInt:TripStatusFinished];
+
+            //TODO: Change TripsDataManager to use single array with predicates/FetchedResultsController
+            [[TripsDataManager sharedInstance].inProgressTrips removeObject:_currentTrip];
+            [[TripsDataManager sharedInstance].finishedTrips addObject:_currentTrip];
+            
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Finished and Ready to Upload (From Trips Page)", nil)
+                                                         message:NSLocalizedString(@"More user interaction asking to validate observations and items on trip list etc.", nil)
+                                                        delegate:self
+                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                               otherButtonTitles:nil];
+            [av show];
+            
+        }
+
+        [[TripsDataManager sharedInstance] updateTrip:_currentTrip];
+    }
+    
+    if (_currentTrip) {
+        self.viewButtonSave.hidden = YES;
+        [self updateButtons];
     }
 }
-*/
+
+- (IBAction)buttonSave:(id)sender {
+    if (!_currentTrip) {
+        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:self.occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusCreated];
+    }
+    
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Saved to Trips Page", nil)
+                                                 message:NSLocalizedString(@"Animate button disappearing to trips menu/button", nil)
+                                                delegate:self
+                                       cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                       otherButtonTitles:nil];
+    [av show];
+    
+    self.viewButtonSave.hidden = YES;
+}
+
+
+
+
+- (void)performSearch
+{
+    _bcOptions.searchOptions.searchAreaCentre = _currentViewLocation;
+    [self updateSearchAreaOverlay:_bcOptions.searchOptions.searchAreaCentre areaSpan:_bcOptions.searchOptions.searchAreaSpan];
+    
+    //    _bcOptions.searchOptions.searchAreaSpan = _currentSearchAreaSpan;
+    _bcOptions.searchOptions.searchAreaPolygon = _currentSearchAreaPolygon;
+    //    _bcOptions.searchOptions.searchAreaCentre = _currentSearchAreaPolygon.coordinate;
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //    [self.gbifManager fetchOccurrencesWithinArea:_currentSearchAreaPolygon];
+    [_gbifManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
+}
 
 #pragma mark MKMapViewDelegate
 
@@ -746,13 +830,13 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     [self.buttonSettings setBackgroundImage:
      [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor whiteColor] iconSize:28.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
 
+    self.imageButtonSave.image =
+    [IonIcons imageWithIcon:icon_archive iconColor:[UIColor kColorBCButtonLabel] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+//    [self.buttonSave setBackgroundImage:[UIImage imageWithColor:[UIColor redColor]] forState:UIControlStateHighlighted];
+
     self.labelButtonStart.textColor = [UIColor kColorINatGreen];
     self.imageButtonStart.image =
     [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
-    
-    self.imageButtonSave.image =
-    [IonIcons imageWithIcon:icon_archive iconColor:[UIColor lightGrayColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
-    
 }
 
 
@@ -771,21 +855,5 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 - (IBAction)buttonSidebar:(id)sender {
     [self.revealViewController revealToggleAnimated:YES];
 }
-
-
-- (IBAction)buttonStart:(id)sender {
-    [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:self.occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusInProgress];
-    self.labelButtonStart.textColor = [UIColor orangeColor];
-    self.labelButtonStart.text = @"Pause";
-    self.imageButtonStart.image =
-    [IonIcons imageWithIcon:icon_pause iconColor:[UIColor orangeColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
-    
-}
-
-- (IBAction)buttonSave:(id)sender {
-    [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:self.occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusCreated];
-}
-
-
 
 @end

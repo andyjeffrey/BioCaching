@@ -16,17 +16,17 @@
 
 @interface TripsDataManager : NSObject
 
-@property (nonatomic, strong) NSArray *allTrips;
-
-@property (nonatomic, strong) NSMutableArray *createdTrips;
+@property (nonatomic, strong) NSMutableArray *savedTrips;
 @property (nonatomic, strong) NSMutableArray *inProgressTrips;
-@property (nonatomic, strong) NSMutableArray *completedTrips;
+@property (nonatomic, strong) NSMutableArray *finishedTrips;
+@property (nonatomic, strong) NSMutableArray *publishedTrips;
 
 + (instancetype)sharedInstance;
 
 - (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus;
+- (void)updateTrip:(INatTrip *)trip;
 
-- (void)loadAllTrips:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
-- (void)saveTrip:(INatTrip *)trip;
+- (void)loadAllTripsFromINat:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
+- (void)saveTripToINat:(INatTrip *)trip;
                                                           
 @end

@@ -52,11 +52,22 @@
 +(UIColor*) kColorButtonBackgroundHighlight {
     return [UIColor colorWithWhite:0.3f alpha:1.0];
 }
+
 +(UIColor*) kColorButtonLabel {
     return [UIColor whiteColor];
 }
 +(UIColor*) kColorButtonLabelHighlight {
     return [UIColor kColorINatGreen];
+}
+
++(UIColor*) kColorBCButtonBackground {
+    return [UIColor colorWithWhite:0.3f alpha:1.0];
+}
++(UIColor*) kColorBCButtonBackgroundHighlight {
+    return [UIColor colorWithWhite:0.2f alpha:1.0];
+}
++(UIColor*) kColorBCButtonLabel {
+    return [UIColor lightGrayColor];
 }
 
 

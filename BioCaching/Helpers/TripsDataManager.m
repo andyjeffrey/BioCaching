@@ -7,7 +7,10 @@
 //
 
 #import "TripsDataManager.h"
+
 #import "INatTrip.h"
+#import "INatTripTaxaAttribute.h"
+#import "INatTripTaxaPurpose.h"
 
 @interface TripsDataManager ()
 
@@ -42,80 +45,169 @@
 {
     self = [super init];
     if (self) {
-        self.createdTrips = [[NSMutableArray alloc] init];
-        self.inProgressTrips = [[NSMutableArray alloc] init];
-        self.completedTrips = [[NSMutableArray alloc] init];
-        
         managedObjectContext = [[RKObjectManager sharedManager] managedObjectStore].mainQueueManagedObjectContext;
+        
+        // Load Trips From Local Storage
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
+        request.entity = entity;
+        NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+        request.sortDescriptors = @[sortDesc];
+        
+        NSError *error;
+        NSArray *resultsArray = [managedObjectContext executeFetchRequest:request error:&error];
+        if (!resultsArray) {
+            NSLog(@"Fetch Failed: %@", error);
+        } else {
+            _privateTrips = [[NSMutableArray alloc] initWithArray:resultsArray];
+        }
+        
+        NSPredicate *predicate;
+        
+        predicate = [NSPredicate predicateWithFormat:@"status = %d", TripStatusCreated];
+        self.savedTrips = [[NSMutableArray alloc] initWithArray:[resultsArray filteredArrayUsingPredicate:predicate]];
+
+        predicate = [NSPredicate predicateWithFormat:@"status = %d", TripStatusInProgress];
+        self.inProgressTrips = [[NSMutableArray alloc] initWithArray:[resultsArray filteredArrayUsingPredicate:predicate]];
+        
+        predicate = [NSPredicate predicateWithFormat:@"status = %d", TripStatusFinished];
+        self.finishedTrips = [[NSMutableArray alloc] initWithArray:[resultsArray filteredArrayUsingPredicate:predicate]];
+        
+        predicate = [NSPredicate predicateWithFormat:@"status = %d", TripStatusPublished];
+        self.publishedTrips = [[NSMutableArray alloc] initWithArray:[resultsArray filteredArrayUsingPredicate:predicate]];
+        
     }
     return self;
 }
 
-- (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus
-{
-//    INatTrip *trip = [[INatTrip alloc] init];
-    INatTrip *trip = [NSEntityDescription insertNewObjectForEntityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
+/*
+- (NSArray *)fetchSelectedTripsFromLocalStorage:(NSString *)filter {
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
+    request.entity = entity;
+    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+    request.sortDescriptors = @[sortDesc];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:filter];
+    [request setPredicate:predicate];
     
-    NSInteger tripCounter = 0;
-    if (tripStatus == TripStatusCreated) {
-        tripCounter = [TripsDataManager sharedInstance].createdTrips.count + 1;
-    } else if (tripStatus == TripStatusInProgress) {
-        tripCounter = [TripsDataManager sharedInstance].inProgressTrips.count + 1;
+    NSError *error;
+    NSArray *resultsArray = [managedObjectContext executeFetchRequest:request error:&error];
+    if (!resultsArray) {
+        NSLog(@"Fetch Failed: %@", error);
     }
     
-    trip.title = [NSString stringWithFormat:@"Test Trip %ld - %.3f,%.3f", (long)tripCounter, bcOptions.searchOptions.searchAreaCentre.latitude, bcOptions.searchOptions.searchAreaCentre.longitude];
-    trip.createdAt = [NSDate date];
-    
-    if (tripStatus == TripStatusCreated) {
-        [[TripsDataManager sharedInstance].createdTrips addObject:trip];
-    } else if (tripStatus == TripStatusInProgress) {
-        [[TripsDataManager sharedInstance].inProgressTrips addObject:trip];
-    }
-    
-    return trip;
-}
+    self.savedTrips = [[NSMutableArray alloc] initWithArray:resultsArray];
 
-- (void)loadAllTrips:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
+    return nil;
+}
+*/
+
+- (void)loadAllTripsFromINat:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
 {
     [[RKObjectManager sharedManager] getObjectsAtPath:kINatTripsPathPattern parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         for (INatTrip *trip in mappingResult.array) {
-            trip.status = [NSNumber numberWithInteger:TripStatusCompleted];
-            [self.completedTrips addObject:trip];
+            trip.status = [NSNumber numberWithInteger:TripStatusPublished];
             
-            NSLog(@"loading TripDetails for TripId : %@", trip.objectId);
-/*
-            [[RKObjectManager sharedManager] getObject:trip path:nil parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                NSLog(@"Loading mapping result: %@", mappingResult);
-            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                NSLog(@"Error mapping result: %@", error);
-            }];
-*/
+            // Update Trip Status On Local Storage
+            NSError *error = nil;
+            if (![managedObjectContext saveToPersistentStore:&error]) {
+                RKLogError(@"Error Saving New Entities To Store: %@", error);
+            }
+            
+            // TODO: Check if trip already exists before adding
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId = %@", trip.objectId];
+            NSArray *existingTrip = [self.publishedTrips filteredArrayUsingPredicate:predicate];
+            if (!existingTrip.count) {
+                [self.publishedTrips addObject:trip];
+            }
         }
         success(mappingResult.array);
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Error Loading Trips: %@", error);
     }];
-    
-/*
-    [[RKObjectManager sharedManager] getObjectsAtPath:kINatTripsPathPattern parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"Success: %@", mappingResult);
-        _trips = mappingResult.array;
-        [self.tableTrips reloadData];
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"Error Loading Trips: %@", error);
-    }];
-*/
 }
 
-- (void)saveTrip:(INatTrip *)trip
+- (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus
+{
+    NSError *error = nil;
+    
+//    INatTrip *trip = [[INatTrip alloc] init];
+    INatTrip *trip = [NSEntityDescription insertNewObjectForEntityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
+    
+    NSMutableArray *tripAttributes = [[NSMutableArray alloc] init];
+    NSMutableArray *tripPurposes = [[NSMutableArray alloc] init];
+
+    for (GBIFOccurrence *occurrence in [occurrenceResults getFilteredResults:bcOptions.displayOptions limitToMapPoints:YES]) {
+        INatTripTaxaAttribute *taxaAttribute = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaAttribute" inManagedObjectContext:managedObjectContext];
+        taxaAttribute.taxonId = occurrence.iNatTaxon.id;
+        taxaAttribute.observed = NO;
+        [tripAttributes addObject:taxaAttribute];
+        
+        INatTripTaxaPurpose *taxaPurpose = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaPurpose" inManagedObjectContext:managedObjectContext];
+        taxaPurpose.resourceType = @"Taxon";
+        taxaPurpose.resourceId = occurrence.iNatTaxon.id;
+        taxaPurpose.complete = NO;
+        [tripPurposes addObject:taxaPurpose];
+    }
+    
+    trip.taxaAttributes = [NSSet setWithArray:tripAttributes];
+    trip.taxaPurposes = [NSSet setWithArray:tripPurposes];
+    
+    trip.status = [NSNumber numberWithInteger:tripStatus];
+    
+    trip.title = [NSString stringWithFormat:@"Test Trip %ld - %.3f,%.3f", _privateTrips.count + 1, bcOptions.searchOptions.searchAreaCentre.latitude, bcOptions.searchOptions.searchAreaCentre.longitude];
+    trip.createdAt = [NSDate date];
+    trip.latitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.latitude];
+    trip.longitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.longitude];
+    trip.body = @"This is test Trip created from BioCaching mobile app";
+    
+    if (tripStatus == TripStatusCreated) {
+        [[TripsDataManager sharedInstance].savedTrips addObject:trip];
+    } else if (tripStatus == TripStatusInProgress) {
+        [[TripsDataManager sharedInstance].inProgressTrips addObject:trip];
+    }
+    
+    if (![managedObjectContext saveToPersistentStore:&error]) {
+        RKLogError(@"Error Saving New Entities To Store: %@", error);
+    }
+    
+    return trip;
+}
+
+- (void)updateTrip:(INatTrip *)trip
+{
+    NSError *error = nil;
+    
+    if (managedObjectContext.hasChanges) {
+        if (![managedObjectContext saveToPersistentStore:&error]) {
+            RKLogError(@"Error Saving New Entities To Store: %@", error);
+        }
+    }
+}
+
+- (void)saveTripToINat:(INatTrip *)trip
 {
     NSDictionary *queryParams = @{@"publish" : @"Publish"};
     
     [[RKObjectManager sharedManager] postObject:trip path:kINatTripsPathPattern parameters:queryParams success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"saveTrip Success: %@", mappingResult);
+        trip.status = [NSNumber numberWithInt:TripStatusPublished];
+        [self.finishedTrips removeObject:trip];
+        [self.publishedTrips addObject:trip];
+        [self updateTrip:trip];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Published To iNat", nil)
+                                                     message:NSLocalizedString(@"Explanatory Message About How To Edit/Delete Trip Through iNat Website \n\n n.b. Refresh screen to update table (will be automated)", nil)
+                                                    delegate:self
+                                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                           otherButtonTitles:nil];
+        [av show];
+        
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"saveTrip Error: %@", error);
     }];
 }
+
+
+
 
 @end

@@ -65,16 +65,20 @@
         NSPredicate *predicate;
         
         predicate = [NSPredicate predicateWithFormat:@"status = %d", TripStatusCreated];
-        self.savedTrips = [[NSMutableArray alloc] initWithArray:[resultsArray filteredArrayUsingPredicate:predicate]];
+        self.savedTrips = [[NSMutableArray alloc] initWithArray:
+                           [[resultsArray filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDesc]]];
 
         predicate = [NSPredicate predicateWithFormat:@"status = %d", TripStatusInProgress];
-        self.inProgressTrips = [[NSMutableArray alloc] initWithArray:[resultsArray filteredArrayUsingPredicate:predicate]];
+        self.inProgressTrips = [[NSMutableArray alloc] initWithArray:
+                                [[resultsArray filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDesc]]];
         
         predicate = [NSPredicate predicateWithFormat:@"status = %d", TripStatusFinished];
-        self.finishedTrips = [[NSMutableArray alloc] initWithArray:[resultsArray filteredArrayUsingPredicate:predicate]];
+        self.finishedTrips = [[NSMutableArray alloc] initWithArray:
+                              [[resultsArray filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDesc]]];
         
         predicate = [NSPredicate predicateWithFormat:@"status = %d", TripStatusPublished];
-        self.publishedTrips = [[NSMutableArray alloc] initWithArray:[resultsArray filteredArrayUsingPredicate:predicate]];
+        self.publishedTrips = [[NSMutableArray alloc] initWithArray:
+                               [[resultsArray filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[sortDesc]]];
         
     }
     return self;
@@ -137,8 +141,10 @@
     NSMutableArray *tripAttributes = [[NSMutableArray alloc] init];
     NSMutableArray *tripPurposes = [[NSMutableArray alloc] init];
 
+    int arrayIndex = 0;
     for (GBIFOccurrence *occurrence in [occurrenceResults getFilteredResults:bcOptions.displayOptions limitToMapPoints:YES]) {
         INatTripTaxaAttribute *taxaAttribute = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaAttribute" inManagedObjectContext:managedObjectContext];
+        taxaAttribute.indexID = [NSNumber numberWithInt:arrayIndex];
         taxaAttribute.taxonId = occurrence.iNatTaxon.id;
         taxaAttribute.observed = NO;
         [tripAttributes addObject:taxaAttribute];
@@ -148,6 +154,8 @@
         taxaPurpose.resourceId = occurrence.iNatTaxon.id;
         taxaPurpose.complete = NO;
         [tripPurposes addObject:taxaPurpose];
+        
+        arrayIndex++;
     }
     
     trip.taxaAttributes = [NSSet setWithArray:tripAttributes];
@@ -174,7 +182,7 @@
     return trip;
 }
 
-- (void)updateTrip:(INatTrip *)trip
+- (void)saveChanges
 {
     NSError *error = nil;
     
@@ -190,13 +198,31 @@
     NSDictionary *queryParams = @{@"publish" : @"Publish"};
     
     [[RKObjectManager sharedManager] postObject:trip path:kINatTripsPathPattern parameters:queryParams success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"saveTrip Success: %@", mappingResult);
+        NSLog(@"save Success: %@", mappingResult);
         trip.status = [NSNumber numberWithInt:TripStatusPublished];
         [self.finishedTrips removeObject:trip];
         [self.publishedTrips addObject:trip];
-        [self updateTrip:trip];
+        [self saveChanges];
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Published To iNat", nil)
                                                      message:NSLocalizedString(@"Explanatory Message About How To Edit/Delete Trip Through iNat Website \n\n n.b. Refresh screen to update table (will be automated)", nil)
+                                                    delegate:self
+                                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                           otherButtonTitles:nil];
+        [av show];
+        
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"saveTrip Error: %@", error);
+    }];
+}
+
+
+- (void)deleteTripFromINat:(INatTrip *)trip
+{
+    [[RKObjectManager sharedManager] deleteObject:trip path:nil parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"delete Success: %@", mappingResult);
+        [self.publishedTrips removeObject:trip];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Deleted From iNat", nil)
+                                                     message:NSLocalizedString(@"Refresh screen to update table\n (will be automated)", nil)
                                                     delegate:self
                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                            otherButtonTitles:nil];

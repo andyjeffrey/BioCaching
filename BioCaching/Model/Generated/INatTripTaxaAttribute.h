@@ -18,4 +18,6 @@
 @property (nonatomic, retain) NSNumber * taxonId;
 @property (nonatomic, retain) INatTrip *trip;
 
+@property (nonatomic, assign) NSNumber *indexID;
+
 @end

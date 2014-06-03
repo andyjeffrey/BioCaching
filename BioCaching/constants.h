@@ -20,7 +20,12 @@
 #define kINatAuthPasswordPrefKey @"INatPasswordPrefKey"
 #define kINatAuthTokenPrefKey @"INatTokenPrefKey"
 
-#define kINatBaseURL @"https://www.inaturalist.org/"
+#ifdef DEBUG
+    #define kINatBaseURL @"http://www.inaturalist.org/"
+#else
+    #define kINatBaseURL @"https://www.inaturalist.org/"
+#endif
+
 #define kINatTripsPathPattern @"trips"
 #define kINatTripsKeyPath @"trips"
 

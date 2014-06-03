@@ -72,12 +72,10 @@
 - (void)setupButtons
 {
     [self.buttonRefresh setTitle:nil forState:UIControlStateNormal];
-    [self.buttonRefresh setBackgroundImage:
-     [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonRefresh.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
-    
+    [self.buttonRefresh setImage:
+     [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
 }
-
 
 - (void)setupTable
 {
@@ -169,8 +167,11 @@
     if (!trip) {
         NSLog(@"Cell Selected: %lu-%lu: NO TRIP", (long)indexPath.section, (long)indexPath.row);
     } else if (trip.status.intValue == TripStatusPublished) {
+        NSLog(@"Cell Selected: %lu-%lu: Deleting Trip...", (long)indexPath.section, (long)indexPath.row);
+        [tripsDataManager deleteTripFromINat:trip];
+
+/*
         NSLog(@"Cell Selected: %lu-%lu: %@", (long)indexPath.section, (long)indexPath.row, trip.objectId);
-        
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Published Trip Selected", nil)
                                                      message:NSLocalizedString(@"In future this will show trip details and give option to create a duplicate trip?", nil)
                                                     delegate:self
@@ -183,7 +184,7 @@
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
             NSLog(@"Error mapping result: %@", error);
         }];
-        
+*/
     } else if (trip.status.intValue == TripStatusFinished) {
         NSLog(@"Cell Selected: %lu-%lu: Saving Trip...", (long)indexPath.section, (long)indexPath.row);
         [tripsDataManager saveTripToINat:trip];
@@ -194,7 +195,6 @@
                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                            otherButtonTitles:nil];
         [av show];
-        
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -218,7 +218,8 @@
 }
 
 - (IBAction)buttonRefresh:(id)sender {
-    [self.tableTrips reloadData];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self loadCompletedTripsFromINat];
 }
 
 @end

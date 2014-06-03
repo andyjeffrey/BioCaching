@@ -23,10 +23,11 @@
 
 + (instancetype)sharedInstance;
 
+- (void)saveChanges;
 - (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus;
-- (void)updateTrip:(INatTrip *)trip;
 
 - (void)loadAllTripsFromINat:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
 - (void)saveTripToINat:(INatTrip *)trip;
-                                                          
+- (void)deleteTripFromINat:(INatTrip *)trip;
+
 @end

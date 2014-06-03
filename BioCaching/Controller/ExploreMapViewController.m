@@ -471,7 +471,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
             
         }
 
-        [[TripsDataManager sharedInstance] updateTrip:_currentTrip];
+        [[TripsDataManager sharedInstance] saveChanges];
     }
     
     if (_currentTrip) {
@@ -798,12 +798,6 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     return [[MapViewLayoutGuide alloc]initWithLength:20];
 }
 
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (void)setupTaxonInfoView
 {

@@ -15,6 +15,7 @@
 		A176286C19351D2700DD69DB /* INatTripTaxaPurpose.m in Sources */ = {isa = PBXBuildFile; fileRef = A176286B19351D2700DD69DB /* INatTripTaxaPurpose.m */; };
 		A176286F1937359500DD69DB /* UIImage+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = A176286E1937359500DD69DB /* UIImage+Colors.m */; };
 		A17628721937385400DD69DB /* BCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628711937385400DD69DB /* BCButton.m */; };
+		A1762875193DEF9C00DD69DB /* ExploreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762874193DEF9C00DD69DB /* ExploreDataManager.m */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
 		A18AAABF1908100400FB75A5 /* iOSa_2.23.0.version in Resources */ = {isa = PBXBuildFile; fileRef = A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */; };
 		A18AAAC01908100400FB75A5 /* libLocalyticsAMP_x64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A18AAABA1908100400FB75A5 /* libLocalyticsAMP_x64.a */; };
@@ -136,6 +137,8 @@
 		A176286E1937359500DD69DB /* UIImage+Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Colors.m"; sourceTree = "<group>"; };
 		A17628701937385400DD69DB /* BCButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCButton.h; sourceTree = "<group>"; };
 		A17628711937385400DD69DB /* BCButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCButton.m; sourceTree = "<group>"; };
+		A1762873193DEF9C00DD69DB /* ExploreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreDataManager.h; sourceTree = "<group>"; };
+		A1762874193DEF9C00DD69DB /* ExploreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreDataManager.m; sourceTree = "<group>"; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOSa_2.23.0.version; sourceTree = "<group>"; };
@@ -455,6 +458,8 @@
 				A1EA12C71926562A00449327 /* BCOptions.m */,
 				A1EA12C81926562A00449327 /* DisplayOptions.h */,
 				A1EA12C91926562A00449327 /* DisplayOptions.m */,
+				A1EA12DB1926562A00449327 /* SearchOptions.h */,
+				A1EA12DC1926562A00449327 /* SearchOptions.m */,
 				A1EA12CA1926562A00449327 /* GBIFOccurrence.h */,
 				A1EA12CB1926562A00449327 /* GBIFOccurrence.m */,
 				A1EA12CC1926562A00449327 /* GBIFOccurrenceResults.h */,
@@ -471,8 +476,6 @@
 				A1EA12D81926562A00449327 /* OptionsRecordType.m */,
 				A1EA12D91926562A00449327 /* OptionsSpeciesFilter.h */,
 				A1EA12DA1926562A00449327 /* OptionsSpeciesFilter.m */,
-				A1EA12DB1926562A00449327 /* SearchOptions.h */,
-				A1EA12DC1926562A00449327 /* SearchOptions.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -562,6 +565,8 @@
 		A1EA134119265B5D00449327 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				A1762873193DEF9C00DD69DB /* ExploreDataManager.h */,
+				A1762874193DEF9C00DD69DB /* ExploreDataManager.m */,
 				A1EA134219265B5D00449327 /* GBIFCommunicator.h */,
 				A1EA134319265B5D00449327 /* GBIFCommunicator.m */,
 				A1EA134419265B5D00449327 /* GBIFCommunicatorDelegate.h */,
@@ -887,6 +892,7 @@
 				A1EA12E31926562A00449327 /* INatTaxon.m in Sources */,
 				A1EB224C192271F2005650D9 /* NISDKAvailability.m in Sources */,
 				A1EA12DD1926562A00449327 /* APIOption.m in Sources */,
+				A1762875193DEF9C00DD69DB /* ExploreDataManager.m in Sources */,
 				A1EB224F192271F2005650D9 /* NIViewRecycler.m in Sources */,
 				A1EA132619265B4900449327 /* OccurrenceDetailsViewController.m in Sources */,
 				A1762860193516B300DD69DB /* INatTripTaxaAttribute.m in Sources */,

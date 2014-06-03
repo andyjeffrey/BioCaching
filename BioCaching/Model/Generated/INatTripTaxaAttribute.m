@@ -16,4 +16,7 @@
 @dynamic taxonId;
 @dynamic trip;
 
+@synthesize indexID;
+
 @end
+

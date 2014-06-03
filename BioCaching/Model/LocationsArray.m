@@ -8,7 +8,7 @@
 
 #import "LocationsArray.h"
 
-#define kDefaultLocationIndex 1
+#define kDefaultLocationIndex 0
 
 @implementation LocationsArray
 

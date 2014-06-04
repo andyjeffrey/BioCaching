@@ -143,17 +143,22 @@
 
     int arrayIndex = 0;
     for (GBIFOccurrence *occurrence in [occurrenceResults getFilteredResults:bcOptions.displayOptions limitToMapPoints:YES]) {
-        INatTripTaxaAttribute *taxaAttribute = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaAttribute" inManagedObjectContext:managedObjectContext];
-        taxaAttribute.indexID = [NSNumber numberWithInt:arrayIndex];
-        taxaAttribute.taxonId = occurrence.iNatTaxon.id;
-        taxaAttribute.observed = NO;
-        [tripAttributes addObject:taxaAttribute];
-        
-        INatTripTaxaPurpose *taxaPurpose = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaPurpose" inManagedObjectContext:managedObjectContext];
-        taxaPurpose.resourceType = @"Taxon";
-        taxaPurpose.resourceId = occurrence.iNatTaxon.id;
-        taxaPurpose.complete = NO;
-        [tripPurposes addObject:taxaPurpose];
+        if (occurrence.iNatTaxon) {
+            INatTripTaxaAttribute *taxaAttribute = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaAttribute" inManagedObjectContext:managedObjectContext];
+            taxaAttribute.indexID = [NSNumber numberWithInt:arrayIndex];
+            taxaAttribute.taxonId = occurrence.iNatTaxon.id;
+            taxaAttribute.observed = NO;
+            [tripAttributes addObject:taxaAttribute];
+            
+            INatTripTaxaPurpose *taxaPurpose = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaPurpose" inManagedObjectContext:managedObjectContext];
+            taxaPurpose.resourceType = @"Taxon";
+            taxaPurpose.resourceId = occurrence.iNatTaxon.id;
+            taxaPurpose.complete = NO;
+            [tripPurposes addObject:taxaPurpose];
+        } else {
+            [occurrenceResults.Results removeObject:occurrence];
+            NSLog(@"No iNatTaxon found for %@, occurrence removed from Trip", occurrence.speciesBinomial);
+        }
         
         arrayIndex++;
     }

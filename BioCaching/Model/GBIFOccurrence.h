@@ -11,6 +11,8 @@
 
 @interface GBIFOccurrence : NSObject<MKAnnotation>
 
+// Generated With JsonPack - http://jsonpack.com/ModelGenerators/ObjectiveC
+#pragma mark - JsonPack Generated Properties
 @property(nonatomic,strong) NSNumber * Key;
 @property(nonatomic,strong) NSString * Kingdom;
 @property(nonatomic,strong) NSString * Phylum;
@@ -58,22 +60,25 @@
 @property(nonatomic,strong) NSNumber * Altitude;
 @property(nonatomic,strong) NSNumber * Depth;
 
-@property(nonatomic, readonly, copy) NSString *speciesBinomial;
-@property(nonatomic, readonly, copy) NSString *detailsMainTitle;
-@property(nonatomic, readonly, copy) NSString *detailsSubTitle;
 
-@property(nonatomic, strong) INatTaxon *iNatTaxon;
+#pragma mark - Additional Properties
+@property (nonatomic, readonly, copy) NSString *speciesBinomial;
+@property (nonatomic, readonly, copy) NSString *detailsMainTitle;
+@property (nonatomic, readonly, copy) NSString *detailsSubTitle;
+@property (nonatomic, readonly, copy) NSString *locationString;
 
-#pragma mark MKAnnotation
+@property (nonatomic, strong) INatTaxon *iNatTaxon;
+
+#pragma mark - MKAnnotation Properties
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic, readonly, copy) NSString *title;
 @property (nonatomic, readonly, copy) NSString *subtitle;
 
-@property (nonatomic, readonly, copy) NSString *locationString;
-
+#pragma mark - JsonPack Generated Methods
 + (id) objectWithDictionary:(NSDictionary*)dictionary;
 - (id) initWithDictionary:(NSDictionary*)dictionary;
 
+#pragma mark - Additional/Convenience Methods
 - (NSString *)getINatIconicTaxaMapMarkerImageFile:(BOOL)highlighted;
 - (NSString *)getINatIconicTaxaMainImageFile;
 

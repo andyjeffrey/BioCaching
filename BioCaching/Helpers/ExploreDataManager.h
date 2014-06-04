@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "INatTrip.h"
 
 @interface ExploreDataManager : NSObject
+
++ (instancetype)sharedInstance;
+
+
 
 @end

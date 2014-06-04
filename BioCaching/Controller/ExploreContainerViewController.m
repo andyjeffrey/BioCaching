@@ -27,21 +27,8 @@ static int const defaultEmbeddedView = 0;
     NSString *_currentEmbeddedSegueId;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    return self;
-}
+#pragma mark - UIViewController Methods
 
 - (void)viewDidLoad
 {
@@ -54,6 +41,8 @@ static int const defaultEmbeddedView = 0;
     [self performSegueWithIdentifier:_currentEmbeddedSegueId sender:nil];
 
 }
+
+#pragma mark - Init/Setup Methods
 
 - (void)initEmbeddedVCs
 {
@@ -144,12 +133,6 @@ static int const defaultEmbeddedView = 0;
         [toViewController didMoveToParentViewController:self];
         self.transitionInProgress = NO;
     }];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

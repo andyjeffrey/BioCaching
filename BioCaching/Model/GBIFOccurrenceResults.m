@@ -27,14 +27,6 @@
     self=[super init];
     if(self)
     {
-/*
-        _recordTypeCounts = [[NSCountedSet alloc] init];
-        _recordSourceCounts = [[NSCountedSet alloc] init];
-        _taxonKingdomCounts = [[NSCountedSet alloc] init];
-        _taxonPhylumCounts = [[NSCountedSet alloc] init];
-        _taxonClassCounts = [[NSCountedSet alloc] init];
-        _taxonSpeciesCounts = [[NSCountedSet alloc] init];
-*/
         _dictRecordSource = [[NSMutableDictionary alloc] init];
         _dictRecordType = [[NSMutableDictionary alloc] init];
         _dictTaxonSpecies = [[NSMutableDictionary alloc] init];

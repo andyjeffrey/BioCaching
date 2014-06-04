@@ -10,21 +10,25 @@
 #import "ExploreListViewController.h"
 #import "ExploreOptionsViewController.h"
 #import "TaxonInfoViewController.h"
+#import "SWRevealViewController.h"
+
+#import "MapViewLayoutGuide.h"
+#import "CrossHairView.h"
 #import "LocationsArray.h"
 #import "BCOptions.h"
+
+#import "INatTaxon.h"
+#import "INatTaxonPhoto.h"
+#import "ImageCache.h"
+#import "TripsDataManager.h"
+
+#import "ExploreDataManager.h"
 #import "GBIFManager.h"
 #import "GBIFCommunicator.h"
 #import "GBIFCommunicatorMock.h"
 #import "GBIFOccurrenceResults.h"
 #import "INatManager.h"
-#import "INatTaxon.h"
-#import "INatTaxonPhoto.h"
-#import "CrossHairView.h"
-#import "MapViewLayoutGuide.h"
-#import "ImageCache.h"
-#import "TripsDataManager.h"
 
-#import "SWRevealViewController.h"
 
 static float const kOccurrenceAnnotationOffset = 50.0f;
 static int const kDefaultSearchAreaStepperValue = 1000;
@@ -48,12 +52,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSettings;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segCtrlView;
 
-
-@property (weak, nonatomic) IBOutlet UILabel *labelSearchArea;
-@property (weak, nonatomic) IBOutlet UIStepper *stepperSearchArea;
-
 @property (weak, nonatomic) IBOutlet UIButton *buttonCurrentLocation;
-
 
 @property (weak, nonatomic) IBOutlet UIView *viewButtonSave;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
@@ -73,38 +72,28 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 @implementation ExploreMapViewController
 {
-    CLLocationCoordinate2D _currentViewLocation;
-//    int _currentSearchAreaSpan;
-    MKPolygon *_currentSearchAreaPolygon;
-    CLLocation *_currentUserLocation;
-    bool _followUser;
-    GBIFOccurrenceResults *_occurrenceResults;
+    TaxonInfoViewController *_taxonInfoVC;
+    CGRect _taxonInfoRefFrame;
+
     DropDownViewController *_dropDownViewLocations;
     UIView *_viewBackgroundControls;
+    
+    CLLocationCoordinate2D _currentViewLocation;
+    CLLocation *_currentUserLocation;
+    bool _followUser;
+
+    MKPolygon *_currentSearchAreaPolygon;
+    
+    ExploreDataManager *_exploreDataManager;
+    
+    GBIFOccurrenceResults *_occurrenceResults;
     GBIFManager *_gbifManager;
     INatManager *_iNatManager;
-    CGRect _taxonInfoRefFrame;
-    
-    TaxonInfoViewController *_taxonInfoVC;
-    
     INatTrip *_currentTrip;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    return self;
-}
+#pragma mark - UIViewController Methods
 
 - (void)viewDidLoad
 {
@@ -129,11 +118,12 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     _occurrenceResults = self.occurrenceResults;
     [self configureGBIFManager];
     [self configureINatManager];
+    
+    _exploreDataManager = [ExploreDataManager sharedInstance];
 
     _currentViewLocation = LocationsArray.defaultLocation;
     [self updateLocationLabelAndMapView:_currentViewLocation mapViewSpan:[LocationsArray locationViewSpan:LocationsArray.defaultLocationIndex]];
 
-//    [self configureSearchAreaStepper:_bcOptions.searchOptions.searchAreaSpan];
     _bcOptions.searchOptions.searchAreaSpan = [LocationsArray locationSearchAreaSpan:LocationsArray.defaultLocationIndex];
     [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     
@@ -170,15 +160,6 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     _iNatManager.delegate = self;
 }
 
-- (void)configureSearchAreaStepper:(int)searchAreaSpan
-{
-//    _currentSearchAreaSpan = searchAreaSpan;
-//    self.stepperSearchArea.value = log2(_currentSearchAreaSpan/kDefaultSearchAreaStepperValue);
-//    self.stepperSearchArea.maximumValue = 5;
-//    self.stepperSearchArea.minimumValue = -5;
-//    [self updateSearchAreaLabel:self.stepperSearchArea.value];
-}
-
 - (void)configureGestureRecognizers
 {
     UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapSingleClick:)];
@@ -194,45 +175,12 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     
 }
 
-/*
-- (void)configureViewsToDisable
-{
-    uiControls = [[NSArray alloc] initWithObjects:
-                  self.mapView,
-                  self.buttonLocationList,
-                  self.stepperSearchArea,
-                  self.buttonSearch,
-                  self.buttonList,
-                  self.buttonCurrentLocation,
-                  self.buttonZoom,
-                  self.buttonMapType,
-                  self.buttonOptions,
-                  nil];
-}
-
-- (void)dimUIControls:(BOOL)dimEnabled
-{
-    uiControlsView.hidden = !dimEnabled;
-    for (UIControl *uiControl in uiControls) {
-        uiControl.userInteractionEnabled = !dimEnabled;
-    }
-    if (dimEnabled) {
-        uiControlsDimmed = dimEnabled;
-    }
-}
-*/
 
 - (void)configureLocationDropDown
 {
-//[self.view convertRect:self.buttonRecordType.frame fromView:self.buttonRecordType.superview]
-    
     _dropDownViewLocations = [[DropDownViewController alloc] initWithArrayData:[LocationsArray displayStringsArray] refFrame:[self.view.superview convertRect:self.viewDropDownRef.frame fromView:self.viewDropDownRef.superview] tableViewHeight:260 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     [self.view addSubview:_dropDownViewLocations.view];
     _dropDownViewLocations.delegate = self;
-    
-//    self.labelLocationList.text = nil;
-//    [self.labelLocationList setBackgroundColor:[UIColor colorWithPatternImage:[IonIcons imageWithIcon:icon_navicon size:self.labelLocationList.frame.size.width color:[UIColor darkGrayColor]]]];
-//    [IonIcons label:self.labelLocationList setIcon:icon_navicon size:self.labelLocationList.frame.size.width color:[UIColor darkGrayColor] sizeToFit:YES];
 }
 
 - (void)configureBackgroundControlsView
@@ -293,17 +241,6 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     self.labelLocationDetails.text = [NSString stringWithFormat:@"Lat: %f Long: %f",
                                       location.latitude,
                                       location.longitude];
-}
-
-- (void)updateSearchAreaStepper:(int)searchAreaSpan
-{
-    self.stepperSearchArea.value = log2(searchAreaSpan/kDefaultSearchAreaStepperValue);
-    [self updateSearchAreaLabel:self.stepperSearchArea.value];
-}
-
-- (void)updateSearchAreaLabel:(double)stepperValue
-{
-    self.labelSearchArea.text = [NSString stringWithFormat:@"Span: %dm", _bcOptions.searchOptions.searchAreaSpan];
 }
 
 - (void)updateSearchAreaOverlay:(CLLocationCoordinate2D)location areaSpan:(double)areaSpan
@@ -406,12 +343,6 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 //    [self updateCurrentMapView:_currentUserLocation.coordinate latitudinalMeters:0 longitudinalMeters:kDefaultViewSpan];
 }
 
-- (IBAction)searchZoomChanged:(UIStepper *)sender
-{
-//    _currentSearchAreaSpan = kDefaultSearchAreaStepperValue * pow(2, self.stepperSearchArea.value);
-//    [self updateSearchAreaLabel:sender.value];
-//    [self updateSearchAreaOverlay:_currentSearchAreaPolygon.coordinate areaSpan:_currentSearchAreaSpan];
-}
 
 - (IBAction)zoomToSearchArea:(id)sender {
     [self updateCurrentMapView:_bcOptions.searchOptions.searchAreaCentre latitudinalMeters:0 longitudinalMeters:_bcOptions.searchOptions.searchAreaSpan];
@@ -502,13 +433,11 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 {
     _bcOptions.searchOptions.searchAreaCentre = _currentViewLocation;
     [self updateSearchAreaOverlay:_bcOptions.searchOptions.searchAreaCentre areaSpan:_bcOptions.searchOptions.searchAreaSpan];
-    
-    //    _bcOptions.searchOptions.searchAreaSpan = _currentSearchAreaSpan;
     _bcOptions.searchOptions.searchAreaPolygon = _currentSearchAreaPolygon;
-    //    _bcOptions.searchOptions.searchAreaCentre = _currentSearchAreaPolygon.coordinate;
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    //    [self.gbifManager fetchOccurrencesWithinArea:_currentSearchAreaPolygon];
+
+//    [_exploreDataManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
     [_gbifManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
 }
 
@@ -717,7 +646,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 //    _tripOptions = savedTripOptions;
 }
 
-#pragma mark GBIFManagerDelegate
+#pragma mark - GBIFManagerDelegate
 
 - (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
 {
@@ -739,7 +668,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 }
 
 
-#pragma mark INatManagerDelegate
+#pragma mark - INatManagerDelegate
 
 - (void)iNatTaxonAddedToGBIFOccurrence:(GBIFOccurrence *)occurrence
 {
@@ -753,7 +682,8 @@ static int const kDefaultSearchAreaStepperValue = 1000;
             [ImageCache saveImageForURL:mainPhoto.medium_url];
         }
     }
-
+    
+    //
     [self.mapView addAnnotation:occurrence];
 }
 

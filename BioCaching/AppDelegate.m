@@ -201,10 +201,9 @@
     RKEntityMapping *postMappingTrip = [RKEntityMapping mappingForEntityForName:@"INatTrip" inManagedObjectStore:managedObjectStore];
     [postMappingTrip addAttributeMappingsFromDictionary:iNatTripObjectMapping];
     
-/*
+
     // Mappings for Trip Taxa Collections
     NSDictionary *iNatTripTaxaAttObjectMapping = @{
-                                                   @"index_id" : @"objectId",
                                                    @"taxon_id" : @"taxonId",
                                                    @"observed" : @"observed"
                                                    };
@@ -212,10 +211,9 @@
     RKEntityMapping *entityMappingTaxaAtt = [RKEntityMapping mappingForEntityForName:@"INatTripTaxaAttribute" inManagedObjectStore:managedObjectStore];
 //    [entityMappingTaxaAtt addAttributeMappingsFromDictionary:parentObjectMapping];
     [entityMappingTaxaAtt addAttributeMappingsFromDictionary:iNatTripTaxaAttObjectMapping];
-    entityMappingTaxaAtt.identificationAttributes = @[@"objectId"];
+//    entityMappingTaxaAtt.identificationAttributes = @[@"objectId"];
     
     [postMappingTrip addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"trip_taxa_attributes" toKeyPath:@"taxaAttributes" withMapping:entityMappingTaxaAtt]];
-*/
     
     // Trip Collection GET Response
     RKResponseDescriptor *respDescTripsCollection = [RKResponseDescriptor responseDescriptorWithMapping:entityMappingTrip method:RKRequestMethodGET pathPattern:kINatTripsPathPattern keyPath:kINatTripsKeyPath statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];

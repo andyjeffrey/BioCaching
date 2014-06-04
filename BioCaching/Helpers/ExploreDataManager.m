@@ -8,7 +8,8 @@
 
 #import "ExploreDataManager.h"
 
-@implementation ExploreDataManager
+@implementation ExploreDataManager {
+}
 
 +(instancetype)sharedInstance
 {
@@ -38,5 +39,27 @@
     return self;
 }
 
+/*
+#pragma mark - GBIFManagerDelegate
+
+- (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
+{
+    NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
+    _occurrenceResults = occurrenceResults;
+    
+    [self addiNatTaxonInfoToOccurrences:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
+        [self zoomToSearchArea:nil];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    });
+}
+
+- (void)fetchingResultsFailedWithError:(NSError *)error
+{
+    NSLog(@"Error %@; %@", error, [error localizedDescription]);
+}
+*/
 
 @end

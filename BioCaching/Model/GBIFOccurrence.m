@@ -111,10 +111,9 @@
     return [self speciesBinomialSp];
 }
 
+// GBIF "species" property generally binomial representation, e.g. "Linepithema humile"
 - (NSString *)speciesBinomialSp
 {
-//    NSLog(@"<%@>", self.Species);
-
     long secondIndexSp = [self.Species secondIndexOf:@" "];
     
     if (secondIndexSp != NSNotFound) {
@@ -124,17 +123,13 @@
     return self.Species;
 }
 
+// GBIF "scientificName" property binomial + scientist/data, e.g. "Linepithema humile (Mayr, 1868)"
 - (NSString *)speciesBinomialSn
 {
-//    NSLog(@"<%@>", self.ScientificName);
-    
     long secondIndexSn = [self.ScientificName secondIndexOf:@" "];
     
     if (secondIndexSn != NSNotFound) {
-//        NSLog(@"<%@>%ld", [self.ScientificName substringToIndex:secondIndexSn], secondIndexSn);
         return [self.ScientificName substringToIndex:secondIndexSn];
-    } else {
-//        NSLog(@"<%@>%ld", self.ScientificName, secondIndexSn);
     }
     
     return self.ScientificName;

@@ -21,6 +21,7 @@
 #define kINatAuthTokenPrefKey @"INatTokenPrefKey"
 
 #ifdef DEBUG
+//    #define kINatBaseURL @"http://localhost:3000"
     #define kINatBaseURL @"http://www.inaturalist.org/"
 #else
     #define kINatBaseURL @"https://www.inaturalist.org/"

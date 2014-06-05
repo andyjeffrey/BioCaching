@@ -139,6 +139,7 @@
 		A17628711937385400DD69DB /* BCButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCButton.m; sourceTree = "<group>"; };
 		A1762873193DEF9C00DD69DB /* ExploreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreDataManager.h; sourceTree = "<group>"; };
 		A1762874193DEF9C00DD69DB /* ExploreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreDataManager.m; sourceTree = "<group>"; };
+		A17628791940A5C100DD69DB /* ExploreDataManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExploreDataManagerDelegate.h; sourceTree = "<group>"; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOSa_2.23.0.version; sourceTree = "<group>"; };
@@ -567,6 +568,7 @@
 			children = (
 				A1762873193DEF9C00DD69DB /* ExploreDataManager.h */,
 				A1762874193DEF9C00DD69DB /* ExploreDataManager.m */,
+				A17628791940A5C100DD69DB /* ExploreDataManagerDelegate.h */,
 				A1EA134219265B5D00449327 /* GBIFCommunicator.h */,
 				A1EA134319265B5D00449327 /* GBIFCommunicator.m */,
 				A1EA134419265B5D00449327 /* GBIFCommunicatorDelegate.h */,

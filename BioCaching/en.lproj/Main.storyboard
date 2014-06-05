@@ -92,7 +92,7 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BioCaching" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4VV-QR-Azj">
                                                     <rect key="frame" x="20" y="0.0" width="240" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica-BoldOblique" family="Helvetica" pointSize="20"/>
+                                                    <fontDescription key="fontDescription" name="Arial-BoldItalicMT" family="Arial" pointSize="22"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1192,11 +1192,11 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FaJ-Oc-EIS">
-                                                            <rect key="frame" x="275" y="5" width="40" height="30"/>
+                                                            <rect key="frame" x="260" y="5" width="55" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" red="0.62745098039215685" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <state key="normal" title="Delete">
+                                                            <state key="normal" title="Remove">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
@@ -1455,6 +1455,13 @@
                                             <action selector="buttonSidebar:" destination="QUy-BD-bpt" eventType="touchUpInside" id="rKz-vM-7Gi"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip History" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zqp-5J-xF1">
+                                        <rect key="frame" x="40" y="0.0" width="240" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Arial-BoldItalicMT" family="Arial" pointSize="22"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="b26-PN-3Tw">
                                         <rect key="frame" x="280" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1965,7 +1972,7 @@
         <!--Occurrence Details View Controller - Occurrence Details-->
         <scene sceneID="rd0-Y3-jXI">
             <objects>
-                <viewController id="usv-PQ-Rl6" customClass="OccurrenceDetailsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OccurrenceDetails" id="usv-PQ-Rl6" customClass="OccurrenceDetailsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ewi-Wp-NgX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2118,6 +2125,22 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iNat Taxon ID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6eG-ag-nCz">
+                                <rect key="frame" x="20" y="452" width="91" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="64" maxX="0.0" maxY="-64"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="inat taxon id" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="04u-kf-d6p">
+                                <rect key="frame" x="142" y="452" width="158" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="64" maxX="0.0" maxY="-64"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Recorded:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="y0f-0v-CUb">
                                 <rect key="frame" x="20" y="368" width="114" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2142,16 +2165,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link to taxon info on BHL website" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="G6n-Ea-PbN">
-                                <rect key="frame" x="20" y="460" width="255" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="64" maxX="0.0" maxY="-64"/>
-                                <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Enh-ei-y7K">
-                                <rect key="frame" x="20" y="465" width="280" height="30"/>
+                                <rect key="frame" x="20" y="486" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.19864849452554745" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2174,6 +2189,7 @@
                         <outlet property="imageTaxonIcon" destination="EEv-3O-zvo" id="Ga0-5p-t8c"/>
                         <outlet property="labelDate" destination="sLt-wi-1YR" id="yyN-lf-XFO"/>
                         <outlet property="labelDescription" destination="pF9-dk-KkA" id="eyf-ru-K66"/>
+                        <outlet property="labelINatTaxon" destination="04u-kf-d6p" id="IB7-dR-ke9"/>
                         <outlet property="labelInstitution" destination="0Lq-mD-jEG" id="6bj-fz-z67"/>
                         <outlet property="labelLocation" destination="7Bk-Zx-4JB" id="gHt-J2-aK6"/>
                         <outlet property="labelObserver" destination="O6f-n6-IWa" id="rJf-EB-hqS"/>
@@ -2262,10 +2278,36 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aiO-uD-Lea">
-                                        <rect key="frame" x="283" y="45" width="32" height="32"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aiO-uD-Lea" customClass="BCButton">
+                                        <rect key="frame" x="255" y="50" width="55" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal">
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Details">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="viewOccurrenceDetails:" destination="9ox-3J-VYx" eventType="touchUpInside" id="nFo-nT-qjT"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CXT-6a-3Aq" customClass="BCButton">
+                                        <rect key="frame" x="255" y="185" width="55" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <color key="backgroundColor" red="0.62745098040000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Remove">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="removeOccurrence:" destination="9ox-3J-VYx" eventType="touchUpInside" id="N58-II-6lB"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qc8-Lz-b8b" customClass="BCButton">
+                                        <rect key="frame" x="255" y="185" width="55" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Record">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
@@ -2285,7 +2327,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <view contentMode="scaleToFill" id="GYJ-8j-TGo">
+                                    <view hidden="YES" contentMode="scaleToFill" id="GYJ-8j-TGo">
                                         <rect key="frame" x="190" y="184" width="120" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -2326,15 +2368,15 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="240"/>
                     <connections>
-                        <outlet property="buttonDetails" destination="aiO-uD-Lea" id="vwH-6M-Htk"/>
+                        <outlet property="buttonDetails" destination="aiO-uD-Lea" id="PsM-Fv-xAr"/>
+                        <outlet property="buttonRecord" destination="Qc8-Lz-b8b" id="WtY-yX-J0o"/>
+                        <outlet property="buttonRemove" destination="CXT-6a-3Aq" id="y1H-Ne-tZd"/>
                         <outlet property="imageIconicTaxon" destination="gRN-gR-xdd" id="Dt2-69-s2X"/>
                         <outlet property="imageMainPhoto" destination="gOg-Sd-Amq" id="oCl-lF-beR"/>
-                        <outlet property="imageRemoveButton" destination="U2a-bs-jTc" id="CGx-Zp-sQw"/>
                         <outlet property="labelPhotoCopyright" destination="5Fk-rM-jbc" id="sYM-ao-Xqp"/>
                         <outlet property="labelTaxonSubTitle" destination="sDv-BJ-J3t" id="nLG-s0-W3x"/>
                         <outlet property="labelTaxonTitle" destination="Byu-wV-Q29" id="sZ7-7L-MK0"/>
                         <outlet property="viewOverlayMask" destination="b6A-Ii-NQq" id="nNi-7v-gtY"/>
-                        <outlet property="viewRemoveButton" destination="GYJ-8j-TGo" id="PBR-UC-Gvf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ut9-pK-IRY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2394,9 +2436,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="uqP-Eb-j3E"/>
+        <segue reference="jGp-c7-qGi"/>
         <segue reference="aEs-k2-lLI"/>
-        <segue reference="QvH-04-AjL"/>
-        <segue reference="rRP-sO-8ox"/>
-        <segue reference="PUC-BS-dlq"/>
+        <segue reference="EdR-Ir-BFA"/>
     </inferredMetricsTieBreakers>
 </document>

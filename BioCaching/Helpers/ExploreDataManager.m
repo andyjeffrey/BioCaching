@@ -7,8 +7,14 @@
 //
 
 #import "ExploreDataManager.h"
+#import "GBIFManager.h"
+#import "INatManager.h"
+#import "ImageCache.h"
 
 @implementation ExploreDataManager {
+    GBIFManager *_gbifManager;
+    INatManager *_iNatManager;
+    BCOptions *_bcOptions;
 }
 
 +(instancetype)sharedInstance
@@ -34,32 +40,68 @@
 {
     self = [super init];
     if (self) {
-        
+        _gbifManager = [[GBIFManager alloc] init];
+        _gbifManager.delegate = self;
+
+        _iNatManager = [[INatManager alloc] init];
+        _iNatManager.delegate = self;
     }
     return self;
 }
 
-/*
-#pragma mark - GBIFManagerDelegate
+
+#pragma mark - ExploreDataManager Protocol Methods
+
+- (void)fetchOccurrencesWithOptions:(BCOptions *)bcOptions
+{
+    _bcOptions = bcOptions;
+    [_gbifManager fetchOccurrencesWithOptions:bcOptions.searchOptions];
+}
+
+- (void)removeOccurrence:(GBIFOccurrence *)occurrence
+{
+    [_occurrenceResults.Results removeObject:occurrence];
+    [self.delegate occurrenceRemoved:occurrence];
+}
+
+
+#pragma mark - GBIFManagerDelegate Methods
 
 - (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
 {
     NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
     
-    [self addiNatTaxonInfoToOccurrences:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
+    [self.delegate occurrenceResultsReceived:_occurrenceResults];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
-        [self zoomToSearchArea:nil];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    });
+    for (GBIFOccurrence *occurrence in [_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]) {
+        [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
+    }
 }
 
 - (void)fetchingResultsFailedWithError:(NSError *)error
 {
     NSLog(@"Error %@; %@", error, [error localizedDescription]);
 }
-*/
+
+
+#pragma mark - INatManagerDelegate Methods
+
+- (void)iNatTaxonAddedToGBIFOccurrence:(GBIFOccurrence *)occurrence
+{
+    //    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
+    
+    if (occurrence.iNatTaxon)
+    {
+        if (occurrence.iNatTaxon.taxon_photos.count > 0)
+        {
+            INatTaxonPhoto *mainPhoto = occurrence.iNatTaxon.taxon_photos[0];
+            [ImageCache saveImageForURL:mainPhoto.medium_url];
+        }
+    }
+    
+    [self.delegate taxonAddedToOccurrence:occurrence];
+}
+
 
 @end

@@ -8,6 +8,7 @@
 
 #import "ExploreSummaryViewController.h"
 #import "ExploreSummaryTableViewController.h"
+#import "ExploreDataManager.h"
 
 @interface ExploreSummaryViewController ()
 
@@ -33,7 +34,7 @@
 {
     [self setupLabels];
     summaryTableVC.bcOptions = _bcOptions;
-    summaryTableVC.occurrenceResults = _occurrenceResults;
+    summaryTableVC.occurrenceResults = [ExploreDataManager sharedInstance].occurrenceResults;
 }
 
 - (void)setupUI

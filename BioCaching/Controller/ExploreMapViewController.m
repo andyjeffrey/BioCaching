@@ -23,19 +23,14 @@
 #import "TripsDataManager.h"
 
 #import "ExploreDataManager.h"
-#import "GBIFManager.h"
-#import "GBIFCommunicator.h"
-#import "GBIFCommunicatorMock.h"
 #import "GBIFOccurrenceResults.h"
+#import "GBIFManager.h"
 #import "INatManager.h"
 
 
 static float const kOccurrenceAnnotationOffset = 50.0f;
-static int const kDefaultSearchAreaStepperValue = 1000;
 
-@interface ExploreMapViewController () {
-    MKCircle *_currentSearchAreaCircle;
-}
+@interface ExploreMapViewController ()
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
@@ -83,6 +78,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     bool _followUser;
 
     MKPolygon *_currentSearchAreaPolygon;
+    MKCircle *_currentSearchAreaCircle;
     
     ExploreDataManager *_exploreDataManager;
     
@@ -115,12 +111,10 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     _followUser = NO;
 
     // TODO: Use observer/notification pattern to get updated results
-    _occurrenceResults = self.occurrenceResults;
-    [self configureGBIFManager];
-    [self configureINatManager];
+//    _occurrenceResults = self.occurrenceResults;
+//    [self configureGBIFManager];
+//    [self configureINatManager];
     
-    _exploreDataManager = [ExploreDataManager sharedInstance];
-
     _currentViewLocation = LocationsArray.defaultLocation;
     [self updateLocationLabelAndMapView:_currentViewLocation mapViewSpan:[LocationsArray locationViewSpan:LocationsArray.defaultLocationIndex]];
 
@@ -130,6 +124,8 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     [self configureGestureRecognizers];
     self.mapView.delegate = self;
 
+    _exploreDataManager = [ExploreDataManager sharedInstance];
+    _exploreDataManager.delegate = self;
     [self performSearch];
 }
 
@@ -148,17 +144,17 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 #pragma mark Initialisation Methods
 
-- (void)configureGBIFManager
-{
-    _gbifManager = [[GBIFManager alloc] init];
-    _gbifManager.delegate = self;
-}
-
-- (void)configureINatManager
-{
-    _iNatManager = [[INatManager alloc] init];
-    _iNatManager.delegate = self;
-}
+//- (void)configureGBIFManager
+//{
+//    _gbifManager = [[GBIFManager alloc] init];
+//    _gbifManager.delegate = self;
+//}
+//
+//- (void)configureINatManager
+//{
+//    _iNatManager = [[INatManager alloc] init];
+//    _iNatManager.delegate = self;
+//}
 
 - (void)configureGestureRecognizers
 {
@@ -370,7 +366,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 - (IBAction)buttonStart:(id)sender {
     if (!_currentTrip) {
-        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:self.occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusInProgress];
+        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusInProgress];
     } else {
         if (_currentTrip.status.intValue == TripStatusCreated) {
             _currentTrip.status = [NSNumber numberWithInt:TripStatusInProgress];
@@ -413,7 +409,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 - (IBAction)buttonSave:(id)sender {
     if (!_currentTrip) {
-        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:self.occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusCreated];
+        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusCreated];
     }
     
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Saved to Trips Page", nil)
@@ -437,8 +433,8 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
-//    [_exploreDataManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
-    [_gbifManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
+    [_exploreDataManager fetchOccurrencesWithOptions:_bcOptions];
+//    [_gbifManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
 }
 
 #pragma mark MKMapViewDelegate
@@ -542,6 +538,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 
 - (void)showTaxonView
 {
+    _taxonInfoVC.currentTrip = _currentTrip;
     [_taxonInfoVC viewWillAppear:YES];
     if (self.viewTaxonInfo.hidden) {
         self.viewTaxonInfo.hidden = NO;
@@ -646,14 +643,14 @@ static int const kDefaultSearchAreaStepperValue = 1000;
 //    _tripOptions = savedTripOptions;
 }
 
-#pragma mark - GBIFManagerDelegate
+#pragma mark - ExploreDataManagerDelegate
 
-- (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
+- (void)occurrenceResultsReceived:(GBIFOccurrenceResults *)occurrenceResults
 {
     NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
     
-    [self addiNatTaxonInfoToOccurrences:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
+//    [self addiNatTaxonInfoToOccurrences:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
@@ -662,30 +659,25 @@ static int const kDefaultSearchAreaStepperValue = 1000;
     });
 }
 
-- (void)fetchingResultsFailedWithError:(NSError *)error
+- (void)taxonAddedToOccurrence:(GBIFOccurrence *)occurrence
 {
-    NSLog(@"Error %@; %@", error, [error localizedDescription]);
-}
-
-
-#pragma mark - INatManagerDelegate
-
-- (void)iNatTaxonAddedToGBIFOccurrence:(GBIFOccurrence *)occurrence
-{
-//    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
-
-    if (occurrence.iNatTaxon)
-    {
-        if (occurrence.iNatTaxon.taxon_photos.count > 0)
-        {
-            INatTaxonPhoto *mainPhoto = occurrence.iNatTaxon.taxon_photos[0];
-            [ImageCache saveImageForURL:mainPhoto.medium_url];
-        }
-    }
+    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
+//    [self.mapView addAnnotation:occurrence];
     
-    //
-    [self.mapView addAnnotation:occurrence];
 }
+
+- (void)occurrenceRemoved:(GBIFOccurrence *)occurrence
+{
+    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
+    if (self.navigationController.topViewController != self.parentViewController)
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    [self hideTaxonView];
+    _taxonInfoVC.occurrence = nil;
+    [self.mapView removeAnnotation:occurrence];
+}
+
 
 #pragma mark UIStoryboard Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -697,6 +689,7 @@ static int const kDefaultSearchAreaStepperValue = 1000;
         optionsVC.bcOptions = _bcOptions;
     } else if ([segue.identifier isEqualToString:@"embedTaxonInfo"]) {
         _taxonInfoVC = segue.destinationViewController;
+        _taxonInfoVC.showDetailsButton = YES;
     }
 }
 

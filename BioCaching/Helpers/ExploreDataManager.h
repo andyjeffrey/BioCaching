@@ -7,12 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "INatTrip.h"
+#import "ExploreDataManagerDelegate.h"
+#import "GBIFManagerDelegate.h"
+#import "INatManagerDelegate.h"
+#import "BCOptions.h"
+#import "GBIFOccurrenceResults.h"
+#import "GBIFOccurrence.h"
 
-@interface ExploreDataManager : NSObject
+@interface ExploreDataManager : NSObject <GBIFManagerDelegate, INatManagerDelegate>
+
+@property (weak, nonatomic) id<ExploreDataManagerDelegate> delegate;
+
+@property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
 
 + (instancetype)sharedInstance;
 
-
+- (void)fetchOccurrencesWithOptions:(BCOptions *)options;
+- (void)removeOccurrence:(GBIFOccurrence *)occurrence;
 
 @end

@@ -25,7 +25,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelObserver;
 @property (weak, nonatomic) IBOutlet UILabel *labelInstitution;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
-
+@property (weak, nonatomic) IBOutlet UILabel *labelINatTaxon;
 
 - (IBAction)buttonBibliog:(id)sender;
 
@@ -36,14 +36,7 @@
     INatTaxonPhoto *iNatTaxonPhoto;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+
 
 - (void)viewDidLoad
 {
@@ -71,7 +64,7 @@
     self.labelObserver.text = self.occurrence.CollectorName;
     self.labelInstitution.text = self.occurrence.InstitutionCode;
     self.labelLocation.text = self.occurrence.locationString;
-    
+    self.labelINatTaxon.text = [self.occurrence.iNatTaxon.id stringValue];
 }
 
 - (void)viewWillAppear:(BOOL)animated

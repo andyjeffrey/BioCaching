@@ -9,6 +9,7 @@
 #import "ExploreListViewController.h"
 #import "OccurrenceDetailsViewController.h"
 #import "TaxonListCell.h"
+#import "ExploreDataManager.h"
 
 @interface ExploreListViewController ()
 
@@ -30,21 +31,7 @@ typedef enum {
     NSArray* _filteredResults;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    return self;
-}
+#pragma mark - UIViewController Methods
 
 - (void)viewDidLoad
 {
@@ -58,7 +45,8 @@ typedef enum {
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    _filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
+//    _filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
+    _filteredResults = [[ExploreDataManager sharedInstance].occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
     [self setupLabels];
     [self.tableViewResults reloadData];
 //    [self.tableViewResults performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
@@ -69,12 +57,14 @@ typedef enum {
     [self.tableViewResults deselectRowAtIndexPath:[self.tableViewResults indexPathForSelectedRow] animated:YES];
 }
 
+
+#pragma mark - Init/Setup Methods
+
 - (void)setupUI
 {
     self.view.backgroundColor = [UIColor darkGrayColor];
     self.tableViewResults.backgroundColor = [UIColor kColorTableBackgroundColor];
 }
-
 
 - (void)setupLabels
 {
@@ -91,14 +81,8 @@ typedef enum {
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - IBActions
 
-
-# pragma mark IBActions
 
 
 #pragma mark UITableView

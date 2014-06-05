@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "GBIFOccurrence.h"
+#import "INatTrip.h"
 
 @interface TaxonInfoViewController : UIViewController
 
 @property (nonatomic, strong) GBIFOccurrence *occurrence;
+@property (nonatomic, assign) BOOL showDetailsButton;
+@property (nonatomic, strong) INatTrip *currentTrip;
 
 @end

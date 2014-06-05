@@ -10,8 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "DropDownViewController.h"
 #import "ExploreOptionsDelegate.h"
-#import "GBIFManagerDelegate.h"
-#import "INatManagerDelegate.h"
+#import "ExploreDataManagerDelegate.h"
 
 
 @interface ExploreMapViewController : UIViewController <
@@ -19,11 +18,9 @@
     UIGestureRecognizerDelegate,
     ExploreOptionsDelegate,
     DropDownViewDelegate,
-    GBIFManagerDelegate,
-    INatManagerDelegate
+    ExploreDataManagerDelegate
 >
 
 @property (nonatomic, strong) BCOptions *bcOptions;
-@property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
 
 @end

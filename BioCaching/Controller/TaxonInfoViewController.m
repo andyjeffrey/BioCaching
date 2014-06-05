@@ -7,13 +7,14 @@
 //
 
 #import "TaxonInfoViewController.h"
+#import "OccurrenceDetailsViewController.h"
 #import "ImageCache.h"
+#import "ExploreDataManager.h"
 
 @interface TaxonInfoViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageMainPhoto;
 @property (weak, nonatomic) IBOutlet UILabel *labelPhotoCopyright;
-@property (weak, nonatomic) IBOutlet UIButton *buttonDetails;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxon;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonTitle;
@@ -22,6 +23,13 @@
 @property (weak, nonatomic) IBOutlet UIView *viewOverlayMask;
 @property (weak, nonatomic) IBOutlet UIView *viewRemoveButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageRemoveButton;
+
+@property (weak, nonatomic) IBOutlet UIButton *buttonDetails;
+@property (weak, nonatomic) IBOutlet UIButton *buttonRemove;
+@property (weak, nonatomic) IBOutlet UIButton *buttonRecord;
+
+- (IBAction)viewOccurrenceDetails:(id)sender;
+- (IBAction)removeOccurrence:(id)sender;
 
 @end
 
@@ -39,13 +47,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self updateTaxonView];
+    [self updateButtons];
+}
+
+- (void)updateButtons
+{
+    if (self.showDetailsButton) {
+        self.buttonDetails.hidden = NO;
+    }
+    
+    if ([self.currentTrip.status intValue] < TripStatusInProgress) {
+        self.buttonRemove.hidden = NO;
+        self.buttonRecord.hidden = YES;
+    } else {
+        self.buttonRemove.hidden = YES;
+        self.buttonRecord.hidden = NO;
+    }
+    
 }
 
 - (void)updateTaxonView
@@ -94,4 +117,13 @@
 }
 */
 
+- (IBAction)viewOccurrenceDetails:(id)sender {
+    OccurrenceDetailsViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceDetails"];
+    detailsVC.occurrence = self.occurrence;
+    [self.parentViewController.navigationController pushViewController:detailsVC animated:YES];
+}
+
+- (IBAction)removeOccurrence:(id)sender {
+    [[ExploreDataManager sharedInstance] removeOccurrence:self.occurrence];
+}
 @end

@@ -100,11 +100,11 @@ static int const defaultEmbeddedView = 0;
         if ([segue.identifier isEqualToString:@"embedExploreList"]) {
             ExploreListViewController *listVC = (ExploreListViewController *)destVC;
             listVC.bcOptions = mapVC.bcOptions;
-            listVC.occurrenceResults = mapVC.occurrenceResults;
+//            listVC.occurrenceResults = mapVC.occurrenceResults;
         } else if ([segue.identifier isEqualToString:@"embedExploreSummary"]) {
             ExploreSummaryViewController *summVC = (ExploreSummaryViewController *)destVC;
             summVC.bcOptions = mapVC.bcOptions;
-            summVC.occurrenceResults = mapVC.occurrenceResults;
+//            summVC.occurrenceResults = mapVC.occurrenceResults;
         }
         
         [self swapFromViewController:[self.childViewControllers objectAtIndex:0] toViewController:destVC];

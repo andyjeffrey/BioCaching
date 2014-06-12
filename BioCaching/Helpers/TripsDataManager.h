@@ -21,6 +21,8 @@
 @property (nonatomic, strong) NSMutableArray *finishedTrips;
 @property (nonatomic, strong) NSMutableArray *publishedTrips;
 
+@property (nonatomic, strong) INatTrip *currentTrip;
+
 + (instancetype)sharedInstance;
 
 - (void)saveChanges;

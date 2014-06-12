@@ -103,8 +103,6 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
         NSLog(@"%s No Taxon Results For Species: %@", __PRETTY_FUNCTION__, speciesName);
     }
     
-    
-    
     return iNatTaxon;
 }
 

@@ -12,6 +12,8 @@
 
 @interface ExploreSummaryViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *buttonSidebar;
+
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
 @property (weak, nonatomic) IBOutlet UILabel *labelTotalResults;
@@ -20,6 +22,7 @@
 
 @implementation ExploreSummaryViewController {
     ExploreSummaryTableViewController *summaryTableVC;
+    GBIFOccurrenceResults *_occurrenceResults;
 }
 
 - (void)viewDidLoad
@@ -28,18 +31,34 @@
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 
     [self setupUI];
+    _occurrenceResults = [ExploreDataManager sharedInstance].occurrenceResults;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self setupLabels];
     summaryTableVC.bcOptions = _bcOptions;
-    summaryTableVC.occurrenceResults = [ExploreDataManager sharedInstance].occurrenceResults;
+    summaryTableVC.occurrenceResults = _occurrenceResults;
 }
+
+#pragma mark - Init/Setup Methods
 
 - (void)setupUI
 {
-    self.view.backgroundColor = [UIColor darkGrayColor];
+    self.view.backgroundColor = [UIColor kColorHeaderBackground];
+    //    self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
+    [self setupSidebar];
+}
+
+- (void)setupSidebar
+{
+    [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
+    [self.buttonSidebar setBackgroundImage:
+     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
+    
+    // Change button color
+    //    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
 }
 
 - (void)setupLabels
@@ -52,7 +71,7 @@
                                              (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
     
     [self.labelTotalResults setTextWithColor:[NSString stringWithFormat:@"Total Record Count: %d",
-                                                 self.occurrenceResults.Count.intValue] color:[UIColor kColorHeaderText]];
+                                                 _occurrenceResults.Count.intValue] color:[UIColor kColorHeaderText]];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

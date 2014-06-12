@@ -61,20 +61,21 @@
 
 - (void)setupSidebar
 {
+    [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
     [self.buttonSidebar setBackgroundImage:
      [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     
     // Change button color
-    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
+//    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
 }
 
 - (void)setupButtons
 {
     [self.buttonRefresh setTitle:nil forState:UIControlStateNormal];
-    self.buttonRefresh.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
-    [self.buttonRefresh setImage:
+    [self.buttonRefresh setBackgroundImage:
      [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    self.buttonRefresh.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
 }
 
 - (void)setupTable
@@ -142,8 +143,21 @@
     }
     
     cell.labelTripTitle.text = trip.title;
-    cell.labelTripSubtitle.text = [NSString stringWithFormat:@"%@", trip.createdAt];
-    cell.labelTripSummaryStats.text = [NSString stringWithFormat:@"%d / %d", 0, 0];
+
+    NSString *subtitle;
+    if (trip.startTime) {
+        subtitle = [NSString stringWithFormat:@"%@ - ", [trip.startTime localDateTime]];
+        if (trip.stopTime) {
+            subtitle = [subtitle stringByAppendingString:[trip.stopTime localTime]];
+        }
+    } else {
+        subtitle = [NSString stringWithFormat:@"Trip Created: %@", [trip.createdAt localDateTime]];
+    }
+    cell.labelTripSubtitle.text = subtitle;
+    
+    cell.labelTripSummaryStats.text = [NSString stringWithFormat:@"%d / %d",
+                                       0,
+                                       (int)trip.taxaAttributes.count];
     cell.labelBackground.text = @"";
     
     if (!trip) {

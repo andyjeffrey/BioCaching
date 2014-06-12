@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GBIFOccurrence.h"
-#import "DisplayOptions.h"
+#import "BCOptions.h"
 
 @interface GBIFOccurrenceResults : NSObject
 
@@ -21,6 +21,7 @@
 @property(nonatomic,strong) NSMutableArray * Results;
 
 #pragma mark - Additional Properties
+@property (nonatomic, strong) BCOptions *bcOptions;
 @property (nonatomic, readonly, strong) NSDictionary *dictRecordSource;
 @property (nonatomic, readonly, strong) NSDictionary *dictRecordType;
 @property (nonatomic, readonly, strong) NSDictionary *dictTaxonSpecies;

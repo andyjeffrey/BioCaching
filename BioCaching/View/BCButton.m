@@ -8,7 +8,9 @@
 
 #import "BCButton.h"
 
-@implementation BCButton
+@implementation BCButton {
+    UIColor *origColor;
+}
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {

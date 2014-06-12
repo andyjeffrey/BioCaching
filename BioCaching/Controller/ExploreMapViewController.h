@@ -11,6 +11,7 @@
 #import "DropDownViewController.h"
 #import "ExploreOptionsDelegate.h"
 #import "ExploreDataManagerDelegate.h"
+#import "INatTrip.h"
 
 
 @interface ExploreMapViewController : UIViewController <
@@ -22,5 +23,6 @@
 >
 
 @property (nonatomic, strong) BCOptions *bcOptions;
+@property (nonatomic, strong) INatTrip *currentTrip;
 
 @end

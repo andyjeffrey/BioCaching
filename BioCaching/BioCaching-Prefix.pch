@@ -29,6 +29,7 @@
 #import "NSString+UtilityMethods.h"
 #import "NSCountedSet+Sorting.h"
 #import "NSDictionary+Filtering.h"
+#import "NSDate+Formatting.h"
 
 #import "NimbusCore.h"
 #import "NimbusWebController.h"

@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "BCOptions.h"
-#import "GBIFOccurrenceResults.h"
 #import "INatTrip.h"
+#import "TaxonListCell.h"
 
-@interface ExploreListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface ExploreListViewController : UIViewController
+<UITableViewDelegate, UITableViewDataSource, TaxonListCellDelegate>
 
 @property (nonatomic, strong) BCOptions *bcOptions;
-@property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
-@property (nonatomic, strong) INatTrip *iNatTrip;
 
 @end

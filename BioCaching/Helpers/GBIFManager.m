@@ -11,7 +11,9 @@
 #import "GBIFCommunicatorMock.h"
 #import "GBIFOccurrenceResults.h"
 
-@implementation GBIFManager
+@implementation GBIFManager {
+    SearchOptions *_bcOptions;
+}
 
 - (void)fetchOccurrencesWithinArea:(MKPolygon *)polygonArea
 {
@@ -47,21 +49,19 @@
     GBIFOccurrenceResults *occurrenceResults = [self buildOccurrenceResultsFromJSON:objectNotation error:&error];
     
     if (error != nil) {
-        NSLog(@"GBIFManager Error: %@", error);
         [self.delegate fetchingResultsFailedWithError:error];
 
         // Run NotificationMessage on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            [TSMessage showNotificationInViewController:TSMessage.defaultViewController title:@"GBIF Error Received" subtitle:[NSString stringWithFormat:@"%@", error] type:TSMessageNotificationTypeError duration:2];
+            [TSMessage showNotificationInViewController:TSMessage.defaultViewController title:@"Error Parsing GBIF Results" subtitle:[NSString stringWithFormat:@"%@", error] type:TSMessageNotificationTypeError duration:2];
         });
     }
     else {
-        NSLog(@"GBIFManager occurenceResults: %d", occurrenceResults.Count.intValue);
         [self.delegate didReceiveOccurences:occurrenceResults];
         
         // Run NotificationMessage on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            [TSMessage showNotificationInViewController:TSMessage.defaultViewController title:@"Results Received" subtitle:[NSString stringWithFormat:@"%d Occurence Records", occurrenceResults.Count.intValue] type:TSMessageNotificationTypeSuccess duration:2];
+            [TSMessage showNotificationInViewController:TSMessage.defaultViewController title:@"GBIF Results Received" subtitle:[NSString stringWithFormat:@"%d Occurence Records", occurrenceResults.Count.intValue] type:TSMessageNotificationTypeSuccess duration:2];
         });
         //NSOperation Alternative
         //    [[NSOperationQueue mainQueue] addOperationWithBlock:^ { }];
@@ -74,7 +74,7 @@
     NSLog(@"GBIFManager Error: %@", error);
     // Run NotificationMessage on main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        [TSMessage showNotificationInViewController:TSMessage.defaultViewController title:@"GBIF Error Received" subtitle:[NSString stringWithFormat:@"%@", error] type:TSMessageNotificationTypeError duration:2];
+        [TSMessage showNotificationInViewController:TSMessage.defaultViewController title:@"GBIF Communication Error" subtitle:[NSString stringWithFormat:@"%@", error] type:TSMessageNotificationTypeError duration:2];
     });
     
     [self.delegate fetchingResultsFailedWithError:error];
@@ -87,13 +87,16 @@
     
     if (localError != nil) {
         *error = localError;
+        NSLog(@"GBIFManager Error: %@", localError);
         return nil;
     }
     
     GBIFOccurrenceResults *occurrenceResults = [GBIFOccurrenceResults objectWithDictionary:parsedObject];
     
-    NSLog(@"GBIFOccurenceResultsBuilder TotalResults: %d", occurrenceResults.Count.intValue);
-    NSLog(@"GBIFOccurenceResultsBuilder OccurenceRecords: %lu", (unsigned long)occurrenceResults.Results.count);
+    NSLog(@"GBIFOccurenceResultsBuilder TotalResultsCount: %d", occurrenceResults.Count.intValue);
+    NSLog(@"GBIFOccurenceResultsBuilder OccurenceRecordsReceived: %d - %d",
+          [occurrenceResults.Offset intValue],
+          ([occurrenceResults.Offset intValue] + (int)occurrenceResults.Results.count));
     
     return occurrenceResults;
     

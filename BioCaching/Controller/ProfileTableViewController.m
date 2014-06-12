@@ -10,17 +10,21 @@
 #import "LoginManager.h"
 
 @interface ProfileTableViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *labelAccountName;
+
+@property (weak, nonatomic) IBOutlet UITextField *textFieldUsername;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldPassword;
 @property (weak, nonatomic) IBOutlet UILabel *labelSignInOut;
-@property (weak, nonatomic) IBOutlet UILabel *labelPassword;
+
+@property (weak, nonatomic) IBOutlet UILabel *labelUserID;
 @property (weak, nonatomic) IBOutlet UILabel *labelAuthToken;
+
 @end
 
 static int const kTableCellTagSignInOut = 100;
 static int const kTableCellTagResetAuth = 200;
 
 @implementation ProfileTableViewController {
-    NSUserDefaults *defaults;
+    NSUserDefaults *_userDefaults;
 }
 
 #pragma-mark UI Lifecycle
@@ -28,33 +32,38 @@ static int const kTableCellTagResetAuth = 200;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:kINatTestAccountId forKey:kINatAuthUsernamePrefKey];
-    [defaults setValue:kINatTestAccountPassword forKey:kINatAuthPasswordPrefKey];
-    [defaults synchronize];
+    _userDefaults = [NSUserDefaults standardUserDefaults];
     [LoginManager sharedInstance].delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setupUI];
+    [self updateUI];
 }
 
 
 #pragma-mark Setup Methods
 
-- (void)setupUI
+- (void)updateUI
 {
-    self.labelAccountName.text = [defaults objectForKey:kINatAuthUsernamePrefKey];
-    self.labelPassword.text = [defaults objectForKey:kINatAuthPasswordPrefKey];
-    
-    if ([defaults objectForKey:kINatAuthTokenPrefKey]) {
-        self.labelAuthToken.text = [defaults objectForKey:kINatAuthTokenPrefKey];
-        self.labelSignInOut.text = @"Sign Out";
+    if ([_userDefaults objectForKey:kINatAuthUserIDPrefKey])
+    {
+        self.textFieldUsername.text = [_userDefaults valueForKey:kINatAuthUsernamePrefKey];
+        self.textFieldPassword.text = [_userDefaults valueForKey:kINatAuthPasswordPrefKey];
     } else {
-        self.labelAuthToken.text = @"";
+        self.textFieldUsername.text = kINatTestAccountId;
+        self.textFieldPassword.text = kINatTestAccountPassword;
+    }
+
+    if ([_userDefaults objectForKey:kINatAuthTokenPrefKey]) {
+        self.labelSignInOut.text = @"Sign Out";
+        self.labelUserID.text = [[_userDefaults valueForKey:kINatAuthUserIDPrefKey] stringValue];
+        self.labelAuthToken.text = [_userDefaults valueForKey:kINatAuthTokenPrefKey];
+    } else {
         self.labelSignInOut.text = @"Sign In";
+        self.labelUserID.text = @"Not Signed In";
+        self.labelAuthToken.text = @"";
     }
     
 }
@@ -64,15 +73,17 @@ static int const kTableCellTagResetAuth = 200;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self hideKeyBoard];
+    
     UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:indexPath];
     
     switch (selectedCell.tag) {
         case kTableCellTagSignInOut:
             NSLog(@"SignInOut Selected");
-            if ([defaults objectForKey:kINatAuthTokenPrefKey]) {
+            if ([_userDefaults objectForKey:kINatAuthTokenPrefKey]) {
                 [[LoginManager sharedInstance] logout];
             } else {
-                [[LoginManager sharedInstance] loginToINat];
+                [self performLogin];
             }
             break;
         case kTableCellTagResetAuth:
@@ -85,17 +96,38 @@ static int const kTableCellTagResetAuth = 200;
     // View Refreshed After Login/Out attempt by delegate
 }
 
+#pragma mark UITextFieldDelegate methods
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    if (textField == self.textFieldUsername) {
+        [self.textFieldPassword becomeFirstResponder];
+    }
+    return YES;
+}
+
+-(void)hideKeyBoard {
+    [self.textFieldUsername resignFirstResponder];
+    [self.textFieldPassword resignFirstResponder];
+}
+
+#pragma mark - LoginManager Methods
+- (void)performLogin
+{
+    [[LoginManager sharedInstance] loginToINat:self.textFieldUsername.text password:self.textFieldPassword.text];
+}
+
 #pragma-mark LoginManagerDelegate
 - (void)loginSuccess {
-    [self setupUI];
+    [self updateUI];
 }
 
 - (void)loginFailure {
-    [self setupUI];
+    [self updateUI];
 }
 
 - (void)logoutCompleted {
-    [self setupUI];
+    [self updateUI];
 }
 
 

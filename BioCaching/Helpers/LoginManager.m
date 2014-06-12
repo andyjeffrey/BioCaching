@@ -9,9 +9,12 @@
 #import "LoginManager.h"
 
 @implementation LoginManager {
-    NSString *INatAccessToken;
     NSString *AccountType;
+    NSString *INatAccessToken;
     BOOL isLoginCompleted;
+    NSString *_iNatAccessUsername;
+    NSString *_iNatAccessPassword;
+    NSUserDefaults *_userDefaults;
 }
 
 +(instancetype)sharedInstance
@@ -37,14 +40,16 @@
 {
     self = [super init];
     if (self) {
-        
+        _userDefaults = [NSUserDefaults standardUserDefaults];
+        AccountType = kINatAuthService;
+        [self initOAuth2Service];
     }
     return self;
 }
 
 - (BOOL)loggedIn
 {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kINatAuthTokenPrefKey]) {
+    if ([_userDefaults objectForKey:kINatAuthTokenPrefKey]) {
         return YES;
     } else {
         return NO;
@@ -78,24 +83,24 @@
                                      forAccountType:kINatAuthServiceExtToken];
 }
 
-- (void)loginToINat
+- (void)loginToINat:(NSString *)iNatUsername password:(NSString *)iNatPassword
 {
-    [self initOAuth2Service];
-    AccountType = kINatAuthService;
     isLoginCompleted = NO;
-    [[NSUserDefaults standardUserDefaults] setValue:kINatTestAccountId forKey:kINatAuthUsernamePrefKey];
-    [[NSUserDefaults standardUserDefaults] setValue:kINatTestAccountPassword forKey:kINatAuthPasswordPrefKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [[NXOAuth2AccountStore sharedStore] requestAccessToAccountWithType:AccountType
-                                                              username:kINatTestAccountId
-                                                              password:kINatTestAccountPassword];
+    _iNatAccessUsername = iNatUsername;
+    _iNatAccessPassword = iNatPassword;
+    [[NXOAuth2AccountStore sharedStore] requestAccessToAccountWithType:AccountType username:iNatUsername password:iNatPassword];
 }
 
 - (void)logout
 {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kINatAuthTokenPrefKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    NXOAuth2AccountStore *sharedStore = [NXOAuth2AccountStore sharedStore];
+    for (NXOAuth2Account *account in [sharedStore accountsWithAccountType:kINatAuthService]) {
+        // Do something with the account
+        [[NXOAuth2AccountStore sharedStore] removeAccount:account];
+    };
+    [_userDefaults removeObjectForKey:kINatAuthUserIDPrefKey];
+    [_userDefaults removeObjectForKey:kINatAuthTokenPrefKey];
+    [_userDefaults synchronize];
     [[RKObjectManager sharedManager].HTTPClient setDefaultHeader:@"Authorization" value:nil];
     [self.delegate logoutCompleted];
     
@@ -164,27 +169,21 @@
     }
     if (loginSuccessed){
         isLoginCompleted = YES;
-        [[NSUserDefaults standardUserDefaults]
-         setValue:INatAccessToken
-         forKey:kINatAuthTokenPrefKey];
-//        INaturalistAppDelegate *app = [[UIApplication sharedApplication] delegate];
-//        [RKClient.sharedClient setValue:INatAccessToken forHTTPHeaderField:@"Authorization"];
+        [_userDefaults setValue:_iNatAccessUsername forKey:kINatAuthUsernamePrefKey];
+        [_userDefaults setValue:_iNatAccessPassword forKey:kINatAuthPasswordPrefKey];
+        [_userDefaults setValue:INatAccessToken forKey:kINatAuthTokenPrefKey];
         [[RKObjectManager sharedManager].HTTPClient setDefaultHeader:@"Authorization" value:INatAccessToken];
-//        [RKClient.sharedClient setAuthenticationType: RKRequestAuthenticationTypeNone];
-//        [app.photoObjectManager.client setValue:INatAccessToken forHTTPHeaderField:@"Authorization"];
-//        [app.photoObjectManager.client setAuthenticationType: RKRequestAuthenticationTypeNone];
         [self removeOAuth2Observers];
-        
-//        [[RKClient sharedClient] get:@"/users/edit.json" delegate:self];
         
         [[RKObjectManager sharedManager].HTTPClient getPath:@"/users/edit.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"Login Success, Response: %@", responseObject);
-            [[NSUserDefaults standardUserDefaults] setValue:INatAccessToken forKey:kINatAuthTokenPrefKey];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            [_userDefaults setValue:[responseObject valueForKey:@"id"] forKey:kINatAuthUserIDPrefKey];
+            [_userDefaults synchronize];
             [self.delegate loginSuccess];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Login Error, Response: %@", error);
-            [[NSUserDefaults standardUserDefaults] setValue:nil forKey:kINatAuthTokenPrefKey];
+            [_userDefaults setValue:nil forKey:kINatAuthUserIDPrefKey];
+            [_userDefaults setValue:nil forKey:kINatAuthTokenPrefKey];
             [self.delegate loginFailure];
         }];
     }

@@ -69,7 +69,7 @@
 
 - (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
 {
-    NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
+    NSLog(@"%s Results.count: %lu", __PRETTY_FUNCTION__, (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
     
     [self.delegate occurrenceResultsReceived:_occurrenceResults];
@@ -89,18 +89,26 @@
 
 - (void)iNatTaxonAddedToGBIFOccurrence:(GBIFOccurrence *)occurrence
 {
-    //    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
-    
     if (occurrence.iNatTaxon)
     {
+        NSLog(@"%s \niNatTaxon Received: %@ - %@ \nAdding To Occurrence: %@", __PRETTY_FUNCTION__,
+              occurrence.speciesBinomial, occurrence.iNatTaxon.common_name, occurrence.Key);
         if (occurrence.iNatTaxon.taxon_photos.count > 0)
         {
             INatTaxonPhoto *mainPhoto = occurrence.iNatTaxon.taxon_photos[0];
             [ImageCache saveImageForURL:mainPhoto.medium_url];
         }
+
+        [self.delegate taxonAddedToOccurrence:occurrence];
+    } else
+    {
+        NSLog(@"%s \nNO iNatTaxon Received: %@ \nRemoving Occurrence: %@", __PRETTY_FUNCTION__,
+              occurrence.speciesBinomial, occurrence.Key);
+        
+        [_occurrenceResults.Results removeObject:occurrence];
+        [self.delegate occurrenceRemoved:occurrence];
     }
     
-    [self.delegate taxonAddedToOccurrence:occurrence];
 }
 
 

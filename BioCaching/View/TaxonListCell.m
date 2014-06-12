@@ -19,6 +19,13 @@
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    [self.buttonAction setTitleColor:[UIColor kColorButtonLabel] forState:UIControlStateNormal];
+    
+    return self;
+}
+
 - (void)awakeFromNib
 {
     // Initialization code
@@ -31,4 +38,7 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)performAction:(id)sender {
+    [self.delegate actionButtonSelected:self];
+}
 @end

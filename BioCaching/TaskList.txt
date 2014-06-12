@@ -1,0 +1,38 @@
+High Priority (Required For v1.0 - Internal Test Release)
+- Full curation of trip list
+- Go back to previously created trips (whatever status)
+- User entered trip title
+- Change search process so occurrences/taxa only added once taxa details available (either from local database or iNat API call)
+- Record basic observation details and assign to trip
+- Add photo to observation records
+- Push all associated observation records (and photos) to iNat
+- Fix up Website Viewer (as used for BHL species links) with back button
+
+
+Medium Priority (Probable For v1.1 - Full Public Release)
+- User editing of trip details before submission to iNat
+- Better UX for deleting taxa from trip list (edit list/delete confirmation)
+- Deletion of taxa from trip not searched for before submission to iNat?
+- Hook up trip map and list screens so selected item is highlighted when changing screens
+- Swipe to next occurrence/record (when viewing trip)
+- Redo/duplicate existing (completed) trip
+- "Follow User" option?
+- Fix any UI issues for iOS 6
+
+
+Low Priority (Possible For v1.1+ - Post Release Updates)
+- Retrieval of multiple pictures for trip list taxa
+
+
+
+
+Currently Out of Scope (Wishlist for v2.0+ - Future Versions)
+- Full synching/updating of trips (and associated observations) with iNat (after initial post)
+
+
+
+
+Ongoing Tasks/TODOs (Uncategorised)
+- Refactor BCOptions (Persist original SearchOptions to OccurrenceResults/Trip, use NSUserDefaults for current DisplayOptions?)
+- Keep list of deleted occurrences (manual or automatic) and underlying Occurrence objects (rather than completing deleting from OccurrenceResults)
+- Enable addition of extra occurrence search results to unsaved trip lists (currently limited to one GBIF request of max 300 occurrences)

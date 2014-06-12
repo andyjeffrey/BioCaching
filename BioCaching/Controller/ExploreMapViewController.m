@@ -24,8 +24,6 @@
 
 #import "ExploreDataManager.h"
 #import "GBIFOccurrenceResults.h"
-#import "GBIFManager.h"
-#import "INatManager.h"
 
 
 static float const kOccurrenceAnnotationOffset = 50.0f;
@@ -44,8 +42,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 @property (weak, nonatomic) IBOutlet UIView *viewDropDownRef;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRefreshSearch;
 
+
+@property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
+@property (weak, nonatomic) IBOutlet UILabel *labelResultsCount;
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonSettings;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segCtrlView;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonCurrentLocation;
 
@@ -74,6 +75,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     UIView *_viewBackgroundControls;
     
     CLLocationCoordinate2D _currentViewLocation;
+    CLLocationDistance _currentViewSpan;
     CLLocation *_currentUserLocation;
     bool _followUser;
 
@@ -83,8 +85,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     ExploreDataManager *_exploreDataManager;
     
     GBIFOccurrenceResults *_occurrenceResults;
-    GBIFManager *_gbifManager;
-    INatManager *_iNatManager;
     INatTrip *_currentTrip;
 }
 
@@ -112,8 +112,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
     // TODO: Use observer/notification pattern to get updated results
 //    _occurrenceResults = self.occurrenceResults;
-//    [self configureGBIFManager];
-//    [self configureINatManager];
     
     _currentViewLocation = LocationsArray.defaultLocation;
     [self updateLocationLabelAndMapView:_currentViewLocation mapViewSpan:[LocationsArray locationViewSpan:LocationsArray.defaultLocationIndex]];
@@ -126,12 +124,14 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
     _exploreDataManager = [ExploreDataManager sharedInstance];
     _exploreDataManager.delegate = self;
+
     [self performSearch];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
+    _currentTrip = [TripsDataManager sharedInstance].currentTrip;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -142,35 +142,48 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 }
 
 
-#pragma mark Initialisation Methods
+#pragma mark Init/UI Setup Methods
 
-//- (void)configureGBIFManager
-//{
-//    _gbifManager = [[GBIFManager alloc] init];
-//    _gbifManager.delegate = self;
-//}
-//
-//- (void)configureINatManager
-//{
-//    _iNatManager = [[INatManager alloc] init];
-//    _iNatManager.delegate = self;
-//}
-
-- (void)configureGestureRecognizers
+- (void)setupButtons
 {
-    UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapSingleClick:)];
-//    singleTapRecognizer.delaysTouchesBegan = YES;
-//    singleTapRecognizer.numberOfTapsRequired = 1;
-    [self.mapView addGestureRecognizer:singleTapRecognizer];
+    self.viewTopBar.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
     
-    UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapDoubleClick:)];
-    doubleTapRecognizer.numberOfTapsRequired = 2;
-//    doubleTapRecognizer.delegate = self;
-    [self.mapView addGestureRecognizer:doubleTapRecognizer];
-    [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+    [self.buttonRefreshSearch setTitle:nil forState:UIControlStateNormal];
+    [self.buttonRefreshSearch setBackgroundImage:
+     [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackground];
     
+    self.buttonLocationList.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
+    self.labelLocationDetails.textColor = [UIColor kColorButtonLabel];
+    
+    self.buttonSettings.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+    [self.buttonSettings setBackgroundImage:
+     [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor whiteColor] iconSize:28.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
+    
+    self.imageButtonSave.image =
+    [IonIcons imageWithIcon:icon_archive iconColor:[UIColor kColorBCButtonLabel] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+    //    [self.buttonSave setBackgroundImage:[UIImage imageWithColor:[UIColor redColor]] forState:UIControlStateHighlighted];
+    
+    self.labelButtonStart.textColor = [UIColor kColorINatGreen];
+    self.imageButtonStart.image =
+    [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
 }
 
+- (void)setupLabels
+{
+    self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %lum",
+                                          (unsigned long)self.bcOptions.searchOptions.searchAreaSpan];
+    
+    self.labelResultsCount.text = [NSString stringWithFormat:@"Search Results Count: %d", (int)[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:NO].count];
+}
+
+
+- (void)setupTaxonInfoView
+{
+    _taxonInfoRefFrame = self.viewTaxonInfo.frame;
+    self.viewTaxonInfo.hidden = YES;
+    self.viewTaxonInfo.alpha = 0.0f;
+}
 
 - (void)configureLocationDropDown
 {
@@ -194,8 +207,23 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [_viewBackgroundControls addGestureRecognizer:uiControlViewTapRecognizer];
 }
 
+- (void)configureGestureRecognizers
+{
+    UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapSingleClick:)];
+    //    singleTapRecognizer.delaysTouchesBegan = YES;
+    //    singleTapRecognizer.numberOfTapsRequired = 1;
+    [self.mapView addGestureRecognizer:singleTapRecognizer];
+    
+    UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapDoubleClick:)];
+    doubleTapRecognizer.numberOfTapsRequired = 2;
+    //    doubleTapRecognizer.delegate = self;
+    [self.mapView addGestureRecognizer:doubleTapRecognizer];
+    [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+    
+}
 
-#pragma mark Update View Methods
+
+#pragma mark UI Update Methods
 
 - (void)updateButtons {
     if (!_currentTrip) {
@@ -282,13 +310,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     }
 }
 
-- (void)addiNatTaxonInfoToOccurrences:(NSArray *)occurrences
-{
-    for (GBIFOccurrence *occurrence in occurrences) {
-        [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
-    }
-}
-
 - (void)addOccurrenceAnnotation:(GBIFOccurrence *)occurrence
 {
     [self.mapView addAnnotation:occurrence];
@@ -320,6 +341,35 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     //    [self.mapView setCenterCoordinate:location];
 }
 
+- (void)showTaxonView
+{
+    [_taxonInfoVC viewWillAppear:YES];
+    if (self.viewTaxonInfo.hidden) {
+        self.viewTaxonInfo.hidden = NO;
+        CGRect startFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, _taxonInfoRefFrame.size.height);
+        self.viewTaxonInfo.frame = startFrame;
+        [UIView animateWithDuration:0.5f animations:^{
+            self.viewTaxonInfo.frame = _taxonInfoRefFrame;
+            self.viewTaxonInfo.alpha = 1.0f;
+        } completion:^(BOOL finished) {
+        }];
+    }
+}
+
+- (void)hideTaxonView
+{
+    if (!self.viewTaxonInfo.hidden) {
+        CGRect endFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, _taxonInfoRefFrame.size.height);
+        
+        [UIView animateWithDuration:0.5f animations:^{
+            self.viewTaxonInfo.frame = endFrame;
+            self.viewTaxonInfo.alpha = 0.0f;
+        } completion:^(BOOL finished) {
+            self.viewTaxonInfo.hidden = YES;
+        }];
+    }
+}
+
 
 #pragma mark IBActions
 - (IBAction)buttonLocationSelect:(id)sender {
@@ -345,7 +395,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 }
 
 
-
 - (IBAction)buttonRefreshSearch:(id)sender
 {
     [self hideTaxonView];
@@ -367,9 +416,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 - (IBAction)buttonStart:(id)sender {
     if (!_currentTrip) {
         _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusInProgress];
+        _currentTrip.startTime = [NSDate date];
     } else {
         if (_currentTrip.status.intValue == TripStatusCreated) {
             _currentTrip.status = [NSNumber numberWithInt:TripStatusInProgress];
+            _currentTrip.startTime = [NSDate date];
 
             //TODO: Change TripsDataManager to use single array with predicates/FetchedResultsController
             [[TripsDataManager sharedInstance].savedTrips removeObject:_currentTrip];
@@ -384,7 +435,12 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
             
         } else if (_currentTrip.status.intValue == TripStatusInProgress){
             _currentTrip.status = [NSNumber numberWithInt:TripStatusFinished];
+            _currentTrip.stopTime = [NSDate date];
 
+#ifdef DEBUG
+            _currentTrip.stopTime = [_currentTrip.startTime dateByAddingTimeInterval:kTestTripDuration];
+#endif
+                                     
             //TODO: Change TripsDataManager to use single array with predicates/FetchedResultsController
             [[TripsDataManager sharedInstance].inProgressTrips removeObject:_currentTrip];
             [[TripsDataManager sharedInstance].finishedTrips addObject:_currentTrip];
@@ -423,10 +479,15 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 }
 
 
-
-
 - (void)performSearch
 {
+    [self setupLabels];
+    // Use current view region for searchAreaSpan
+    if (_occurrenceResults) {
+        _bcOptions.searchOptions.searchAreaSpan = _currentViewSpan;
+        [TripsDataManager sharedInstance].currentTrip = nil;
+    }
+
     _bcOptions.searchOptions.searchAreaCentre = _currentViewLocation;
     [self updateSearchAreaOverlay:_bcOptions.searchOptions.searchAreaCentre areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     _bcOptions.searchOptions.searchAreaPolygon = _currentSearchAreaPolygon;
@@ -436,6 +497,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [_exploreDataManager fetchOccurrencesWithOptions:_bcOptions];
 //    [_gbifManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
 }
+
 
 #pragma mark MKMapViewDelegate
 
@@ -472,9 +534,13 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
     _currentViewLocation = mapView.centerCoordinate;
     [self updateLocationLabel:mapView.centerCoordinate horizAccuracy:0];
+    
+    MKMapRect mRect = self.mapView.visibleMapRect;
+    MKMapPoint eastMapPoint = MKMapPointMake(MKMapRectGetMinX(mRect), MKMapRectGetMidY(mRect));
+    MKMapPoint westMapPoint = MKMapPointMake(MKMapRectGetMaxX(mRect), MKMapRectGetMidY(mRect));
+    _currentViewSpan = MKMetersBetweenMapPoints(eastMapPoint, westMapPoint);
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
@@ -536,37 +602,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 }
 
 
-- (void)showTaxonView
-{
-    _taxonInfoVC.currentTrip = _currentTrip;
-    [_taxonInfoVC viewWillAppear:YES];
-    if (self.viewTaxonInfo.hidden) {
-        self.viewTaxonInfo.hidden = NO;
-        CGRect startFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, _taxonInfoRefFrame.size.height);
-        self.viewTaxonInfo.frame = startFrame;
-        [UIView animateWithDuration:0.5f animations:^{
-            self.viewTaxonInfo.frame = _taxonInfoRefFrame;
-            self.viewTaxonInfo.alpha = 1.0f;
-        } completion:^(BOOL finished) {
-        }];
-    }
-}
-
-- (void)hideTaxonView
-{
-    if (!self.viewTaxonInfo.hidden) {
-        CGRect endFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, _taxonInfoRefFrame.size.height);
-        
-        [UIView animateWithDuration:0.5f animations:^{
-            self.viewTaxonInfo.frame = endFrame;
-            self.viewTaxonInfo.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            self.viewTaxonInfo.hidden = YES;
-        }];
-    }
-}
-
-
 #pragma mark UIGestureRecognizer Methods
 
 - (void)mapSingleClick:(UIGestureRecognizer *)gestureRecognizer
@@ -609,23 +644,9 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     _viewBackgroundControls.hidden = YES;
 }
 
-#pragma mark UIGestureRecognizerDelegate
-/*
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    NSLog(@"shouldReceiveTouch: %@", [touch.view class]);
-    return (![touch.view isDescendantOfView:_dropDownViewLocations.view]);
-
-}
-*/
-/*
-- (BOOL)shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)gr
-{
-    return TRUE;
-}
-*/
 
 #pragma mark ExploreOptionsDelegate
+
 - (void)optionsUpdated:(BCOptions *)bcOptions
 {
     self.mapView.mapType = bcOptions.displayOptions.mapType;
@@ -643,6 +664,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 //    _tripOptions = savedTripOptions;
 }
 
+
 #pragma mark - ExploreDataManagerDelegate
 
 - (void)occurrenceResultsReceived:(GBIFOccurrenceResults *)occurrenceResults
@@ -650,9 +672,8 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
     
-//    [self addiNatTaxonInfoToOccurrences:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
-
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self setupLabels];
         [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
         [self zoomToSearchArea:nil];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -669,13 +690,14 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 - (void)occurrenceRemoved:(GBIFOccurrence *)occurrence
 {
     NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
-    if (self.navigationController.topViewController != self.parentViewController)
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+//    if (self.navigationController.topViewController != self.parentViewController)
+//    {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }
     [self hideTaxonView];
     _taxonInfoVC.occurrence = nil;
     [self.mapView removeAnnotation:occurrence];
+    [self setupLabels];
 }
 
 
@@ -722,39 +744,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 }
 
 
-- (void)setupTaxonInfoView
-{
-    _taxonInfoRefFrame = self.viewTaxonInfo.frame;
-    self.viewTaxonInfo.hidden = YES;
-    self.viewTaxonInfo.alpha = 0.0f;
-}
-
-- (void)setupButtons
-{
-    self.viewTopBar.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
-    
-    [self setupSidebar];
-    
-    [self.buttonRefreshSearch setTitle:nil forState:UIControlStateNormal];
-    [self.buttonRefreshSearch setBackgroundImage:
-     [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackground];
-    
-    self.buttonLocationList.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
-    self.labelLocationDetails.textColor = [UIColor kColorButtonLabel];
-
-    self.buttonSettings.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
-    [self.buttonSettings setBackgroundImage:
-     [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor whiteColor] iconSize:28.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
-
-    self.imageButtonSave.image =
-    [IonIcons imageWithIcon:icon_archive iconColor:[UIColor kColorBCButtonLabel] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
-//    [self.buttonSave setBackgroundImage:[UIImage imageWithColor:[UIColor redColor]] forState:UIControlStateHighlighted];
-
-    self.labelButtonStart.textColor = [UIColor kColorINatGreen];
-    self.imageButtonStart.image =
-    [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
-}
 
 
 #pragma mark Sidebar Methods

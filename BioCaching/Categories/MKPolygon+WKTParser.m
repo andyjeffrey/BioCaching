@@ -42,7 +42,7 @@
     return descString;
 }
 
-+ (MKPolygon *)approximatedPolygonFromCircle:(MKCircle *)circle count:(NSUInteger)numberOfPoints
++ (MKPolygon *)approximatedPolygonFromCircle:(MKCircle *)circle points:(NSUInteger)numberOfPoints
 {
     
     for (int i = 0; i <= numberOfPoints; i++) {

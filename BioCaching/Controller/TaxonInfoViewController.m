@@ -10,6 +10,7 @@
 #import "OccurrenceDetailsViewController.h"
 #import "ImageCache.h"
 #import "ExploreDataManager.h"
+#import "TripsDataManager.h"
 
 @interface TaxonInfoViewController ()
 
@@ -33,7 +34,9 @@
 
 @end
 
-@implementation TaxonInfoViewController
+@implementation TaxonInfoViewController {
+    INatTrip *_currentTrip;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,6 +54,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    _currentTrip = [TripsDataManager sharedInstance].currentTrip;
     [self updateTaxonView];
     [self updateButtons];
 }
@@ -61,7 +65,7 @@
         self.buttonDetails.hidden = NO;
     }
     
-    if ([self.currentTrip.status intValue] < TripStatusInProgress) {
+    if ([_currentTrip.status intValue] < TripStatusInProgress) {
         self.buttonRemove.hidden = NO;
         self.buttonRecord.hidden = YES;
     } else {
@@ -125,5 +129,9 @@
 
 - (IBAction)removeOccurrence:(id)sender {
     [[ExploreDataManager sharedInstance] removeOccurrence:self.occurrence];
+    if (self.navigationController.topViewController == self.parentViewController)
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 @end

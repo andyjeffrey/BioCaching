@@ -10,6 +10,7 @@
 #define BioCaching_constants_h
 
 #define kGBIFBaseURL @"http://api.gbif.org/v0.9/"
+// #define kGBIFBaseURL @"http://api.gbif-uat.org/v0.9/"
 #define kGBIFOccurrenceSearch @"occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&basisOfRecord=%@&institutionCode=%@&taxonKey=%@&collectorName=%@&year=%@&from=%@&to=%@&geometry=%@"
 #define kGBIFOccurrenceDefaultLimit 300
 #define kGBIFOccurrenceDefaultOffset 0
@@ -19,6 +20,9 @@
 #define kINatAuthUsernamePrefKey @"INatUsernamePrefKey"
 #define kINatAuthPasswordPrefKey @"INatPasswordPrefKey"
 #define kINatAuthTokenPrefKey @"INatTokenPrefKey"
+#define kINatAuthUserIDPrefKey @"INatUserIDPrefKey"
+
+#define kLastVersionPrefKey @"LastVersionPrefKey"
 
 #ifdef DEBUG
 //    #define kINatBaseURL @"http://localhost:3000"
@@ -43,10 +47,5 @@
 
 #define kDefaultSearchAreaSpan 1000
 #define kDefaultViewSpan 5000
-
-/*
-#define kOccurrenceSearch @"http://api.gbif.org/v0.9/occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&basisOfRecord=%@&institutionCode=%@&taxonKey=%@&collectorName=%@&year=%@&from=%@&to=%@&geometry=%@"
-#define kOccurrenceSearchPolygon @"http://api.gbif.org/v0.9/occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&geometry=%@"
-*/
 
 #endif

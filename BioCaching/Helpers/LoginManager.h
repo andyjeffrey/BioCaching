@@ -25,7 +25,7 @@
 + (instancetype)sharedInstance;
 
 - (void)configureOAuth2Client;
-- (void)loginToINat;
+- (void)loginToINat:(NSString *)username password:(NSString *)password;
 - (void)logout;
 
 @end

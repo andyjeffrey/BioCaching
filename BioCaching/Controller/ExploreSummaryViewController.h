@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GBIFOccurrenceResults.h"
 #import "BCOptions.h"
 
 @interface ExploreSummaryViewController : UIViewController
 
-@property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
 @property (nonatomic, strong) BCOptions *bcOptions;
 
 @end

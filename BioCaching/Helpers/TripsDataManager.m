@@ -135,17 +135,16 @@
 {
     NSError *error = nil;
     
-//    INatTrip *trip = [[INatTrip alloc] init];
     INatTrip *trip = [NSEntityDescription insertNewObjectForEntityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
     
     NSMutableArray *tripAttributes = [[NSMutableArray alloc] init];
     NSMutableArray *tripPurposes = [[NSMutableArray alloc] init];
 
-    int arrayIndex = 0;
+//    int arrayIndex = 0;
     for (GBIFOccurrence *occurrence in [occurrenceResults getFilteredResults:bcOptions.displayOptions limitToMapPoints:YES]) {
         if (occurrence.iNatTaxon) {
             INatTripTaxaAttribute *taxaAttribute = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaAttribute" inManagedObjectContext:managedObjectContext];
-            taxaAttribute.indexID = [NSNumber numberWithInt:arrayIndex];
+//            taxaAttribute.indexID = [NSNumber numberWithInt:arrayIndex];
             taxaAttribute.taxonId = occurrence.iNatTaxon.id;
             taxaAttribute.observed = NO;
             [tripAttributes addObject:taxaAttribute];
@@ -160,7 +159,7 @@
             NSLog(@"No iNatTaxon found for %@, occurrence removed from Trip", occurrence.speciesBinomial);
         }
         
-        arrayIndex++;
+//        arrayIndex++;
     }
     
     trip.taxaAttributes = [NSSet setWithArray:tripAttributes];
@@ -184,6 +183,7 @@
         RKLogError(@"Error Saving New Entities To Store: %@", error);
     }
     
+    self.currentTrip = trip;
     return trip;
 }
 

@@ -11,7 +11,9 @@
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="placeId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="positionalAccuracy" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="stopTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="taxaAttributes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="INatTripTaxaAttribute" inverseName="trip" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
@@ -30,7 +32,7 @@
     </entity>
     <elements>
         <element name="BCManagedObject" positionX="-342" positionY="-1134" width="128" height="88"/>
-        <element name="INatTrip" positionX="-585" positionY="-945" width="128" height="163"/>
+        <element name="INatTrip" positionX="-585" positionY="-945" width="128" height="225"/>
         <element name="INatTripTaxaAttribute" positionX="-198" positionY="-945" width="128" height="88"/>
         <element name="INatTripTaxaPurpose" positionX="-198" positionY="-810" width="128" height="103"/>
     </elements>

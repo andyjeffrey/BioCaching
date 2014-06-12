@@ -11,13 +11,13 @@
 #import "LocalyticsSession.h"
 #import "LoginManager.h"
 
-#import "INatTrip.h"
-#import "INatTripTaxaAttribute.h"
+#import "ManagedObjects.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self clearUserDefaultsIfReq];
     [self configureDebugging];
     [self configureFlurryAnalytics];
     [self startLocalytics];
@@ -70,6 +70,18 @@
 
 
 #pragma-mark Custom Configuration Methods
+
+- (void)clearUserDefaultsIfReq
+{
+    NSNumber *lastVersion = [[NSUserDefaults standardUserDefaults] valueForKey:kLastVersionPrefKey];
+    NSNumber *currVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+
+    if ([lastVersion doubleValue] < 0.952)
+    {
+        [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:currVersion forKey:kLastVersionPrefKey];
+}
 
 - (void)configureDebugging
 {
@@ -133,6 +145,9 @@
         RKLogError(@"Failed To Create Application Data Directory At Path: %@ : %@", RKApplicationDataDirectory(), error);
     }
     NSString *dataStorePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"BioCaching.sqlite"];
+#ifdef DEBUG
+    NSLog(@"Data Store Path: %@", dataStorePath);
+#endif
     NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:dataStorePath fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
     if (!persistentStore) {
         RKLogError(@"Failed To Add Persistent Store At Path: %@ : %@", dataStorePath, error);
@@ -165,88 +180,7 @@
     NSDictionary *userAgentDict = [[NSDictionary alloc] initWithObjectsAndKeys:userAgent, @"UserAgent", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:userAgentDict];
 
-    
-/*
-    RKObjectMapping *errorMapping = [RKObjectMapping mappingForClass:[RKErrorMessage class]];
-    [errorMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"errorMessage"]];
-    RKResponseDescriptor *errorDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:errorMapping pathPattern:nil keyPath:@"error" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError)];
-    [objectManager addResponseDescriptorsFromArray:@[errorDescriptor]];
-*/
-    
-    NSDictionary *parentObjectMapping = @{
-                                          @"id" : @"objectId",
-                                          @"created_at" : @"createdAt",
-                                          @"updated_at" : @"updatedAt",
-                                          };
-
-
-    NSDictionary *iNatTripObjectMapping = @{
-                                            @"title" : @"title",
-                                            @"body" : @"body",
-                                            @"latitude" : @"latitude",
-                                            @"longitude" : @"longitude",
-                                            @"positional_accuracy" : @"positionalAccuracy",
-                                            @"place_id" : @"placeId",
-                                            @"user_id" : @"userId"
-                                            };
-                                            
-    // Trip Entity Mapping
-    RKEntityMapping *entityMappingTrip = [RKEntityMapping mappingForEntityForName:@"INatTrip" inManagedObjectStore:managedObjectStore];
-    [entityMappingTrip addAttributeMappingsFromDictionary:parentObjectMapping];
-    [entityMappingTrip addAttributeMappingsFromDictionary:iNatTripObjectMapping];
-    entityMappingTrip.identificationAttributes = @[@"objectId"];
-
-    
-    // Trip Entity POST Mapping
-    RKEntityMapping *postMappingTrip = [RKEntityMapping mappingForEntityForName:@"INatTrip" inManagedObjectStore:managedObjectStore];
-    [postMappingTrip addAttributeMappingsFromDictionary:iNatTripObjectMapping];
-    
-
-    // Mappings for Trip Taxa Collections
-    NSDictionary *iNatTripTaxaAttObjectMapping = @{
-                                                   @"taxon_id" : @"taxonId",
-                                                   @"observed" : @"observed"
-                                                   };
-    
-    RKEntityMapping *entityMappingTaxaAtt = [RKEntityMapping mappingForEntityForName:@"INatTripTaxaAttribute" inManagedObjectStore:managedObjectStore];
-//    [entityMappingTaxaAtt addAttributeMappingsFromDictionary:parentObjectMapping];
-    [entityMappingTaxaAtt addAttributeMappingsFromDictionary:iNatTripTaxaAttObjectMapping];
-//    entityMappingTaxaAtt.identificationAttributes = @[@"objectId"];
-    
-    [postMappingTrip addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"trip_taxa_attributes" toKeyPath:@"taxaAttributes" withMapping:entityMappingTaxaAtt]];
-    
-    // Trip Collection GET Response
-    RKResponseDescriptor *respDescTripsCollection = [RKResponseDescriptor responseDescriptorWithMapping:entityMappingTrip method:RKRequestMethodGET pathPattern:kINatTripsPathPattern keyPath:kINatTripsKeyPath statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [objectManager addResponseDescriptor:respDescTripsCollection];
-    
-    // Trip Entity GET Response
-    [objectManager.router.routeSet addRoute:[RKRoute routeWithClass:[INatTrip class] pathPattern:@"trips/:objectId" method:RKRequestMethodAny]];
-    RKResponseDescriptor *respDescTrip = [RKResponseDescriptor responseDescriptorWithMapping:entityMappingTrip method:RKRequestMethodAny pathPattern:@"trips/:objectId" keyPath:@"trip" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [objectManager addResponseDescriptor:respDescTrip];
-    
-    // Trip Entity POST Request
-    RKRequestDescriptor *reqDescTripPost = [RKRequestDescriptor requestDescriptorWithMapping:[postMappingTrip inverseMapping] objectClass:[INatTrip class] rootKeyPath:@"trip" method:RKRequestMethodAny];
-    [objectManager addRequestDescriptor:reqDescTripPost];
-
-    // Trip Entity POST Response
-    RKResponseDescriptor *respDescTripsPost = [RKResponseDescriptor responseDescriptorWithMapping:entityMappingTrip method:RKRequestMethodAny pathPattern:kINatTripsPathPattern keyPath:@"trip" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [objectManager addResponseDescriptor:respDescTripsPost];
-    
-
-
-    // TripAttributes Collection GET Response
-//    RKResponseDescriptor *responseDescriptorTripAttributes = [RKResponseDescriptor responseDescriptorWithMapping:entityMappingTaxaAtt method:RKRequestMethodGET pathPattern:@"trips/:objectId" keyPath:@"trip/trip_taxa" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-//    [objectManager addResponseDescriptor:responseDescriptorTripAttributes];
-    
-//    [entityMappingTrip addRelationshipMappingWithSourceKeyPath:@"trip/trip_taxa" mapping:entityMappingTaxaAtt];
-
-//    [entityMappingTrip addConnectionForRelationship:@"taxaAttributes" connectedBy:@{ @"trip_taxa/id" : @""}];
-    
-//    RKRelationshipMapping *relMappingTaxaAtt = [RKRelationshipMapping relationshipMappingFromKeyPath:@"trip_taxa" toKeyPath:@"taxaAttributes" withMapping:entityMappingTaxaAtt];
-//    [entityMappingTrip addPropertyMapping:relMappingTaxaAtt];
-//    [entityMappingTrip addRelationshipMappingWithSourceKeyPath:@"trip_taxa" mapping:entityMappingTaxaAtt];
-    
-    
+    [INatTrip setupMapping];
     
 }
 

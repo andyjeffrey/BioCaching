@@ -13,6 +13,6 @@
 - (NSString *)convertToWKT;
 - (NSString *)description;
 
-+ (MKPolygon *)approximatedPolygonFromCircle:(MKCircle *) count:(NSUInteger)numberOfPoints;
++ (MKPolygon *)approximatedPolygonFromCircle:(MKCircle *)circle points:(NSUInteger)numberOfPoints;
 
 @end

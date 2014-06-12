@@ -13,6 +13,5 @@
 @interface ExploreContainerViewController : UIViewController
 
 @property (nonatomic, strong) BCOptions *bcOptions;
-@property (nonatomic, strong) INatTrip *iNatTrip;
 
 @end

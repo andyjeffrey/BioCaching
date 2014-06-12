@@ -12,9 +12,17 @@
 
 + (void)saveImageForURL:(NSString *)urlString
 {
-    NSLog(@"Caching Image URL:%@", urlString);
-    UIImageView *tempImageView = [[UIImageView alloc] init];
-    [tempImageView setImageWithURL:[NSURL URLWithString:urlString]];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
+    if (cachedResponse) {
+        NSLog(@"ImageURL already cached:%@", urlString);
+    } else {
+        NSLog(@"Caching Image URL:%@", urlString);
+        UIImageView *tempImageView = [[UIImageView alloc] init];
+        [tempImageView setImageWithURL:[NSURL URLWithString:urlString]];
+    }
 }
 
 + (UIImage *)getImageForURL:(NSString *)urlString

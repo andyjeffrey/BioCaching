@@ -9,13 +9,21 @@
 /* Begin PBXBuildFile section */
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
-		A1762860193516B300DD69DB /* INatTripTaxaAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = A176285F193516B300DD69DB /* INatTripTaxaAttribute.m */; };
-		A1762863193516B300DD69DB /* INatTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762862193516B300DD69DB /* INatTrip.m */; };
-		A1762869193516B300DD69DB /* BCManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762868193516B300DD69DB /* BCManagedObject.m */; };
-		A176286C19351D2700DD69DB /* INatTripTaxaPurpose.m in Sources */ = {isa = PBXBuildFile; fileRef = A176286B19351D2700DD69DB /* INatTripTaxaPurpose.m */; };
 		A176286F1937359500DD69DB /* UIImage+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = A176286E1937359500DD69DB /* UIImage+Colors.m */; };
 		A17628721937385400DD69DB /* BCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628711937385400DD69DB /* BCButton.m */; };
 		A1762875193DEF9C00DD69DB /* ExploreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762874193DEF9C00DD69DB /* ExploreDataManager.m */; };
+		A176288419471A6700DD69DB /* BioCaching.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A176288119471A6700DD69DB /* BioCaching.xcdatamodeld */; };
+		A176288519471A6700DD69DB /* mogen_script.sh in Resources */ = {isa = PBXBuildFile; fileRef = A176288319471A6700DD69DB /* mogen_script.sh */; };
+		A17628C019471BA500DD69DB /* BCManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628AF19471BA500DD69DB /* BCManagedObject.m */; };
+		A17628C119471BA500DD69DB /* _BCManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628B219471BA500DD69DB /* _BCManagedObject.m */; };
+		A17628C219471BA500DD69DB /* _INatTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628B419471BA500DD69DB /* _INatTrip.m */; };
+		A17628C319471BA500DD69DB /* _INatTripTaxaAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628B619471BA500DD69DB /* _INatTripTaxaAttribute.m */; };
+		A17628C419471BA500DD69DB /* _INatTripTaxaPurpose.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628B819471BA500DD69DB /* _INatTripTaxaPurpose.m */; };
+		A17628C519471BA500DD69DB /* INatTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628BA19471BA500DD69DB /* INatTrip.m */; };
+		A17628C619471BA500DD69DB /* INatTripTaxaAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628BC19471BA500DD69DB /* INatTripTaxaAttribute.m */; };
+		A17628C719471BA500DD69DB /* INatTripTaxaPurpose.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628BE19471BA500DD69DB /* INatTripTaxaPurpose.m */; };
+		A17628CA1947274A00DD69DB /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628C91947274A00DD69DB /* NSDate+Formatting.m */; };
+		A17628CC1947425000DD69DB /* TaskList.txt in Resources */ = {isa = PBXBuildFile; fileRef = A17628CB1947425000DD69DB /* TaskList.txt */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
 		A18AAABF1908100400FB75A5 /* iOSa_2.23.0.version in Resources */ = {isa = PBXBuildFile; fileRef = A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */; };
 		A18AAAC01908100400FB75A5 /* libLocalyticsAMP_x64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A18AAABA1908100400FB75A5 /* libLocalyticsAMP_x64.a */; };
@@ -83,7 +91,6 @@
 		A1EA20CF18B4F7ED00200D50 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA20CE18B4F7ED00200D50 /* MapKit.framework */; };
 		A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209418B4F7AB00200D50 /* CoreGraphics.framework */; };
 		A1EA6CE818D23A87002FCDDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1EA6CE718D23A87002FCDDD /* Images.xcassets */; };
-		A1EB1C5419223E91005650D9 /* BioCaching.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1EB1C5219223E91005650D9 /* BioCaching.xcdatamodeld */; };
 		A1EB223B192271F2005650D9 /* NIActions.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EB220B192271F2005650D9 /* NIActions.m */; };
 		A1EB223C192271F2005650D9 /* NIButtonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EB220E192271F2005650D9 /* NIButtonUtilities.m */; };
 		A1EB223D192271F2005650D9 /* NICommonMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EB2210192271F2005650D9 /* NICommonMetrics.m */; };
@@ -125,14 +132,6 @@
 		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Tortuga Bay, Santa Cruz, Galapagos.gpx"; path = "Resources/TestData/Tortuga Bay, Santa Cruz, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
-		A176285E193516B300DD69DB /* INatTripTaxaAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTripTaxaAttribute.h; sourceTree = "<group>"; };
-		A176285F193516B300DD69DB /* INatTripTaxaAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTripTaxaAttribute.m; sourceTree = "<group>"; };
-		A1762861193516B300DD69DB /* INatTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTrip.h; sourceTree = "<group>"; };
-		A1762862193516B300DD69DB /* INatTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTrip.m; sourceTree = "<group>"; };
-		A1762867193516B300DD69DB /* BCManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCManagedObject.h; sourceTree = "<group>"; };
-		A1762868193516B300DD69DB /* BCManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCManagedObject.m; sourceTree = "<group>"; };
-		A176286A19351D2700DD69DB /* INatTripTaxaPurpose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTripTaxaPurpose.h; sourceTree = "<group>"; };
-		A176286B19351D2700DD69DB /* INatTripTaxaPurpose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTripTaxaPurpose.m; sourceTree = "<group>"; };
 		A176286D1937359500DD69DB /* UIImage+Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Colors.h"; sourceTree = "<group>"; };
 		A176286E1937359500DD69DB /* UIImage+Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Colors.m"; sourceTree = "<group>"; };
 		A17628701937385400DD69DB /* BCButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCButton.h; sourceTree = "<group>"; };
@@ -140,6 +139,28 @@
 		A1762873193DEF9C00DD69DB /* ExploreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreDataManager.h; sourceTree = "<group>"; };
 		A1762874193DEF9C00DD69DB /* ExploreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreDataManager.m; sourceTree = "<group>"; };
 		A17628791940A5C100DD69DB /* ExploreDataManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExploreDataManagerDelegate.h; sourceTree = "<group>"; };
+		A176288219471A6700DD69DB /* BioCaching.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BioCaching.xcdatamodel; sourceTree = "<group>"; };
+		A176288319471A6700DD69DB /* mogen_script.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = mogen_script.sh; path = ../../mogen_script.sh; sourceTree = "<group>"; };
+		A17628AE19471BA500DD69DB /* BCManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCManagedObject.h; sourceTree = "<group>"; };
+		A17628AF19471BA500DD69DB /* BCManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCManagedObject.m; sourceTree = "<group>"; };
+		A17628B119471BA500DD69DB /* _BCManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _BCManagedObject.h; sourceTree = "<group>"; };
+		A17628B219471BA500DD69DB /* _BCManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _BCManagedObject.m; sourceTree = "<group>"; };
+		A17628B319471BA500DD69DB /* _INatTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _INatTrip.h; sourceTree = "<group>"; };
+		A17628B419471BA500DD69DB /* _INatTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _INatTrip.m; sourceTree = "<group>"; };
+		A17628B519471BA500DD69DB /* _INatTripTaxaAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _INatTripTaxaAttribute.h; sourceTree = "<group>"; };
+		A17628B619471BA500DD69DB /* _INatTripTaxaAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _INatTripTaxaAttribute.m; sourceTree = "<group>"; };
+		A17628B719471BA500DD69DB /* _INatTripTaxaPurpose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _INatTripTaxaPurpose.h; sourceTree = "<group>"; };
+		A17628B819471BA500DD69DB /* _INatTripTaxaPurpose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _INatTripTaxaPurpose.m; sourceTree = "<group>"; };
+		A17628B919471BA500DD69DB /* INatTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTrip.h; sourceTree = "<group>"; };
+		A17628BA19471BA500DD69DB /* INatTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTrip.m; sourceTree = "<group>"; };
+		A17628BB19471BA500DD69DB /* INatTripTaxaAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTripTaxaAttribute.h; sourceTree = "<group>"; };
+		A17628BC19471BA500DD69DB /* INatTripTaxaAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTripTaxaAttribute.m; sourceTree = "<group>"; };
+		A17628BD19471BA500DD69DB /* INatTripTaxaPurpose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTripTaxaPurpose.h; sourceTree = "<group>"; };
+		A17628BE19471BA500DD69DB /* INatTripTaxaPurpose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTripTaxaPurpose.m; sourceTree = "<group>"; };
+		A17628BF19471BA500DD69DB /* ManagedObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjects.h; sourceTree = "<group>"; };
+		A17628C81947274A00DD69DB /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
+		A17628C91947274A00DD69DB /* NSDate+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatting.m"; sourceTree = "<group>"; };
+		A17628CB1947425000DD69DB /* TaskList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TaskList.txt; path = BioCaching/TaskList.txt; sourceTree = "<group>"; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOSa_2.23.0.version; sourceTree = "<group>"; };
@@ -261,10 +282,10 @@
 		A1EA134C19265B5D00449327 /* INatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatManager.h; sourceTree = "<group>"; };
 		A1EA134D19265B5D00449327 /* INatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatManager.m; sourceTree = "<group>"; };
 		A1EA134E19265B5D00449327 /* INatManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatManagerDelegate.h; sourceTree = "<group>"; };
-		A1EA134F19265B5D00449327 /* TripsDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TripsDataManager.h; path = ../Helpers/TripsDataManager.h; sourceTree = "<group>"; };
-		A1EA135019265B5D00449327 /* TripsDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TripsDataManager.m; path = ../Helpers/TripsDataManager.m; sourceTree = "<group>"; };
-		A1EA13F3192D5A6300449327 /* LoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginManager.h; path = ../Helpers/LoginManager.h; sourceTree = "<group>"; };
-		A1EA13F4192D5A6300449327 /* LoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginManager.m; path = ../Helpers/LoginManager.m; sourceTree = "<group>"; };
+		A1EA134F19265B5D00449327 /* TripsDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripsDataManager.h; sourceTree = "<group>"; };
+		A1EA135019265B5D00449327 /* TripsDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripsDataManager.m; sourceTree = "<group>"; };
+		A1EA13F3192D5A6300449327 /* LoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginManager.h; sourceTree = "<group>"; };
+		A1EA13F4192D5A6300449327 /* LoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginManager.m; sourceTree = "<group>"; };
 		A1EA13F6192DFD7D00449327 /* ProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewController.h; sourceTree = "<group>"; };
 		A1EA13F7192DFD7D00449327 /* ProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewController.m; sourceTree = "<group>"; };
 		A1EA208F18B4F7AB00200D50 /* BioCaching.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BioCaching.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,7 +302,6 @@
 		A1EA6CD518D0BFD5002FCDDD /* OccurrenceResultsAP.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsAP.json; path = Resources/TestData/OccurrenceResultsAP.json; sourceTree = "<group>"; };
 		A1EA6CD918D1B278002FCDDD /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		A1EA6CE718D23A87002FCDDD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		A1EB1C5319223E91005650D9 /* BioCaching.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BioCaching.xcdatamodel; sourceTree = "<group>"; };
 		A1EB220A192271F2005650D9 /* NIActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIActions.h; path = "../../../../../iOS Libraries/nimbus/src/core/src/NIActions.h"; sourceTree = "<group>"; };
 		A1EB220B192271F2005650D9 /* NIActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIActions.m; path = "../../../../../iOS Libraries/nimbus/src/core/src/NIActions.m"; sourceTree = "<group>"; };
 		A1EB220C192271F2005650D9 /* NIActions+Subclassing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NIActions+Subclassing.h"; path = "../../../../../iOS Libraries/nimbus/src/core/src/NIActions+Subclassing.h"; sourceTree = "<group>"; };
@@ -368,6 +388,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A176287E194719F900DD69DB /* ManagedObjects */ = {
+			isa = PBXGroup;
+			children = (
+				A176288319471A6700DD69DB /* mogen_script.sh */,
+				A17628BF19471BA500DD69DB /* ManagedObjects.h */,
+				A17628B019471BA500DD69DB /* Generated */,
+				A17628AE19471BA500DD69DB /* BCManagedObject.h */,
+				A17628AF19471BA500DD69DB /* BCManagedObject.m */,
+				A17628B919471BA500DD69DB /* INatTrip.h */,
+				A17628BA19471BA500DD69DB /* INatTrip.m */,
+				A17628BB19471BA500DD69DB /* INatTripTaxaAttribute.h */,
+				A17628BC19471BA500DD69DB /* INatTripTaxaAttribute.m */,
+				A17628BD19471BA500DD69DB /* INatTripTaxaPurpose.h */,
+				A17628BE19471BA500DD69DB /* INatTripTaxaPurpose.m */,
+			);
+			path = ManagedObjects;
+			sourceTree = "<group>";
+		};
+		A17628B019471BA500DD69DB /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				A17628B119471BA500DD69DB /* _BCManagedObject.h */,
+				A17628B219471BA500DD69DB /* _BCManagedObject.m */,
+				A17628B319471BA500DD69DB /* _INatTrip.h */,
+				A17628B419471BA500DD69DB /* _INatTrip.m */,
+				A17628B519471BA500DD69DB /* _INatTripTaxaAttribute.h */,
+				A17628B619471BA500DD69DB /* _INatTripTaxaAttribute.m */,
+				A17628B719471BA500DD69DB /* _INatTripTaxaPurpose.h */,
+				A17628B819471BA500DD69DB /* _INatTripTaxaPurpose.m */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
 		A1D5DCD118C10D1500FA005B /* TestData */ = {
 			isa = PBXGroup;
 			children = (
@@ -448,11 +501,7 @@
 		A1EA12C11926562A00449327 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A1EA13F3192D5A6300449327 /* LoginManager.h */,
-				A1EA13F4192D5A6300449327 /* LoginManager.m */,
-				A1EA134F19265B5D00449327 /* TripsDataManager.h */,
-				A1EA135019265B5D00449327 /* TripsDataManager.m */,
-				A1EA137C192A3DDC00449327 /* Generated */,
+				A176287E194719F900DD69DB /* ManagedObjects */,
 				A1EA12C21926562A00449327 /* APIOption.h */,
 				A1EA12C31926562A00449327 /* APIOption.m */,
 				A1EA12C61926562A00449327 /* BCOptions.h */,
@@ -513,17 +562,17 @@
 				A1EA130219265B4900449327 /* DropDownViewController.m */,
 				A1EA130419265B4900449327 /* ExploreContainerViewController.h */,
 				A1EA130519265B4900449327 /* ExploreContainerViewController.m */,
-				A1EA130619265B4900449327 /* ExploreListViewController.h */,
-				A1EA130719265B4900449327 /* ExploreListViewController.m */,
 				A1EA130819265B4900449327 /* ExploreMapViewController.h */,
 				A1EA130919265B4900449327 /* ExploreMapViewController.m */,
-				A1EA130A19265B4900449327 /* ExploreOptionsDelegate.h */,
-				A1EA130B19265B4900449327 /* ExploreOptionsViewController.h */,
-				A1EA130C19265B4900449327 /* ExploreOptionsViewController.m */,
+				A1EA130619265B4900449327 /* ExploreListViewController.h */,
+				A1EA130719265B4900449327 /* ExploreListViewController.m */,
 				A1EA130D19265B4900449327 /* ExploreSummaryTableViewController.h */,
 				A1EA130E19265B4900449327 /* ExploreSummaryTableViewController.m */,
 				A1EA130F19265B4900449327 /* ExploreSummaryViewController.h */,
 				A1EA131019265B4900449327 /* ExploreSummaryViewController.m */,
+				A1EA130A19265B4900449327 /* ExploreOptionsDelegate.h */,
+				A1EA130B19265B4900449327 /* ExploreOptionsViewController.h */,
+				A1EA130C19265B4900449327 /* ExploreOptionsViewController.m */,
 				A1EA131319265B4900449327 /* OccurrenceDetailsViewController.h */,
 				A1EA131419265B4900449327 /* OccurrenceDetailsViewController.m */,
 				A1EA131919265B4900449327 /* TaxonInfoViewController.h */,
@@ -559,6 +608,8 @@
 				A1EA133919265B5200449327 /* UIView+UtilityMethods.m */,
 				A176286D1937359500DD69DB /* UIImage+Colors.h */,
 				A176286E1937359500DD69DB /* UIImage+Colors.m */,
+				A17628C81947274A00DD69DB /* NSDate+Formatting.h */,
+				A17628C91947274A00DD69DB /* NSDate+Formatting.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -566,6 +617,10 @@
 		A1EA134119265B5D00449327 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				A1EA13F3192D5A6300449327 /* LoginManager.h */,
+				A1EA13F4192D5A6300449327 /* LoginManager.m */,
+				A1EA134F19265B5D00449327 /* TripsDataManager.h */,
+				A1EA135019265B5D00449327 /* TripsDataManager.m */,
 				A1762873193DEF9C00DD69DB /* ExploreDataManager.h */,
 				A1762874193DEF9C00DD69DB /* ExploreDataManager.m */,
 				A17628791940A5C100DD69DB /* ExploreDataManagerDelegate.h */,
@@ -586,26 +641,12 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		A1EA137C192A3DDC00449327 /* Generated */ = {
-			isa = PBXGroup;
-			children = (
-				A1762867193516B300DD69DB /* BCManagedObject.h */,
-				A1762868193516B300DD69DB /* BCManagedObject.m */,
-				A1762861193516B300DD69DB /* INatTrip.h */,
-				A1762862193516B300DD69DB /* INatTrip.m */,
-				A176285E193516B300DD69DB /* INatTripTaxaAttribute.h */,
-				A176285F193516B300DD69DB /* INatTripTaxaAttribute.m */,
-				A176286A19351D2700DD69DB /* INatTripTaxaPurpose.h */,
-				A176286B19351D2700DD69DB /* INatTripTaxaPurpose.m */,
-			);
-			path = Generated;
-			sourceTree = "<group>";
-		};
 		A1EA208618B4F7AB00200D50 = {
 			isa = PBXGroup;
 			children = (
 				A1875DFC18FD4A36001DC029 /* Podfile */,
 				A1F2E12C190161110010B647 /* .gitignore */,
+				A17628CB1947425000DD69DB /* TaskList.txt */,
 				A1EA209818B4F7AB00200D50 /* BioCaching */,
 				A1EA209118B4F7AB00200D50 /* Frameworks */,
 				A1D5DDE518C7BAB900FA005B /* libsqlite3.dylib */,
@@ -651,7 +692,7 @@
 				A1EA20A218B4F7AB00200D50 /* AppDelegate.m */,
 				A1EA20A418B4F7AB00200D50 /* Main.storyboard */,
 				A1EA6CE718D23A87002FCDDD /* Images.xcassets */,
-				A1EB1C5219223E91005650D9 /* BioCaching.xcdatamodeld */,
+				A176288119471A6700DD69DB /* BioCaching.xcdatamodeld */,
 				A1EA12C11926562A00449327 /* Model */,
 				A1EA12ED19265A2500449327 /* View */,
 				A1EA12FE19265B4900449327 /* Controller */,
@@ -829,6 +870,8 @@
 			files = (
 				A1F2E12D190161110010B647 /* .gitignore in Resources */,
 				A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */,
+				A176288519471A6700DD69DB /* mogen_script.sh in Resources */,
+				A17628CC1947425000DD69DB /* TaskList.txt in Resources */,
 				A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */,
 				A1D9A13018E20FAC006C1988 /* ionicons.ttf in Resources */,
 				A1EB2260192282CA005650D9 /* NimbusWebController.bundle in Resources */,
@@ -885,19 +928,20 @@
 				A1EA12F919265A2500449327 /* CrossHairView.m in Sources */,
 				A1EA12FC19265A2500449327 /* TripsListCell.m in Sources */,
 				A1EB2244192271F2005650D9 /* NIInMemoryCache.m in Sources */,
+				A17628C319471BA500DD69DB /* _INatTripTaxaAttribute.m in Sources */,
 				A1EA131F19265B4900449327 /* ExploreContainerViewController.m in Sources */,
 				A1EB2240192271F2005650D9 /* NIDeviceOrientation.m in Sources */,
 				A1EB2250192271F2005650D9 /* UIResponder+NimbusCore.m in Sources */,
 				A1EA135619265B5D00449327 /* TripsDataManager.m in Sources */,
 				A1EA132A19265B4900449327 /* TripsViewController.m in Sources */,
 				A1EA135519265B5D00449327 /* INatManager.m in Sources */,
+				A17628C419471BA500DD69DB /* _INatTripTaxaPurpose.m in Sources */,
 				A1EA12E31926562A00449327 /* INatTaxon.m in Sources */,
 				A1EB224C192271F2005650D9 /* NISDKAvailability.m in Sources */,
 				A1EA12DD1926562A00449327 /* APIOption.m in Sources */,
 				A1762875193DEF9C00DD69DB /* ExploreDataManager.m in Sources */,
 				A1EB224F192271F2005650D9 /* NIViewRecycler.m in Sources */,
 				A1EA132619265B4900449327 /* OccurrenceDetailsViewController.m in Sources */,
-				A1762860193516B300DD69DB /* INatTripTaxaAttribute.m in Sources */,
 				A1EB223B192271F2005650D9 /* NIActions.m in Sources */,
 				A1EA12E51926562A00449327 /* LocationsArray.m in Sources */,
 				A17628721937385400DD69DB /* BCButton.m in Sources */,
@@ -910,17 +954,20 @@
 				A1EB2243192271F2005650D9 /* NIImageUtilities.m in Sources */,
 				A1EB225C192276A3005650D9 /* NSMutableAttributedString+NimbusAttributedLabel.m in Sources */,
 				A1EA132019265B4900449327 /* ExploreListViewController.m in Sources */,
+				A17628C719471BA500DD69DB /* INatTripTaxaPurpose.m in Sources */,
 				A1EA12FD19265A2500449327 /* UIColor+Defaults.m in Sources */,
+				A17628C119471BA500DD69DB /* _BCManagedObject.m in Sources */,
 				A1EA12E01926562A00449327 /* DisplayOptions.m in Sources */,
 				A1EB2242192271F2005650D9 /* NIFoundationMethods.m in Sources */,
 				A1EB2248192271F2005650D9 /* NINonRetainingCollections.m in Sources */,
 				A1EA12E41926562A00449327 /* INatTaxonPhoto.m in Sources */,
-				A1762863193516B300DD69DB /* INatTrip.m in Sources */,
+				A176288419471A6700DD69DB /* BioCaching.xcdatamodeld in Sources */,
 				A1EB223D192271F2005650D9 /* NICommonMetrics.m in Sources */,
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
 				A1EA135319265B5D00449327 /* GBIFManager.m in Sources */,
 				A1EA132319265B4900449327 /* ExploreSummaryTableViewController.m in Sources */,
 				A1EA135419265B5D00449327 /* ImageCache.m in Sources */,
+				A17628CA1947274A00DD69DB /* NSDate+Formatting.m in Sources */,
 				A1EB2245192271F2005650D9 /* NINavigationAppearance.m in Sources */,
 				A1EA13F5192D5A6400449327 /* LoginManager.m in Sources */,
 				A1EB225B192276A3005650D9 /* NIAttributedLabel.m in Sources */,
@@ -932,13 +979,13 @@
 				A1EB223E192271F2005650D9 /* NIDataStructures.m in Sources */,
 				A1EB2249192271F2005650D9 /* NIOperations.m in Sources */,
 				A1EB223C192271F2005650D9 /* NIButtonUtilities.m in Sources */,
+				A17628C619471BA500DD69DB /* INatTripTaxaAttribute.m in Sources */,
 				A1EA134019265B5200449327 /* UIView+UtilityMethods.m in Sources */,
 				A1EB22541922721B005650D9 /* NIWebController.m in Sources */,
 				A1EB2247192271F2005650D9 /* NINonEmptyCollectionTesting.m in Sources */,
 				A1EB224E192271F2005650D9 /* NIState.m in Sources */,
 				A1EA12E71926562A00449327 /* OptionsRecordType.m in Sources */,
 				A1EB224B192271F2005650D9 /* NIRuntimeClassModifications.m in Sources */,
-				A1EB1C5419223E91005650D9 /* BioCaching.xcdatamodeld in Sources */,
 				A1EA12FB19265A2500449327 /* TaxonListCell.m in Sources */,
 				A1EA132519265B4900449327 /* MainViewController.m in Sources */,
 				A1EA12E21926562A00449327 /* GBIFOccurrenceResults.m in Sources */,
@@ -946,16 +993,17 @@
 				A1EB2241192271F2005650D9 /* NIError.m in Sources */,
 				A1EA13F8192DFD7D00449327 /* ProfileTableViewController.m in Sources */,
 				A1EA12E91926562A00449327 /* SearchOptions.m in Sources */,
+				A17628C219471BA500DD69DB /* _INatTrip.m in Sources */,
+				A17628C519471BA500DD69DB /* INatTrip.m in Sources */,
 				A1EA133D19265B5200449327 /* NSString+UtilityMethods.m in Sources */,
 				A1EA12DF1926562A00449327 /* BCOptions.m in Sources */,
 				A176286F1937359500DD69DB /* UIImage+Colors.m in Sources */,
 				A1EB223F192271F2005650D9 /* NIDebuggingTools.m in Sources */,
 				A1EA133F19265B5200449327 /* UIView+Colors.m in Sources */,
 				A1EA132219265B4900449327 /* ExploreOptionsViewController.m in Sources */,
+				A17628C019471BA500DD69DB /* BCManagedObject.m in Sources */,
 				A1EA132819265B4900449327 /* SidebarViewController.m in Sources */,
-				A1762869193516B300DD69DB /* BCManagedObject.m in Sources */,
 				A1EA209F18B4F7AB00200D50 /* main.m in Sources */,
-				A176286C19351D2700DD69DB /* INatTripTaxaPurpose.m in Sources */,
 				A1EA131D19265B4900449327 /* BCWebViewController.m in Sources */,
 				A1EB224A192271F2005650D9 /* NIPaths.m in Sources */,
 				A1EA135119265B5D00449327 /* GBIFCommunicator.m in Sources */,
@@ -1115,7 +1163,7 @@
 					"$(PROJECT_DIR)/Libraries/Localytics",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F7A5B360-D12E-4667-8885-54A72B0D3AA8";
+				PROVISIONING_PROFILE = "613804AB-9532-41A1-816F-152A6125FA9A";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1144,12 +1192,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		A1EB1C5219223E91005650D9 /* BioCaching.xcdatamodeld */ = {
+		A176288119471A6700DD69DB /* BioCaching.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				A1EB1C5319223E91005650D9 /* BioCaching.xcdatamodel */,
+				A176288219471A6700DD69DB /* BioCaching.xcdatamodel */,
 			);
-			currentVersion = A1EB1C5319223E91005650D9 /* BioCaching.xcdatamodel */;
+			currentVersion = A176288219471A6700DD69DB /* BioCaching.xcdatamodel */;
 			path = BioCaching.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

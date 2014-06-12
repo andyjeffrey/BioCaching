@@ -31,5 +31,8 @@
 +(UIColor*) kColorBCButtonLabel;
     
 +(UIColor*) kColorINatGreen;
++(UIColor*) kColorDarkGreen;
++(UIColor*) kColorDarkRed;
++(UIColor*) kColorDarkRedHighlighted;
 
 @end

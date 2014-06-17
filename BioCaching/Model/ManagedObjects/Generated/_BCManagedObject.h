@@ -6,7 +6,8 @@
 
 extern const struct BCManagedObjectAttributes {
 	__unsafe_unretained NSString *createdAt;
-	__unsafe_unretained NSString *objectId;
+	__unsafe_unretained NSString *localCreatedAt;
+	__unsafe_unretained NSString *recordId;
 	__unsafe_unretained NSString *updatedAt;
 } BCManagedObjectAttributes;
 
@@ -15,6 +16,7 @@ extern const struct BCManagedObjectRelationships {
 
 extern const struct BCManagedObjectFetchedProperties {
 } BCManagedObjectFetchedProperties;
+
 
 
 
@@ -44,15 +46,25 @@ extern const struct BCManagedObjectFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* objectId;
+@property (nonatomic, strong) NSDate* localCreatedAt;
 
 
 
-@property int32_t objectIdValue;
-- (int32_t)objectIdValue;
-- (void)setObjectIdValue:(int32_t)value_;
+//- (BOOL)validateLocalCreatedAt:(id*)value_ error:(NSError**)error_;
 
-//- (BOOL)validateObjectId:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, strong) NSNumber* recordId;
+
+
+
+@property int32_t recordIdValue;
+- (int32_t)recordIdValue;
+- (void)setRecordIdValue:(int32_t)value_;
+
+//- (BOOL)validateRecordId:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -84,11 +96,17 @@ extern const struct BCManagedObjectFetchedProperties {
 
 
 
-- (NSNumber*)primitiveObjectId;
-- (void)setPrimitiveObjectId:(NSNumber*)value;
+- (NSDate*)primitiveLocalCreatedAt;
+- (void)setPrimitiveLocalCreatedAt:(NSDate*)value;
 
-- (int32_t)primitiveObjectIdValue;
-- (void)setPrimitiveObjectIdValue:(int32_t)value_;
+
+
+
+- (NSNumber*)primitiveRecordId;
+- (void)setPrimitiveRecordId:(NSNumber*)value;
+
+- (int32_t)primitiveRecordIdValue;
+- (void)setPrimitiveRecordIdValue:(int32_t)value_;
 
 
 

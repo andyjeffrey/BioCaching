@@ -5,7 +5,8 @@
 
 const struct BCManagedObjectAttributes BCManagedObjectAttributes = {
 	.createdAt = @"createdAt",
-	.objectId = @"objectId",
+	.localCreatedAt = @"localCreatedAt",
+	.recordId = @"recordId",
 	.updatedAt = @"updatedAt",
 };
 
@@ -41,8 +42,8 @@ const struct BCManagedObjectFetchedProperties BCManagedObjectFetchedProperties =
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
-	if ([key isEqualToString:@"objectIdValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"objectId"];
+	if ([key isEqualToString:@"recordIdValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"recordId"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -60,26 +61,33 @@ const struct BCManagedObjectFetchedProperties BCManagedObjectFetchedProperties =
 
 
 
-@dynamic objectId;
+@dynamic localCreatedAt;
 
 
 
-- (int32_t)objectIdValue {
-	NSNumber *result = [self objectId];
+
+
+
+@dynamic recordId;
+
+
+
+- (int32_t)recordIdValue {
+	NSNumber *result = [self recordId];
 	return [result intValue];
 }
 
-- (void)setObjectIdValue:(int32_t)value_ {
-	[self setObjectId:[NSNumber numberWithInt:value_]];
+- (void)setRecordIdValue:(int32_t)value_ {
+	[self setRecordId:[NSNumber numberWithInt:value_]];
 }
 
-- (int32_t)primitiveObjectIdValue {
-	NSNumber *result = [self primitiveObjectId];
+- (int32_t)primitiveRecordIdValue {
+	NSNumber *result = [self primitiveRecordId];
 	return [result intValue];
 }
 
-- (void)setPrimitiveObjectIdValue:(int32_t)value_ {
-	[self setPrimitiveObjectId:[NSNumber numberWithInt:value_]];
+- (void)setPrimitiveRecordIdValue:(int32_t)value_ {
+	[self setPrimitiveRecordId:[NSNumber numberWithInt:value_]];
 }
 
 

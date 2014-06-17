@@ -174,7 +174,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %lum",
                                           (unsigned long)self.bcOptions.searchOptions.searchAreaSpan];
     
-    self.labelResultsCount.text = [NSString stringWithFormat:@"Search Results Count: %d", (int)[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:NO].count];
+    self.labelResultsCount.text = [NSString stringWithFormat:@"Record Count: %d", (int)[_occurrenceResults getFilteredResults:YES].count];
 }
 
 
@@ -658,7 +658,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:bcOptions.displayOptions limitToMapPoints:YES]];
+        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:YES]];
     });
     
 //    _tripOptions = savedTripOptions;
@@ -674,7 +674,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setupLabels];
-        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]];
+        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:YES]];
         [self zoomToSearchArea:nil];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     });

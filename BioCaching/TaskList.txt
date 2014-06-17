@@ -7,6 +7,8 @@ High Priority (Required For v1.0 - Internal Test Release)
 - Add photo to observation records
 - Push all associated observation records (and photos) to iNat
 - Fix up Website Viewer (as used for BHL species links) with back button
+- Better progress updates (loading spinner etc) when sending/receiving data over internet
+- Better info/error handling when offline or web services unavailable
 
 
 Medium Priority (Probable For v1.1 - Full Public Release)

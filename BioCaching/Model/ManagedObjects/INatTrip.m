@@ -16,7 +16,7 @@
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     
     NSDictionary *parentObjectMapping = @{
-                                          @"id" : @"objectId",
+                                          @"id" : @"recordId",
                                           @"created_at" : @"createdAt",
                                           @"updated_at" : @"updatedAt",
                                           };
@@ -38,7 +38,7 @@
     RKEntityMapping *entityMappingTrip = [RKEntityMapping mappingForEntityForName:@"INatTrip" inManagedObjectStore:managedObjectStore];
     [entityMappingTrip addAttributeMappingsFromDictionary:parentObjectMapping];
     [entityMappingTrip addAttributeMappingsFromDictionary:iNatTripObjectMapping];
-    entityMappingTrip.identificationAttributes = @[@"objectId"];
+    entityMappingTrip.identificationAttributes = @[@"recordId"];
     
     
     // Trip Entity POST Mapping
@@ -55,7 +55,7 @@
     RKEntityMapping *entityMappingTaxaAtt = [RKEntityMapping mappingForEntityForName:@"INatTripTaxaAttribute" inManagedObjectStore:managedObjectStore];
     //    [entityMappingTaxaAtt addAttributeMappingsFromDictionary:parentObjectMapping];
     [entityMappingTaxaAtt addAttributeMappingsFromDictionary:iNatTripTaxaAttObjectMapping];
-    //    entityMappingTaxaAtt.identificationAttributes = @[@"objectId"];
+    //    entityMappingTaxaAtt.identificationAttributes = @[@"recordId"];
     
     [postMappingTrip addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"trip_taxa_attributes" toKeyPath:@"taxaAttributes" withMapping:entityMappingTaxaAtt]];
     
@@ -64,8 +64,8 @@
     [objectManager addResponseDescriptor:respDescTripsCollection];
     
     // Trip Entity GET Response
-    [objectManager.router.routeSet addRoute:[RKRoute routeWithClass:[INatTrip class] pathPattern:@"trips/:objectId" method:RKRequestMethodAny]];
-    RKResponseDescriptor *respDescTrip = [RKResponseDescriptor responseDescriptorWithMapping:entityMappingTrip method:RKRequestMethodAny pathPattern:@"trips/:objectId" keyPath:@"trip" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [objectManager.router.routeSet addRoute:[RKRoute routeWithClass:[INatTrip class] pathPattern:@"trips/:recordId" method:RKRequestMethodAny]];
+    RKResponseDescriptor *respDescTrip = [RKResponseDescriptor responseDescriptorWithMapping:entityMappingTrip method:RKRequestMethodAny pathPattern:@"trips/:recordId" keyPath:@"trip" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [objectManager addResponseDescriptor:respDescTrip];
     
     // Trip Entity POST Request

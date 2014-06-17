@@ -15,7 +15,7 @@
     if(self = [[BCOptions alloc] init])
     {
         _searchOptions = [SearchOptions initWithDefaults];
-        _displayOptions = [DisplayOptions initWithDefaults];
+        _displayOptions = [DisplayOptions sharedInstance];
     }
     return self;
 }

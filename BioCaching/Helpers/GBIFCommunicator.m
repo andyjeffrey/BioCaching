@@ -53,8 +53,12 @@
                              searchOptions.yearTo,
                              [searchOptions.searchAreaPolygon convertToWKT]];
     
-    NSString *requestString = [NSString stringWithFormat:@"%@%@",
-                               kGBIFBaseURL, queryString];
+    NSString *requestString;
+    if (searchOptions.testGBIFAPI) {
+        requestString = [NSString stringWithFormat:@"%@%@", kGBIFTestAPIBaseURL, queryString];
+    } else {
+        requestString = [NSString stringWithFormat:@"%@%@", kGBIFBaseURL, queryString];
+    }
     
     return requestString;
 }

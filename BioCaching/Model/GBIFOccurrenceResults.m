@@ -34,7 +34,7 @@
         _dictTaxonPhylum = [[NSMutableDictionary alloc] init];
         _dictTaxonClass = [[NSMutableDictionary alloc] init];
         _dictRecordLocation = [[NSMutableDictionary alloc] init];
-        
+        _removedResults = [[NSMutableSet alloc] init];
         
         Offset = [dictionary objectForKey:@"offset"];
         Limit = [dictionary objectForKey:@"limit"];
@@ -141,9 +141,9 @@
     return [_dictRecordLocation getUniqueElementsOfValueArrays];
 }
 
-
-- (NSArray *) getFilteredResults:(DisplayOptions *)displayOptions limitToMapPoints:(BOOL)mapPoints
+- (NSArray *) getFilteredResults:(BOOL)limitToDisplayPoints;
 {
+    DisplayOptions *displayOptions = [DisplayOptions sharedInstance];
     NSMutableSet *filteredResults = [[NSMutableSet alloc] initWithArray:self.Results];
     
     if (displayOptions.fullSpeciesNames)
@@ -162,7 +162,9 @@
         [filteredResults intersectSet:tempSet];
     }
     
-    if (mapPoints)
+    [filteredResults minusSet:self.removedResults];
+    
+    if (limitToDisplayPoints)
     {
         NSArray *filteredArray = [filteredResults allObjects];
         NSUInteger upperRange = MIN(filteredResults.count, displayOptions.displayPoints);

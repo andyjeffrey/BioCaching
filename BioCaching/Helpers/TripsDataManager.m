@@ -51,7 +51,7 @@
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
         request.entity = entity;
-        NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+        NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"localCreatedAt" ascending:NO];
         request.sortDescriptors = @[sortDesc];
         
         NSError *error;
@@ -89,7 +89,7 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
     request.entity = entity;
-    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"localCreatedAt" ascending:NO];
     request.sortDescriptors = @[sortDesc];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:filter];
     [request setPredicate:predicate];
@@ -119,7 +119,7 @@
             }
             
             // TODO: Check if trip already exists before adding
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId = %@", trip.objectId];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"recordId = %@", trip.recordId];
             NSArray *existingTrip = [self.publishedTrips filteredArrayUsingPredicate:predicate];
             if (!existingTrip.count) {
                 [self.publishedTrips addObject:trip];
@@ -141,7 +141,7 @@
     NSMutableArray *tripPurposes = [[NSMutableArray alloc] init];
 
 //    int arrayIndex = 0;
-    for (GBIFOccurrence *occurrence in [occurrenceResults getFilteredResults:bcOptions.displayOptions limitToMapPoints:YES]) {
+    for (GBIFOccurrence *occurrence in [occurrenceResults getFilteredResults:YES]) {
         if (occurrence.iNatTaxon) {
             INatTripTaxaAttribute *taxaAttribute = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaAttribute" inManagedObjectContext:managedObjectContext];
 //            taxaAttribute.indexID = [NSNumber numberWithInt:arrayIndex];
@@ -168,7 +168,7 @@
     trip.status = [NSNumber numberWithInteger:tripStatus];
     
     trip.title = [NSString stringWithFormat:@"Test Trip %ld - %.3f,%.3f", _privateTrips.count + 1, bcOptions.searchOptions.searchAreaCentre.latitude, bcOptions.searchOptions.searchAreaCentre.longitude];
-    trip.createdAt = [NSDate date];
+    trip.localCreatedAt = [NSDate date];
     trip.latitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.latitude];
     trip.longitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.longitude];
     trip.body = @"This is test Trip created from BioCaching mobile app";

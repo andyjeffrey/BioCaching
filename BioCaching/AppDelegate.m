@@ -76,7 +76,7 @@
     NSNumber *lastVersion = [[NSUserDefaults standardUserDefaults] valueForKey:kLastVersionPrefKey];
     NSNumber *currVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 
-    if ([lastVersion doubleValue] < 0.952)
+    if ([lastVersion doubleValue] < [currVersion doubleValue])
     {
         [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
     }

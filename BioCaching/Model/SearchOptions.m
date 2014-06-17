@@ -11,6 +11,9 @@
 #import "OptionsRecordSource.h"
 #import "OptionsSpeciesFilter.h"
 
+#define kOptionsKeyGBIFTestAPI      @"OptionsGBIFTestAPI"
+#define kOptionsKeyGBIFTestData     @"OptionsGBIFTestData"
+
 @implementation SearchOptions
 
 +(id)initWithDefaults
@@ -29,9 +32,33 @@
     searchOptions.yearFrom = @"";
     searchOptions.yearTo = @"";
     
-    searchOptions.testGBIFData = NO;
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kOptionsKeyGBIFTestAPI]) {
+        searchOptions.testGBIFAPI = NO;
+        searchOptions.testGBIFData = NO;
+    }
     
     return searchOptions;
 }
+
+- (BOOL)testGBIFAPI {
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:kOptionsKeyGBIFTestAPI] boolValue];
+}
+
+- (void)setTestGBIFAPI:(BOOL)testGBIFAPI
+{
+    [[NSUserDefaults standardUserDefaults] setBool:testGBIFAPI forKey:kOptionsKeyGBIFTestAPI];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)testGBIFData {
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:kOptionsKeyGBIFTestData] boolValue];
+}
+
+- (void)setTestGBIFData:(BOOL)testGBIFData
+{
+    [[NSUserDefaults standardUserDefaults] setBool:testGBIFData forKey:kOptionsKeyGBIFTestData];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 @end

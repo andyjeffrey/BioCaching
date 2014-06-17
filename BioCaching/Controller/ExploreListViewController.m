@@ -18,7 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
-@property (weak, nonatomic) IBOutlet UILabel *labelTotalResults;
+@property (weak, nonatomic) IBOutlet UILabel *labelResultsCount;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewResults;
 
@@ -46,7 +46,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     _occurrenceResults = [ExploreDataManager sharedInstance].occurrenceResults;
-    _filteredResults = [_occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
+    _filteredResults = [_occurrenceResults getFilteredResults:YES];
     _currentTrip = [TripsDataManager sharedInstance].currentTrip;
     [self setupLabels];
     [self.tableViewResults reloadData];
@@ -100,8 +100,8 @@
     [self.labelAreaSpan setTextWithColor:[NSString stringWithFormat:@"Area Span: %lum",
                                (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
     
-    [self.labelTotalResults setTextWithColor:[NSString stringWithFormat:@"Total Record Count: %d",
-                                      _occurrenceResults.Count.intValue] color:[UIColor kColorHeaderText]];
+    [self.labelResultsCount setTextWithColor:[NSString stringWithFormat:@"Record Count: %d",
+                                              (int)[_occurrenceResults getFilteredResults:YES].count] color:[UIColor kColorHeaderText]];
 }
 
 
@@ -173,9 +173,10 @@
         NSLog(@"Action Button: %lu - %@", indexPath.row, occurrence.title);
         
         [[ExploreDataManager sharedInstance] removeOccurrence:occurrence];
-        _filteredResults = [_occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:YES];
+        _filteredResults = [_occurrenceResults getFilteredResults:YES];
         
         [self.tableViewResults deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        [self setupLabels];
     } else {
         [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
     }

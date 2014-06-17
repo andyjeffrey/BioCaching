@@ -33,8 +33,8 @@
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segControlMapType;
 
+@property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestAPI;
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestData;
-
 
 @property (weak, nonatomic) IBOutlet UILabel *labelMemCacheCap;
 @property (weak, nonatomic) IBOutlet UILabel *labelMemCacheCurr;
@@ -116,6 +116,7 @@
     
     self.segControlMapType.selectedSegmentIndex = self.bcOptions.displayOptions.mapType;
     
+    self.switchGBIFTestAPI.on = self.bcOptions.searchOptions.testGBIFAPI;
     self.switchGBIFTestData.on = self.bcOptions.searchOptions.testGBIFData;
 }
 
@@ -249,7 +250,8 @@
     self.bcOptions.displayOptions.uniqueLocations = self.switchUniqueLocations.on;
     
     self.bcOptions.displayOptions.mapType = self.segControlMapType.selectedSegmentIndex;
-    
+
+    self.bcOptions.searchOptions.testGBIFAPI = self.switchGBIFTestAPI.on;
     self.bcOptions.searchOptions.testGBIFData = self.switchGBIFTestData.on;
     
     [self.delegate optionsUpdated:self.bcOptions];

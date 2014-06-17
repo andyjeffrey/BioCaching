@@ -31,6 +31,10 @@
 #import "NSDictionary+Filtering.h"
 #import "NSDate+Formatting.h"
 
+#import "BCOptions.h"
+#import "BCAlerts.h"
+#import "LoginManager.h"
+
 #import "NimbusCore.h"
 #import "NimbusWebController.h"
 #import "NimbusAttributedLabel.h"

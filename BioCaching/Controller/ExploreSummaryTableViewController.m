@@ -10,8 +10,10 @@
 
 @interface ExploreSummaryTableViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *labelTotalResults;
 @property (weak, nonatomic) IBOutlet UILabel *labelRetrieved;
 @property (weak, nonatomic) IBOutlet UILabel *labelFiltered;
+@property (weak, nonatomic) IBOutlet UILabel *labelRemoved;
 @property (weak, nonatomic) IBOutlet UILabel *labelDisplayed;
 
 @property (weak, nonatomic) IBOutlet UILabel *labelUniqueSpecies;
@@ -47,7 +49,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    filteredResults = [self.occurrenceResults getFilteredResults:self.bcOptions.displayOptions limitToMapPoints:NO];
+    filteredResults = [self.occurrenceResults getFilteredResults:NO];
     [self setupLabels];
 }
 
@@ -59,8 +61,11 @@
 
 - (void)setupLabels
 {
+    [self.labelTotalResults setTextWithDefaults:[NSString stringWithFormat:@"%@", self.occurrenceResults.Count]];
     [self.labelRetrieved setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.Results.count]];
-    [self.labelFiltered setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)filteredResults.count]];
+    NSUInteger removedCount = self.occurrenceResults.removedResults.count;
+    [self.labelFiltered setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)filteredResults.count + removedCount]];
+    [self.labelRemoved setTextWithDefaults:[NSString stringWithFormat:@"%lu", removedCount]];
     [self.labelDisplayed setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_bcOptions.displayOptions.displayPoints, filteredResults.count))]];
     
     [self.labelUniqueSpecies setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonSpecies.count]];

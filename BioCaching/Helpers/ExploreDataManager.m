@@ -60,7 +60,7 @@
 
 - (void)removeOccurrence:(GBIFOccurrence *)occurrence
 {
-    [_occurrenceResults.Results removeObject:occurrence];
+    [_occurrenceResults.removedResults addObject:occurrence];
     [self.delegate occurrenceRemoved:occurrence];
 }
 
@@ -74,7 +74,7 @@
     
     [self.delegate occurrenceResultsReceived:_occurrenceResults];
     
-    for (GBIFOccurrence *occurrence in [_occurrenceResults getFilteredResults:_bcOptions.displayOptions limitToMapPoints:YES]) {
+    for (GBIFOccurrence *occurrence in [_occurrenceResults getFilteredResults:YES]) {
         [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
     }
 }
@@ -105,7 +105,7 @@
         NSLog(@"%s \nNO iNatTaxon Received: %@ \nRemoving Occurrence: %@", __PRETTY_FUNCTION__,
               occurrence.speciesBinomial, occurrence.Key);
         
-        [_occurrenceResults.Results removeObject:occurrence];
+        [_occurrenceResults.removedResults addObject:occurrence];
         [self.delegate occurrenceRemoved:occurrence];
     }
     

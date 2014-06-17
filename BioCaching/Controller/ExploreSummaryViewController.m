@@ -70,8 +70,8 @@
     [self.labelAreaSpan setTextWithColor:[NSString stringWithFormat:@"Area Span: %lum",
                                              (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
     
-    [self.labelTotalResults setTextWithColor:[NSString stringWithFormat:@"Total Record Count: %d",
-                                                 _occurrenceResults.Count.intValue] color:[UIColor kColorHeaderText]];
+    [self.labelTotalResults setTextWithColor:[NSString stringWithFormat:@"Record Count: %d",
+                                                 (int)[_occurrenceResults getFilteredResults:YES].count] color:[UIColor kColorHeaderText]];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

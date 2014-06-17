@@ -7,7 +7,6 @@
 //
 
 #import "ProfileTableViewController.h"
-#import "LoginManager.h"
 
 @interface ProfileTableViewController ()
 

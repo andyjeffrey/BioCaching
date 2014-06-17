@@ -10,13 +10,12 @@
 
 @interface DisplayOptions : NSObject
 
+@property (nonatomic, assign) MKMapType mapType;
 @property (nonatomic, assign) NSUInteger displayPoints;
 @property (nonatomic, assign) BOOL uniqueSpecies;
 @property (nonatomic, assign) BOOL uniqueLocations;
 @property (nonatomic, assign) BOOL fullSpeciesNames;
 
-@property (nonatomic, assign) MKMapType mapType;
-
-+ (id)initWithDefaults;
++ (instancetype)sharedInstance;
 
 @end

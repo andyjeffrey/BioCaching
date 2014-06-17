@@ -10,7 +10,7 @@
 #define BioCaching_constants_h
 
 #define kGBIFBaseURL @"http://api.gbif.org/v0.9/"
-// #define kGBIFBaseURL @"http://api.gbif-uat.org/v0.9/"
+#define kGBIFTestAPIBaseURL @"http://api.gbif-uat.org/v0.9/"
 #define kGBIFOccurrenceSearch @"occurrence/search?georeferenced=TRUE&limit=%d&offset=%d&basisOfRecord=%@&institutionCode=%@&taxonKey=%@&collectorName=%@&year=%@&from=%@&to=%@&geometry=%@"
 #define kGBIFOccurrenceDefaultLimit 300
 #define kGBIFOccurrenceDefaultOffset 0
@@ -38,12 +38,12 @@
 #define kBHLSpeciesBiblioPath @"name/"
 
 #define kOptionsDefaultSearchAreaSpan 1000
+#define kOptionsDefaultMapType 0
 #define kOptionsDefaultDisplayPoints 20
 #define kOptionsDefaultFullSpeciesNames YES
 #define kOptionsDefaultUniqueSpecies YES
 #define kOptionsDefaultUniqueLocations YES
 
-#define kOptionsDefaultMapType MKMapTypeStandard
 
 #define kDefaultSearchAreaSpan 1000
 #define kDefaultViewSpan 5000

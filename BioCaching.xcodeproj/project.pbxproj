@@ -24,6 +24,7 @@
 		A17628C719471BA500DD69DB /* INatTripTaxaPurpose.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628BE19471BA500DD69DB /* INatTripTaxaPurpose.m */; };
 		A17628CA1947274A00DD69DB /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628C91947274A00DD69DB /* NSDate+Formatting.m */; };
 		A17628CC1947425000DD69DB /* TaskList.txt in Resources */ = {isa = PBXBuildFile; fileRef = A17628CB1947425000DD69DB /* TaskList.txt */; };
+		A17628D5194F08CD00DD69DB /* BCAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628D4194F08CD00DD69DB /* BCAlerts.m */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
 		A18AAABF1908100400FB75A5 /* iOSa_2.23.0.version in Resources */ = {isa = PBXBuildFile; fileRef = A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */; };
 		A18AAAC01908100400FB75A5 /* libLocalyticsAMP_x64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A18AAABA1908100400FB75A5 /* libLocalyticsAMP_x64.a */; };
@@ -161,6 +162,8 @@
 		A17628C81947274A00DD69DB /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
 		A17628C91947274A00DD69DB /* NSDate+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatting.m"; sourceTree = "<group>"; };
 		A17628CB1947425000DD69DB /* TaskList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TaskList.txt; path = BioCaching/TaskList.txt; sourceTree = "<group>"; };
+		A17628D3194F08CD00DD69DB /* BCAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCAlerts.h; sourceTree = "<group>"; };
+		A17628D4194F08CD00DD69DB /* BCAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCAlerts.m; sourceTree = "<group>"; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		A18AAAB91908100400FB75A5 /* iOSa_2.23.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOSa_2.23.0.version; sourceTree = "<group>"; };
@@ -566,10 +569,10 @@
 				A1EA130919265B4900449327 /* ExploreMapViewController.m */,
 				A1EA130619265B4900449327 /* ExploreListViewController.h */,
 				A1EA130719265B4900449327 /* ExploreListViewController.m */,
-				A1EA130D19265B4900449327 /* ExploreSummaryTableViewController.h */,
-				A1EA130E19265B4900449327 /* ExploreSummaryTableViewController.m */,
 				A1EA130F19265B4900449327 /* ExploreSummaryViewController.h */,
 				A1EA131019265B4900449327 /* ExploreSummaryViewController.m */,
+				A1EA130D19265B4900449327 /* ExploreSummaryTableViewController.h */,
+				A1EA130E19265B4900449327 /* ExploreSummaryTableViewController.m */,
 				A1EA130A19265B4900449327 /* ExploreOptionsDelegate.h */,
 				A1EA130B19265B4900449327 /* ExploreOptionsViewController.h */,
 				A1EA130C19265B4900449327 /* ExploreOptionsViewController.m */,
@@ -637,6 +640,8 @@
 				A1EA134C19265B5D00449327 /* INatManager.h */,
 				A1EA134D19265B5D00449327 /* INatManager.m */,
 				A1EA134E19265B5D00449327 /* INatManagerDelegate.h */,
+				A17628D3194F08CD00DD69DB /* BCAlerts.h */,
+				A17628D4194F08CD00DD69DB /* BCAlerts.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -982,6 +987,7 @@
 				A17628C619471BA500DD69DB /* INatTripTaxaAttribute.m in Sources */,
 				A1EA134019265B5200449327 /* UIView+UtilityMethods.m in Sources */,
 				A1EB22541922721B005650D9 /* NIWebController.m in Sources */,
+				A17628D5194F08CD00DD69DB /* BCAlerts.m in Sources */,
 				A1EB2247192271F2005650D9 /* NINonEmptyCollectionTesting.m in Sources */,
 				A1EB224E192271F2005650D9 /* NIState.m in Sources */,
 				A1EA12E71926562A00449327 /* OptionsRecordType.m in Sources */,

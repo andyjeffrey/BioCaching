@@ -151,7 +151,7 @@
             subtitle = [subtitle stringByAppendingString:[trip.stopTime localTime]];
         }
     } else {
-        subtitle = [NSString stringWithFormat:@"Trip Created: %@", [trip.createdAt localDateTime]];
+        subtitle = [NSString stringWithFormat:@"Trip Created: %@", [trip.localCreatedAt localDateTime]];
     }
     cell.labelTripSubtitle.text = subtitle;
     
@@ -185,7 +185,7 @@
         [tripsDataManager deleteTripFromINat:trip];
 
 /*
-        NSLog(@"Cell Selected: %lu-%lu: %@", (long)indexPath.section, (long)indexPath.row, trip.objectId);
+        NSLog(@"Cell Selected: %lu-%lu: %@", (long)indexPath.section, (long)indexPath.row, trip.recordId);
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Published Trip Selected", nil)
                                                      message:NSLocalizedString(@"In future this will show trip details and give option to create a duplicate trip?", nil)
                                                     delegate:self
@@ -201,14 +201,13 @@
 */
     } else if (trip.status.intValue == TripStatusFinished) {
         NSLog(@"Cell Selected: %lu-%lu: Saving Trip...", (long)indexPath.section, (long)indexPath.row);
-        [tripsDataManager saveTripToINat:trip];
+        if ([LoginManager sharedInstance].loggedIn) {
+            [tripsDataManager saveTripToINat:trip];
+        } else {
+            [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
+        }
     } else {
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Saved/In Progress Trip Selected", nil)
-                                                     message:NSLocalizedString(@"In future this will take you back to the Explore page for the selected trip", nil)
-                                                    delegate:self
-                                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                           otherButtonTitles:nil];
-        [av show];
+        [BCAlerts displayDefaultInfoAlert:@"Saved/In Progress Trip Selected" message:@"In future this will take you back to the Explore page for the selected trip"];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

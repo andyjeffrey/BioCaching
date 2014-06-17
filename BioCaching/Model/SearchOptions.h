@@ -26,6 +26,7 @@
 @property (nonatomic, copy) NSString *yearFrom;
 @property (nonatomic, copy) NSString *yearTo;
 
+@property (nonatomic, assign) BOOL testGBIFAPI;
 @property (nonatomic, assign) BOOL testGBIFData;
 
 + (id)initWithDefaults;

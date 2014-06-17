@@ -34,12 +34,14 @@
 @property (nonatomic, readonly, strong) NSArray *uniqueSpecies;
 @property (nonatomic, readonly, strong) NSArray *uniqueLocations;
 
+@property (nonatomic, strong) NSMutableSet *removedResults;
+
 #pragma mark - JsonPack Generated Methods
 + (id) objectWithDictionary:(NSDictionary *)dictionary;
 - (id) initWithDictionary:(NSDictionary *)dictionary;
 
 #pragma mark - Additional/Convenience Methods
-- (NSArray *) getFilteredResults:(DisplayOptions *)displayOptions limitToMapPoints:(BOOL)mapPoints;
+- (NSArray *) getFilteredResults:(BOOL)limitToDisplayPoints;
 
 @end
 

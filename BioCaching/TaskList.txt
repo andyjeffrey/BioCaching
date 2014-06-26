@@ -2,7 +2,7 @@ High Priority (Required For v1.0 - Internal Test Release)
 - Full curation of trip list
 - Go back to previously created trips (whatever status)
 - User entered trip title
-- Change search process so occurrences/taxa only added once taxa details available (either from local database or iNat API call)
+- Change search process so occurrences/taxa only added to explore/trip list once taxon details available (either from local database or iNat API call)
 - Record basic observation details and assign to trip
 - Add photo to observation records
 - Push all associated observation records (and photos) to iNat
@@ -38,3 +38,15 @@ Ongoing Tasks/TODOs (Uncategorised)
 - Refactor BCOptions (Persist original SearchOptions to OccurrenceResults/Trip, use NSUserDefaults for current DisplayOptions?)
 - Keep list of deleted occurrences (manual or automatic) and underlying Occurrence objects (rather than completing deleting from OccurrenceResults)
 - Enable addition of extra occurrence search results to unsaved trip lists (currently limited to one GBIF request of max 300 occurrences)
+- Enforce use of decimal variables for GPS related values (as opposed to default double/float) to ensure fixed precision with no rounding
+
+
+UI/UX Issues/Change Requests
+- Search area to be calculated/approximated to circle (currently displayed as circle but simple square used as polygon for actual search params)
+- Resize/zoom taxon images to fill area edge-to-edge (occurrence details screen)
+- Move main menu button in toolbar to top level view controller so that button works on all child views, e.g. Explore map/list/summary
+- Fix-up Settings screen so it works properly from main menu (as well as from ExploreMap screen)
+- Remove "Area Span" option from Settings screen?  Remove Settings button from ExploreMap screen completely (just access from main menu)?
+- Keep "Remove" button on individual TaxonDetails/OccurrenceDetails screens once trip has been started?
+- Implement ability to edit ExploreList screen so items can still be removed from list once trip started (change tableview to edit mode, replacing record button with remove)
+- Disable background view when main menu displayed (clicking in background view should slide menu away)

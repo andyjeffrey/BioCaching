@@ -36,8 +36,6 @@
     INatTaxonPhoto *iNatTaxonPhoto;
 }
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -52,11 +50,14 @@
     self.labelTaxonSpecies.text = self.occurrence.speciesBinomial;
     self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", self.occurrence.Clazz, self.occurrence.Family];
     
-    iNatTaxonPhoto = self.occurrence.iNatTaxon.taxon_photos[0];
-    [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
-    self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
+    if (self.occurrence.iNatTaxon.taxonPhotos.count > 0)
+    {
+        iNatTaxonPhoto = self.occurrence.iNatTaxon.taxonPhotos[0];
+        [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.mediumUrl]];
+        self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
+    }
     
-    [self.labelDescription setHtml:self.occurrence.iNatTaxon.wikipedia_summary];
+    [self.labelDescription setHtml:self.occurrence.iNatTaxon.summaryText];
 //    self.textViewDescription.text = self.occurrence.iNatTaxon.wikipedia_summary;
 //    self.textViewDescription.textColor = [UIColor kColorTableCellText];
 
@@ -64,7 +65,7 @@
     self.labelObserver.text = self.occurrence.CollectorName;
     self.labelInstitution.text = self.occurrence.InstitutionCode;
     self.labelLocation.text = self.occurrence.locationString;
-    self.labelINatTaxon.text = [self.occurrence.iNatTaxon.id stringValue];
+    self.labelINatTaxon.text = [self.occurrence.iNatTaxon.recordId stringValue];
 }
 
 - (void)viewWillAppear:(BOOL)animated

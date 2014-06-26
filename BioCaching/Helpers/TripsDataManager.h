@@ -12,7 +12,6 @@
 #import <Foundation/Foundation.h>
 #import "GBIFOccurrenceResults.h"
 #import "BCOptions.h"
-#import "INatTrip.h"
 
 @interface TripsDataManager : NSObject
 

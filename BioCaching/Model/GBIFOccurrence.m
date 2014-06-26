@@ -141,7 +141,7 @@
     
     if (self.iNatTaxon)
     {
-        mainTitle = [self.iNatTaxon.common_name capitalizedString];
+        mainTitle = [self.iNatTaxon.commonName capitalizedString];
     } else
     {
         mainTitle = [NSString stringWithFormat:@"%@ - %@",

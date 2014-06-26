@@ -92,13 +92,14 @@
     if (occurrence.iNatTaxon)
     {
         NSLog(@"%s \niNatTaxon Received: %@ - %@ \nAdding To Occurrence: %@", __PRETTY_FUNCTION__,
-              occurrence.speciesBinomial, occurrence.iNatTaxon.common_name, occurrence.Key);
+              occurrence.speciesBinomial, occurrence.iNatTaxon.commonName, occurrence.Key);
+/*
         if (occurrence.iNatTaxon.taxon_photos.count > 0)
         {
             INatTaxonPhoto *mainPhoto = occurrence.iNatTaxon.taxon_photos[0];
             [ImageCache saveImageForURL:mainPhoto.medium_url];
         }
-
+*/
         [self.delegate taxonAddedToOccurrence:occurrence];
     } else
     {

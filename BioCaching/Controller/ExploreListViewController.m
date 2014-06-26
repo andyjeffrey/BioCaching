@@ -29,6 +29,7 @@
     GBIFOccurrenceResults *_occurrenceResults;
     NSArray *_filteredResults;
     INatTrip *_currentTrip;
+    BOOL deletingRow;
 }
 
 #pragma mark - UIViewController Methods
@@ -126,7 +127,11 @@
     }
 #endif
 */
-    return _filteredResults.count;
+    if (deletingRow && (_filteredResults.count >= _bcOptions.displayOptions.displayPoints)) {
+        return _filteredResults.count - 1;
+    } else {
+        return _filteredResults.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -141,6 +146,9 @@
     [cell.labelTaxonTitle setTextWithDefaults:occurrence.title];
     [cell.labelTaxonSubTitle setTextWithDefaults:occurrence.subtitle];
 
+    if (occurrence.iNatTaxon.taxonPhotos.count == 0) {
+        cell.labelTaxonTitle.text = [NSString stringWithFormat:@"%@ **", cell.labelTaxonTitle.text];
+    }
 #ifdef DEBUG
     cell.labelTaxonSubTitle.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.detailsSubTitle];
 #endif
@@ -174,8 +182,11 @@
         
         [[ExploreDataManager sharedInstance] removeOccurrence:occurrence];
         _filteredResults = [_occurrenceResults getFilteredResults:YES];
-        
+
+        deletingRow = YES;
         [self.tableViewResults deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        deletingRow = NO;
+        [self.tableViewResults reloadData];
         [self setupLabels];
     } else {
         [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
@@ -186,8 +197,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Row Selected: %lu", indexPath.row);
+    GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
+    
 //    tableView.editing = YES;
-//    GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
 }
 
 

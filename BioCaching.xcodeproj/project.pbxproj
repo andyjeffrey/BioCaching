@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
+		A1464512195074F4005C1107 /* ObservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1464511195074F4005C1107 /* ObservationViewController.m */; };
 		A176286F1937359500DD69DB /* UIImage+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = A176286E1937359500DD69DB /* UIImage+Colors.m */; };
 		A17628721937385400DD69DB /* BCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628711937385400DD69DB /* BCButton.m */; };
 		A1762875193DEF9C00DD69DB /* ExploreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762874193DEF9C00DD69DB /* ExploreDataManager.m */; };
@@ -119,6 +120,10 @@
 		A1EB225C192276A3005650D9 /* NSMutableAttributedString+NimbusAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EB225A192276A3005650D9 /* NSMutableAttributedString+NimbusAttributedLabel.m */; };
 		A1EB2260192282CA005650D9 /* NimbusWebController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A1EB225F192282CA005650D9 /* NimbusWebController.bundle */; };
 		A1EB226B1923961F005650D9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EB226A1923961F005650D9 /* CoreData.framework */; };
+		A1F0511219588F2D008569AB /* INatTaxon.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F0511119588F2D008569AB /* INatTaxon.m */; };
+		A1F0511519588F3F008569AB /* _INatTaxon.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F0511419588F3F008569AB /* _INatTaxon.m */; };
+		A1F05118195AEF20008569AB /* INatTaxonPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F05117195AEF20008569AB /* INatTaxonPhoto.m */; };
+		A1F0511B195AEF2E008569AB /* _INatTaxonPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F0511A195AEF2E008569AB /* _INatTaxonPhoto.m */; };
 		A1F2E12D190161110010B647 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A1F2E12C190161110010B647 /* .gitignore */; };
 		B338778CE5E9420C93C92294 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 346CC70B6936431AB81A1540 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -130,6 +135,8 @@
 		A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv1.0.json; path = Resources/TestData/OccurrenceResultsCASFilterv1.0.json; sourceTree = "<group>"; };
 		A13B8F2318F75AAE000C522B /* OccurrenceResultsCASv0.9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASv0.9.json; path = Resources/TestData/OccurrenceResultsCASv0.9.json; sourceTree = "<group>"; };
 		A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASv1.0.json; path = Resources/TestData/OccurrenceResultsCASv1.0.json; sourceTree = "<group>"; };
+		A1464510195074F4005C1107 /* ObservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationViewController.h; sourceTree = "<group>"; };
+		A1464511195074F4005C1107 /* ObservationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationViewController.m; sourceTree = "<group>"; };
 		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Tortuga Bay, Santa Cruz, Galapagos.gpx"; path = "Resources/TestData/Tortuga Bay, Santa Cruz, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
@@ -364,6 +371,14 @@
 		A1EB225A192276A3005650D9 /* NSMutableAttributedString+NimbusAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableAttributedString+NimbusAttributedLabel.m"; path = "../../../iOS Libraries/nimbus/src/attributedlabel/src/NSMutableAttributedString+NimbusAttributedLabel.m"; sourceTree = "<group>"; };
 		A1EB225F192282CA005650D9 /* NimbusWebController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NimbusWebController.bundle; path = "../../../../../iOS Libraries/nimbus/src/webcontroller/resources/NimbusWebController.bundle"; sourceTree = "<group>"; };
 		A1EB226A1923961F005650D9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A1F0511019588F2D008569AB /* INatTaxon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTaxon.h; sourceTree = "<group>"; };
+		A1F0511119588F2D008569AB /* INatTaxon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTaxon.m; sourceTree = "<group>"; };
+		A1F0511319588F3F008569AB /* _INatTaxon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _INatTaxon.h; sourceTree = "<group>"; };
+		A1F0511419588F3F008569AB /* _INatTaxon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _INatTaxon.m; sourceTree = "<group>"; };
+		A1F05116195AEF20008569AB /* INatTaxonPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTaxonPhoto.h; sourceTree = "<group>"; };
+		A1F05117195AEF20008569AB /* INatTaxonPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTaxonPhoto.m; sourceTree = "<group>"; };
+		A1F05119195AEF2E008569AB /* _INatTaxonPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _INatTaxonPhoto.h; sourceTree = "<group>"; };
+		A1F0511A195AEF2E008569AB /* _INatTaxonPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _INatTaxonPhoto.m; sourceTree = "<group>"; };
 		A1F2E12C190161110010B647 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		F438E4ED526F4BA7AB5770BF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -405,6 +420,10 @@
 				A17628BC19471BA500DD69DB /* INatTripTaxaAttribute.m */,
 				A17628BD19471BA500DD69DB /* INatTripTaxaPurpose.h */,
 				A17628BE19471BA500DD69DB /* INatTripTaxaPurpose.m */,
+				A1F0511019588F2D008569AB /* INatTaxon.h */,
+				A1F0511119588F2D008569AB /* INatTaxon.m */,
+				A1F05116195AEF20008569AB /* INatTaxonPhoto.h */,
+				A1F05117195AEF20008569AB /* INatTaxonPhoto.m */,
 			);
 			path = ManagedObjects;
 			sourceTree = "<group>";
@@ -420,6 +439,10 @@
 				A17628B619471BA500DD69DB /* _INatTripTaxaAttribute.m */,
 				A17628B719471BA500DD69DB /* _INatTripTaxaPurpose.h */,
 				A17628B819471BA500DD69DB /* _INatTripTaxaPurpose.m */,
+				A1F0511319588F3F008569AB /* _INatTaxon.h */,
+				A1F0511419588F3F008569AB /* _INatTaxon.m */,
+				A1F05119195AEF2E008569AB /* _INatTaxonPhoto.h */,
+				A1F0511A195AEF2E008569AB /* _INatTaxonPhoto.m */,
 			);
 			path = Generated;
 			sourceTree = "<group>";
@@ -588,6 +611,8 @@
 				A1EA13F7192DFD7D00449327 /* ProfileTableViewController.m */,
 				A1EA12FF19265B4900449327 /* BCWebViewController.h */,
 				A1EA130019265B4900449327 /* BCWebViewController.m */,
+				A1464510195074F4005C1107 /* ObservationViewController.h */,
+				A1464511195074F4005C1107 /* ObservationViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -937,6 +962,7 @@
 				A1EA131F19265B4900449327 /* ExploreContainerViewController.m in Sources */,
 				A1EB2240192271F2005650D9 /* NIDeviceOrientation.m in Sources */,
 				A1EB2250192271F2005650D9 /* UIResponder+NimbusCore.m in Sources */,
+				A1F0511519588F3F008569AB /* _INatTaxon.m in Sources */,
 				A1EA135619265B5D00449327 /* TripsDataManager.m in Sources */,
 				A1EA132A19265B4900449327 /* TripsViewController.m in Sources */,
 				A1EA135519265B5D00449327 /* INatManager.m in Sources */,
@@ -958,6 +984,7 @@
 				A1EA133E19265B5200449327 /* UILabel+Appearance.m in Sources */,
 				A1EB2243192271F2005650D9 /* NIImageUtilities.m in Sources */,
 				A1EB225C192276A3005650D9 /* NSMutableAttributedString+NimbusAttributedLabel.m in Sources */,
+				A1464512195074F4005C1107 /* ObservationViewController.m in Sources */,
 				A1EA132019265B4900449327 /* ExploreListViewController.m in Sources */,
 				A17628C719471BA500DD69DB /* INatTripTaxaPurpose.m in Sources */,
 				A1EA12FD19265A2500449327 /* UIColor+Defaults.m in Sources */,
@@ -974,6 +1001,7 @@
 				A1EA135419265B5D00449327 /* ImageCache.m in Sources */,
 				A17628CA1947274A00DD69DB /* NSDate+Formatting.m in Sources */,
 				A1EB2245192271F2005650D9 /* NINavigationAppearance.m in Sources */,
+				A1F0511219588F2D008569AB /* INatTaxon.m in Sources */,
 				A1EA13F5192D5A6400449327 /* LoginManager.m in Sources */,
 				A1EB225B192276A3005650D9 /* NIAttributedLabel.m in Sources */,
 				A1D9A12F18E20FAC006C1988 /* IonIcons.m in Sources */,
@@ -985,10 +1013,12 @@
 				A1EB2249192271F2005650D9 /* NIOperations.m in Sources */,
 				A1EB223C192271F2005650D9 /* NIButtonUtilities.m in Sources */,
 				A17628C619471BA500DD69DB /* INatTripTaxaAttribute.m in Sources */,
+				A1F0511B195AEF2E008569AB /* _INatTaxonPhoto.m in Sources */,
 				A1EA134019265B5200449327 /* UIView+UtilityMethods.m in Sources */,
 				A1EB22541922721B005650D9 /* NIWebController.m in Sources */,
 				A17628D5194F08CD00DD69DB /* BCAlerts.m in Sources */,
 				A1EB2247192271F2005650D9 /* NINonEmptyCollectionTesting.m in Sources */,
+				A1F05118195AEF20008569AB /* INatTaxonPhoto.m in Sources */,
 				A1EB224E192271F2005650D9 /* NIState.m in Sources */,
 				A1EA12E71926562A00449327 /* OptionsRecordType.m in Sources */,
 				A1EB224B192271F2005650D9 /* NIRuntimeClassModifications.m in Sources */,

@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
+/*
+ 
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
 
@@ -25,4 +27,4 @@
 
 @end
 
-
+*/

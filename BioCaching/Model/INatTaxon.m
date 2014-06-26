@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
+/*
+ 
 #import "INatTaxon.h"
 
 @implementation INatTaxon
@@ -19,3 +21,5 @@
 }
 
 @end
+
+*/

@@ -682,14 +682,14 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)taxonAddedToOccurrence:(GBIFOccurrence *)occurrence
 {
-    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
+    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.commonName);
 //    [self.mapView addAnnotation:occurrence];
     
 }
 
 - (void)occurrenceRemoved:(GBIFOccurrence *)occurrence
 {
-    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.common_name);
+    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.commonName);
 //    if (self.navigationController.topViewController != self.parentViewController)
 //    {
 //        [self.navigationController popViewControllerAnimated:YES];

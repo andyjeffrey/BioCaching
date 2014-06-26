@@ -6,8 +6,12 @@
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
+/*
+ 
 #import "INatTaxonPhoto.h"
 
 @implementation INatTaxonPhoto
 
 @end
+
+*/

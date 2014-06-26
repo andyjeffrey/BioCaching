@@ -8,6 +8,7 @@
 
 #import "TaxonInfoViewController.h"
 #import "OccurrenceDetailsViewController.h"
+#import "ObservationViewController.h"
 #import "ImageCache.h"
 #import "ExploreDataManager.h"
 #import "TripsDataManager.h"
@@ -31,6 +32,8 @@
 
 - (IBAction)viewOccurrenceDetails:(id)sender;
 - (IBAction)removeOccurrence:(id)sender;
+- (IBAction)recordObservation:(id)sender;
+
 
 @end
 
@@ -79,13 +82,13 @@
 {
     INatTaxonPhoto *iNatTaxonPhoto;
     
-    if (self.occurrence.iNatTaxon.taxon_photos.count > 0) {
-        iNatTaxonPhoto = self.occurrence.iNatTaxon.taxon_photos[0];
+    if (self.occurrence.iNatTaxon.taxonPhotos.count > 0) {
+        iNatTaxonPhoto = self.occurrence.iNatTaxon.taxonPhotos[0];
         
         CGRect imageFrame = self.imageMainPhoto.frame;
         
         //        [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
-        self.imageMainPhoto.image = [ImageCache getImageForURL:iNatTaxonPhoto.medium_url];
+        self.imageMainPhoto.image = [ImageCache getImageForURL:iNatTaxonPhoto.mediumUrl];
         if (self.imageMainPhoto.image.size.height > imageFrame.size.height) {
             self.imageMainPhoto.contentMode = UIViewContentModeScaleAspectFit;
         } else {
@@ -134,4 +137,11 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+
+- (IBAction)recordObservation:(id)sender {
+    ObservationViewController *observationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Observation"];
+    observationVC.occurrence = self.occurrence;
+    [self.parentViewController.navigationController pushViewController:observationVC animated:YES];
+}
+
 @end

@@ -11,19 +11,22 @@
 #import "LocalyticsSession.h"
 #import "LoginManager.h"
 
-#import "ManagedObjects.h"
-
-@implementation AppDelegate
+@implementation AppDelegate {
+    NSDecimalNumber *lastVersion;
+    NSDecimalNumber *currVersion;
+    BOOL clearUserDefaults;
+    BOOL clearDatabase;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self initLocalVariables];
     [self clearUserDefaultsIfReq];
+
     [self configureDebugging];
     [self configureFlurryAnalytics];
     [self startLocalytics];
-    
     [self configureRestKit];
-    
     [[LoginManager sharedInstance] configureOAuth2Client];
     
     // Override point for customization after application launch.
@@ -71,12 +74,36 @@
 
 #pragma-mark Custom Configuration Methods
 
+- (void)initLocalVariables
+{
+    lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:kLastVersionPrefKey];
+
+    // CFBundleShortVersionString = "Version" setting in active target Info.plist
+    // CFBundleVersion = "Build" setting
+    currVersion = [NSDecimalNumber decimalNumberWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+    
+    // Default is to completely clear UserDefaults and Database on version change, up to v1.0
+    BOOL newVersion = ([lastVersion compare:currVersion] == NSOrderedAscending);
+    BOOL preVersion1 = (!([[NSDecimalNumber one] compare:currVersion] == NSOrderedAscending));
+
+    //    if ([currVersion <= 1.0) && (lastVersion  < currVersion ))
+    if (newVersion && preVersion1)
+    {
+        clearUserDefaults = YES;
+        clearDatabase = YES;
+    }
+    
+// Force clearing during testing
+#ifdef DEBUG
+//    clearUserDefaults = YES;
+//    clearDatabase = YES;
+#endif
+    
+}
+
 - (void)clearUserDefaultsIfReq
 {
-    NSNumber *lastVersion = [[NSUserDefaults standardUserDefaults] valueForKey:kLastVersionPrefKey];
-    NSNumber *currVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-
-    if ([lastVersion doubleValue] < [currVersion doubleValue])
+    if (clearUserDefaults)
     {
         [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
     }
@@ -87,9 +114,9 @@
 {
 //    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
 //    RKLogConfigureByName("RestKit/Network/Core Data", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/Core Data", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/Core Data", RKLogLevelInfo);
 //    RKLogConfigureByName("RestKit/Core Data/Cache", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelInfo);
 }
 
 - (void)configureFlurryAnalytics
@@ -148,6 +175,15 @@
 #ifdef DEBUG
     NSLog(@"Data Store Path: %@", dataStorePath);
 #endif
+    
+    //Completely Remove Old Data Store Files If Required (during testing)
+    if (clearDatabase)
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:dataStorePath error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@-shm", dataStorePath] error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@-wal", dataStorePath] error:nil];
+    }
+    
     NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:dataStorePath fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
     if (!persistentStore) {
         RKLogError(@"Failed To Add Persistent Store At Path: %@ : %@", dataStorePath, error);
@@ -180,7 +216,10 @@
     NSDictionary *userAgentDict = [[NSDictionary alloc] initWithObjectsAndKeys:userAgent, @"UserAgent", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:userAgentDict];
 
+    
+    // Add Entity Mappings
     [INatTrip setupMapping];
+    [INatTaxon setupMapping];
     
 }
 

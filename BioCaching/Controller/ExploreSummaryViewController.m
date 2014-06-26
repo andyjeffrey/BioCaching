@@ -31,11 +31,11 @@
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 
     [self setupUI];
-    _occurrenceResults = [ExploreDataManager sharedInstance].occurrenceResults;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    _occurrenceResults = [ExploreDataManager sharedInstance].occurrenceResults;
     [self setupLabels];
     summaryTableVC.bcOptions = _bcOptions;
     summaryTableVC.occurrenceResults = _occurrenceResults;

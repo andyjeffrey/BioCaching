@@ -8,10 +8,6 @@
 
 #import "TripsDataManager.h"
 
-#import "INatTrip.h"
-#import "INatTripTaxaAttribute.h"
-#import "INatTripTaxaPurpose.h"
-
 @interface TripsDataManager ()
 
 @property (nonatomic) NSMutableArray *privateTrips;
@@ -110,6 +106,7 @@
 {
     [[RKObjectManager sharedManager] getObjectsAtPath:kINatTripsPathPattern parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         for (INatTrip *trip in mappingResult.array) {
+            
             trip.status = [NSNumber numberWithInteger:TripStatusPublished];
             
             // Update Trip Status On Local Storage
@@ -145,13 +142,13 @@
         if (occurrence.iNatTaxon) {
             INatTripTaxaAttribute *taxaAttribute = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaAttribute" inManagedObjectContext:managedObjectContext];
 //            taxaAttribute.indexID = [NSNumber numberWithInt:arrayIndex];
-            taxaAttribute.taxonId = occurrence.iNatTaxon.id;
+            taxaAttribute.taxonId = occurrence.iNatTaxon.recordId;
             taxaAttribute.observed = NO;
             [tripAttributes addObject:taxaAttribute];
             
             INatTripTaxaPurpose *taxaPurpose = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaPurpose" inManagedObjectContext:managedObjectContext];
             taxaPurpose.resourceType = @"Taxon";
-            taxaPurpose.resourceId = occurrence.iNatTaxon.id;
+            taxaPurpose.resourceId = occurrence.iNatTaxon.recordId;
             taxaPurpose.complete = NO;
             [tripPurposes addObject:taxaPurpose];
         } else {

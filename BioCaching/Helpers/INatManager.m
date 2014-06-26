@@ -7,20 +7,103 @@
 //
 
 #import "INatManager.h"
-#import "AFNetworking.h"
+//#import "AFNetworking.h"
 #import "INatTaxon.h"
 #import "GBIFOccurrence.h"
 
-static NSString * const kBaseURLString = @"http://www.inaturalist.org/";
 static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
 
-@implementation INatManager
+@implementation INatManager {
+    NSManagedObjectContext *managedObjectContext;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        managedObjectContext = [[RKObjectManager sharedManager] managedObjectStore].mainQueueManagedObjectContext;
+    }
+    return self;
+}
+
+- (void)getTaxonForSpeciesName:(NSString *)speciesName
+{
+    
+}
 
 - (void)addINatTaxonToGBIFOccurrence:(GBIFOccurrence *)occurrence
 {
-    NSURLRequest *request = [self buildTaxaSearchRequest:occurrence.speciesBinomial];
+    INatTaxon *primaryTaxon = [self getTaxonFromLocalStore:occurrence.speciesBinomial];
     
+    if (primaryTaxon) {
+        [self addTaxonToOccurrenceAndCallDelegate:primaryTaxon occurrence:occurrence];
+    } else {
+        NSString *taxaSearchPath = [NSString stringWithFormat:@"%@%@",
+                                    kTaxaSearchQuery,
+                                    [occurrence.speciesBinomial stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+        [[RKObjectManager sharedManager] getObjectsAtPath:taxaSearchPath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+            NSError *error = nil;
+            
+            RKLogInfo(@"Taxa Search Returned %d results", (int)mappingResult.array.count);
+            // INatTaxon MOs automatically created for all search results using RK, so remove all but first
+            INatTaxon *primaryTaxon = mappingResult.firstObject;
+            for (INatTaxon *taxon in mappingResult.array) {
+                if (taxon == primaryTaxon) {
+                    taxon.searchName = occurrence.speciesBinomial;
+                    taxon.localCreatedAt = [NSDate date];
+                } else {
+                    [managedObjectContext deleteObject:taxon];
+                    NSLog(@"Taxon Object Deleted: \n%d-%@", (int)taxon.recordId, taxon.objectID);
+                }
+            }
+            if (![managedObjectContext saveToPersistentStore:&error]) {
+                RKLogError(@"Error Saving Changes To Store: %@", error);
+            } else {
+                RKLogInfo(@"INatTaxon Entity Saved To Store: %@-%@", primaryTaxon.recordId, primaryTaxon.name);
+                [self addTaxonToOccurrenceAndCallDelegate:primaryTaxon occurrence:occurrence];
+            }
+        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+            NSLog(@"Error Performing Taxa Search: %@", error);
+        }];
+    }
+}
+
+- (void)addTaxonToOccurrenceAndCallDelegate:(INatTaxon *)taxon occurrence:(GBIFOccurrence *)occurrence
+{
+    occurrence.iNatTaxon = taxon;
+    [self.delegate iNatTaxonAddedToGBIFOccurrence:occurrence];
+}
+
+- (INatTaxon *)getTaxonFromLocalStore:(NSString *)speciesName
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"INatTaxon" inManagedObjectContext:managedObjectContext];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"searchName = %@", speciesName];
+    [fetchRequest setPredicate:predicate];
+    // Specify how the fetched objects should be sorted
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"updatedAt"
+                                                                   ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil || fetchedObjects.count == 0) {
+        NSLog(@"No INatTaxon Found In Local Store:%@", speciesName);
+        return nil;
+    } else {
+        return fetchedObjects[0];
+    }
+}
+
+
 /*
+- (void)addINatTaxonToGBIFOccurrence:(GBIFOccurrence *)occurrence
+{
+    NSURLRequest *request = [self buildTaxaSearchRequest:occurrence.speciesBinomial];
+
     // AFNetworking 2.0
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -31,39 +114,11 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"iNat API Error: %@", error);
     }];
-*/
+
     // AFNetworking 1.3 (As used by RestKit)
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         occurrence.iNatTaxon = [self buildINatTaxonFromJSON:JSON taxonSearchString:occurrence.speciesBinomial];
         [self.delegate iNatTaxonAddedToGBIFOccurrence:occurrence];
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        NSLog(@"iNat API Error: %@", error);
-    }];
-    
-//    NSLog(@"INat API Call Initiated");
-    [operation start];
-    
-}
-
-- (void)getTaxonForSpeciesName:(NSString *)speciesName
-{
-    NSURLRequest *request = [self buildTaxaSearchRequest:speciesName];
-/*
-    // AFNetworking 2.0
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    operation.responseSerializer = [AFJSONResponseSerializer serializer];
-    
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        INatTaxon *iNatTaxon = [self buildINatTaxonFromJSON:responseObject taxonSearchString:speciesName];
-        [self.delegate iNatTaxonReceived:iNatTaxon];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"iNat API Error: %@", error);
-    }];
-*/
-    // AFNetworking 1.3 (As used by RestKit)
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        INatTaxon *iNatTaxon = [self buildINatTaxonFromJSON:JSON taxonSearchString:speciesName];
-        [self.delegate iNatTaxonReceived:iNatTaxon];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         NSLog(@"iNat API Error: %@", error);
     }];
@@ -75,7 +130,7 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
 - (NSURLRequest *)buildTaxaSearchRequest:(NSString *)speciesName
 {
     NSString *urlString = [NSString stringWithFormat:@"%@%@%@",
-                           kBaseURLString,
+                           kINatBaseURL,
                            kTaxaSearchQuery,
                            [speciesName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
                            ];
@@ -93,7 +148,7 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
     NSArray *resultsArray = (NSArray *)responseJSON;
     
     if (resultsArray.count > 0) {
-        iNatTaxon = [[INatTaxon alloc] initWithDictionary:resultsArray[0] error:&error];
+        iNatTaxon = [INatTaxon createFromDictionary:resultsArray[0] error:&error];
         if (error) {
             NSLog(@"INatManager:buildINatTaxonFromJSON: %@", error.debugDescription);
         } else {
@@ -105,5 +160,6 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
     
     return iNatTaxon;
 }
-
+*/
+ 
 @end

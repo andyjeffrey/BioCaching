@@ -1,4 +1,6 @@
 #import "BCManagedObject.h"
+#import "INatTaxon.h"
+#import "INatTaxonPhoto.h"
 #import "INatTrip.h"
 #import "INatTripTaxaAttribute.h"
 #import "INatTripTaxaPurpose.h"

@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C1021" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="BCManagedObject" representedClassName="BCManagedObject" isAbstract="YES" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="localCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="recordId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
-    <entity name="INatTaxon" syncable="YES"/>
+    <entity name="INatTaxon" representedClassName="INatTaxon" parentEntity="BCManagedObject" syncable="YES">
+        <attribute name="commonName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="searchName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="squareImageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summaryText" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="taxonPhotos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="INatTaxonPhoto" inverseName="taxon" inverseEntity="INatTaxonPhoto" syncable="YES"/>
+    </entity>
+    <entity name="INatTaxonPhoto" representedClassName="INatTaxonPhoto" parentEntity="BCManagedObject" syncable="YES">
+        <attribute name="attribution" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="largeUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="licenseCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mediumUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nativeRealname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nativeUsername" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="smallUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="squareUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="taxon" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="INatTaxon" inverseName="taxonPhotos" inverseEntity="INatTaxon" syncable="YES"/>
+    </entity>
     <entity name="INatTrip" representedClassName="INatTrip" parentEntity="BCManagedObject" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -34,9 +53,10 @@
     </entity>
     <elements>
         <element name="BCManagedObject" positionX="-342" positionY="-1134" width="128" height="103"/>
+        <element name="INatTaxon" positionX="-387" positionY="-981" width="128" height="133"/>
         <element name="INatTrip" positionX="-585" positionY="-945" width="128" height="225"/>
         <element name="INatTripTaxaAttribute" positionX="-198" positionY="-945" width="128" height="88"/>
         <element name="INatTripTaxaPurpose" positionX="-198" positionY="-810" width="128" height="103"/>
-        <element name="INatTaxon" positionX="-387" positionY="-981" width="128" height="45"/>
+        <element name="INatTaxonPhoto" positionX="-387" positionY="-981" width="128" height="193"/>
     </elements>
 </model>

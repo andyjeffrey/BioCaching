@@ -21,6 +21,7 @@
 #import "constants.h"
 #import "config.h"
 
+#import "BCManagedObject.h"
 #import "ManagedObjects.h"
 
 #import "UIColor+Defaults.h"

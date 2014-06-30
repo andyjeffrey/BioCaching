@@ -128,29 +128,39 @@
     }];
 }
 
+- (INatTrip *)createEmptyTripWithOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions
+{
+    NSError *error = nil;
+    
+    INatTrip *trip = [NSEntityDescription insertNewObjectForEntityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
+
+    trip.status = [NSNumber numberWithInteger:TripStatusCreated];
+    trip.title = [NSString stringWithFormat:@"Test Trip %d - %.3f,%.3f", (int)_privateTrips.count + 1, bcOptions.searchOptions.searchAreaCentre.latitude, bcOptions.searchOptions.searchAreaCentre.longitude];
+    trip.localCreatedAt = [NSDate date];
+    trip.latitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.latitude];
+    trip.longitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.longitude];
+    trip.body = @"This is test Trip created from BioCaching mobile app";
+    
+    if (![managedObjectContext saveToPersistentStore:&error]) {
+        RKLogError(@"Error Saving New Trip Entity To Store: %@", error);
+        return nil;
+    }
+    trip.occurrenceResults = occurrenceResults;
+    self.currentTrip = trip;
+    return trip;
+}
+
 - (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus
 {
     NSError *error = nil;
     
     INatTrip *trip = [NSEntityDescription insertNewObjectForEntityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
     
-    NSMutableArray *tripAttributes = [[NSMutableArray alloc] init];
-    NSMutableArray *tripPurposes = [[NSMutableArray alloc] init];
-
 //    int arrayIndex = 0;
     for (GBIFOccurrence *occurrence in [occurrenceResults getFilteredResults:YES]) {
         if (occurrence.iNatTaxon) {
-            INatTripTaxaAttribute *taxaAttribute = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaAttribute" inManagedObjectContext:managedObjectContext];
-//            taxaAttribute.indexID = [NSNumber numberWithInt:arrayIndex];
-            taxaAttribute.taxonId = occurrence.iNatTaxon.recordId;
-            taxaAttribute.observed = NO;
-            [tripAttributes addObject:taxaAttribute];
-            
-            INatTripTaxaPurpose *taxaPurpose = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaPurpose" inManagedObjectContext:managedObjectContext];
-            taxaPurpose.resourceType = @"Taxon";
-            taxaPurpose.resourceId = occurrence.iNatTaxon.recordId;
-            taxaPurpose.complete = NO;
-            [tripPurposes addObject:taxaPurpose];
+            [trip.taxaAttributesSet addObject:[INatTripTaxaAttribute createFromINatTaxon:occurrence.iNatTaxon]];
+            [trip.taxaPurposesSet addObject:[INatTripTaxaPurpose createFromINatTaxon:occurrence.iNatTaxon]];
         } else {
             [occurrenceResults.Results removeObject:occurrence];
             NSLog(@"No iNatTaxon found for %@, occurrence removed from Trip", occurrence.speciesBinomial);
@@ -159,21 +169,18 @@
 //        arrayIndex++;
     }
     
-    trip.taxaAttributes = [NSSet setWithArray:tripAttributes];
-    trip.taxaPurposes = [NSSet setWithArray:tripPurposes];
-    
     trip.status = [NSNumber numberWithInteger:tripStatus];
     
-    trip.title = [NSString stringWithFormat:@"Test Trip %ld - %.3f,%.3f", _privateTrips.count + 1, bcOptions.searchOptions.searchAreaCentre.latitude, bcOptions.searchOptions.searchAreaCentre.longitude];
+    trip.title = [NSString stringWithFormat:@"Test Trip %d - %.3f,%.3f", (int)_privateTrips.count + 1, bcOptions.searchOptions.searchAreaCentre.latitude, bcOptions.searchOptions.searchAreaCentre.longitude];
     trip.localCreatedAt = [NSDate date];
     trip.latitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.latitude];
     trip.longitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.longitude];
     trip.body = @"This is test Trip created from BioCaching mobile app";
     
-    if (tripStatus == TripStatusCreated) {
-        [[TripsDataManager sharedInstance].savedTrips addObject:trip];
+    if (tripStatus == TripStatusSaved) {
+        [self.savedTrips addObject:trip];
     } else if (tripStatus == TripStatusInProgress) {
-        [[TripsDataManager sharedInstance].inProgressTrips addObject:trip];
+        [self.inProgressTrips addObject:trip];
     }
     
     if (![managedObjectContext saveToPersistentStore:&error]) {
@@ -181,6 +188,7 @@
     }
     
     self.currentTrip = trip;
+
     return trip;
 }
 

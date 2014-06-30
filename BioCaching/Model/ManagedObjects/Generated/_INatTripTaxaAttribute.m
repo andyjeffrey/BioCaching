@@ -9,6 +9,7 @@ const struct INatTripTaxaAttributeAttributes INatTripTaxaAttributeAttributes = {
 };
 
 const struct INatTripTaxaAttributeRelationships INatTripTaxaAttributeRelationships = {
+	.occurrence = @"occurrence",
 	.trip = @"trip",
 };
 
@@ -109,6 +110,10 @@ const struct INatTripTaxaAttributeFetchedProperties INatTripTaxaAttributeFetched
 
 
 
+
+@dynamic occurrence;
+
+	
 
 @dynamic trip;
 

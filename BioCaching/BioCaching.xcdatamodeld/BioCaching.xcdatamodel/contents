@@ -4,6 +4,7 @@
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="localCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="recordId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="synchedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <entity name="INatTaxon" representedClassName="INatTaxon" parentEntity="BCManagedObject" syncable="YES">
@@ -12,9 +13,10 @@
         <attribute name="searchName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="squareImageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="summaryText" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="occurrences" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OccurrenceRecord" inverseName="iNatTaxon" inverseEntity="OccurrenceRecord" syncable="YES"/>
         <relationship name="taxonPhotos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="INatTaxonPhoto" inverseName="taxon" inverseEntity="INatTaxonPhoto" syncable="YES"/>
     </entity>
-    <entity name="INatTaxonPhoto" representedClassName="INatTaxonPhoto" parentEntity="BCManagedObject" syncable="YES">
+    <entity name="INatTaxonPhoto" representedClassName="INatTaxonPhoto" syncable="YES">
         <attribute name="attribution" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="largeUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="licenseCode" optional="YES" attributeType="String" syncable="YES"/>
@@ -37,26 +39,47 @@
         <attribute name="stopTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="taxaAttributes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="INatTripTaxaAttribute" inverseName="trip" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
-        <relationship name="taxaPurposes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="INatTripTaxaPurpose" inverseName="trip" inverseEntity="INatTripTaxaPurpose" syncable="YES"/>
+        <relationship name="taxaAttributes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="INatTripTaxaAttribute" inverseName="trip" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
+        <relationship name="taxaPurposes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="INatTripTaxaPurpose" inverseName="trip" inverseEntity="INatTripTaxaPurpose" syncable="YES"/>
     </entity>
-    <entity name="INatTripTaxaAttribute" representedClassName="INatTripTaxaAttribute" parentEntity="BCManagedObject" syncable="YES">
+    <entity name="INatTripTaxaAttribute" representedClassName="INatTripTaxaAttribute" syncable="YES">
         <attribute name="observed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="taxonId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="occurrence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OccurrenceRecord" inverseName="taxaAttribute" inverseEntity="OccurrenceRecord" syncable="YES"/>
         <relationship name="trip" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTrip" inverseName="taxaAttributes" inverseEntity="INatTrip" syncable="YES"/>
     </entity>
-    <entity name="INatTripTaxaPurpose" representedClassName="INatTripTaxaPurpose" parentEntity="BCManagedObject" syncable="YES">
+    <entity name="INatTripTaxaPurpose" representedClassName="INatTripTaxaPurpose" syncable="YES">
         <attribute name="complete" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="resourceId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="resourceType" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="trip" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTrip" inverseName="taxaPurposes" inverseEntity="INatTrip" syncable="YES"/>
     </entity>
+    <entity name="OccurrenceRecord" representedClassName="OccurrenceRecord" parentEntity="BCManagedObject" syncable="YES">
+        <attribute name="dateRecorded" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="gbifId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="institutionCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="recordedBy" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordSource" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taxonClass" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taxonFamily" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taxonGenus" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taxonKingdom" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taxonOrder" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taxonPhylum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taxonSpecies" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="iNatTaxon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTaxon" inverseName="occurrences" inverseEntity="INatTaxon" syncable="YES"/>
+        <relationship name="taxaAttribute" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTripTaxaAttribute" inverseName="occurrence" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="BCManagedObject" positionX="-342" positionY="-1134" width="128" height="103"/>
-        <element name="INatTaxon" positionX="-387" positionY="-981" width="128" height="133"/>
-        <element name="INatTrip" positionX="-585" positionY="-945" width="128" height="225"/>
-        <element name="INatTripTaxaAttribute" positionX="-198" positionY="-945" width="128" height="88"/>
-        <element name="INatTripTaxaPurpose" positionX="-198" positionY="-810" width="128" height="103"/>
+        <element name="BCManagedObject" positionX="-387" positionY="-846" width="128" height="120"/>
+        <element name="INatTaxon" positionX="-387" positionY="-981" width="128" height="148"/>
         <element name="INatTaxonPhoto" positionX="-387" positionY="-981" width="128" height="193"/>
+        <element name="INatTrip" positionX="-585" positionY="-945" width="128" height="223"/>
+        <element name="INatTripTaxaAttribute" positionX="-198" positionY="-945" width="128" height="103"/>
+        <element name="INatTripTaxaPurpose" positionX="-198" positionY="-810" width="128" height="103"/>
+        <element name="OccurrenceRecord" positionX="-378" positionY="-972" width="128" height="300"/>
     </elements>
 </model>

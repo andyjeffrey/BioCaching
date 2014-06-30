@@ -7,6 +7,7 @@ const struct BCManagedObjectAttributes BCManagedObjectAttributes = {
 	.createdAt = @"createdAt",
 	.localCreatedAt = @"localCreatedAt",
 	.recordId = @"recordId",
+	.synchedAt = @"synchedAt",
 	.updatedAt = @"updatedAt",
 };
 
@@ -89,6 +90,13 @@ const struct BCManagedObjectFetchedProperties BCManagedObjectFetchedProperties =
 - (void)setPrimitiveRecordIdValue:(int32_t)value_ {
 	[self setPrimitiveRecordId:[NSNumber numberWithInt:value_]];
 }
+
+
+
+
+
+@dynamic synchedAt;
+
 
 
 

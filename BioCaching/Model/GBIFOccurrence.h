@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 #import "INatTaxon.h"
 
 @interface GBIFOccurrence : NSObject<MKAnnotation>
@@ -67,6 +68,7 @@
 @property (nonatomic, readonly, copy) NSString *detailsSubTitle;
 @property (nonatomic, readonly, copy) NSString *locationString;
 
+@property (nonatomic, strong) OccurrenceRecord *occurrenceRecord;
 @property (nonatomic, strong) INatTaxon *iNatTaxon;
 
 #pragma mark - MKAnnotation Properties

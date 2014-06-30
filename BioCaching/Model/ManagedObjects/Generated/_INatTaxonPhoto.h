@@ -2,7 +2,7 @@
 // Make changes to INatTaxonPhoto.h instead.
 
 #import <CoreData/CoreData.h>
-#import "BCManagedObject.h"
+
 
 extern const struct INatTaxonPhotoAttributes {
 	__unsafe_unretained NSString *attribution;
@@ -38,7 +38,7 @@ extern const struct INatTaxonPhotoFetchedProperties {
 @interface INatTaxonPhotoID : NSManagedObjectID {}
 @end
 
-@interface _INatTaxonPhoto : BCManagedObject {}
+@interface _INatTaxonPhoto : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

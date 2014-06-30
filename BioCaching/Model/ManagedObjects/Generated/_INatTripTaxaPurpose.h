@@ -2,7 +2,7 @@
 // Make changes to INatTripTaxaPurpose.h instead.
 
 #import <CoreData/CoreData.h>
-#import "BCManagedObject.h"
+
 
 extern const struct INatTripTaxaPurposeAttributes {
 	__unsafe_unretained NSString *complete;
@@ -26,7 +26,7 @@ extern const struct INatTripTaxaPurposeFetchedProperties {
 @interface INatTripTaxaPurposeID : NSManagedObjectID {}
 @end
 
-@interface _INatTripTaxaPurpose : BCManagedObject {}
+@interface _INatTripTaxaPurpose : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

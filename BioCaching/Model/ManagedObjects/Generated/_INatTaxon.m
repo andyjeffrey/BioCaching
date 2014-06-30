@@ -12,6 +12,7 @@ const struct INatTaxonAttributes INatTaxonAttributes = {
 };
 
 const struct INatTaxonRelationships INatTaxonRelationships = {
+	.occurrences = @"occurrences",
 	.taxonPhotos = @"taxonPhotos",
 };
 
@@ -85,6 +86,19 @@ const struct INatTaxonFetchedProperties INatTaxonFetchedProperties = {
 
 
 
+
+@dynamic occurrences;
+
+	
+- (NSMutableSet*)occurrencesSet {
+	[self willAccessValueForKey:@"occurrences"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"occurrences"];
+  
+	[self didAccessValueForKey:@"occurrences"];
+	return result;
+}
+	
 
 @dynamic taxonPhotos;
 

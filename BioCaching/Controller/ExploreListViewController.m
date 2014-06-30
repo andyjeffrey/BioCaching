@@ -153,14 +153,14 @@
     cell.labelTaxonSubTitle.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.detailsSubTitle];
 #endif
     
-    if (!_currentTrip)
-    {
-        [cell.buttonAction setTitle:@"Remove" forState:UIControlStateNormal];
-        cell.buttonAction.backgroundColor = [UIColor kColorDarkRed];
-    } else
+    if (_currentTrip && _currentTrip.status.intValue > TripStatusCreated)
     {
         [cell.buttonAction setTitle:@"Record" forState:UIControlStateNormal];
         cell.buttonAction.backgroundColor = [UIColor kColorDarkGreen];
+    } else
+    {
+        [cell.buttonAction setTitle:@"Remove" forState:UIControlStateNormal];
+        cell.buttonAction.backgroundColor = [UIColor kColorDarkRed];
     }
         
     cell.delegate = self;

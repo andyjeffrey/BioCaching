@@ -10,10 +10,13 @@
 // TODO: Replace with CoreData/RestKit Managed Objects
 
 #import <Foundation/Foundation.h>
+#import "TripsDataManagerDelegate.h"
 #import "GBIFOccurrenceResults.h"
 #import "BCOptions.h"
 
 @interface TripsDataManager : NSObject
+
+@property (weak, nonatomic) id<TripsDataManagerDelegate> delegate;
 
 @property (nonatomic, strong) NSMutableArray *savedTrips;
 @property (nonatomic, strong) NSMutableArray *inProgressTrips;
@@ -26,6 +29,7 @@
 
 - (void)saveChanges;
 - (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus;
+- (INatTrip *)createEmptyTripWithOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions;
 
 - (void)loadAllTripsFromINat:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
 - (void)saveTripToINat:(INatTrip *)trip;

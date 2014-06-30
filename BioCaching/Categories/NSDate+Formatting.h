@@ -10,6 +10,8 @@
 
 @interface NSDate (Formatting)
 
++ (NSDate *)dateFromISO8601String:(NSString *)dateString;
+
 - (NSString *)localDateTime;
 - (NSString *)localTime;
 

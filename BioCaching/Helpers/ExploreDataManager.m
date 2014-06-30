@@ -9,11 +9,14 @@
 #import "ExploreDataManager.h"
 #import "GBIFManager.h"
 #import "INatManager.h"
+#import "TripsDataManager.h"
 #import "ImageCache.h"
 
 @implementation ExploreDataManager {
     GBIFManager *_gbifManager;
     INatManager *_iNatManager;
+    TripsDataManager *_tripsDataManager;
+    NSManagedObjectContext *_managedObjectContext;
     BCOptions *_bcOptions;
 }
 
@@ -45,6 +48,9 @@
 
         _iNatManager = [[INatManager alloc] init];
         _iNatManager.delegate = self;
+        
+        _tripsDataManager = [TripsDataManager sharedInstance];
+        _managedObjectContext = [[RKObjectManager sharedManager] managedObjectStore].mainQueueManagedObjectContext;
     }
     return self;
 }
@@ -70,12 +76,17 @@
 - (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
 {
     NSLog(@"%s Results.count: %lu", __PRETTY_FUNCTION__, (unsigned long)occurrenceResults.Results.count);
+    
     _occurrenceResults = occurrenceResults;
-    
-    [self.delegate occurrenceResultsReceived:_occurrenceResults];
-    
-    for (GBIFOccurrence *occurrence in [_occurrenceResults getFilteredResults:YES]) {
-        [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
+    [self.delegate occurrenceResultsReceived:occurrenceResults];
+
+    if ([_tripsDataManager createEmptyTripWithOccurrenceResults:occurrenceResults bcOptions:_bcOptions])
+    {
+        for (GBIFOccurrence *occurrence in occurrenceResults.filteredResults)
+        {
+            [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
+        }
+        
     }
 }
 
@@ -87,27 +98,48 @@
 
 #pragma mark - INatManagerDelegate Methods
 
-- (void)iNatTaxonAddedToGBIFOccurrence:(GBIFOccurrence *)occurrence
+- (void)iNatTaxonAddedToGBIFOccurrence:(GBIFOccurrence *)gbifOccurrence
 {
-    if (occurrence.iNatTaxon)
+    NSError *error = nil;
+    
+    if (gbifOccurrence.iNatTaxon)
     {
         NSLog(@"%s \niNatTaxon Received: %@ - %@ \nAdding To Occurrence: %@", __PRETTY_FUNCTION__,
-              occurrence.speciesBinomial, occurrence.iNatTaxon.commonName, occurrence.Key);
-/*
-        if (occurrence.iNatTaxon.taxon_photos.count > 0)
+              gbifOccurrence.speciesBinomial, gbifOccurrence.iNatTaxon.commonName, gbifOccurrence.Key);
+
+        if (gbifOccurrence.iNatTaxon.taxonPhotos.count > 0)
         {
-            INatTaxonPhoto *mainPhoto = occurrence.iNatTaxon.taxon_photos[0];
-            [ImageCache saveImageForURL:mainPhoto.medium_url];
+            INatTaxonPhoto *mainPhoto = gbifOccurrence.iNatTaxon.taxonPhotos[0];
+            [ImageCache saveImageForURL:mainPhoto.mediumUrl];
         }
-*/
-        [self.delegate taxonAddedToOccurrence:occurrence];
-    } else
+        // Create new CoreData OccurrenceRecord entity if required
+        if (!gbifOccurrence.occurrenceRecord)
+        {
+            gbifOccurrence.occurrenceRecord = [OccurrenceRecord createFromGBIFOccurrence:gbifOccurrence];
+
+            if (![_managedObjectContext saveToPersistentStore:&error]) {
+                RKLogError(@"Error Saving New OccurrenceRecord To Store: %@", error);
+            }
+        }
+        //TODO: Move trip management code to TripsDataManager using KVO on <INatTrip>.GBIFOccurrenceResults.tripListOccurrences
+        INatTripTaxaAttribute *taxaAttribute = [INatTripTaxaAttribute createFromINatTaxon:gbifOccurrence.iNatTaxon];
+        taxaAttribute.occurrence = gbifOccurrence.occurrenceRecord;
+        
+        [[_tripsDataManager currentTrip].taxaAttributesSet addObject:taxaAttribute];
+        if (![_managedObjectContext saveToPersistentStore:&error]) {
+            RKLogError(@"Error Saving New TaxaAttributes To Store: %@", error);
+        }
+//        [_tripsDataManager.delegate occurrenceAddedToTrip:gbifOccurrence.occurrenceRecord];
+
+        [self.delegate taxonAddedToOccurrence:gbifOccurrence];
+    }
+    else
     {
         NSLog(@"%s \nNO iNatTaxon Received: %@ \nRemoving Occurrence: %@", __PRETTY_FUNCTION__,
-              occurrence.speciesBinomial, occurrence.Key);
+              gbifOccurrence.speciesBinomial, gbifOccurrence.Key);
         
-        [_occurrenceResults.removedResults addObject:occurrence];
-        [self.delegate occurrenceRemoved:occurrence];
+        [_occurrenceResults.removedResults addObject:gbifOccurrence];
+        [self.delegate occurrenceRemoved:gbifOccurrence];
     }
     
 }

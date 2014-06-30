@@ -13,12 +13,14 @@ extern const struct INatTaxonAttributes {
 } INatTaxonAttributes;
 
 extern const struct INatTaxonRelationships {
+	__unsafe_unretained NSString *occurrences;
 	__unsafe_unretained NSString *taxonPhotos;
 } INatTaxonRelationships;
 
 extern const struct INatTaxonFetchedProperties {
 } INatTaxonFetchedProperties;
 
+@class OccurrenceRecord;
 @class INatTaxonPhoto;
 
 
@@ -90,6 +92,13 @@ extern const struct INatTaxonFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSSet *occurrences;
+
+- (NSMutableSet*)occurrencesSet;
+
+
+
+
 @property (nonatomic, strong) NSOrderedSet *taxonPhotos;
 
 - (NSMutableOrderedSet*)taxonPhotosSet;
@@ -101,6 +110,11 @@ extern const struct INatTaxonFetchedProperties {
 @end
 
 @interface _INatTaxon (CoreDataGeneratedAccessors)
+
+- (void)addOccurrences:(NSSet*)value_;
+- (void)removeOccurrences:(NSSet*)value_;
+- (void)addOccurrencesObject:(OccurrenceRecord*)value_;
+- (void)removeOccurrencesObject:(OccurrenceRecord*)value_;
 
 - (void)addTaxonPhotos:(NSOrderedSet*)value_;
 - (void)removeTaxonPhotos:(NSOrderedSet*)value_;
@@ -140,6 +154,11 @@ extern const struct INatTaxonFetchedProperties {
 - (void)setPrimitiveSummaryText:(NSString*)value;
 
 
+
+
+
+- (NSMutableSet*)primitiveOccurrences;
+- (void)setPrimitiveOccurrences:(NSMutableSet*)value;
 
 
 

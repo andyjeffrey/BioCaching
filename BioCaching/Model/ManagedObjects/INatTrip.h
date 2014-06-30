@@ -1,14 +1,18 @@
 #import "_INatTrip.h"
+#import "GBIFOccurrenceResults.h"
 
 typedef enum {
     TripStatusCreated = 0,
-    TripStatusInProgress = 1,
-    TripStatusPaused = 2,
-    TripStatusFinished = 3,
-    TripStatusPublished = 4
+    TripStatusSaved = 1,
+    TripStatusInProgress = 2,
+    TripStatusPaused = 3,
+    TripStatusFinished = 4,
+    TripStatusPublished = 5
 } INatTripStatus;
 
-@interface INatTrip : _INatTrip {}
+@interface INatTrip : _INatTrip  {}
+
+@property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
 
 +(void)setupMapping;
 

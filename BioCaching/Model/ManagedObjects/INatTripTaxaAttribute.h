@@ -1,5 +1,8 @@
 #import "_INatTripTaxaAttribute.h"
+#import "INatTaxon.h"
 
 @interface INatTripTaxaAttribute : _INatTripTaxaAttribute {}
-// Custom logic goes here.
+
++ (id)createFromINatTaxon:(INatTaxon *)iNatTaxon;
+
 @end

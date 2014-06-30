@@ -81,7 +81,7 @@
 - (void)setupTable
 {
     NSMutableArray *sections = [[NSMutableArray alloc] init];
-    [sections addObject:@[@"Saved For Later", [NSNumber numberWithInt:TripStatusCreated], tripsDataManager.savedTrips]];
+    [sections addObject:@[@"Saved For Later", [NSNumber numberWithInt:TripStatusSaved], tripsDataManager.savedTrips]];
     [sections addObject:@[@"In Progress", [NSNumber numberWithInt:TripStatusInProgress], tripsDataManager.inProgressTrips]];
     [sections addObject:@[@"Finished", [NSNumber numberWithInt:TripStatusFinished], tripsDataManager.finishedTrips]];
     [sections addObject:@[@"Published", [NSNumber numberWithInt:TripStatusPublished], tripsDataManager.publishedTrips]];

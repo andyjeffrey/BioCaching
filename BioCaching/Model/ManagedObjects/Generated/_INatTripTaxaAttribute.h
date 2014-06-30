@@ -2,7 +2,7 @@
 // Make changes to INatTripTaxaAttribute.h instead.
 
 #import <CoreData/CoreData.h>
-#import "BCManagedObject.h"
+
 
 extern const struct INatTripTaxaAttributeAttributes {
 	__unsafe_unretained NSString *observed;
@@ -10,12 +10,14 @@ extern const struct INatTripTaxaAttributeAttributes {
 } INatTripTaxaAttributeAttributes;
 
 extern const struct INatTripTaxaAttributeRelationships {
+	__unsafe_unretained NSString *occurrence;
 	__unsafe_unretained NSString *trip;
 } INatTripTaxaAttributeRelationships;
 
 extern const struct INatTripTaxaAttributeFetchedProperties {
 } INatTripTaxaAttributeFetchedProperties;
 
+@class OccurrenceRecord;
 @class INatTrip;
 
 
@@ -24,7 +26,7 @@ extern const struct INatTripTaxaAttributeFetchedProperties {
 @interface INatTripTaxaAttributeID : NSManagedObjectID {}
 @end
 
-@interface _INatTripTaxaAttribute : BCManagedObject {}
+@interface _INatTripTaxaAttribute : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -62,6 +64,13 @@ extern const struct INatTripTaxaAttributeFetchedProperties {
 
 
 
+@property (nonatomic, strong) OccurrenceRecord *occurrence;
+
+//- (BOOL)validateOccurrence:(id*)value_ error:(NSError**)error_;
+
+
+
+
 @property (nonatomic, strong) INatTrip *trip;
 
 //- (BOOL)validateTrip:(id*)value_ error:(NSError**)error_;
@@ -95,6 +104,11 @@ extern const struct INatTripTaxaAttributeFetchedProperties {
 - (void)setPrimitiveTaxonIdValue:(int32_t)value_;
 
 
+
+
+
+- (OccurrenceRecord*)primitiveOccurrence;
+- (void)setPrimitiveOccurrence:(OccurrenceRecord*)value;
 
 
 

@@ -274,10 +274,10 @@ const struct INatTripFetchedProperties INatTripFetchedProperties = {
 @dynamic taxaAttributes;
 
 	
-- (NSMutableSet*)taxaAttributesSet {
+- (NSMutableOrderedSet*)taxaAttributesSet {
 	[self willAccessValueForKey:@"taxaAttributes"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"taxaAttributes"];
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"taxaAttributes"];
   
 	[self didAccessValueForKey:@"taxaAttributes"];
 	return result;
@@ -287,10 +287,10 @@ const struct INatTripFetchedProperties INatTripFetchedProperties = {
 @dynamic taxaPurposes;
 
 	
-- (NSMutableSet*)taxaPurposesSet {
+- (NSMutableOrderedSet*)taxaPurposesSet {
 	[self willAccessValueForKey:@"taxaPurposes"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"taxaPurposes"];
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"taxaPurposes"];
   
 	[self didAccessValueForKey:@"taxaPurposes"];
 	return result;

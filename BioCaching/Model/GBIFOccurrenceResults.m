@@ -8,7 +8,10 @@
 
 #import "GBIFOccurrenceResults.h"
 
-@implementation GBIFOccurrenceResults
+@implementation GBIFOccurrenceResults {
+    NSMutableArray* _filteredResults;
+    NSMutableArray* _tripListResults;
+}
 
 @synthesize Offset;
 @synthesize Limit;
@@ -175,6 +178,19 @@
         return [filteredResults allObjects];
     }
 }
+
+- (NSArray *)filteredResults
+{
+    _filteredResults = [[self getFilteredResults:NO] mutableCopy];
+    return _filteredResults;
+}
+
+- (NSArray *)tripListResults
+{
+    _tripListResults = [[self getFilteredResults:YES] mutableCopy];
+    return _tripListResults;
+}
+
 
 
 @end

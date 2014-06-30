@@ -83,8 +83,9 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     MKCircle *_currentSearchAreaCircle;
     
     ExploreDataManager *_exploreDataManager;
-    
     GBIFOccurrenceResults *_occurrenceResults;
+
+    TripsDataManager *_tripsDataManager;
     INatTrip *_currentTrip;
 }
 
@@ -124,6 +125,9 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
     _exploreDataManager = [ExploreDataManager sharedInstance];
     _exploreDataManager.delegate = self;
+    
+    _tripsDataManager = [TripsDataManager sharedInstance];
+    _tripsDataManager.delegate = self;
 
     [self performSearch];
 }
@@ -174,7 +178,17 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %lum",
                                           (unsigned long)self.bcOptions.searchOptions.searchAreaSpan];
     
-    self.labelResultsCount.text = [NSString stringWithFormat:@"Record Count: %d", (int)[_occurrenceResults getFilteredResults:YES].count];
+    [self updateRecordCountLabel];
+}
+
+- (void)updateRecordCountLabel
+{
+    [self updateRecordCountLabel:(int)self.mapView.annotations.count];
+}
+
+- (void)updateRecordCountLabel:(int)recordCount
+{
+    self.labelResultsCount.text = [NSString stringWithFormat:@"Record Count: %d", recordCount];
 }
 
 
@@ -465,7 +479,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (IBAction)buttonSave:(id)sender {
     if (!_currentTrip) {
-        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusCreated];
+        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusSaved];
     }
     
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Saved to Trips Page", nil)
@@ -664,6 +678,21 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 //    _tripOptions = savedTripOptions;
 }
 
+#pragma mark - TripsDataManagerDelegate
+
+- (void)occurrenceAddedToTrip:(OccurrenceRecord *)occurrence
+{
+    NSLog(@"ExploreMapViewController occurrenceAddedToTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.mapView addAnnotation:occurrence];
+        [self updateRecordCountLabel:(int)_currentTrip.taxaAttributes.count];
+
+        // TODO: Replace with better mechanism for showing network activity
+        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) || (self.mapView.annotations.count >= _currentTrip.taxaAttributes.count)) {
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        }
+    });
+}
 
 #pragma mark - ExploreDataManagerDelegate
 
@@ -674,7 +703,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setupLabels];
-        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:YES]];
+//        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:YES]];
         [self zoomToSearchArea:nil];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     });
@@ -683,8 +712,15 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 - (void)taxonAddedToOccurrence:(GBIFOccurrence *)occurrence
 {
     NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.commonName);
-//    [self.mapView addAnnotation:occurrence];
-    
+//    _occurrenceResults = _exploreDataManager.occurrenceResults;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.mapView addAnnotation:occurrence];
+        [self updateRecordCountLabel];
+        // TODO: Replace with better mechanism for showing network activity
+        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) || (self.mapView.annotations.count >= [_occurrenceResults getFilteredResults:YES].count - _occurrenceResults.removedResults.count)) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        }
+    });
 }
 
 - (void)occurrenceRemoved:(GBIFOccurrence *)occurrence
@@ -697,7 +733,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [self hideTaxonView];
     _taxonInfoVC.occurrence = nil;
     [self.mapView removeAnnotation:occurrence];
-    [self setupLabels];
+    [self updateRecordCountLabel];
+    // TODO: Replace with better mechanism for showing network activity
+    if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) || (self.mapView.annotations.count >= [_occurrenceResults getFilteredResults:YES].count - _occurrenceResults.removedResults.count)) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }
 }
 
 

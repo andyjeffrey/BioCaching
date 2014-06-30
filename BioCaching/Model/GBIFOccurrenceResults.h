@@ -36,6 +36,9 @@
 
 @property (nonatomic, strong) NSMutableSet *removedResults;
 
+@property (nonatomic, strong) NSArray *filteredResults;
+@property (nonatomic, strong) NSArray *tripListResults;
+
 #pragma mark - JsonPack Generated Methods
 + (id) objectWithDictionary:(NSDictionary *)dictionary;
 - (id) initWithDictionary:(NSDictionary *)dictionary;

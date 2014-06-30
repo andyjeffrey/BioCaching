@@ -176,16 +176,16 @@ extern const struct INatTripFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *taxaAttributes;
+@property (nonatomic, strong) NSOrderedSet *taxaAttributes;
 
-- (NSMutableSet*)taxaAttributesSet;
-
-
+- (NSMutableOrderedSet*)taxaAttributesSet;
 
 
-@property (nonatomic, strong) NSSet *taxaPurposes;
 
-- (NSMutableSet*)taxaPurposesSet;
+
+@property (nonatomic, strong) NSOrderedSet *taxaPurposes;
+
+- (NSMutableOrderedSet*)taxaPurposesSet;
 
 
 
@@ -195,13 +195,13 @@ extern const struct INatTripFetchedProperties {
 
 @interface _INatTrip (CoreDataGeneratedAccessors)
 
-- (void)addTaxaAttributes:(NSSet*)value_;
-- (void)removeTaxaAttributes:(NSSet*)value_;
+- (void)addTaxaAttributes:(NSOrderedSet*)value_;
+- (void)removeTaxaAttributes:(NSOrderedSet*)value_;
 - (void)addTaxaAttributesObject:(INatTripTaxaAttribute*)value_;
 - (void)removeTaxaAttributesObject:(INatTripTaxaAttribute*)value_;
 
-- (void)addTaxaPurposes:(NSSet*)value_;
-- (void)removeTaxaPurposes:(NSSet*)value_;
+- (void)addTaxaPurposes:(NSOrderedSet*)value_;
+- (void)removeTaxaPurposes:(NSOrderedSet*)value_;
 - (void)addTaxaPurposesObject:(INatTripTaxaPurpose*)value_;
 - (void)removeTaxaPurposesObject:(INatTripTaxaPurpose*)value_;
 
@@ -289,13 +289,13 @@ extern const struct INatTripFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveTaxaAttributes;
-- (void)setPrimitiveTaxaAttributes:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveTaxaAttributes;
+- (void)setPrimitiveTaxaAttributes:(NSMutableOrderedSet*)value;
 
 
 
-- (NSMutableSet*)primitiveTaxaPurposes;
-- (void)setPrimitiveTaxaPurposes:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveTaxaPurposes;
+- (void)setPrimitiveTaxaPurposes:(NSMutableOrderedSet*)value;
 
 
 @end

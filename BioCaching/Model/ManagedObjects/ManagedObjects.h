@@ -4,3 +4,4 @@
 #import "INatTrip.h"
 #import "INatTripTaxaAttribute.h"
 #import "INatTripTaxaPurpose.h"
+#import "OccurrenceRecord.h"

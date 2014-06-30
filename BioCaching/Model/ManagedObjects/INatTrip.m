@@ -10,6 +10,8 @@
 
 @implementation INatTrip
 
+@synthesize occurrenceResults;
+
 +(void)setupMapping
 {
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];

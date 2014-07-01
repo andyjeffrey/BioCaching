@@ -47,5 +47,6 @@
 
 #define kDefaultSearchAreaSpan 1000
 #define kDefaultViewSpan 5000
+#define kDefaultTripDuration 14400
 
 #endif

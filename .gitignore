@@ -22,7 +22,6 @@ Certificates/
 Reveal.framework
 
 Pods/
-Libraries/
 Resources/TestData/
 
 Resources/dev.config.h

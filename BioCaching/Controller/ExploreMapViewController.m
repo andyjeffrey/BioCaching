@@ -452,7 +452,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
             _currentTrip.stopTime = [NSDate date];
 
 #ifdef DEBUG
-            _currentTrip.stopTime = [_currentTrip.startTime dateByAddingTimeInterval:kTestTripDuration];
+            _currentTrip.stopTime = [_currentTrip.startTime dateByAddingTimeInterval:kDefaultTripDuration];
 #endif
                                      
             //TODO: Change TripsDataManager to use single array with predicates/FetchedResultsController

@@ -47,8 +47,8 @@
 //    [imageView setImageWithURL:[NSURL URLWithString:@"http://i.imgur.com/r4uwx.jpg"] placeholderImage:[UIImage imageNamed:@"placeholder-avatar"]];
     
     self.imageTaxonIcon.image = [UIImage imageNamed:[self.occurrence getINatIconicTaxaMainImageFile]];
-    self.labelTaxonSpecies.text = self.occurrence.speciesBinomial;
-    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", self.occurrence.Clazz, self.occurrence.Family];
+    self.labelTaxonSpecies.text = self.occurrence.taxonSpecies;
+    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", self.occurrence.taxonSpecies, self.occurrence.taxonFamily];
     
     if (self.occurrence.iNatTaxon.taxonPhotos.count > 0)
     {
@@ -61,9 +61,9 @@
 //    self.textViewDescription.text = self.occurrence.iNatTaxon.wikipedia_summary;
 //    self.textViewDescription.textColor = [UIColor kColorTableCellText];
 
-    self.labelDate.text = [self.occurrence.OccurrenceDate substringToIndex:10];
-    self.labelObserver.text = self.occurrence.CollectorName;
-    self.labelInstitution.text = self.occurrence.InstitutionCode;
+    self.labelDate.text = [self.occurrence.dateRecorded localDate];
+    self.labelObserver.text = self.occurrence.recordedBy;
+    self.labelInstitution.text = self.occurrence.institutionCode;
     self.labelLocation.text = self.occurrence.locationString;
     self.labelINatTaxon.text = [self.occurrence.iNatTaxon.recordId stringValue];
 }
@@ -82,7 +82,7 @@
     NSString *biblioURL = [NSString stringWithFormat:@"%@%@%@",
                            kBHLBaseURL,
                            kBHLSpeciesBiblioPath,
-                           [self.occurrence.speciesBinomial stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                           [self.occurrence.taxonSpecies stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSLog(@"Loading URL:%@", biblioURL);
     
     BCWebViewController *webController = [[BCWebViewController alloc] initWithURL:[NSURL URLWithString:biblioURL]];

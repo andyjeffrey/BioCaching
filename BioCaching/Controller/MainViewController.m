@@ -56,6 +56,11 @@
     NSLog(@"MainViewController:viewWillAppear");
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);

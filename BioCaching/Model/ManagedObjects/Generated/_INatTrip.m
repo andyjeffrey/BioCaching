@@ -9,6 +9,7 @@ const struct INatTripAttributes INatTripAttributes = {
 	.longitude = @"longitude",
 	.placeId = @"placeId",
 	.positionalAccuracy = @"positionalAccuracy",
+	.searchAreaSpan = @"searchAreaSpan",
 	.startTime = @"startTime",
 	.status = @"status",
 	.stopTime = @"stopTime",
@@ -67,6 +68,11 @@ const struct INatTripFetchedProperties INatTripFetchedProperties = {
 	}
 	if ([key isEqualToString:@"positionalAccuracyValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"positionalAccuracy"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"searchAreaSpanValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"searchAreaSpan"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -192,6 +198,32 @@ const struct INatTripFetchedProperties INatTripFetchedProperties = {
 
 - (void)setPrimitivePositionalAccuracyValue:(int32_t)value_ {
 	[self setPrimitivePositionalAccuracy:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic searchAreaSpan;
+
+
+
+- (int32_t)searchAreaSpanValue {
+	NSNumber *result = [self searchAreaSpan];
+	return [result intValue];
+}
+
+- (void)setSearchAreaSpanValue:(int32_t)value_ {
+	[self setSearchAreaSpan:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveSearchAreaSpanValue {
+	NSNumber *result = [self primitiveSearchAreaSpan];
+	return [result intValue];
+}
+
+- (void)setPrimitiveSearchAreaSpanValue:(int32_t)value_ {
+	[self setPrimitiveSearchAreaSpan:[NSNumber numberWithInt:value_]];
 }
 
 

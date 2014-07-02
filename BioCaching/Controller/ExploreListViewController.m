@@ -26,8 +26,7 @@
 
 
 @implementation ExploreListViewController {
-    GBIFOccurrenceResults *_occurrenceResults;
-    NSArray *_filteredResults;
+    TripsDataManager *_tripsDataManager;
     INatTrip *_currentTrip;
     BOOL deletingRow;
 }
@@ -42,17 +41,16 @@
     self.navigationController.navigationBarHidden = YES;
     
     [self setupUI];
+    _tripsDataManager = [TripsDataManager sharedInstance];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    _occurrenceResults = [ExploreDataManager sharedInstance].occurrenceResults;
-    _filteredResults = [_occurrenceResults getFilteredResults:YES];
-    _currentTrip = [TripsDataManager sharedInstance].currentTrip;
+    _currentTrip = _tripsDataManager.currentTrip;
     [self setupLabels];
     [self.tableViewResults reloadData];
     
-//    [self.tableViewResults performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    //    [self.tableViewResults performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -66,7 +64,7 @@
 - (void)setupUI
 {
     self.view.backgroundColor = [UIColor kColorHeaderBackground];
-//    self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
+    //    self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
     self.tableViewResults.backgroundColor = [UIColor kColorTableBackgroundColor];
     [self setupSidebar];
     [self setupButtons];
@@ -95,14 +93,14 @@
 - (void)setupLabels
 {
     [self.labelLocation setTextWithColor:[NSString stringWithFormat:@"Location: %f,%f",
-                               self.bcOptions.searchOptions.searchAreaCentre.latitude,
-                               self.bcOptions.searchOptions.searchAreaCentre.longitude] color:[UIColor kColorHeaderText]];
+                                          self.bcOptions.searchOptions.searchAreaCentre.latitude,
+                                          self.bcOptions.searchOptions.searchAreaCentre.longitude] color:[UIColor kColorHeaderText]];
     
     [self.labelAreaSpan setTextWithColor:[NSString stringWithFormat:@"Area Span: %lum",
-                               (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
+                                          (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
     
     [self.labelResultsCount setTextWithColor:[NSString stringWithFormat:@"Record Count: %d",
-                                              (int)[_occurrenceResults getFilteredResults:YES].count] color:[UIColor kColorHeaderText]];
+                                              (int)_currentTrip.occurrenceRecords.count] color:[UIColor kColorHeaderText]];
 }
 
 
@@ -119,25 +117,26 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-/*
- #ifdef DEBUG
-    if (_bcOptions.displayOptions.displayPoints < _filteredResults.count)
-    {
-        return _bcOptions.displayOptions.displayPoints;
-    }
-#endif
-*/
-    if (deletingRow && (_filteredResults.count >= _bcOptions.displayOptions.displayPoints)) {
-        return _filteredResults.count - 1;
+    /*
+     #ifdef DEBUG
+     if (_bcOptions.displayOptions.displayPoints < _filteredResults.count)
+     {
+     return _bcOptions.displayOptions.displayPoints;
+     }
+     #endif
+     */
+    if (deletingRow && (_currentTrip.occurrenceRecords.count >= _bcOptions.displayOptions.displayPoints)) {
+        return _currentTrip.occurrenceRecords.count - 1;
     } else {
-        return _filteredResults.count;
+        return _currentTrip.occurrenceRecords.count;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
-
+//    GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
+    OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
+    
     TaxonListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaxonListCell" forIndexPath:indexPath];
     
     cell.backgroundColor = [UIColor kColorTableBackgroundColor];
@@ -145,12 +144,12 @@
     cell.imageIconicTaxon.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMainImageFile]];
     [cell.labelTaxonTitle setTextWithDefaults:occurrence.title];
     [cell.labelTaxonSubTitle setTextWithDefaults:occurrence.subtitle];
-
+    
     if (occurrence.iNatTaxon.taxonPhotos.count == 0) {
         cell.labelTaxonTitle.text = [NSString stringWithFormat:@"%@ **", cell.labelTaxonTitle.text];
     }
 #ifdef DEBUG
-    cell.labelTaxonSubTitle.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.detailsSubTitle];
+    cell.labelTaxonSubTitle.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.subtitle];
 #endif
     
     if (_currentTrip && _currentTrip.status.intValue > TripStatusCreated)
@@ -162,34 +161,36 @@
         [cell.buttonAction setTitle:@"Remove" forState:UIControlStateNormal];
         cell.buttonAction.backgroundColor = [UIColor kColorDarkRed];
     }
-        
+    
     cell.delegate = self;
     
-//    [cell.buttonAction addTarget:self action:@selector(performAction:) forControlEvents:UIControlEventTouchUpInside];
-//    cell.buttonAction.backgroundColor = [UIColor redColor];
-//    cell.buttonAction.titleLabel.text = @"Remove";
-
+    //    [cell.buttonAction addTarget:self action:@selector(performAction:) forControlEvents:UIControlEventTouchUpInside];
+    //    cell.buttonAction.backgroundColor = [UIColor redColor];
+    //    cell.buttonAction.titleLabel.text = @"Remove";
+    
     return cell;
 }
 
 - (void)actionButtonSelected:(TaxonListCell *)cell
 {
-    if (!_currentTrip) {
+    if (_currentTrip && _currentTrip.status.intValue > TripStatusCreated)
+    {
+        [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
+    } else {
         NSIndexPath *indexPath = [self.tableViewResults indexPathForCell:cell];
-        GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
+        
+//        GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
+        OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
         
         NSLog(@"Action Button: %lu - %@", indexPath.row, occurrence.title);
         
-        [[ExploreDataManager sharedInstance] removeOccurrence:occurrence];
-        _filteredResults = [_occurrenceResults getFilteredResults:YES];
-
+        [_tripsDataManager removeOccurrenceFromTrip:_currentTrip occurrence:occurrence];
+        
         deletingRow = YES;
         [self.tableViewResults deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         deletingRow = NO;
         [self.tableViewResults reloadData];
         [self setupLabels];
-    } else {
-        [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
     }
 }
 
@@ -197,9 +198,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Row Selected: %lu", indexPath.row);
-    GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
+    OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
     
-//    tableView.editing = YES;
+    //    tableView.editing = YES;
 }
 
 
@@ -217,14 +218,14 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
-//    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
+    //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
+    //    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
     
     if ([segue.identifier isEqualToString:@"OccurrenceDetails"]) {
         OccurrenceDetailsViewController *detailsVC = segue.destinationViewController;
         NSIndexPath *selectedIndexPath = [self.tableViewResults indexPathForSelectedRow];
-//        NSLog(@"%@:%lu", selectedIndexPath, (long)selectedIndexPath.row);
-        detailsVC.occurrence = _filteredResults[selectedIndexPath.row];
+        //        NSLog(@"%@:%lu", selectedIndexPath, (long)selectedIndexPath.row);
+        detailsVC.occurrence = _currentTrip.occurrenceRecords[selectedIndexPath.row];
     }
     
 }

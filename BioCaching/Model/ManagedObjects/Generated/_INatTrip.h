@@ -10,6 +10,7 @@ extern const struct INatTripAttributes {
 	__unsafe_unretained NSString *longitude;
 	__unsafe_unretained NSString *placeId;
 	__unsafe_unretained NSString *positionalAccuracy;
+	__unsafe_unretained NSString *searchAreaSpan;
 	__unsafe_unretained NSString *startTime;
 	__unsafe_unretained NSString *status;
 	__unsafe_unretained NSString *stopTime;
@@ -27,6 +28,7 @@ extern const struct INatTripFetchedProperties {
 
 @class INatTripTaxaAttribute;
 @class INatTripTaxaPurpose;
+
 
 
 
@@ -113,6 +115,20 @@ extern const struct INatTripFetchedProperties {
 - (void)setPositionalAccuracyValue:(int32_t)value_;
 
 //- (BOOL)validatePositionalAccuracy:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* searchAreaSpan;
+
+
+
+@property int32_t searchAreaSpanValue;
+- (int32_t)searchAreaSpanValue;
+- (void)setSearchAreaSpanValue:(int32_t)value_;
+
+//- (BOOL)validateSearchAreaSpan:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -248,6 +264,15 @@ extern const struct INatTripFetchedProperties {
 
 - (int32_t)primitivePositionalAccuracyValue;
 - (void)setPrimitivePositionalAccuracyValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitiveSearchAreaSpan;
+- (void)setPrimitiveSearchAreaSpan:(NSNumber*)value;
+
+- (int32_t)primitiveSearchAreaSpanValue;
+- (void)setPrimitiveSearchAreaSpanValue:(int32_t)value_;
 
 
 

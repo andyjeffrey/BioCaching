@@ -7,9 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginManager.h"
 #import "Flurry.h"
 #import "LocalyticsSession.h"
-#import "LoginManager.h"
 
 @implementation AppDelegate {
     NSDecimalNumber *lastVersion;
@@ -25,6 +25,7 @@
 
     [self configureDebugging];
     [self configureFlurryAnalytics];
+//    [self configureParse:launchOptions];
     [self startLocalytics];
     [self configureRestKit];
     [[LoginManager sharedInstance] configureOAuth2Client];
@@ -125,6 +126,14 @@
     [Flurry setCrashReportingEnabled:YES];
     [Flurry startSession:kFlurryAPIKey];
 #endif
+}
+
+- (void)configureParse:(NSDictionary *)launchOptions
+{
+//#ifdef BIOC_ANALYTICS
+//    [Parse setApplicationId:kParseAppId clientKey:kParseClientKey];
+//    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+//#endif
 }
 
 - (void)startLocalytics

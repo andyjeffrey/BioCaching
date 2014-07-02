@@ -5,7 +5,8 @@
 //  Created by Andy Jeffrey on 19/02/2014.
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
-
+/*
+ 
 #import "ExploreMapViewController.h"
 #import "ExploreListViewController.h"
 #import "ExploreOptionsViewController.h"
@@ -24,6 +25,7 @@
 
 #import "ExploreDataManager.h"
 #import "GBIFOccurrenceResults.h"
+
 
 static float const kOccurrenceAnnotationOffset = 50.0f;
 
@@ -85,6 +87,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     GBIFOccurrenceResults *_occurrenceResults;
     
     TripsDataManager *_tripsDataManager;
+    INatTrip *_currentTrip;
 }
 
 
@@ -133,36 +136,14 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 - (void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    // Force ExploreMapVC To Always Show Current Trip?
-    if (_currentTrip && (_currentTrip != _tripsDataManager.currentTrip)) {
-        _currentTrip = _tripsDataManager.currentTrip;
-    }
+    _currentTrip = [TripsDataManager sharedInstance].currentTrip;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (_currentTrip) {
-        [self updateButtons];
-        // Update Add Trip Occurrence Annotations
-        [self updateOccurrenceAnnotations:_currentTrip.occurrenceRecords];
-        // Update Trip Search Area Overlay
-        [self updateSearchAreaOverlay:_currentTrip.locationCoordinate areaSpan:_currentTrip.searchAreaSpan.doubleValue];
-        // Move/Zoom Map To Trip Search Area
-        [self updateCurrentMapView:_currentTrip.locationCoordinate latitudinalMeters:0 longitudinalMeters:_currentTrip.searchAreaSpan.doubleValue];
-    }
     [self configureLocationDropDown];
     [self configureBackgroundControlsView];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 
@@ -193,10 +174,12 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
 }
 
-- (void)updateAreaSpanLabel
+- (void)setupLabels
 {
     self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %lum",
                                (unsigned long)self.bcOptions.searchOptions.searchAreaSpan];
+    
+    [self updateRecordCountLabel];
 }
 
 - (void)updateRecordCountLabel
@@ -258,45 +241,27 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 #pragma mark UI Update Methods
 
 - (void)updateButtons {
-    if (!_currentTrip || _currentTrip.status.intValue < TripStatusSaved) {
+    if (!_currentTrip) {
         self.viewButtonSave.hidden = NO;
+        
         self.labelButtonStart.textColor = [UIColor kColorINatGreen];
-        self.labelButtonStart.font = [UIFont systemFontOfSize:20];
         self.labelButtonStart.text = @"Start";
         self.imageButtonStart.image =
         [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
-    } else {
-        self.viewButtonSave.hidden = YES;
     }
-    
-    if (_currentTrip) {
-        if (_currentTrip.status.intValue <= TripStatusSaved) {
-            self.labelButtonStart.textColor = [UIColor kColorINatGreen];
-            self.labelButtonStart.font = [UIFont systemFontOfSize:20];
-            self.labelButtonStart.text = @"Start";
-            self.imageButtonStart.image =
-            [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
-        } else if (_currentTrip.status.intValue == TripStatusInProgress) {
+    else {
+        if (_currentTrip.status.intValue == TripStatusInProgress) {
             self.labelButtonStart.textColor = [UIColor orangeColor];
-            self.labelButtonStart.font = [UIFont systemFontOfSize:20];
             self.labelButtonStart.text = @"Stop";
             self.imageButtonStart.image =
             [IonIcons imageWithIcon:icon_stop iconColor:[UIColor orangeColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
         } else if (_currentTrip.status.intValue == TripStatusFinished) {
             self.labelButtonStart.textColor = [UIColor cyanColor];
-            self.labelButtonStart.font = [UIFont systemFontOfSize:12];
-            self.labelButtonStart.text = @"Completed";
+            self.labelButtonStart.text = @"Upload";
             self.imageButtonStart.image =
             [IonIcons imageWithIcon:icon_upload iconColor:[UIColor cyanColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
-        } else if (_currentTrip.status.intValue == TripStatusPublished) {
-            self.labelButtonStart.textColor = [UIColor blackColor];
-            self.labelButtonStart.font = [UIFont systemFontOfSize:12];
-            self.labelButtonStart.text = @"Published";
-            self.imageButtonStart.image =
-            [IonIcons imageWithIcon:icon_checkmark iconColor:[UIColor blackColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
         }
     }
-
 }
 
 - (void)updateLocationLabelAndMapView:(CLLocationCoordinate2D)location mapViewSpan:(NSInteger)viewSpan
@@ -424,9 +389,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 #pragma mark IBActions
 - (IBAction)buttonLocationSelect:(id)sender {
-    /*
-     [self activateUIControls:FALSE];
-     */
+//     [self activateUIControls:FALSE];
     NSLog(@"buttonLocationSelect");
     [self hideTaxonView];
     _viewBackgroundControls.hidden = NO;
@@ -459,6 +422,8 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         [av show];
         [_tripsDataManager discardCurrentTrip];
     }
+    _currentTrip = nil;
+    [self updateButtons];
     [self performSearch];
 }
 
@@ -468,9 +433,13 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusInProgress];
         _currentTrip.startTime = [NSDate date];
     } else {
-        if (_currentTrip.status.intValue == TripStatusSaved) {
+        if (_currentTrip.status.intValue == TripStatusCreated) {
             _currentTrip.status = [NSNumber numberWithInt:TripStatusInProgress];
             _currentTrip.startTime = [NSDate date];
+            
+            //TODO: Change TripsDataManager to use single array with predicates/FetchedResultsController
+            [[TripsDataManager sharedInstance].savedTrips removeObject:_currentTrip];
+            [[TripsDataManager sharedInstance].inProgressTrips addObject:_currentTrip];
             
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Started and Saved to Trips Page", nil)
                                                          message:NSLocalizedString(@"Animate button disappearing to trips menu/button", nil)
@@ -486,6 +455,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 #ifdef DEBUG
             _currentTrip.stopTime = [_currentTrip.startTime dateByAddingTimeInterval:kDefaultTripDuration];
 #endif
+            
+            //TODO: Change TripsDataManager to use single array with predicates/FetchedResultsController
+            [[TripsDataManager sharedInstance].inProgressTrips removeObject:_currentTrip];
+            [[TripsDataManager sharedInstance].finishedTrips addObject:_currentTrip];
+            
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Finished and Ready to Upload (From Trips Page)", nil)
                                                          message:NSLocalizedString(@"More user interaction asking to validate observations and items on trip list etc.", nil)
                                                         delegate:self
@@ -493,19 +467,15 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
                                                otherButtonTitles:nil];
             [av show];
             
-        } else if (_currentTrip.status.intValue == TripStatusFinished){
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Completed, Read to Publish", nil)
-                                                         message:NSLocalizedString(@"Please goto Trips Screen to publish trip to iNat", nil)
-                                                        delegate:self
-                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                               otherButtonTitles:nil];
-            [av show];
         }
-
+        
         [[TripsDataManager sharedInstance] saveChanges];
     }
     
-    [self updateButtons];
+    if (_currentTrip) {
+        self.viewButtonSave.hidden = YES;
+        [self updateButtons];
+    }
 }
 
 - (IBAction)buttonSave:(id)sender {
@@ -514,38 +484,29 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusSaved];
     } else {
         _currentTrip.status = [NSNumber numberWithInteger:TripStatusSaved];
-
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Creating New Trip..." message:@"Enter name for trip\n(or accept default):" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        UITextField * alertTextField = [alert textFieldAtIndex:0];
-        alertTextField.text = _currentTrip.title;
-        alertTextField.keyboardType = UIKeyboardTypeDefault;
-        alertTextField.placeholder = @"Enter Trip Name:";
-        [alert show];
     }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSString *tripName = [alertView textFieldAtIndex:0].text;
-    if (tripName.length > 0) {
-        _currentTrip.title = tripName;
-    }
+    
     [_tripsDataManager saveChanges];
+    
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Saved to Trips Page", nil)
+                                                 message:NSLocalizedString(@"Animate button disappearing to trips menu/button", nil)
+                                                delegate:self
+                                       cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                       otherButtonTitles:nil];
+    [av show];
+    
     self.viewButtonSave.hidden = YES;
-
-    [BCAlerts displayDefaultInfoAlert:@"Trip Saved to Trips Page" message:@"Animate button disappearing to trips menu/button?"];
 }
+
 
 - (void)performSearch
 {
-    [self updateAreaSpanLabel];
-    [self updateRecordCountLabel:0];
+    [self setupLabels];
     // Use current view region for searchAreaSpan
-    if (_currentTrip) {
-        _currentTrip = nil;
+    if (_occurrenceResults) {
         _bcOptions.searchOptions.searchAreaSpan = _currentViewSpan;
+        _occurrenceResults = nil;
         [self.mapView removeAnnotations:self.mapView.annotations];
-        [self updateButtons];
     }
     
     _bcOptions.searchOptions.searchAreaCentre = _currentViewLocation;
@@ -555,6 +516,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     [_exploreDataManager fetchOccurrencesWithOptions:_bcOptions];
+    //    [_gbifManager fetchOccurrencesWithOptions:_bcOptions.searchOptions];
 }
 
 
@@ -606,9 +568,9 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 {
     static NSString *identifier = @"OccurrenceAnnotation";
     
-    if ([annotation isKindOfClass:[OccurrenceRecord class]])
+    if ([annotation isKindOfClass:[GBIFOccurrence class]])
     {
-        OccurrenceRecord *occurrence = (OccurrenceRecord *)annotation;
+        GBIFOccurrence *occurrence = (GBIFOccurrence *)annotation;
         MKAnnotationView *annotationView = (MKAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:@"OccurrenceAnnotation"];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
@@ -626,8 +588,8 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    OccurrenceRecord *occurrence = (OccurrenceRecord *)view.annotation;
-    NSLog(@"didSelectAnnotationView: %@", occurrence.taxonSpecies);
+    GBIFOccurrence *occurrence = (GBIFOccurrence *)view.annotation;
+    NSLog(@"didSelectAnnotationView: %@", occurrence.speciesBinomial);
     
     view.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:YES]];
     
@@ -639,8 +601,8 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
 {
-    OccurrenceRecord *occurrence = (OccurrenceRecord *)view.annotation;
-    NSLog(@"didDeselectAnnotationView: %@", occurrence.taxonSpecies);
+    GBIFOccurrence *occurrence = (GBIFOccurrence *)view.annotation;
+    NSLog(@"didDeselectAnnotationView: %@", occurrence.speciesBinomial);
     
     view.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:NO]];
 }
@@ -718,7 +680,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:YES]];
-        [self updateOccurrenceAnnotations:_currentTrip.occurrenceRecords];
     });
     
     //    _tripOptions = savedTripOptions;
@@ -729,8 +690,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 - (void)newTripCreated:(INatTrip *)trip
 {
     _currentTrip = trip;
-    [self updateRecordCountLabel];
-    [self zoomToSearchArea:nil];
 }
 
 - (void)occurrenceAddedToTrip:(OccurrenceRecord *)occurrence
@@ -738,27 +697,10 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     NSLog(@"ExploreMapViewController occurrenceAddedToTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.mapView addAnnotation:occurrence];
-        [self updateRecordCountLabel];
+        [self updateRecordCountLabel:(int)_currentTrip.taxaAttributes.count];
         
         // TODO: Replace with better mechanism for showing network activity
-        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) ||
-            (self.mapView.annotations.count == _exploreDataManager.currentSearchResults.tripListCount)) {
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        }
-    });
-}
-
-- (void)occurrenceRemovedFromTrip:(OccurrenceRecord *)occurrence
-{
-    NSLog(@"ExploreMapViewController occurrenceRemovedFromTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
-    [self hideTaxonView];
-    _taxonInfoVC.occurrence = nil;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.mapView removeAnnotation:occurrence];
-        [self updateRecordCountLabel];
-        
-        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) ||
-            (self.mapView.annotations.count == _exploreDataManager.currentSearchResults.tripListCount)) {
+        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) || (self.mapView.annotations.count >= _currentTrip.taxaAttributes.count)) {
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         }
     });
@@ -772,10 +714,10 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     _occurrenceResults = occurrenceResults;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateRecordCountLabel];
+        [self setupLabels];
         //        [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:YES]];
         [self zoomToSearchArea:nil];
-//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     });
 }
 
@@ -873,3 +815,4 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 }
 
 @end
+*/

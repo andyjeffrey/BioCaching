@@ -8,6 +8,7 @@
 
 #import "ExploreSummaryViewController.h"
 #import "ExploreSummaryTableViewController.h"
+#import "TripsDataManager.h"
 #import "ExploreDataManager.h"
 
 @interface ExploreSummaryViewController ()
@@ -16,13 +17,16 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
-@property (weak, nonatomic) IBOutlet UILabel *labelTotalResults;
+@property (weak, nonatomic) IBOutlet UILabel *labelResultsCount;
 
 @end
 
 @implementation ExploreSummaryViewController {
     ExploreSummaryTableViewController *summaryTableVC;
-    GBIFOccurrenceResults *_occurrenceResults;
+    ExploreDataManager *_exploreDataManager;
+    GBIFOccurrenceResults *_searchResults;
+    TripsDataManager *_tripsDataManager;
+    INatTrip *_currentTrip;
 }
 
 - (void)viewDidLoad
@@ -31,14 +35,18 @@
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 
     [self setupUI];
+    _exploreDataManager = [ExploreDataManager sharedInstance];
+    _tripsDataManager = [TripsDataManager sharedInstance];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    _occurrenceResults = [ExploreDataManager sharedInstance].occurrenceResults;
+    _searchResults = _exploreDataManager.currentSearchResults;
+    _currentTrip = _tripsDataManager.currentTrip;
     [self setupLabels];
     summaryTableVC.bcOptions = _bcOptions;
-    summaryTableVC.occurrenceResults = _occurrenceResults;
+    summaryTableVC.occurrenceResults = _searchResults;
+    summaryTableVC.currrentTrip = _currentTrip;
 }
 
 #pragma mark - Init/Setup Methods
@@ -70,8 +78,8 @@
     [self.labelAreaSpan setTextWithColor:[NSString stringWithFormat:@"Area Span: %lum",
                                              (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
     
-    [self.labelTotalResults setTextWithColor:[NSString stringWithFormat:@"Record Count: %d",
-                                                 (int)[_occurrenceResults getFilteredResults:YES].count] color:[UIColor kColorHeaderText]];
+    [self.labelResultsCount setTextWithColor:[NSString stringWithFormat:@"Record Count: %d",
+                                                 (int)_currentTrip.occurrenceRecords.count] color:[UIColor kColorHeaderText]];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

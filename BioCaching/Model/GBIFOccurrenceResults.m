@@ -179,16 +179,19 @@
     }
 }
 
-- (NSArray *)filteredResults
-{
+- (NSArray *)filteredResults {
     _filteredResults = [[self getFilteredResults:NO] mutableCopy];
     return _filteredResults;
 }
 
-- (NSArray *)tripListResults
-{
+- (NSArray *)tripListResults {
     _tripListResults = [[self getFilteredResults:YES] mutableCopy];
     return _tripListResults;
+}
+
+- (int)tripListCount {
+    int count = (int)_tripListResults.count - (int)_removedResults.count;
+    return count;
 }
 
 

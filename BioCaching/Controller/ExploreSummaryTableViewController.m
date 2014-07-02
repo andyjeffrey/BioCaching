@@ -28,7 +28,7 @@
 @end
 
 @implementation ExploreSummaryTableViewController {
-    NSArray *filteredResults;
+    NSArray *_filteredResults;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -48,7 +48,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    filteredResults = [self.occurrenceResults getFilteredResults:NO];
+    _filteredResults = self.occurrenceResults.filteredResults;
     [self setupLabels];
 }
 
@@ -62,10 +62,10 @@
 {
     [self.labelTotalResults setTextWithDefaults:[NSString stringWithFormat:@"%@", self.occurrenceResults.Count]];
     [self.labelRetrieved setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.Results.count]];
-    NSUInteger removedCount = self.occurrenceResults.removedResults.count;
-    [self.labelFiltered setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)filteredResults.count + removedCount]];
+    NSUInteger removedCount = self.occurrenceResults.removedResults.count + self.currrentTrip.removedRecords.count;
+    [self.labelFiltered setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)_filteredResults.count]];
     [self.labelRemoved setTextWithDefaults:[NSString stringWithFormat:@"%lu", removedCount]];
-    [self.labelDisplayed setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_bcOptions.displayOptions.displayPoints, filteredResults.count))]];
+    [self.labelDisplayed setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)(MIN(_bcOptions.displayOptions.displayPoints, self.currrentTrip.occurrenceRecords.count))]];
     
     [self.labelUniqueSpecies setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonSpecies.count]];
     [self.labelKingdoms setTextWithDefaults:[NSString stringWithFormat:@"%lu", (unsigned long)self.occurrenceResults.dictTaxonKingdom.count]];

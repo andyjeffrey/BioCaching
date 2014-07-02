@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GBIFOccurrence.h"
 
 @interface ObservationViewController : UIViewController
 
-@property (nonatomic, strong) GBIFOccurrence *occurrence;
+@property (nonatomic, strong) OccurrenceRecord *occurrence;
 
 @end

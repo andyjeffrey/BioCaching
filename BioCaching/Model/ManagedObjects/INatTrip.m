@@ -10,7 +10,9 @@
 
 @implementation INatTrip
 
-@synthesize occurrenceResults;
+//@synthesize occurrenceResults;
+@synthesize occurrenceRecords;
+@synthesize removedRecords;
 
 +(void)setupMapping
 {
@@ -77,8 +79,14 @@
     // Trip Entity POST Response
     RKResponseDescriptor *respDescTripsPost = [RKResponseDescriptor responseDescriptorWithMapping:entityMappingTrip method:RKRequestMethodAny pathPattern:kINatTripsPathPattern keyPath:@"trip" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [objectManager addResponseDescriptor:respDescTripsPost];
-    
-    
+}
+
+- (CLLocationCoordinate2D)locationCoordinate {
+    return CLLocationCoordinate2DMake(self.latitude.doubleValue, self.longitude.doubleValue);
+}
+
+- (NSArray *)occurrenceRecords {
+    return [self.taxaAttributes valueForKeyPath:@"occurrence"];
 }
 
 @end

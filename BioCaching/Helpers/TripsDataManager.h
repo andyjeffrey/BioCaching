@@ -17,22 +17,30 @@
 @interface TripsDataManager : NSObject
 
 @property (weak, nonatomic) id<TripsDataManagerDelegate> delegate;
+@property (weak, nonatomic) id<TripsDataManagerTableDelegate> tableDelegate;
 
-@property (nonatomic, strong) NSMutableArray *savedTrips;
-@property (nonatomic, strong) NSMutableArray *inProgressTrips;
-@property (nonatomic, strong) NSMutableArray *finishedTrips;
-@property (nonatomic, strong) NSMutableArray *publishedTrips;
+@property (nonatomic, readonly, strong) NSArray *createdTrips;
+@property (nonatomic, readonly, strong) NSArray *savedTrips;
+@property (nonatomic, readonly, strong) NSArray *inProgressTrips;
+@property (nonatomic, readonly, strong) NSArray *finishedTrips;
+@property (nonatomic, readonly, strong) NSArray *publishedTrips;
 
 @property (nonatomic, strong) INatTrip *currentTrip;
 
 + (instancetype)sharedInstance;
 
 - (void)saveChanges;
-- (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus;
-- (INatTrip *)createEmptyTripWithOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions;
 
-- (void)loadAllTripsFromINat:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
+- (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus;
+- (INatTrip *)createNewTrip:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions;
+- (NSString *)getDefaultNewTripName:(BCOptions *)bcOptions;
+
+- (void)loadTripsFromINat:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
 - (void)saveTripToINat:(INatTrip *)trip;
 - (void)deleteTripFromINat:(INatTrip *)trip;
+
+- (void)loadTripsFromLocalStore;
+- (void)discardCurrentTrip;
+- (void)removeOccurrenceFromTrip:(INatTrip *)trip occurrence:(OccurrenceRecord *)occurrenceRecord;
 
 @end

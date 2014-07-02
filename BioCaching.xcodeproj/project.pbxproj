@@ -44,6 +44,7 @@
 		A15347001962D53600E1C63F /* UIResponder+NimbusCore.m in Sources */ = {isa = PBXBuildFile; fileRef = A15346D91962D53600E1C63F /* UIResponder+NimbusCore.m */; };
 		A15347011962D53600E1C63F /* NIWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = A15346DD1962D53600E1C63F /* NIWebController.m */; };
 		A15347021962D53600E1C63F /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A15346E01962D53600E1C63F /* SWRevealViewController.m */; };
+		A15347051962E5E300E1C63F /* PreTripMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A15347041962E5E300E1C63F /* PreTripMapViewController.m */; };
 		A176286F1937359500DD69DB /* UIImage+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = A176286E1937359500DD69DB /* UIImage+Colors.m */; };
 		A17628721937385400DD69DB /* BCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628711937385400DD69DB /* BCButton.m */; };
 		A1762875193DEF9C00DD69DB /* ExploreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762874193DEF9C00DD69DB /* ExploreDataManager.m */; };
@@ -212,6 +213,14 @@
 		A15346DD1962D53600E1C63F /* NIWebController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NIWebController.m; sourceTree = "<group>"; };
 		A15346DF1962D53600E1C63F /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		A15346E01962D53600E1C63F /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		A15347031962E5E300E1C63F /* PreTripMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreTripMapViewController.h; sourceTree = "<group>"; };
+		A15347041962E5E300E1C63F /* PreTripMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreTripMapViewController.m; sourceTree = "<group>"; };
+		A1534709196414FA00E1C63F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A153470B1964150D00E1C63F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		A153470D1964152D00E1C63F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		A153470F1964153800E1C63F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A15347111964154E00E1C63F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		A153471319641D2A00E1C63F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Tortuga Bay, Santa Cruz, Galapagos.gpx"; path = "Resources/TestData/Tortuga Bay, Santa Cruz, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
@@ -689,6 +698,8 @@
 				A1EA130519265B4900449327 /* ExploreContainerViewController.m */,
 				A1EA130819265B4900449327 /* ExploreMapViewController.h */,
 				A1EA130919265B4900449327 /* ExploreMapViewController.m */,
+				A15347031962E5E300E1C63F /* PreTripMapViewController.h */,
+				A15347041962E5E300E1C63F /* PreTripMapViewController.m */,
 				A1EA130619265B4900449327 /* ExploreListViewController.h */,
 				A1EA130719265B4900449327 /* ExploreListViewController.m */,
 				A1EA130F19265B4900449327 /* ExploreSummaryViewController.h */,
@@ -774,11 +785,11 @@
 		A1EA208618B4F7AB00200D50 = {
 			isa = PBXGroup;
 			children = (
-				A15346901962D53600E1C63F /* Libraries */,
 				A1875DFC18FD4A36001DC029 /* Podfile */,
 				A1F2E12C190161110010B647 /* .gitignore */,
 				A17628CB1947425000DD69DB /* TaskList.txt */,
 				A1EA209818B4F7AB00200D50 /* BioCaching */,
+				A15346901962D53600E1C63F /* Libraries */,
 				A1EA209118B4F7AB00200D50 /* Frameworks */,
 				A1D5DDE518C7BAB900FA005B /* libsqlite3.dylib */,
 				A1D5DDE318C7BAA500FA005B /* libz.dylib */,
@@ -799,6 +810,12 @@
 		A1EA209118B4F7AB00200D50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A153471319641D2A00E1C63F /* AudioToolbox.framework */,
+				A15347111964154E00E1C63F /* StoreKit.framework */,
+				A153470F1964153800E1C63F /* QuartzCore.framework */,
+				A153470D1964152D00E1C63F /* MobileCoreServices.framework */,
+				A153470B1964150D00E1C63F /* CFNetwork.framework */,
+				A1534709196414FA00E1C63F /* CoreLocation.framework */,
 				A1EB226A1923961F005650D9 /* CoreData.framework */,
 				A1D9A13318E3696A006C1988 /* Reveal.framework */,
 				A1D5DD9118C61D0F00FA005B /* Security.framework */,
@@ -1006,6 +1023,7 @@
 				A15346EF1962D53600E1C63F /* NIDebuggingTools.m in Sources */,
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
 				A1EA135319265B5D00449327 /* GBIFManager.m in Sources */,
+				A15347051962E5E300E1C63F /* PreTripMapViewController.m in Sources */,
 				A1EA132319265B4900449327 /* ExploreSummaryTableViewController.m in Sources */,
 				A1EA135419265B5D00449327 /* ImageCache.m in Sources */,
 				A17628CA1947274A00DD69DB /* NSDate+Formatting.m in Sources */,
@@ -1167,6 +1185,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BioCaching/BioCaching-Prefix.pch";
@@ -1200,6 +1219,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BioCaching/BioCaching-Prefix.pch";

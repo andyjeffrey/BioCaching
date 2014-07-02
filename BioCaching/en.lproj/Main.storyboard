@@ -1635,7 +1635,7 @@
                         <outlet property="buttonSidebar" destination="h4K-zk-JMl" id="dQe-Fk-HF9"/>
                         <outlet property="tableTrips" destination="x7y-VW-aOy" id="pLy-qr-YS4"/>
                         <outlet property="viewTopBar" destination="gPH-eV-ydj" id="Kui-HU-thV"/>
-                        <segue destination="WO4-TJ-Qp3" kind="push" identifier="pushTripMain" id="aEs-k2-lLI"/>
+                        <segue destination="WO4-TJ-Qp3" kind="custom" identifier="ExploreVC" customClass="SWRevealViewControllerSegue" id="BKR-p2-QHB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3qq-4t-Ow8" sceneMemberID="firstResponder"/>
@@ -1778,7 +1778,7 @@
                         <outlet property="buttonSidebar" destination="JOA-Ce-vgS" id="U9r-PQ-aRU"/>
                         <outlet property="labelAreaSpan" destination="OEq-ms-6MW" id="e2k-tv-hi8"/>
                         <outlet property="labelLocation" destination="Uez-WZ-Hwv" id="1nf-ja-ogZ"/>
-                        <outlet property="labelTotalResults" destination="Hpw-ig-nQM" id="8n5-Wg-mo8"/>
+                        <outlet property="labelResultsCount" destination="Hpw-ig-nQM" id="rLB-2Q-iQq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tLU-Wg-BGZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2722,9 +2722,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="aEs-k2-lLI"/>
+        <segue reference="BKR-p2-QHB"/>
         <segue reference="uqP-Eb-j3E"/>
-        <segue reference="rRP-sO-8ox"/>
         <segue reference="PUC-BS-dlq"/>
+        <segue reference="rRP-sO-8ox"/>
     </inferredMetricsTieBreakers>
 </document>

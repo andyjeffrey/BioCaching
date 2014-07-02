@@ -12,7 +12,14 @@
 
 @protocol TripsDataManagerDelegate <NSObject>
 
+- (void)newTripCreated:(INatTrip *)trip;
 - (void)occurrenceAddedToTrip:(OccurrenceRecord *)occurrence;
 - (void)occurrenceRemovedFromTrip:(OccurrenceRecord *)occurrence;
+
+@end
+
+@protocol TripsDataManagerTableDelegate <NSObject>
+
+- (void)tripsTableUpdated;
 
 @end

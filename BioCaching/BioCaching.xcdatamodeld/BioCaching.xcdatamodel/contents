@@ -34,18 +34,19 @@
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="placeId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="positionalAccuracy" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="searchAreaSpan" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="startTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="stopTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="taxaAttributes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="INatTripTaxaAttribute" inverseName="trip" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
-        <relationship name="taxaPurposes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="INatTripTaxaPurpose" inverseName="trip" inverseEntity="INatTripTaxaPurpose" syncable="YES"/>
+        <relationship name="taxaAttributes" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="INatTripTaxaAttribute" inverseName="trip" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
+        <relationship name="taxaPurposes" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="INatTripTaxaPurpose" inverseName="trip" inverseEntity="INatTripTaxaPurpose" syncable="YES"/>
     </entity>
     <entity name="INatTripTaxaAttribute" representedClassName="INatTripTaxaAttribute" syncable="YES">
         <attribute name="observed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="taxonId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="occurrence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OccurrenceRecord" inverseName="taxaAttribute" inverseEntity="OccurrenceRecord" syncable="YES"/>
+        <relationship name="occurrence" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="OccurrenceRecord" inverseName="taxaAttribute" inverseEntity="OccurrenceRecord" syncable="YES"/>
         <relationship name="trip" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTrip" inverseName="taxaAttributes" inverseEntity="INatTrip" syncable="YES"/>
     </entity>
     <entity name="INatTripTaxaPurpose" representedClassName="INatTripTaxaPurpose" syncable="YES">
@@ -71,15 +72,15 @@
         <attribute name="taxonPhylum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="taxonSpecies" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="iNatTaxon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTaxon" inverseName="occurrences" inverseEntity="INatTaxon" syncable="YES"/>
-        <relationship name="taxaAttribute" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTripTaxaAttribute" inverseName="occurrence" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
+        <relationship name="taxaAttribute" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="INatTripTaxaAttribute" inverseName="occurrence" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
     </entity>
     <elements>
         <element name="BCManagedObject" positionX="-387" positionY="-846" width="128" height="120"/>
         <element name="INatTaxon" positionX="-387" positionY="-981" width="128" height="148"/>
         <element name="INatTaxonPhoto" positionX="-387" positionY="-981" width="128" height="193"/>
-        <element name="INatTrip" positionX="-585" positionY="-945" width="128" height="223"/>
-        <element name="INatTripTaxaAttribute" positionX="-198" positionY="-945" width="128" height="103"/>
+        <element name="INatTrip" positionX="-585" positionY="-945" width="128" height="238"/>
+        <element name="INatTripTaxaAttribute" positionX="-198" positionY="-945" width="128" height="105"/>
         <element name="INatTripTaxaPurpose" positionX="-198" positionY="-810" width="128" height="103"/>
-        <element name="OccurrenceRecord" positionX="-378" positionY="-972" width="128" height="300"/>
+        <element name="OccurrenceRecord" positionX="-378" positionY="-972" width="128" height="298"/>
     </elements>
 </model>

@@ -13,6 +13,7 @@
 + (NSDate *)dateFromISO8601String:(NSString *)dateString;
 
 - (NSString *)localDateTime;
+- (NSString *)localDate;
 - (NSString *)localTime;
 
 @end

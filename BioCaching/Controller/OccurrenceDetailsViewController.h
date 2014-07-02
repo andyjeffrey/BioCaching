@@ -11,6 +11,7 @@
 
 @interface OccurrenceDetailsViewController : UIViewController
 
-@property (nonatomic, strong) GBIFOccurrence *occurrence;
+//@property (nonatomic, strong) GBIFOccurrence *occurrence;
+@property (nonatomic, strong) OccurrenceRecord *occurrence;
 
 @end

@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "GBIFOccurrenceResults.h"
+#import "INatTrip.h"
 #import "BCOptions.h"
 
 @interface ExploreSummaryTableViewController : UITableViewController
 
 @property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
+@property (nonatomic, strong) INatTrip *currrentTrip;
 @property (nonatomic, strong) BCOptions *bcOptions;
 
 @end

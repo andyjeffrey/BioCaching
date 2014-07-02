@@ -1,4 +1,4 @@
-High Priority (Required For v1.0 - Internal Test Release)
+High Priority (For v1.0 - Internal Test Release)
 - Full curation of trip list
 - Go back to previously created trips (whatever status)
 - User entered trip title
@@ -11,7 +11,7 @@ High Priority (Required For v1.0 - Internal Test Release)
 - Better info/error handling when offline or web services unavailable
 
 
-Medium Priority (Probable For v1.1 - Full Public Release)
+Medium Priority (For v1.1 - Full Public Release)
 - User editing of trip details before submission to iNat
 - Better UX for deleting taxa from trip list (edit list/delete confirmation)
 - Deletion of taxa from trip not searched for before submission to iNat?
@@ -22,16 +22,13 @@ Medium Priority (Probable For v1.1 - Full Public Release)
 - Fix any UI issues for iOS 6
 
 
-Low Priority (Possible For v1.1+ - Post Release Updates)
+Lower Priority (Possible For v1.1+ - Post Release Updates)
 - Retrieval of multiple pictures for trip list taxa
-
-
+- Location/place name search from ExploreMap screen (as well as drop down list)
 
 
 Currently Out of Scope (Wishlist for v2.0+ - Future Versions)
 - Full synching/updating of trips (and associated observations) with iNat (after initial post)
-
-
 
 
 Ongoing Tasks/TODOs (Uncategorised)
@@ -50,3 +47,7 @@ UI/UX Issues/Change Requests
 - Keep "Remove" button on individual TaxonDetails/OccurrenceDetails screens once trip has been started?
 - Implement ability to edit ExploreList screen so items can still be removed from list once trip started (change tableview to edit mode, replacing record button with remove)
 - Disable background view when main menu displayed (clicking in background view should slide menu away)
+- Change Z position of (or hide) segmented control for on Explore screen so that it is behind/disappears when location menu displayed
+- Add Trip control buttons (save/start/stop) to ExploreList screen (as well as ExploreMap)
+- Amend 
+

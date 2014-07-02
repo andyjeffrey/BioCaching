@@ -12,7 +12,9 @@ typedef enum {
 
 @interface INatTrip : _INatTrip  {}
 
-@property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
+@property (nonatomic, readonly) CLLocationCoordinate2D locationCoordinate;
+@property (nonatomic, readonly, strong) NSArray *occurrenceRecords;
+@property (nonatomic, strong) NSMutableArray *removedRecords;
 
 +(void)setupMapping;
 

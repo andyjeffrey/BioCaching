@@ -8,12 +8,13 @@
 
 #import "TripsViewController.h"
 #import "TripsDataManager.h"
-#import "ExploreListViewController.h"
+#import "ExploreContainerViewController.h"
 #import "TripsListCell.h"
 #import "INatTrip.h"
 #import <RestKit/RestKit.h>
 
 #import "SWRevealViewController.h"
+#import "SidebarViewController.h"
 
 @interface TripsViewController ()
 
@@ -28,7 +29,7 @@
 @end
 
 @implementation TripsViewController {
-    TripsDataManager *tripsDataManager;
+    TripsDataManager *_tripsDataManager;
     NSArray *_tableSections;
 }
 
@@ -37,15 +38,17 @@
     [super viewDidLoad];
     NSLog(@"%s", __PRETTY_FUNCTION__);
     
-    tripsDataManager = [TripsDataManager sharedInstance];
-
+    _tripsDataManager = [TripsDataManager sharedInstance];
+    _tripsDataManager.tableDelegate = self;
+    
     [self setupUI];
     [self setupTable];
     
-    [self loadCompletedTripsFromINat];
+//    [self loadCompletedTripsFromINat];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [self refreshTable];
     [self.tableTrips reloadData];
 }
 
@@ -67,7 +70,7 @@
     self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     
     // Change button color
-//    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
+    //    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
 }
 
 - (void)setupButtons
@@ -81,17 +84,27 @@
 - (void)setupTable
 {
     NSMutableArray *sections = [[NSMutableArray alloc] init];
-    [sections addObject:@[@"Saved For Later", [NSNumber numberWithInt:TripStatusSaved], tripsDataManager.savedTrips]];
-    [sections addObject:@[@"In Progress", [NSNumber numberWithInt:TripStatusInProgress], tripsDataManager.inProgressTrips]];
-    [sections addObject:@[@"Finished", [NSNumber numberWithInt:TripStatusFinished], tripsDataManager.finishedTrips]];
-    [sections addObject:@[@"Published", [NSNumber numberWithInt:TripStatusPublished], tripsDataManager.publishedTrips]];
+#ifdef DEBUG
+    [sections addObject:@[@"Created (Not Saved)", [NSNumber numberWithInt:TripStatusCreated], _tripsDataManager.createdTrips]];
+#endif
+    [sections addObject:@[@"Saved For Later", [NSNumber numberWithInt:TripStatusSaved], _tripsDataManager.savedTrips]];
+    [sections addObject:@[@"In Progress", [NSNumber numberWithInt:TripStatusInProgress], _tripsDataManager.inProgressTrips]];
+    [sections addObject:@[@"Finished", [NSNumber numberWithInt:TripStatusFinished], _tripsDataManager.finishedTrips]];
+    [sections addObject:@[@"Published", [NSNumber numberWithInt:TripStatusPublished], _tripsDataManager.publishedTrips]];
     _tableSections = [[NSArray alloc] initWithArray:sections];
+}
+
+// TODO: Replace With NSFetchedResultsController
+- (void)refreshTable
+{
+    _tableSections = nil;
+    [self setupTable];
 }
 
 
 - (void)loadCompletedTripsFromINat
 {
-    [tripsDataManager loadAllTripsFromINat:nil success:^(NSArray *trips) {
+    [_tripsDataManager loadTripsFromINat:nil success:^(NSArray *trips) {
         [self.tableTrips reloadData];
     }];
 }
@@ -135,7 +148,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TripsListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TripsListCell" forIndexPath:indexPath];
-
+    
     INatTrip *trip;
     NSArray *sectionArray = _tableSections[indexPath.section][2];
     if (sectionArray && sectionArray.count > 0) {
@@ -143,7 +156,7 @@
     }
     
     cell.labelTripTitle.text = trip.title;
-
+    
     NSString *subtitle;
     if (trip.startTime) {
         subtitle = [NSString stringWithFormat:@"%@ - ", [trip.startTime localDateTime]];
@@ -180,46 +193,59 @@
     
     if (!trip) {
         NSLog(@"Cell Selected: %lu-%lu: NO TRIP", (long)indexPath.section, (long)indexPath.row);
-    } else if (trip.status.intValue == TripStatusPublished) {
-        NSLog(@"Cell Selected: %lu-%lu: Deleting Trip...", (long)indexPath.section, (long)indexPath.row);
-        [tripsDataManager deleteTripFromINat:trip];
-
-/*
-        NSLog(@"Cell Selected: %lu-%lu: %@", (long)indexPath.section, (long)indexPath.row, trip.recordId);
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Published Trip Selected", nil)
-                                                     message:NSLocalizedString(@"In future this will show trip details and give option to create a duplicate trip?", nil)
-                                                    delegate:self
-                                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                           otherButtonTitles:nil];
-        [av show];
-        
-        [[RKObjectManager sharedManager] getObject:trip path:nil parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-            NSLog(@"Trip Received: %@", mappingResult);
-        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-            NSLog(@"Error mapping result: %@", error);
-        }];
-*/
     } else if (trip.status.intValue == TripStatusFinished) {
         NSLog(@"Cell Selected: %lu-%lu: Saving Trip...", (long)indexPath.section, (long)indexPath.row);
         if ([LoginManager sharedInstance].loggedIn) {
-            [tripsDataManager saveTripToINat:trip];
+            [_tripsDataManager saveTripToINat:trip];
         } else {
             [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
         }
+//    } else if (trip.status.intValue == TripStatusPublished) {
+//        NSLog(@"Cell Selected: %lu-%lu: Deleting Trip...", (long)indexPath.section, (long)indexPath.row);
+//        [_tripsDataManager deleteTripFromINat:trip];
     } else {
-        [BCAlerts displayDefaultInfoAlert:@"Saved/In Progress Trip Selected" message:@"In future this will take you back to the Explore page for the selected trip"];
+        _tripsDataManager.currentTrip = trip;
+        [self performSegueWithIdentifier:@"ExploreVC" sender:nil];
     }
     
+//    [BCAlerts displayDefaultInfoAlert:@"Saved/In Progress Trip Selected" message:@"In future this will take you back to the Explore page for the selected trip"];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        
+    
+}
+
+#pragma mark - TripsDataManagerDelegate
+
+- (void)tripsTableUpdated
+{
+    [self refreshTable];
+    [self.tableTrips reloadData];
 }
 
 #pragma mark UIStoryboard Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"pushTripTaxaList"]) {
-        ExploreListViewController *exploreVC = segue.destinationViewController;
-//        exploreVC.iNatTrip = _trips[self.tableTrips.indexPathForSelectedRow.row];
+    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
+
+    if ([segue isKindOfClass:[SWRevealViewControllerSegue class]]) {
+        SidebarViewController *sidebarVC = (SidebarViewController*)self.revealViewController.rearViewController;
+        SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue *)segue;
+        
+        swSegue.performBlock = ^(SWRevealViewControllerSegue *rvc_segue, UIViewController *svc, UIViewController *dvc) {
+            if (rvc_segue.identifier) {
+                UIViewController *cachedVC = [sidebarVC.viewControllersCache objectForKey:rvc_segue.identifier];
+                if (cachedVC != nil) {
+                    dvc = cachedVC;
+//                    dvc = cachedVC.childViewControllers[0];
+                } else {
+                    [sidebarVC.viewControllersCache setObject:dvc forKey:rvc_segue.identifier];
+                }
+            }
+            //            UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+            //            [navVC setViewControllers:@[dvc] animated:NO];
+            [self.revealViewController setFrontViewController:dvc];
+            [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+        };
     }
 }
 

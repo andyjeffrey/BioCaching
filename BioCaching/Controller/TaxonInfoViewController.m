@@ -131,7 +131,7 @@
 }
 
 - (IBAction)removeOccurrence:(id)sender {
-    [[ExploreDataManager sharedInstance] removeOccurrence:self.occurrence];
+    [[TripsDataManager sharedInstance] removeOccurrenceFromTrip:self.occurrence.taxaAttribute.trip occurrence:self.occurrence];
     if (self.navigationController.topViewController == self.parentViewController)
     {
         [self.navigationController popViewControllerAnimated:YES];

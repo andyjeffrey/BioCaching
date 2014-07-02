@@ -19,11 +19,11 @@ DerivedData
 *.DS_Store
 .xcworkspace
 Certificates/
-Reveal.framework
 
 Pods/
+
 Resources/TestData/
-
 Resources/dev.config.h
-BioCaching/config.h
 
+Reveal.framework
+Parse.framework

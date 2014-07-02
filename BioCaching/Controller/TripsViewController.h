@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TripsDataManagerDelegate.h"
 
-@interface TripsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface TripsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, TripsDataManagerTableDelegate>
 
 @end

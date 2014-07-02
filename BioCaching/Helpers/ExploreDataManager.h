@@ -18,7 +18,7 @@
 
 @property (weak, nonatomic) id<ExploreDataManagerDelegate> delegate;
 
-@property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
+@property (nonatomic, strong) GBIFOccurrenceResults *currentSearchResults;
 
 + (instancetype)sharedInstance;
 

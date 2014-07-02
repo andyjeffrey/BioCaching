@@ -45,7 +45,7 @@
     if (self) {
         _gbifManager = [[GBIFManager alloc] init];
         _gbifManager.delegate = self;
-
+        
         _iNatManager = [[INatManager alloc] init];
         _iNatManager.delegate = self;
         
@@ -66,7 +66,7 @@
 
 - (void)removeOccurrence:(GBIFOccurrence *)occurrence
 {
-    [_occurrenceResults.removedResults addObject:occurrence];
+    [self.currentSearchResults.removedResults addObject:occurrence];
     [self.delegate occurrenceRemoved:occurrence];
 }
 
@@ -77,16 +77,16 @@
 {
     NSLog(@"%s Results.count: %lu", __PRETTY_FUNCTION__, (unsigned long)occurrenceResults.Results.count);
     
-    _occurrenceResults = occurrenceResults;
-    [self.delegate occurrenceResultsReceived:occurrenceResults];
-
-    if ([_tripsDataManager createEmptyTripWithOccurrenceResults:occurrenceResults bcOptions:_bcOptions])
+    self.currentSearchResults = occurrenceResults;
+//    [self.delegate occurrenceResultsReceived:occurrenceResults];
+    
+    if ([_tripsDataManager createNewTrip:occurrenceResults bcOptions:_bcOptions])
     {
-        for (GBIFOccurrence *occurrence in occurrenceResults.filteredResults)
+        [_tripsDataManager.delegate newTripCreated:_tripsDataManager.currentTrip];
+        for (GBIFOccurrence *occurrence in occurrenceResults.tripListResults)
         {
             [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
         }
-        
     }
 }
 
@@ -106,7 +106,7 @@
     {
         NSLog(@"%s \niNatTaxon Received: %@ - %@ \nAdding To Occurrence: %@", __PRETTY_FUNCTION__,
               gbifOccurrence.speciesBinomial, gbifOccurrence.iNatTaxon.commonName, gbifOccurrence.Key);
-
+        
         if (gbifOccurrence.iNatTaxon.taxonPhotos.count > 0)
         {
             INatTaxonPhoto *mainPhoto = gbifOccurrence.iNatTaxon.taxonPhotos[0];
@@ -116,7 +116,7 @@
         if (!gbifOccurrence.occurrenceRecord)
         {
             gbifOccurrence.occurrenceRecord = [OccurrenceRecord createFromGBIFOccurrence:gbifOccurrence];
-
+            
             if (![_managedObjectContext saveToPersistentStore:&error]) {
                 RKLogError(@"Error Saving New OccurrenceRecord To Store: %@", error);
             }
@@ -129,16 +129,15 @@
         if (![_managedObjectContext saveToPersistentStore:&error]) {
             RKLogError(@"Error Saving New TaxaAttributes To Store: %@", error);
         }
-//        [_tripsDataManager.delegate occurrenceAddedToTrip:gbifOccurrence.occurrenceRecord];
-
-        [self.delegate taxonAddedToOccurrence:gbifOccurrence];
+//        [self.delegate taxonAddedToOccurrence:gbifOccurrence];
+        [_tripsDataManager.delegate occurrenceAddedToTrip:gbifOccurrence.occurrenceRecord];
     }
     else
     {
         NSLog(@"%s \nNO iNatTaxon Received: %@ \nRemoving Occurrence: %@", __PRETTY_FUNCTION__,
               gbifOccurrence.speciesBinomial, gbifOccurrence.Key);
         
-        [_occurrenceResults.removedResults addObject:gbifOccurrence];
+        [self.currentSearchResults.removedResults addObject:gbifOccurrence];
         [self.delegate occurrenceRemoved:gbifOccurrence];
     }
     

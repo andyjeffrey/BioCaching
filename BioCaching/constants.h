@@ -23,6 +23,11 @@
 #define kINatAuthUserIDPrefKey @"INatUserIDPrefKey"
 
 #define kLastVersionPrefKey @"LastVersionPrefKey"
+#define kCounterLaunchesKey @"CounterLaunches"
+#define kCounterGBIFSearches @"GBIFSearches"
+#define kCounterINatSearches @"INatSearches"
+#define kCounterTripsCreated @"TripsCreated"
+#define kCounterTripsFailed @"TripsFailed"
 
 #ifdef DEBUG
 //    #define kINatBaseURL @"http://localhost:3000"

@@ -43,4 +43,6 @@
 - (void)discardCurrentTrip;
 - (void)removeOccurrenceFromTrip:(INatTrip *)trip occurrence:(OccurrenceRecord *)occurrenceRecord;
 
+- (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence;
+
 @end

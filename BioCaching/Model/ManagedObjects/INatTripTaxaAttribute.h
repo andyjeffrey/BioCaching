@@ -1,5 +1,4 @@
 #import "_INatTripTaxaAttribute.h"
-#import "INatTaxon.h"
 
 @interface INatTripTaxaAttribute : _INatTripTaxaAttribute {}
 

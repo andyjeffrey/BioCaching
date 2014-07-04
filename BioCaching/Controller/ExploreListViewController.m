@@ -8,6 +8,7 @@
 
 #import "ExploreListViewController.h"
 #import "OccurrenceDetailsViewController.h"
+#import "ObservationViewController.h"
 #import "ExploreDataManager.h"
 #import "TripsDataManager.h"
 
@@ -152,16 +153,18 @@
     cell.labelTaxonSubTitle.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.subtitle];
 #endif
     
-    if (_currentTrip && _currentTrip.status.intValue > TripStatusCreated)
-    {
-        [cell.buttonAction setTitle:@"Record" forState:UIControlStateNormal];
-        cell.buttonAction.backgroundColor = [UIColor kColorDarkGreen];
-    } else
-    {
+    if (_currentTrip.status.intValue <= TripStatusSaved) {
         [cell.buttonAction setTitle:@"Remove" forState:UIControlStateNormal];
         cell.buttonAction.backgroundColor = [UIColor kColorDarkRed];
+    } else {
+        if (!occurrence.taxaAttribute.observation) {
+            [cell.buttonAction setTitle:@"Record" forState:UIControlStateNormal];
+            cell.buttonAction.backgroundColor = [UIColor kColorDarkGreen];
+        } else {
+            [cell.buttonAction setTitle:@"Edit" forState:UIControlStateNormal];
+            cell.buttonAction.backgroundColor = [UIColor orangeColor];
+        }
     }
-    
     cell.delegate = self;
     
     //    [cell.buttonAction addTarget:self action:@selector(performAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -173,19 +176,18 @@
 
 - (void)actionButtonSelected:(TaxonListCell *)cell
 {
+    NSIndexPath *indexPath = [self.tableViewResults indexPathForCell:cell];
+    OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
+    NSLog(@"Action Button: %lu - %@", indexPath.row, occurrence.title);
+    
     if (_currentTrip && _currentTrip.status.intValue > TripStatusCreated)
     {
-        [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
+        ObservationViewController *observationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Observation"];
+        observationVC.occurrence = occurrence;
+        [self.parentViewController.navigationController pushViewController:observationVC animated:YES];
+//        [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
     } else {
-        NSIndexPath *indexPath = [self.tableViewResults indexPathForCell:cell];
-        
-//        GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
-        OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
-        
-        NSLog(@"Action Button: %lu - %@", indexPath.row, occurrence.title);
-        
         [_tripsDataManager removeOccurrenceFromTrip:_currentTrip occurrence:occurrence];
-        
         deletingRow = YES;
         [self.tableViewResults deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         deletingRow = NO;

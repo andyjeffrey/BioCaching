@@ -16,6 +16,7 @@
     #import <CoreData/CoreData.h>
     #import <RestKit/RestKit.h>
     #import <NXOAuth2.h>
+    #import <MapKit/MapKit.h>
 #endif
 
 #import "constants.h"
@@ -33,6 +34,7 @@
 #import "NSCountedSet+Sorting.h"
 #import "NSDictionary+Filtering.h"
 #import "NSDate+Formatting.h"
+#import "CLLocation+Formatting.h"
 
 #import "BCOptions.h"
 #import "BCAlerts.h"

@@ -7,6 +7,8 @@
 //
 
 #import "ObservationViewController.h"
+#import "LocationController.h"
+#import "TripsDataManager.h"
 
 @interface ObservationViewController ()
 
@@ -24,11 +26,16 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageObservation;
 @property (weak, nonatomic) IBOutlet UIButton *buttonObservation;
 
+- (IBAction)buttonActionSave:(id)sender;
+
 @end
 
 @implementation ObservationViewController {
-    NSDate *obsDate;
-    CLLocation *obsLocation;
+    LocationController *_locationController;
+    NSDate *_obsDate;
+    CLLocation *_obsLocation;
+    NSString *_obsLocationText;
+    NSString *_notes;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -50,19 +57,25 @@
     
     self.view.backgroundColor = [UIColor kColorTableBackgroundColor];
     
+    _obsDate = [NSDate date];
+    
     [self setupButtons];
     [self setupLabels];
     
     self.imageObservation.backgroundColor = [UIColor grayColor];
+    
+    _locationController = [LocationController sharedInstance];
+    _locationController.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
+    [_locationController.locationManager startUpdatingLocation];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [_locationController.locationManager stopUpdatingLocation];
     self.navigationController.navigationBarHidden = YES;
 }
 
@@ -83,23 +96,50 @@
     self.labelTaxonTitle.text = self.occurrence.title;
     self.labelTaxonSubtitle.text = self.occurrence.subtitle;
     self.labelDate.text = [[NSDate date] localDateTime];
+    self.labelLocation.text = @"";
 }
 
-- (void)didReceiveMemoryWarning
+- (void)updateLabels
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.labelLocation.text = [_obsLocation latLongVerbose];
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+#pragma mark - LocationControllerDelegate
+- (void)locationUpdated:(CLLocation *)location
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    NSLog(@"locationUpdated:%@", [location latLongVerbose]);
+    _obsLocation = location;
+    [self updateLabels];
 }
-*/
+
+- (void)lookupLocation
+{
+        CLGeocoder *geocoder;
+
+        if (!geocoder) {
+             geocoder = [[CLGeocoder alloc] init];
+         }
+         [geocoder cancelGeocode];
+    [geocoder reverseGeocodeLocation:_obsLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+             CLPlacemark *pm = [placemarks firstObject];
+             if (pm) {
+                 _obsLocationText = [[NSArray arrayWithObjects:
+                                                 pm.name,
+                                                 pm.locality,
+                                                 pm.administrativeArea,
+                                                 pm.ISOcountryCode,
+                                                 nil]
+                                                componentsJoinedByString:@", "];
+             }
+    }];
+}
+
+#pragma mark - IBActions
+- (IBAction)buttonActionSave:(id)sender {
+    INatObservation *observation = [INatObservation createNewObservationFromOccurrence:self.occurrence dateRecorded:_obsDate location:_obsLocation notes:_notes];
+    [[TripsDataManager sharedInstance] addObservationToTripOccurrence:observation occurrence:self.occurrence];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

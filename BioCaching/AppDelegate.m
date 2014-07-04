@@ -115,9 +115,9 @@
 {
 //    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
 //    RKLogConfigureByName("RestKit/Network/Core Data", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/Core Data", RKLogLevelInfo);
+//    RKLogConfigureByName("RestKit/Core Data", RKLogLevelInfo);
 //    RKLogConfigureByName("RestKit/Core Data/Cache", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelInfo);
+//    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelInfo);
 }
 
 - (void)configureFlurryAnalytics

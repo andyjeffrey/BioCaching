@@ -10,7 +10,8 @@
 
 @implementation INatTrip
 
-//@synthesize occurrenceResults;
+@synthesize locationCoordinate;
+@synthesize locationName;
 @synthesize occurrenceRecords;
 @synthesize removedRecords;
 

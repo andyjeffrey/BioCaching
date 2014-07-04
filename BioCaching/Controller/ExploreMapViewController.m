@@ -52,8 +52,10 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 @property (weak, nonatomic) IBOutlet UIView *viewButtonSave;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
 @property (weak, nonatomic) IBOutlet UIImageView *imageButtonSave;
+@property (weak, nonatomic) IBOutlet UILabel *labelButtonSave;
 - (IBAction)buttonSave:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIView *viewButtonStart;
 @property (weak, nonatomic) IBOutlet UIButton *buttonStart;
 @property (weak, nonatomic) IBOutlet UIImageView *imageButtonStart;
 @property (weak, nonatomic) IBOutlet UILabel *labelButtonStart;
@@ -137,13 +139,13 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     if (_currentTrip && (_currentTrip != _tripsDataManager.currentTrip)) {
         _currentTrip = _tripsDataManager.currentTrip;
     }
+    [self updateButtons];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     if (_currentTrip) {
-        [self updateButtons];
         // Update Add Trip Occurrence Annotations
         [self updateOccurrenceAnnotations:_currentTrip.occurrenceRecords];
         // Update Trip Search Area Overlay
@@ -184,13 +186,23 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [self.buttonSettings setBackgroundImage:
      [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor whiteColor] iconSize:28.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
     
+    [self resetTripButtons];
+}
+
+- (void)resetTripButtons
+{
+    self.labelButtonStart.text = @"Save";
     self.imageButtonSave.image =
     [IonIcons imageWithIcon:icon_archive iconColor:[UIColor kColorBCButtonLabel] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
     //    [self.buttonSave setBackgroundImage:[UIImage imageWithColor:[UIColor redColor]] forState:UIControlStateHighlighted];
+    self.viewButtonSave.hidden = YES;
     
     self.labelButtonStart.textColor = [UIColor kColorINatGreen];
+    self.labelButtonStart.font = [UIFont systemFontOfSize:20];
+    self.labelButtonStart.text = @"Start";
     self.imageButtonStart.image =
     [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+    self.viewButtonStart.hidden = YES;
 }
 
 - (void)updateAreaSpanLabel
@@ -258,17 +270,37 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 #pragma mark UI Update Methods
 
 - (void)updateButtons {
-    if (!_currentTrip || _currentTrip.status.intValue < TripStatusSaved) {
-        self.viewButtonSave.hidden = NO;
-        self.labelButtonStart.textColor = [UIColor kColorINatGreen];
-        self.labelButtonStart.font = [UIFont systemFontOfSize:20];
-        self.labelButtonStart.text = @"Start";
-        self.imageButtonStart.image =
-        [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
-    } else {
-        self.viewButtonSave.hidden = YES;
+    [self resetTripButtons];
+    if (_currentTrip) {
+        if (_currentTrip.status.intValue == TripStatusCreated) {
+            self.viewButtonSave.hidden = NO;
+            self.viewButtonStart.hidden = NO;
+        } else if (_currentTrip.status.intValue == TripStatusSaved) {
+            self.viewButtonStart.hidden = NO;
+        } else if (_currentTrip.status.intValue == TripStatusInProgress) {
+            self.labelButtonStart.textColor = [UIColor orangeColor];
+            self.labelButtonStart.font = [UIFont systemFontOfSize:20];
+            self.labelButtonStart.text = @"Stop";
+            self.imageButtonStart.image =
+            [IonIcons imageWithIcon:icon_stop iconColor:[UIColor orangeColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+            self.viewButtonStart.hidden = NO;
+        } else if (_currentTrip.status.intValue == TripStatusFinished) {
+            self.labelButtonStart.textColor = [UIColor cyanColor];
+            self.labelButtonStart.font = [UIFont systemFontOfSize:12];
+            self.labelButtonStart.text = @"Completed";
+            self.imageButtonStart.image =
+            [IonIcons imageWithIcon:icon_upload iconColor:[UIColor cyanColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+            self.viewButtonStart.hidden = NO;
+        } else if (_currentTrip.status.intValue == TripStatusPublished) {
+            self.labelButtonStart.textColor = [UIColor blackColor];
+            self.labelButtonStart.font = [UIFont systemFontOfSize:12];
+            self.labelButtonStart.text = @"Published";
+            self.imageButtonStart.image =
+            [IonIcons imageWithIcon:icon_checkmark iconColor:[UIColor blackColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+            self.viewButtonStart.hidden = NO;
+        }
     }
-    
+/*
     if (_currentTrip) {
         if (_currentTrip.status.intValue <= TripStatusSaved) {
             self.labelButtonStart.textColor = [UIColor kColorINatGreen];
@@ -296,7 +328,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
             [IonIcons imageWithIcon:icon_checkmark iconColor:[UIColor blackColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
         }
     }
-
+*/
 }
 
 - (void)updateLocationLabelAndMapView:(CLLocationCoordinate2D)location mapViewSpan:(NSInteger)viewSpan
@@ -451,12 +483,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [self hideTaxonView];
     
     if (_currentTrip && _currentTrip.status.intValue < (int)TripStatusSaved) {
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Creating New Trip...", nil)
-                                                     message:NSLocalizedString(@"Unsaved Trip Will Be Lost \n\nTODO: Add OK/Cancel Option", nil)
-                                                    delegate:self
-                                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                           otherButtonTitles:nil];
-        [av show];
+        [BCAlerts displayDefaultInfoAlert:@"Creating New Trip..." message:@"Unsaved Trip Will Be Lost \n\nTODO: Add OK/Cancel Option"];
         [_tripsDataManager discardCurrentTrip];
     }
     [self performSearch];
@@ -468,17 +495,12 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusInProgress];
         _currentTrip.startTime = [NSDate date];
     } else {
-        if (_currentTrip.status.intValue == TripStatusSaved) {
+        if (_currentTrip.status.intValue <= TripStatusSaved) {
+            if (_currentTrip.status.intValue == TripStatusCreated) {
+                [self displayTripNameDialog];
+            }
             _currentTrip.status = [NSNumber numberWithInt:TripStatusInProgress];
             _currentTrip.startTime = [NSDate date];
-            
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Started and Saved to Trips Page", nil)
-                                                         message:NSLocalizedString(@"Animate button disappearing to trips menu/button", nil)
-                                                        delegate:self
-                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                               otherButtonTitles:nil];
-            [av show];
-            
         } else if (_currentTrip.status.intValue == TripStatusInProgress){
             _currentTrip.status = [NSNumber numberWithInt:TripStatusFinished];
             _currentTrip.stopTime = [NSDate date];
@@ -486,23 +508,12 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 #ifdef DEBUG
             _currentTrip.stopTime = [_currentTrip.startTime dateByAddingTimeInterval:kDefaultTripDuration];
 #endif
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Finished and Ready to Upload (From Trips Page)", nil)
-                                                         message:NSLocalizedString(@"More user interaction asking to validate observations and items on trip list etc.", nil)
-                                                        delegate:self
-                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                               otherButtonTitles:nil];
-            [av show];
-            
+            [BCAlerts displayDefaultInfoAlert:@"Trip Completed, Ready to Publish" message:@"Please goto Trips Screen to publish trip to iNat"];
         } else if (_currentTrip.status.intValue == TripStatusFinished){
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Completed, Read to Publish", nil)
-                                                         message:NSLocalizedString(@"Please goto Trips Screen to publish trip to iNat", nil)
-                                                        delegate:self
-                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                               otherButtonTitles:nil];
-            [av show];
+            [BCAlerts displayDefaultInfoAlert:@"Trip Completed, Ready to Publish" message:@"Please goto Trips Screen to publish trip to iNat"];
         }
 
-        [[TripsDataManager sharedInstance] saveChanges];
+        [_tripsDataManager saveChanges];
     }
     
     [self updateButtons];
@@ -514,15 +525,18 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusSaved];
     } else {
         _currentTrip.status = [NSNumber numberWithInteger:TripStatusSaved];
-
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Creating New Trip..." message:@"Enter name for trip\n(or accept default):" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        UITextField * alertTextField = [alert textFieldAtIndex:0];
-        alertTextField.text = _currentTrip.title;
-        alertTextField.keyboardType = UIKeyboardTypeDefault;
-        alertTextField.placeholder = @"Enter Trip Name:";
-        [alert show];
+        [self displayTripNameDialog];
     }
+}
+
+- (void)displayTripNameDialog {
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Creating New Trip..." message:@"Enter name for trip\n(or accept default):" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField * alertTextField = [alert textFieldAtIndex:0];
+    alertTextField.text = _currentTrip.title;
+    alertTextField.keyboardType = UIKeyboardTypeDefault;
+    alertTextField.placeholder = @"Enter Trip Name:";
+    [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -715,12 +729,13 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     }
     
     [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_bcOptions.searchOptions.searchAreaSpan];
-    
+
+/*
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateOccurrenceAnnotations:[_occurrenceResults getFilteredResults:YES]];
         [self updateOccurrenceAnnotations:_currentTrip.occurrenceRecords];
     });
-    
+*/    
     //    _tripOptions = savedTripOptions;
 }
 
@@ -729,8 +744,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 - (void)newTripCreated:(INatTrip *)trip
 {
     _currentTrip = trip;
-    [self updateRecordCountLabel];
-    [self zoomToSearchArea:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateButtons];
+        [self updateRecordCountLabel];
+        [self zoomToSearchArea:nil];
+    });
 }
 
 - (void)occurrenceAddedToTrip:(OccurrenceRecord *)occurrence
@@ -834,10 +852,12 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         _currentViewLocation = [LocationsArray locationCoordinate:returnIndex];
     }
     _bcOptions.searchOptions.searchAreaSpan = [LocationsArray locationSearchAreaSpan:returnIndex];
+    _bcOptions.searchOptions.searchLocationName = [LocationsArray displayString:returnIndex];
     [self updateLocationLabelAndMapView:_currentViewLocation mapViewSpan:[LocationsArray locationViewSpan:returnIndex]];
     //    [self updateSearchAreaStepper:_currentSearchAreaSpan];
     [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     _viewBackgroundControls.hidden = YES;
+//    [self resetTripButtons];
 }
 
 

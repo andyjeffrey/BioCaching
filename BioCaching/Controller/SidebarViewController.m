@@ -9,12 +9,6 @@
 #import "SidebarViewController.h"
 #import "SWRevealViewController.h"
 
-#import "MainViewController.h"
-#import "ExploreContainerViewController.h"
-#import "TripsViewController.h"
-#import "ProfileViewController.h"
-#import "ExploreOptionsViewController.h"
-
 @interface SidebarViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconExplore;

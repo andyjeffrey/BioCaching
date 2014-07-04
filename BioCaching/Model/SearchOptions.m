@@ -21,6 +21,7 @@
     SearchOptions *searchOptions = [[SearchOptions alloc] init];
 
     searchOptions.searchAreaSpan = kOptionsDefaultSearchAreaSpan;
+    searchOptions.searchLocationName = @"";
     searchOptions.recordType = [OptionsRecordType defaultOption];
     searchOptions.recordSource = [OptionsRecordSource defaultOption];
     searchOptions.speciesFilter = [OptionsSpeciesFilter defaultOption];

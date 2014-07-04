@@ -14,6 +14,7 @@
 @property (nonatomic, assign) CLLocationCoordinate2D searchAreaCentre;
 @property (nonatomic, assign) NSUInteger searchAreaSpan;
 @property (nonatomic, strong) MKPolygon *searchAreaPolygon;
+@property (nonatomic, copy) NSString *searchLocationName;
 
 @property (nonatomic, strong) APIOption *recordType;
 @property (nonatomic, strong) APIOption *recordSource;

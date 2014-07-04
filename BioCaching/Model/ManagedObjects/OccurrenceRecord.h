@@ -1,5 +1,6 @@
 #import "_OccurrenceRecord.h"
-#import "GBIFOccurrence.h"
+
+@class GBIFOccurrence;
 
 @interface OccurrenceRecord : _OccurrenceRecord<MKAnnotation> {}
 

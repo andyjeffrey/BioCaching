@@ -10,6 +10,7 @@ extern const struct INatTripTaxaAttributeAttributes {
 } INatTripTaxaAttributeAttributes;
 
 extern const struct INatTripTaxaAttributeRelationships {
+	__unsafe_unretained NSString *observation;
 	__unsafe_unretained NSString *occurrence;
 	__unsafe_unretained NSString *trip;
 } INatTripTaxaAttributeRelationships;
@@ -17,6 +18,7 @@ extern const struct INatTripTaxaAttributeRelationships {
 extern const struct INatTripTaxaAttributeFetchedProperties {
 } INatTripTaxaAttributeFetchedProperties;
 
+@class INatObservation;
 @class OccurrenceRecord;
 @class INatTrip;
 
@@ -64,6 +66,13 @@ extern const struct INatTripTaxaAttributeFetchedProperties {
 
 
 
+@property (nonatomic, strong) INatObservation *observation;
+
+//- (BOOL)validateObservation:(id*)value_ error:(NSError**)error_;
+
+
+
+
 @property (nonatomic, strong) OccurrenceRecord *occurrence;
 
 //- (BOOL)validateOccurrence:(id*)value_ error:(NSError**)error_;
@@ -104,6 +113,11 @@ extern const struct INatTripTaxaAttributeFetchedProperties {
 - (void)setPrimitiveTaxonIdValue:(int32_t)value_;
 
 
+
+
+
+- (INatObservation*)primitiveObservation;
+- (void)setPrimitiveObservation:(INatObservation*)value;
 
 
 

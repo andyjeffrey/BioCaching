@@ -165,22 +165,23 @@ static NSSortDescriptor *defaultSortDesc;
     INatTrip *trip = [NSEntityDescription insertNewObjectForEntityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
     
     trip.status = [NSNumber numberWithInteger:TripStatusCreated];
-    trip.title = [NSString stringWithFormat:@"Test Trip %d - %.3f,%.3f", (int)_privateTrips.count + 1, bcOptions.searchOptions.searchAreaCentre.latitude, bcOptions.searchOptions.searchAreaCentre.longitude];
+//    trip.title = [NSString stringWithFormat:@"Test Trip %d - %.3f,%.3f", (int)_privateTrips.count + 1, bcOptions.searchOptions.searchAreaCentre.latitude, bcOptions.searchOptions.searchAreaCentre.longitude];
+    trip.title = [NSString stringWithFormat:@"Trip %d - %@", (int)_privateTrips.count + 1, bcOptions.searchOptions.searchLocationName];
     trip.localCreatedAt = [NSDate date];
     trip.latitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.latitude];
     trip.longitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.longitude];
     trip.searchAreaSpan = [NSNumber numberWithInteger:bcOptions.searchOptions.searchAreaSpan];
+    trip.positionalAccuracy = [NSNumber numberWithInteger:bcOptions.searchOptions.searchAreaSpan];
     trip.body = @"This is test Trip created from BioCaching mobile app";
     
     if (![managedObjectContext saveToPersistentStore:&error]) {
         RKLogError(@"Error Saving New Trip Entity To Store: %@", error);
         return nil;
-    } else {
-        [_privateTrips addObject:trip];
     }
-    
+
+    [_privateTrips addObject:trip];
     trip.removedRecords = [[NSMutableArray alloc] init];
-//    trip.occurrenceResults = occurrenceResults;
+
     self.currentTrip = trip;
     return trip;
 }
@@ -229,7 +230,7 @@ static NSSortDescriptor *defaultSortDesc;
     
     if (managedObjectContext.hasChanges) {
         if (![managedObjectContext saveToPersistentStore:&error]) {
-            RKLogError(@"Error Saving New Entities To Store: %@", error);
+            RKLogError(@"Error Saving Updates To Store: %@", error);
         }
     }
 }
@@ -278,7 +279,15 @@ static NSSortDescriptor *defaultSortDesc;
 {
     NSError *error = nil;
     
-    [managedObjectContext deleteObject:_currentTrip];
+    if (_currentTrip.managedObjectContext) {
+        [managedObjectContext deleteObject:_currentTrip];
+    } else {
+        NSString *reasonString = [NSString stringWithFormat:@"Attempting to delete Trip MO that does not exist:%@", _currentTrip];
+        @throw [NSException exceptionWithName:@"TripsDataManager"
+                                       reason:reasonString
+                                     userInfo:nil];
+    }
+
     if (![managedObjectContext saveToPersistentStore:&error]) {
         RKLogError(@"Error Deleting Trip: %@", error);
     } else {
@@ -288,20 +297,33 @@ static NSSortDescriptor *defaultSortDesc;
     _currentTrip = nil;
 }
 
-- (void)removeOccurrenceFromTrip:(INatTrip *)trip occurrence:(OccurrenceRecord *)occurrenceRecord
+- (void)removeOccurrenceFromTrip:(INatTrip *)trip occurrence:(OccurrenceRecord *)occurrence
 {
     NSError *error = nil;
     
     //TODO: Should check Trip contains OccurrenceRecord to be deleted?
-    [managedObjectContext deleteObject:occurrenceRecord];
+    if (occurrence.managedObjectContext) {
+        [managedObjectContext deleteObject:occurrence];
+    } else {
+        NSString *reasonString = [NSString stringWithFormat:@"Attempting to delete OccurrenceRecord MO that does not exist:%@", occurrence];
+        @throw [NSException exceptionWithName:@"TripsDataManager"
+                                       reason:reasonString
+                                     userInfo:nil];
+    }
+    
     if (![managedObjectContext saveToPersistentStore:&error]) {
         RKLogError(@"Error Deleting Occurrence: %@", error);
     } else {
-        [trip.removedRecords addObject:occurrenceRecord];
-        [self.delegate occurrenceRemovedFromTrip:occurrenceRecord];
+        [trip.removedRecords addObject:occurrence];
+        [self.delegate occurrenceRemovedFromTrip:occurrence];
     }
 }
 
+- (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence
+{
+    occurrence.taxaAttribute.observation = observation;
+    [self saveChanges];
+}
 
 
 

@@ -21,7 +21,9 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-    [self.buttonAction setTitleColor:[UIColor kColorButtonLabel] forState:UIControlStateNormal];
+    if (self) {
+        [self.buttonAction setTitleColor:[UIColor kColorButtonLabel] forState:UIControlStateNormal];
+    }
     
     return self;
 }

@@ -7,14 +7,12 @@
 //
 
 #import "TripsViewController.h"
-#import "TripsDataManager.h"
 #import "ExploreContainerViewController.h"
-#import "TripsListCell.h"
-#import "INatTrip.h"
-#import <RestKit/RestKit.h>
-
 #import "SWRevealViewController.h"
 #import "SidebarViewController.h"
+
+#import "TripsDataManager.h"
+#import "INatTrip.h"
 
 @interface TripsViewController ()
 
@@ -102,15 +100,7 @@
 }
 
 
-- (void)loadCompletedTripsFromINat
-{
-    [_tripsDataManager loadTripsFromINat:nil success:^(NSArray *trips) {
-        [self.tableTrips reloadData];
-    }];
-}
-
 #pragma mark UITableView
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return _tableSections.count;
@@ -147,16 +137,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TripsListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TripsListCell" forIndexPath:indexPath];
-    
     INatTrip *trip;
     NSArray *sectionArray = _tableSections[indexPath.section][2];
     if (sectionArray && sectionArray.count > 0) {
         trip = sectionArray[indexPath.row];
     }
+
+    TripListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TripListCell" forIndexPath:indexPath];
+
+    if (!trip) {
+        cell.labelTripTitle.text = @"";
+        cell.labelTripSubtitle.text = @"";
+        cell.labelTripSummaryStats.text = @"";
+        cell.labelBackground.text = @"[No Trips]";
+        cell.buttonAction.hidden = YES;
+        return cell;
+    }
     
     cell.labelTripTitle.text = trip.title;
-    
     NSString *subtitle;
     if (trip.startTime) {
         subtitle = [NSString stringWithFormat:@"%@ - ", [trip.startTime localDateTime]];
@@ -164,21 +162,28 @@
             subtitle = [subtitle stringByAppendingString:[trip.stopTime localTime]];
         }
     } else {
-        subtitle = [NSString stringWithFormat:@"Trip Created: %@", [trip.localCreatedAt localDateTime]];
+        subtitle = [NSString stringWithFormat:@"Created: %@", [trip.localCreatedAt localDateTime]];
     }
     cell.labelTripSubtitle.text = subtitle;
     
     cell.labelTripSummaryStats.text = [NSString stringWithFormat:@"%d / %d",
-                                       0,
+                                       (int)trip.observations.count,
                                        (int)trip.taxaAttributes.count];
     cell.labelBackground.text = @"";
     
-    if (!trip) {
-        cell.labelTripTitle.text = @"";
-        cell.labelTripSubtitle.text = @"";
-        cell.labelTripSummaryStats.text = @"";
-        cell.labelBackground.text = @"[No Trips]";
+    if (trip.status.intValue == TripStatusFinished) {
+        [cell.buttonAction setTitle:@"Upload" forState:UIControlStateNormal];
+        [cell.buttonAction setTitleColor:[UIColor cyanColor] forState:UIControlStateNormal];
+        cell.buttonAction.hidden = NO;
+    } else {
+        cell.buttonAction.hidden = YES;
+#ifdef DEBUG
+        [cell.buttonAction setTitle:@"Delete" forState:UIControlStateNormal];
+        [cell.buttonAction setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        cell.buttonAction.hidden = NO;
+#endif
     }
+    cell.delegate = self;
     
     return cell;
 }
@@ -191,28 +196,46 @@
         trip = sectionArray[indexPath.row];
     }
     
-    if (!trip) {
+    if (trip) {
+        _tripsDataManager.currentTrip = trip;
+        [self performSegueWithIdentifier:@"ExploreVC" sender:nil];
+    } else {
         NSLog(@"Cell Selected: %lu-%lu: NO TRIP", (long)indexPath.section, (long)indexPath.row);
-    } else if (trip.status.intValue == TripStatusFinished) {
-        NSLog(@"Cell Selected: %lu-%lu: Saving Trip...", (long)indexPath.section, (long)indexPath.row);
+    }
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)actionButtonSelected:(TripListCell *)cell
+{
+    cell.buttonAction.hidden = YES;
+    NSIndexPath *indexPath = [self.tableTrips indexPathForCell:cell];
+    INatTrip *trip;
+    NSArray *sectionArray = _tableSections[indexPath.section][2];
+    if (sectionArray && sectionArray.count > 0) {
+        trip = sectionArray[indexPath.row];
+    }
+    NSLog(@"actionButtonSelectedForTripAtIndexPath:%d-%d:%@",
+          (int)indexPath.section, (int)indexPath.row, trip.title);
+    
+    if (trip.status.intValue == TripStatusFinished) {
+        [cell.buttonAction setTitle:@"Uploading" forState:UIControlStateNormal];
         if ([LoginManager sharedInstance].loggedIn) {
             [_tripsDataManager saveTripToINat:trip];
         } else {
             [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
         }
-//    } else if (trip.status.intValue == TripStatusPublished) {
-//        NSLog(@"Cell Selected: %lu-%lu: Deleting Trip...", (long)indexPath.section, (long)indexPath.row);
-//        [_tripsDataManager deleteTripFromINat:trip];
+    } else if (trip.status.intValue == TripStatusPublished) {
+        if ([LoginManager sharedInstance].loggedIn) {
+            [_tripsDataManager deleteTripFromINat:trip];
+        } else {
+            [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
+        }
     } else {
-        _tripsDataManager.currentTrip = trip;
-        [self performSegueWithIdentifier:@"ExploreVC" sender:nil];
+        [_tripsDataManager deleteTripFromLocalStore:trip];
     }
-    
-//    [BCAlerts displayDefaultInfoAlert:@"Saved/In Progress Trip Selected" message:@"In future this will take you back to the Explore page for the selected trip"];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
 }
+
 
 #pragma mark - TripsDataManagerDelegate
 
@@ -251,14 +274,14 @@
 
 
 #pragma-mark IBActions
-
 - (IBAction)buttonSidebar:(id)sender {
     [self.revealViewController revealToggleAnimated:YES];
 }
 
 - (IBAction)buttonRefresh:(id)sender {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [self loadCompletedTripsFromINat];
+#ifdef DEBUG
+    [_tripsDataManager loadAllTripsFromINat];
+#endif
 }
 
 @end

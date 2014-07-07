@@ -129,16 +129,20 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     _tripsDataManager = [TripsDataManager sharedInstance];
     _tripsDataManager.delegate = self;
     
-    [self performSearch];
+    if (_bcOptions.displayOptions.autoSearch) {
+        [self performSearch];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     // Force ExploreMapVC To Always Show Current Trip?
-    if (_currentTrip && (_currentTrip != _tripsDataManager.currentTrip)) {
+    if (_currentTrip != _tripsDataManager.currentTrip) {
         _currentTrip = _tripsDataManager.currentTrip;
     }
+    [self updateAreaSpanLabel];
+    [self updateRecordCountLabel];
     [self updateButtons];
 }
 
@@ -520,7 +524,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 }
 
 - (IBAction)buttonSave:(id)sender {
-    
     if (!_currentTrip) {
         _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:self.bcOptions tripStatus:TripStatusSaved];
     } else {
@@ -552,21 +555,19 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)performSearch
 {
-    [self updateAreaSpanLabel];
-    [self updateRecordCountLabel:0];
     // Use current view region for searchAreaSpan
     if (_currentTrip) {
         _currentTrip = nil;
         _bcOptions.searchOptions.searchAreaSpan = _currentViewSpan;
-        [self.mapView removeAnnotations:self.mapView.annotations];
         [self updateButtons];
     }
+    [self updateAreaSpanLabel];
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self updateRecordCountLabel];
     
     _bcOptions.searchOptions.searchAreaCentre = _currentViewLocation;
     [self updateSearchAreaOverlay:_bcOptions.searchOptions.searchAreaCentre areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     _bcOptions.searchOptions.searchAreaPolygon = _currentSearchAreaPolygon;
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     [_exploreDataManager fetchOccurrencesWithOptions:_bcOptions];
 }
@@ -759,10 +760,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         [self updateRecordCountLabel];
         
         // TODO: Replace with better mechanism for showing network activity
-        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) ||
-            (self.mapView.annotations.count == _exploreDataManager.currentSearchResults.tripListCount)) {
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        }
+        // Handled by sharedManager?
+//        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) ||
+//            (self.mapView.annotations.count == _exploreDataManager.currentSearchResults.tripListCount)) {
+//            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//        }
     });
 }
 
@@ -775,10 +777,12 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         [self.mapView removeAnnotation:occurrence];
         [self updateRecordCountLabel];
         
-        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) ||
-            (self.mapView.annotations.count == _exploreDataManager.currentSearchResults.tripListCount)) {
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        }
+        // TODO: Replace with better mechanism for showing network activity
+        // Handled by sharedManager?
+//        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) ||
+//            (self.mapView.annotations.count == _exploreDataManager.currentSearchResults.tripListCount)) {
+//            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//        }
     });
 }
 
@@ -805,9 +809,10 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         [self.mapView addAnnotation:occurrence];
         [self updateRecordCountLabel];
         // TODO: Replace with better mechanism for showing network activity
-        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) || (self.mapView.annotations.count >= [_occurrenceResults getFilteredResults:YES].count - _occurrenceResults.removedResults.count)) {
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        }
+        // Handled by sharedManager?
+//        if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) || (self.mapView.annotations.count >= [_occurrenceResults getFilteredResults:YES].count - _occurrenceResults.removedResults.count)) {
+//            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//        }
     });
 }
 
@@ -823,9 +828,10 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [self.mapView removeAnnotation:occurrence];
     [self updateRecordCountLabel];
     // TODO: Replace with better mechanism for showing network activity
-    if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) || (self.mapView.annotations.count >= [_occurrenceResults getFilteredResults:YES].count - _occurrenceResults.removedResults.count)) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    }
+    // Handled by sharedManager?
+//    if ((self.mapView.annotations.count == _bcOptions.displayOptions.displayPoints) || (self.mapView.annotations.count >= [_occurrenceResults getFilteredResults:YES].count - _occurrenceResults.removedResults.count)) {
+//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//    }
 }
 
 

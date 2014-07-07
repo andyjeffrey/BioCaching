@@ -12,6 +12,7 @@
 #define formatDate @"MMM dd yyyy"
 #define formatTime @"HH:mm"
 #define formatISO8601 @"yyyy-MM-dd'T'HH:mm:ss.sZZZZZ"
+#define formatISO8601INat @"yyyy-MM-dd'T'HH:mm:ssZZZZZ"
 
 @implementation NSDate (Formatting)
 
@@ -22,22 +23,31 @@
     return [formatter dateFromString:dateString];
 }
 
-- (NSString *)localDateTime
-{
+- (NSString *)iso8601String {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = formatISO8601;
+    return [formatter stringFromDate:self];
+}
+
+- (NSString *)iso8601INatString {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = formatISO8601INat;
+    return [formatter stringFromDate:self];
+}
+
+- (NSString *)localDateTime {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = formatDateTime;
     return [formatter stringFromDate:self];
 }
 
-- (NSString *)localDate
-{
+- (NSString *)localDate {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = formatDate;
     return [formatter stringFromDate:self];
 }
 
-- (NSString *)localTime
-{
+- (NSString *)localTime {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = formatTime;
     return [formatter stringFromDate:self];

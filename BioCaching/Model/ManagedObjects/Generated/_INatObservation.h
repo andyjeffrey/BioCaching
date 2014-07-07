@@ -5,21 +5,33 @@
 
 
 extern const struct INatObservationAttributes {
+	__unsafe_unretained NSString *createdAt;
 	__unsafe_unretained NSString *dateRecorded;
 	__unsafe_unretained NSString *latitude;
+	__unsafe_unretained NSString *localCreatedAt;
 	__unsafe_unretained NSString *longitude;
 	__unsafe_unretained NSString *notes;
+	__unsafe_unretained NSString *recordId;
+	__unsafe_unretained NSString *syncedAt;
 	__unsafe_unretained NSString *taxonId;
+	__unsafe_unretained NSString *updatedAt;
 } INatObservationAttributes;
 
 extern const struct INatObservationRelationships {
-	__unsafe_unretained NSString *tripTaxaAttribute;
+	__unsafe_unretained NSString *taxaAttribute;
+	__unsafe_unretained NSString *trip;
 } INatObservationRelationships;
 
 extern const struct INatObservationFetchedProperties {
 } INatObservationFetchedProperties;
 
 @class INatTripTaxaAttribute;
+@class INatTrip;
+
+
+
+
+
 
 
 
@@ -35,6 +47,16 @@ extern const struct INatObservationFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (INatObservationID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* createdAt;
+
+
+
+//- (BOOL)validateCreatedAt:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -64,6 +86,16 @@ extern const struct INatObservationFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSDate* localCreatedAt;
+
+
+
+//- (BOOL)validateLocalCreatedAt:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* longitude;
 
 
@@ -88,6 +120,30 @@ extern const struct INatObservationFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* recordId;
+
+
+
+@property int32_t recordIdValue;
+- (int32_t)recordIdValue;
+- (void)setRecordIdValue:(int32_t)value_;
+
+//- (BOOL)validateRecordId:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* syncedAt;
+
+
+
+//- (BOOL)validateSyncedAt:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* taxonId;
 
 
@@ -102,9 +158,26 @@ extern const struct INatObservationFetchedProperties {
 
 
 
-@property (nonatomic, strong) INatTripTaxaAttribute *tripTaxaAttribute;
+@property (nonatomic, strong) NSDate* updatedAt;
 
-//- (BOOL)validateTripTaxaAttribute:(id*)value_ error:(NSError**)error_;
+
+
+//- (BOOL)validateUpdatedAt:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) INatTripTaxaAttribute *taxaAttribute;
+
+//- (BOOL)validateTaxaAttribute:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, strong) INatTrip *trip;
+
+//- (BOOL)validateTrip:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -119,6 +192,12 @@ extern const struct INatObservationFetchedProperties {
 @interface _INatObservation (CoreDataGeneratedPrimitiveAccessors)
 
 
+- (NSDate*)primitiveCreatedAt;
+- (void)setPrimitiveCreatedAt:(NSDate*)value;
+
+
+
+
 - (NSDate*)primitiveDateRecorded;
 - (void)setPrimitiveDateRecorded:(NSDate*)value;
 
@@ -130,6 +209,12 @@ extern const struct INatObservationFetchedProperties {
 
 - (double)primitiveLatitudeValue;
 - (void)setPrimitiveLatitudeValue:(double)value_;
+
+
+
+
+- (NSDate*)primitiveLocalCreatedAt;
+- (void)setPrimitiveLocalCreatedAt:(NSDate*)value;
 
 
 
@@ -149,6 +234,21 @@ extern const struct INatObservationFetchedProperties {
 
 
 
+- (NSNumber*)primitiveRecordId;
+- (void)setPrimitiveRecordId:(NSNumber*)value;
+
+- (int32_t)primitiveRecordIdValue;
+- (void)setPrimitiveRecordIdValue:(int32_t)value_;
+
+
+
+
+- (NSDate*)primitiveSyncedAt;
+- (void)setPrimitiveSyncedAt:(NSDate*)value;
+
+
+
+
 - (NSNumber*)primitiveTaxonId;
 - (void)setPrimitiveTaxonId:(NSNumber*)value;
 
@@ -158,9 +258,20 @@ extern const struct INatObservationFetchedProperties {
 
 
 
+- (NSDate*)primitiveUpdatedAt;
+- (void)setPrimitiveUpdatedAt:(NSDate*)value;
 
-- (INatTripTaxaAttribute*)primitiveTripTaxaAttribute;
-- (void)setPrimitiveTripTaxaAttribute:(INatTripTaxaAttribute*)value;
+
+
+
+
+- (INatTripTaxaAttribute*)primitiveTaxaAttribute;
+- (void)setPrimitiveTaxaAttribute:(INatTripTaxaAttribute*)value;
+
+
+
+- (INatTrip*)primitiveTrip;
+- (void)setPrimitiveTrip:(INatTrip*)value;
 
 
 @end

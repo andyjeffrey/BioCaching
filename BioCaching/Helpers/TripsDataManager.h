@@ -6,9 +6,6 @@
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
-// Temporary Data Manager Class
-// TODO: Replace with CoreData/RestKit Managed Objects
-
 #import <Foundation/Foundation.h>
 #import "TripsDataManagerDelegate.h"
 #import "GBIFOccurrenceResults.h"
@@ -18,6 +15,9 @@
 
 @property (weak, nonatomic) id<TripsDataManagerDelegate> delegate;
 @property (weak, nonatomic) id<TripsDataManagerTableDelegate> tableDelegate;
+
+// Conveniece properties for TripsVC table sections
+// TODO: Replace with FetchedResultsController?
 
 @property (nonatomic, readonly, strong) NSArray *createdTrips;
 @property (nonatomic, readonly, strong) NSArray *savedTrips;
@@ -29,20 +29,27 @@
 
 + (instancetype)sharedInstance;
 
-- (void)saveChanges;
+- (BOOL)saveChanges;
 
 - (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus;
 - (INatTrip *)createNewTrip:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions;
 - (NSString *)getDefaultNewTripName:(BCOptions *)bcOptions;
 
 - (void)loadTripsFromINat:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
+- (void)loadAllTripsFromINat;
 - (void)saveTripToINat:(INatTrip *)trip;
 - (void)deleteTripFromINat:(INatTrip *)trip;
 
 - (void)loadTripsFromLocalStore;
+- (void)deleteTripFromLocalStore:(INatTrip *)trip;
 - (void)discardCurrentTrip;
+
+- (void)addNewTaxaAttributeFromOccurrence:(OccurrenceRecord *)occurrenceRecord;
+
 - (void)removeOccurrenceFromTrip:(INatTrip *)trip occurrence:(OccurrenceRecord *)occurrenceRecord;
+- (void)removeOccurrenceFromTrip:(OccurrenceRecord *)occurrenceRecord trip:(INatTrip *)trip;
 
 - (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence;
+- (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence trip:(INatTrip *)trip;
 
 @end

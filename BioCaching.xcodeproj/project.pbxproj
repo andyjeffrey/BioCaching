@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A119199519660F7D003B15F7 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199419660F7D003B15F7 /* LocationController.m */; };
 		A119199819661E4E003B15F7 /* CLLocation+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199719661E4E003B15F7 /* CLLocation+Formatting.m */; };
+		A119199B1969954B003B15F7 /* UploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199A1969954B003B15F7 /* UploadManager.m */; };
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
 		A1464512195074F4005C1107 /* ObservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1464511195074F4005C1107 /* ObservationViewController.m */; };
@@ -73,6 +74,7 @@
 		A17BAE3B195DC6B9004B1C37 /* BCManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BAE3A195DC6B9004B1C37 /* BCManagedObject.m */; };
 		A17BAE3C1961532B004B1C37 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA20CE18B4F7ED00200D50 /* MapKit.framework */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
+		A1BEE394196AB69000297526 /* TripListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BEE393196AB69000297526 /* TripListCell.m */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DDE418C7BAA500FA005B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DDE318C7BAA500FA005B /* libz.dylib */; };
@@ -92,7 +94,6 @@
 		A1EA12F919265A2500449327 /* CrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12EF19265A2500449327 /* CrossHairView.m */; };
 		A1EA12FA19265A2500449327 /* CustomEmbedSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12F119265A2500449327 /* CustomEmbedSegue.m */; };
 		A1EA12FB19265A2500449327 /* TaxonListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12F419265A2500449327 /* TaxonListCell.m */; };
-		A1EA12FC19265A2500449327 /* TripsListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12F619265A2500449327 /* TripsListCell.m */; };
 		A1EA12FD19265A2500449327 /* UIColor+Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12F819265A2500449327 /* UIColor+Defaults.m */; };
 		A1EA131D19265B4900449327 /* BCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA130019265B4900449327 /* BCWebViewController.m */; };
 		A1EA131E19265B4900449327 /* DropDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA130219265B4900449327 /* DropDownViewController.m */; };
@@ -146,6 +147,8 @@
 		A119199419660F7D003B15F7 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		A119199619661E4E003B15F7 /* CLLocation+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+Formatting.h"; sourceTree = "<group>"; };
 		A119199719661E4E003B15F7 /* CLLocation+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Formatting.m"; sourceTree = "<group>"; };
+		A11919991969954B003B15F7 /* UploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadManager.h; sourceTree = "<group>"; };
+		A119199A1969954B003B15F7 /* UploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadManager.m; sourceTree = "<group>"; };
 		A12B63B718EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 2783288252_6f21bf941c.jpg; path = Resources/TestData/Images/2783288252_6f21bf941c.jpg; sourceTree = "<group>"; };
 		A13B8F2118F75AAE000C522B /* OccurrenceResultsCASFilterv0.9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv0.9.json; path = Resources/TestData/OccurrenceResultsCASFilterv0.9.json; sourceTree = "<group>"; };
 		A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv1.0.json; path = Resources/TestData/OccurrenceResultsCASFilterv1.0.json; sourceTree = "<group>"; };
@@ -286,6 +289,8 @@
 		A17BAE3A195DC6B9004B1C37 /* BCManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCManagedObject.m; sourceTree = "<group>"; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
+		A1BEE392196AB69000297526 /* TripListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripListCell.h; sourceTree = "<group>"; };
+		A1BEE393196AB69000297526 /* TripListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripListCell.m; sourceTree = "<group>"; };
 		A1CD979819618E8900582BF0 /* TripsDataManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TripsDataManagerDelegate.h; sourceTree = "<group>"; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
 		A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Exe Estuary MPA, UK.gpx"; path = "Resources/TestData/Exe Estuary MPA, UK.gpx"; sourceTree = "<group>"; };
@@ -330,8 +335,6 @@
 		A1EA12F219265A2500449327 /* MapViewLayoutGuide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewLayoutGuide.h; sourceTree = "<group>"; };
 		A1EA12F319265A2500449327 /* TaxonListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonListCell.h; sourceTree = "<group>"; };
 		A1EA12F419265A2500449327 /* TaxonListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonListCell.m; sourceTree = "<group>"; };
-		A1EA12F519265A2500449327 /* TripsListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripsListCell.h; sourceTree = "<group>"; };
-		A1EA12F619265A2500449327 /* TripsListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripsListCell.m; sourceTree = "<group>"; };
 		A1EA12F719265A2500449327 /* UIColor+Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Defaults.h"; sourceTree = "<group>"; };
 		A1EA12F819265A2500449327 /* UIColor+Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Defaults.m"; sourceTree = "<group>"; };
 		A1EA12FF19265B4900449327 /* BCWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCWebViewController.h; sourceTree = "<group>"; };
@@ -707,8 +710,8 @@
 				A1EA12F219265A2500449327 /* MapViewLayoutGuide.h */,
 				A1EA12F319265A2500449327 /* TaxonListCell.h */,
 				A1EA12F419265A2500449327 /* TaxonListCell.m */,
-				A1EA12F519265A2500449327 /* TripsListCell.h */,
-				A1EA12F619265A2500449327 /* TripsListCell.m */,
+				A1BEE392196AB69000297526 /* TripListCell.h */,
+				A1BEE393196AB69000297526 /* TripListCell.m */,
 				A1EA12F719265A2500449327 /* UIColor+Defaults.h */,
 				A1EA12F819265A2500449327 /* UIColor+Defaults.m */,
 				A17628701937385400DD69DB /* BCButton.h */,
@@ -820,6 +823,8 @@
 				A17628D4194F08CD00DD69DB /* BCAlerts.m */,
 				A119199319660F7D003B15F7 /* LocationController.h */,
 				A119199419660F7D003B15F7 /* LocationController.m */,
+				A11919991969954B003B15F7 /* UploadManager.h */,
+				A119199A1969954B003B15F7 /* UploadManager.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1029,7 +1034,6 @@
 				A17BAE32195DBB8A004B1C37 /* _OccurrenceRecord.m in Sources */,
 				A15346FE1962D53600E1C63F /* NIState.m in Sources */,
 				A1EA12F919265A2500449327 /* CrossHairView.m in Sources */,
-				A1EA12FC19265A2500449327 /* TripsListCell.m in Sources */,
 				A119199819661E4E003B15F7 /* CLLocation+Formatting.m in Sources */,
 				A17628C319471BA500DD69DB /* _INatTripTaxaAttribute.m in Sources */,
 				A15346EB1962D53600E1C63F /* NIActions.m in Sources */,
@@ -1095,6 +1099,7 @@
 				A1EA12E71926562A00449327 /* OptionsRecordType.m in Sources */,
 				A15346FD1962D53600E1C63F /* NISnapshotRotation.m in Sources */,
 				A17BAE35195DBBA2004B1C37 /* OccurrenceRecord.m in Sources */,
+				A119199B1969954B003B15F7 /* UploadManager.m in Sources */,
 				A1EA12FB19265A2500449327 /* TaxonListCell.m in Sources */,
 				A1EA132519265B4900449327 /* MainViewController.m in Sources */,
 				A15346FA1962D53600E1C63F /* NIPaths.m in Sources */,
@@ -1122,6 +1127,7 @@
 				A1EA131D19265B4900449327 /* BCWebViewController.m in Sources */,
 				A1EA135119265B5D00449327 /* GBIFCommunicator.m in Sources */,
 				A1EA131E19265B4900449327 /* DropDownViewController.m in Sources */,
+				A1BEE394196AB69000297526 /* TripListCell.m in Sources */,
 				A1EA133B19265B5200449327 /* NSCountedSet+Sorting.m in Sources */,
 				A1EA133A19265B5200449327 /* MKPolygon+WKTParser.m in Sources */,
 				A15346E91962D53600E1C63F /* NIAttributedLabel.m in Sources */,

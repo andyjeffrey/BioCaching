@@ -8,7 +8,7 @@ extern const struct BCManagedObjectAttributes {
 	__unsafe_unretained NSString *createdAt;
 	__unsafe_unretained NSString *localCreatedAt;
 	__unsafe_unretained NSString *recordId;
-	__unsafe_unretained NSString *synchedAt;
+	__unsafe_unretained NSString *syncedAt;
 	__unsafe_unretained NSString *updatedAt;
 } BCManagedObjectAttributes;
 
@@ -72,11 +72,11 @@ extern const struct BCManagedObjectFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSDate* synchedAt;
+@property (nonatomic, strong) NSDate* syncedAt;
 
 
 
-//- (BOOL)validateSynchedAt:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateSyncedAt:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -123,8 +123,8 @@ extern const struct BCManagedObjectFetchedProperties {
 
 
 
-- (NSDate*)primitiveSynchedAt;
-- (void)setPrimitiveSynchedAt:(NSDate*)value;
+- (NSDate*)primitiveSyncedAt;
+- (void)setPrimitiveSyncedAt:(NSDate*)value;
 
 
 

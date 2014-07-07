@@ -11,6 +11,7 @@
 @interface DisplayOptions : NSObject
 
 @property (nonatomic, assign) MKMapType mapType;
+@property (nonatomic, assign) BOOL autoSearch;
 @property (nonatomic, assign) NSUInteger displayPoints;
 @property (nonatomic, assign) BOOL uniqueSpecies;
 @property (nonatomic, assign) BOOL uniqueLocations;

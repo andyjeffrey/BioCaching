@@ -121,16 +121,8 @@
                 RKLogError(@"Error Saving New OccurrenceRecord To Store: %@", error);
             }
         }
-        //TODO: Move trip management code to TripsDataManager using KVO on <INatTrip>.GBIFOccurrenceResults.tripListOccurrences
-        INatTripTaxaAttribute *taxaAttribute = [INatTripTaxaAttribute createFromINatTaxon:gbifOccurrence.iNatTaxon];
-        taxaAttribute.occurrence = gbifOccurrence.occurrenceRecord;
         
-        [[_tripsDataManager currentTrip].taxaAttributesSet addObject:taxaAttribute];
-        if (![_managedObjectContext saveToPersistentStore:&error]) {
-            RKLogError(@"Error Saving New TaxaAttributes To Store: %@", error);
-        }
-//        [self.delegate taxonAddedToOccurrence:gbifOccurrence];
-        [_tripsDataManager.delegate occurrenceAddedToTrip:gbifOccurrence.occurrenceRecord];
+        [_tripsDataManager addNewTaxaAttributeFromOccurrence:gbifOccurrence.occurrenceRecord];
     }
     else
     {

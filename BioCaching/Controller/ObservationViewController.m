@@ -138,7 +138,7 @@
 #pragma mark - IBActions
 - (IBAction)buttonActionSave:(id)sender {
     INatObservation *observation = [INatObservation createNewObservationFromOccurrence:self.occurrence dateRecorded:_obsDate location:_obsLocation notes:_notes];
-    [[TripsDataManager sharedInstance] addObservationToTripOccurrence:observation occurrence:self.occurrence];
+    [[TripsDataManager sharedInstance] addObservationToTripOccurrence:observation occurrence:self.occurrence trip:[TripsDataManager sharedInstance].currentTrip];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

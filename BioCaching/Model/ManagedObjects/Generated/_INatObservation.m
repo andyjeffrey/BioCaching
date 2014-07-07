@@ -4,15 +4,21 @@
 #import "_INatObservation.h"
 
 const struct INatObservationAttributes INatObservationAttributes = {
+	.createdAt = @"createdAt",
 	.dateRecorded = @"dateRecorded",
 	.latitude = @"latitude",
+	.localCreatedAt = @"localCreatedAt",
 	.longitude = @"longitude",
 	.notes = @"notes",
+	.recordId = @"recordId",
+	.syncedAt = @"syncedAt",
 	.taxonId = @"taxonId",
+	.updatedAt = @"updatedAt",
 };
 
 const struct INatObservationRelationships INatObservationRelationships = {
-	.tripTaxaAttribute = @"tripTaxaAttribute",
+	.taxaAttribute = @"taxaAttribute",
+	.trip = @"trip",
 };
 
 const struct INatObservationFetchedProperties INatObservationFetchedProperties = {
@@ -54,6 +60,11 @@ const struct INatObservationFetchedProperties INatObservationFetchedProperties =
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"recordIdValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"recordId"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"taxonIdValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"taxonId"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -62,6 +73,13 @@ const struct INatObservationFetchedProperties INatObservationFetchedProperties =
 
 	return keyPaths;
 }
+
+
+
+
+@dynamic createdAt;
+
+
 
 
 
@@ -94,6 +112,13 @@ const struct INatObservationFetchedProperties INatObservationFetchedProperties =
 - (void)setPrimitiveLatitudeValue:(double)value_ {
 	[self setPrimitiveLatitude:[NSNumber numberWithDouble:value_]];
 }
+
+
+
+
+
+@dynamic localCreatedAt;
+
 
 
 
@@ -132,6 +157,39 @@ const struct INatObservationFetchedProperties INatObservationFetchedProperties =
 
 
 
+@dynamic recordId;
+
+
+
+- (int32_t)recordIdValue {
+	NSNumber *result = [self recordId];
+	return [result intValue];
+}
+
+- (void)setRecordIdValue:(int32_t)value_ {
+	[self setRecordId:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveRecordIdValue {
+	NSNumber *result = [self primitiveRecordId];
+	return [result intValue];
+}
+
+- (void)setPrimitiveRecordIdValue:(int32_t)value_ {
+	[self setPrimitiveRecordId:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic syncedAt;
+
+
+
+
+
+
 @dynamic taxonId;
 
 
@@ -158,7 +216,18 @@ const struct INatObservationFetchedProperties INatObservationFetchedProperties =
 
 
 
-@dynamic tripTaxaAttribute;
+@dynamic updatedAt;
+
+
+
+
+
+
+@dynamic taxaAttribute;
+
+	
+
+@dynamic trip;
 
 	
 

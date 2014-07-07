@@ -66,7 +66,7 @@
 @property (nonatomic, readonly, copy) NSString *detailsSubTitle;
 @property (nonatomic, readonly, copy) NSString *locationString;
 
-@property (nonatomic, strong) _OccurrenceRecord *occurrenceRecord;
+@property (nonatomic, strong) OccurrenceRecord *occurrenceRecord;
 @property (nonatomic, strong) INatTaxon *iNatTaxon;
 
 #pragma mark - MKAnnotation Properties

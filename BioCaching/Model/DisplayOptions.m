@@ -9,6 +9,7 @@
 #import "DisplayOptions.h"
 
 #define kOptionsKeyMapType          @"OptionsMapType"
+#define kOptionsKeyAutoSearch       @"OptionsAutoSearch"
 #define kOptionsKeyDisplayPoints    @"OptionsDisplayPoints"
 #define kOptionsKeyUniqueSpecies    @"OptionsUniqueSpecies"
 #define kOptionsKeyUniqueLocations  @"OptionsUniqueLocations"
@@ -44,6 +45,10 @@
         
         if (![_userDefaults objectForKey:kOptionsKeyMapType]) {
             self.mapType = kOptionsDefaultMapType;
+            self.autoSearch = YES;
+#ifdef DEBUG
+            self.autoSearch = NO;
+#endif
             self.displayPoints = kOptionsDefaultDisplayPoints;
             self.uniqueSpecies = kOptionsDefaultUniqueSpecies;
             self.uniqueLocations = kOptionsDefaultUniqueLocations;
@@ -56,17 +61,23 @@
 - (MKMapType)mapType {
     return [[_userDefaults objectForKey:kOptionsKeyMapType] intValue];
 }
-
 - (void)setMapType:(MKMapType)mapType
 {
     [_userDefaults setObject:[NSNumber numberWithInt:mapType] forKey:kOptionsKeyMapType];
     [_userDefaults synchronize];
 }
 
+- (BOOL)autoSearch {
+    return [[_userDefaults objectForKey:kOptionsKeyAutoSearch] boolValue];
+}
+- (void)setAutoSearch:(BOOL)autoSearch {
+    [_userDefaults setBool:autoSearch forKey:kOptionsKeyAutoSearch];
+    [_userDefaults synchronize];
+}
+
 - (NSUInteger)displayPoints {
     return [[_userDefaults objectForKey:kOptionsKeyDisplayPoints] unsignedIntegerValue];
 }
-
 - (void)setDisplayPoints:(NSUInteger)displayPoints
 {
     [_userDefaults setObject:[NSNumber numberWithUnsignedInteger:displayPoints] forKey:kOptionsKeyDisplayPoints];
@@ -76,7 +87,6 @@
 - (BOOL)uniqueSpecies {
     return [[_userDefaults objectForKey:kOptionsKeyUniqueSpecies] boolValue];
 }
-
 - (void)setUniqueSpecies:(BOOL)uniqueSpecies
 {
     [_userDefaults setBool:uniqueSpecies forKey:kOptionsKeyUniqueSpecies];
@@ -86,7 +96,6 @@
 - (BOOL)uniqueLocations {
     return [[_userDefaults objectForKey:kOptionsKeyUniqueLocations] boolValue];
 }
-
 - (void)setUniqueLocations:(BOOL)uniqueLocations
 {
     [_userDefaults setBool:uniqueLocations forKey:kOptionsKeyUniqueLocations];
@@ -96,7 +105,6 @@
 - (BOOL)fullSpeciesNames {
     return [[_userDefaults objectForKey:kOptionsKeySpeciesBinomial] boolValue];
 }
-
 - (void)setFullSpeciesNames:(BOOL)fullSpeciesNames
 {
     [_userDefaults setBool:fullSpeciesNames forKey:kOptionsKeySpeciesBinomial];

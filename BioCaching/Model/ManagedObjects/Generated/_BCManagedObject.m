@@ -7,7 +7,7 @@ const struct BCManagedObjectAttributes BCManagedObjectAttributes = {
 	.createdAt = @"createdAt",
 	.localCreatedAt = @"localCreatedAt",
 	.recordId = @"recordId",
-	.synchedAt = @"synchedAt",
+	.syncedAt = @"syncedAt",
 	.updatedAt = @"updatedAt",
 };
 
@@ -95,7 +95,7 @@ const struct BCManagedObjectFetchedProperties BCManagedObjectFetchedProperties =
 
 
 
-@dynamic synchedAt;
+@dynamic syncedAt;
 
 
 

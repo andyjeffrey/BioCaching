@@ -1,5 +1,4 @@
 #import "BCManagedObject.h"
-#import "OccurrenceRecord.h"
 #import "INatObservation.h"
 #import "INatObservationPhoto.h"
 #import "INatTaxon.h"
@@ -7,3 +6,4 @@
 #import "INatTrip.h"
 #import "INatTripTaxaAttribute.h"
 #import "INatTripTaxaPurpose.h"
+#import "OccurrenceRecord.h"

@@ -15,8 +15,7 @@
     NSManagedObjectContext *managedObjectContext = [[RKObjectManager sharedManager] managedObjectStore].mainQueueManagedObjectContext;
     
     INatTripTaxaAttribute *taxaAttribute = [NSEntityDescription insertNewObjectForEntityForName:@"INatTripTaxaAttribute" inManagedObjectContext:managedObjectContext];
-    //            taxaAttribute.indexID = [NSNumber numberWithInt:arrayIndex];
-    taxaAttribute.taxonId = iNatTaxon.recordId;
+    taxaAttribute.taxonId = [iNatTaxon.recordId copy];
     taxaAttribute.observed = NO;
     return taxaAttribute;
 }

@@ -105,12 +105,7 @@
 }
 
 
-#pragma mark - IBActions
-
-
-
 #pragma mark UITableView
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -118,14 +113,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    /*
-     #ifdef DEBUG
-     if (_bcOptions.displayOptions.displayPoints < _filteredResults.count)
-     {
-     return _bcOptions.displayOptions.displayPoints;
-     }
-     #endif
-     */
     if (deletingRow && (_currentTrip.occurrenceRecords.count >= _bcOptions.displayOptions.displayPoints)) {
         return _currentTrip.occurrenceRecords.count - 1;
     } else {
@@ -174,6 +161,7 @@
     return cell;
 }
 
+#pragma mark IBActions
 - (void)actionButtonSelected:(TaxonListCell *)cell
 {
     NSIndexPath *indexPath = [self.tableViewResults indexPathForCell:cell];
@@ -185,7 +173,7 @@
         ObservationViewController *observationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Observation"];
         observationVC.occurrence = occurrence;
         [self.parentViewController.navigationController pushViewController:observationVC animated:YES];
-//        [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
+        //        [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
     } else {
         [_tripsDataManager removeOccurrenceFromTrip:_currentTrip occurrence:occurrence];
         deletingRow = YES;
@@ -217,7 +205,6 @@
 
 
 #pragma mark Storyboard Segues
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);

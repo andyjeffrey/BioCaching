@@ -224,12 +224,14 @@
     [[RKObjectManager sharedManager].HTTPClient setDefaultHeader:@"User-Agent" value:userAgent];
     NSDictionary *userAgentDict = [[NSDictionary alloc] initWithObjectsAndKeys:userAgent, @"UserAgent", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:userAgentDict];
-
     
     // Add Entity Mappings
     [INatTrip setupMapping];
     [INatTaxon setupMapping];
+    [INatObservation setupMapping];
     
+    // Show Network Activity Indicator
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 }
 
 @end

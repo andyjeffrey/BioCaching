@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switchUniqueLocations;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segControlMapType;
+@property (weak, nonatomic) IBOutlet UISwitch *switchAutoSearch;
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestAPI;
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestData;
@@ -115,7 +116,7 @@
     self.switchUniqueLocations.on = self.bcOptions.displayOptions.uniqueLocations;
     
     self.segControlMapType.selectedSegmentIndex = self.bcOptions.displayOptions.mapType;
-    
+    self.switchAutoSearch.on = self.bcOptions.displayOptions.autoSearch;
     self.switchGBIFTestAPI.on = self.bcOptions.searchOptions.testGBIFAPI;
     self.switchGBIFTestData.on = self.bcOptions.searchOptions.testGBIFData;
 }
@@ -166,11 +167,8 @@
     [self updateLabelAreaSpan];
 
     self.labelRecordType.text = self.bcOptions.searchOptions.recordType.displayString;
-//    [OptionsRecordType displayString:self.bcOptions.searchOptions.recordType];
     self.labelRecordSource.text = self.bcOptions.searchOptions.recordSource.displayString;
-//    [OptionsRecordSource displayString:self.bcOptions.searchOptions.recordSource];
     self.labelSpeciesFilter.text = self.bcOptions.searchOptions.speciesFilter.displayString;
-//    [OptionsSpeciesFilter displayString:self.bcOptions.searchOptions.speciesFilter];
 
     self.labelPoints.text = [NSString stringWithFormat:@"%d", (int) self.sliderDisplayPoints.value];
 }
@@ -194,16 +192,6 @@
     self.labelDiskCacheCurr.text = [NSByteCountFormatter stringFromByteCount:urlCache.currentDiskUsage countStyle:NSByteCountFormatterCountStyleFile];
                             
 }
-
-
-/*
-- (void)updateSearchAreaStepper:(int)searchAreaSpan
-{
-    self.stepperSearchArea.value = log2(searchAreaSpan/kDefaultSearchAreaStepperValue);
-    [self updateSearchAreaLabel:self.stepperSearchArea.value];
-}
-
-*/
 
 #pragma mark IBActions
 
@@ -250,7 +238,7 @@
     self.bcOptions.displayOptions.uniqueLocations = self.switchUniqueLocations.on;
     
     self.bcOptions.displayOptions.mapType = self.segControlMapType.selectedSegmentIndex;
-
+    self.bcOptions.displayOptions.autoSearch = self.switchAutoSearch.on;
     self.bcOptions.searchOptions.testGBIFAPI = self.switchGBIFTestAPI.on;
     self.bcOptions.searchOptions.testGBIFData = self.switchGBIFTestData.on;
     

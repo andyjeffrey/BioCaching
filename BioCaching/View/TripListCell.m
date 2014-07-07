@@ -1,14 +1,14 @@
 //
-//  TripsListCell.m
+//  TripListCell.m
 //  BioCaching
 //
-//  Created by Andy Jeffrey on 13/05/2014.
+//  Created by Andy Jeffrey on 07/07/2014.
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
-#import "TripsListCell.h"
+#import "TripListCell.h"
 
-@implementation TripsListCell
+@implementation TripListCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -23,7 +23,7 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        // Initialization code
+        [self.buttonAction setTitleColor:[UIColor kColorButtonLabel] forState:UIControlStateNormal];
     }
     return self;
 }
@@ -36,8 +36,12 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
+}
+
+- (IBAction)performAction:(id)sender {
+    [self.delegate actionButtonSelected:self];
 }
 
 @end

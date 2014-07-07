@@ -110,6 +110,32 @@ static NSSortDescriptor *defaultSortDesc;
  }
  */
 
+- (void)loadAllTripsFromINat
+{
+    [[RKObjectManager sharedManager] getObjectsAtPath:kINatTripsPathPattern parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        for (INatTrip *trip in mappingResult.array) {
+            
+            trip.status = [NSNumber numberWithInteger:TripStatusPublished];
+            
+            // Update Trip Status On Local Storage
+            NSError *error = nil;
+            if (![managedObjectContext saveToPersistentStore:&error]) {
+                RKLogError(@"Error Saving New Entities To Store: %@", error);
+            }
+            
+            // TODO: Check if trip already exists before adding
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"recordId = %@", trip.recordId];
+            NSArray *existingTrip = [self.publishedTrips filteredArrayUsingPredicate:predicate];
+            if (!existingTrip.count) {
+                [_privateTrips addObject:trip];
+            }
+        }
+        [self.tableDelegate tripsTableUpdated];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"Error Loading Trips: %@", error);
+    }];
+}
+
 - (void)loadTripsFromINat:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
 {
     [[RKObjectManager sharedManager] getObjectsAtPath:kINatTripsPathPattern parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -130,6 +156,7 @@ static NSSortDescriptor *defaultSortDesc;
                 [_privateTrips addObject:trip];
             }
         }
+        [self.tableDelegate tripsTableUpdated];
         success(mappingResult.array);
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Error Loading Trips: %@", error);
@@ -160,8 +187,6 @@ static NSSortDescriptor *defaultSortDesc;
 
 - (INatTrip *)createNewTrip:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions
 {
-    NSError *error = nil;
-    
     INatTrip *trip = [NSEntityDescription insertNewObjectForEntityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
     
     trip.status = [NSNumber numberWithInteger:TripStatusCreated];
@@ -171,14 +196,12 @@ static NSSortDescriptor *defaultSortDesc;
     trip.latitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.latitude];
     trip.longitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.longitude];
     trip.searchAreaSpan = [NSNumber numberWithInteger:bcOptions.searchOptions.searchAreaSpan];
-    trip.positionalAccuracy = [NSNumber numberWithInteger:bcOptions.searchOptions.searchAreaSpan];
     trip.body = @"This is test Trip created from BioCaching mobile app";
     
-    if (![managedObjectContext saveToPersistentStore:&error]) {
-        RKLogError(@"Error Saving New Trip Entity To Store: %@", error);
+    if (![self saveChanges]) {
         return nil;
     }
-
+    
     [_privateTrips addObject:trip];
     trip.removedRecords = [[NSMutableArray alloc] init];
 
@@ -224,21 +247,38 @@ static NSSortDescriptor *defaultSortDesc;
     return trip;
 }
 
-- (void)saveChanges
+- (BOOL)saveChanges
 {
     NSError *error = nil;
-    
     if (managedObjectContext.hasChanges) {
+//        if (![managedObjectContext save:&error]) {
         if (![managedObjectContext saveToPersistentStore:&error]) {
             RKLogError(@"Error Saving Updates To Store: %@", error);
+            return FALSE;
         }
     }
+    return TRUE;
 }
 
 - (void)saveTripToINat:(INatTrip *)trip
 {
+    // TODO: Upload ObservationPhotos
+
+    // Upload Observations
+    for (INatObservation *observation in trip.observations) {
+        NSLog(@"Uploading Observation: %@", observation.iNatTaxon.name);
+        [[RKObjectManager sharedManager] postObject:observation path:@"observations" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+            NSLog(@"Observation Upload Success: %@", mappingResult);
+            // TODO: Update local INatObservation object
+            // TODO: Add Delegate To Send Progress Updates Back to VC
+        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+            // TODO: Update local INatObservation object
+            NSLog(@"Observation Upload Error: %@", error);
+        }];
+    }
+
+    // Upload Trip
     NSDictionary *queryParams = @{@"publish" : @"Publish"};
-    
     [[RKObjectManager sharedManager] postObject:trip path:kINatTripsPathPattern parameters:queryParams success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"save Success: %@", mappingResult);
         trip.status = [NSNumber numberWithInt:TripStatusPublished];
@@ -277,30 +317,32 @@ static NSSortDescriptor *defaultSortDesc;
 
 - (void)discardCurrentTrip
 {
-    NSError *error = nil;
-    
-    if (_currentTrip.managedObjectContext) {
-        [managedObjectContext deleteObject:_currentTrip];
+    [self deleteTripFromLocalStore:_currentTrip];
+    _currentTrip = nil;
+}
+
+- (void)deleteTripFromLocalStore:(INatTrip *)trip
+{
+    if (trip.managedObjectContext) {
+        [managedObjectContext deleteObject:trip];
     } else {
-        NSString *reasonString = [NSString stringWithFormat:@"Attempting to delete Trip MO that does not exist:%@", _currentTrip];
+        NSString *reasonString = [NSString stringWithFormat:@"Attempting to delete Trip MO that does not exist:%@", trip];
         @throw [NSException exceptionWithName:@"TripsDataManager"
                                        reason:reasonString
                                      userInfo:nil];
     }
-
-    if (![managedObjectContext saveToPersistentStore:&error]) {
-        RKLogError(@"Error Deleting Trip: %@", error);
-    } else {
-        [_privateTrips removeObject:_currentTrip];
-    }
     
-    _currentTrip = nil;
+    if ([self saveChanges]) {
+        [_privateTrips removeObject:trip];
+    }
+    if(_currentTrip == trip) {
+        _currentTrip = nil;
+    }
+    [self.tableDelegate tripsTableUpdated];
 }
 
 - (void)removeOccurrenceFromTrip:(INatTrip *)trip occurrence:(OccurrenceRecord *)occurrence
 {
-    NSError *error = nil;
-    
     //TODO: Should check Trip contains OccurrenceRecord to be deleted?
     if (occurrence.managedObjectContext) {
         [managedObjectContext deleteObject:occurrence];
@@ -311,20 +353,28 @@ static NSSortDescriptor *defaultSortDesc;
                                      userInfo:nil];
     }
     
-    if (![managedObjectContext saveToPersistentStore:&error]) {
-        RKLogError(@"Error Deleting Occurrence: %@", error);
-    } else {
+    if ([self saveChanges]) {
         [trip.removedRecords addObject:occurrence];
         [self.delegate occurrenceRemovedFromTrip:occurrence];
     }
 }
 
-- (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence
+- (void)addNewTaxaAttributeFromOccurrence:(OccurrenceRecord *)occurrenceRecord
 {
-    occurrence.taxaAttribute.observation = observation;
+    INatTripTaxaAttribute *taxaAttribute = [INatTripTaxaAttribute createFromINatTaxon:occurrenceRecord.iNatTaxon];
+    taxaAttribute.occurrence = occurrenceRecord;
+    
+    [self.currentTrip.taxaAttributesSet addObject:taxaAttribute];
     [self saveChanges];
+
+    [self.delegate occurrenceAddedToTrip:occurrenceRecord];
 }
 
-
+- (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence trip:(INatTrip *)trip
+{
+    occurrence.taxaAttribute.observation = observation;
+    occurrence.taxaAttribute.observedValue = YES;
+    [self saveChanges];
+}
 
 @end

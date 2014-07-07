@@ -11,9 +11,11 @@
 @implementation INatTrip
 
 @synthesize locationCoordinate;
+@synthesize radius = _radius;
 @synthesize locationName;
 @synthesize occurrenceRecords;
 @synthesize removedRecords;
+@synthesize observations;
 
 +(void)setupMapping
 {
@@ -32,7 +34,7 @@
                                             @"body" : @"body",
                                             @"latitude" : @"latitude",
                                             @"longitude" : @"longitude",
-                                            @"positional_accuracy" : @"positionalAccuracy",
+                                            @"radius" : @"radius",
                                             @"place_id" : @"placeId",
                                             @"user_id" : @"userId",
                                             @"start_time" : @"startTime",
@@ -86,8 +88,25 @@
     return CLLocationCoordinate2DMake(self.latitude.doubleValue, self.longitude.doubleValue);
 }
 
+- (NSNumber *)radius {
+    return [NSNumber numberWithInt:self.searchAreaSpan.intValue / 2];
+}
+
+- (void)setRadius:(NSNumber *)radius {
+    // Correct way for CoreData/KVC?
+//    [self willChangeValueForKey:@"searchAreaSpan"];
+//    [self setPrimitiveValue:radius forKey:@"searchAreaSpan"];
+//    [self didChangeValueForKey:@"searchAreaSpan"];
+    _radius = radius;
+    [self setSearchAreaSpan:[NSNumber numberWithInt:radius.intValue * 2]];
+}
+
 - (NSArray *)occurrenceRecords {
     return [self.taxaAttributes valueForKeyPath:@"occurrence"];
+}
+
+- (NSArray *)observations {
+    return [self.taxaAttributes valueForKeyPath:@"observation"];
 }
 
 @end

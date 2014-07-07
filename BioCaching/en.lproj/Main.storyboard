@@ -1640,10 +1640,15 @@
                                                         <action selector="performAction:" destination="DNS-S0-DIb" eventType="touchUpInside" id="kxV-Y6-Z85"/>
                                                     </connections>
                                                 </button>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" id="G5g-ko-yQt">
+                                                    <rect key="frame" x="274" y="3" width="37" height="37"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="G5g-ko-yQt" id="6rx-8h-SJl"/>
                                             <outlet property="buttonAction" destination="Iiu-UI-LNi" id="1Vg-fg-VKa"/>
                                             <outlet property="labelBackground" destination="NdA-yT-bfH" id="OBT-Dk-aNU"/>
                                             <outlet property="labelTripSubtitle" destination="6uH-A5-9ZM" id="St2-B3-7BH"/>

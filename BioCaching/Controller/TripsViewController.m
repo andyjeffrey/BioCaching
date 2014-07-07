@@ -221,12 +221,14 @@
     if (trip.status.intValue == TripStatusFinished) {
         [cell.buttonAction setTitle:@"Uploading" forState:UIControlStateNormal];
         if ([LoginManager sharedInstance].loggedIn) {
+            [cell.activityIndicator startAnimating];
             [_tripsDataManager saveTripToINat:trip];
         } else {
             [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
         }
     } else if (trip.status.intValue == TripStatusPublished) {
         if ([LoginManager sharedInstance].loggedIn) {
+            [cell.activityIndicator startAnimating];
             [_tripsDataManager deleteTripFromINat:trip];
         } else {
             [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];

@@ -217,7 +217,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)updateRecordCountLabel
 {
-    [self updateRecordCountLabel:(int)self.mapView.annotations.count];
+    if (_currentTrip) {
+        [self updateRecordCountLabel:(int)_currentTrip.occurrenceRecords.count];
+    } else {
+        [self updateRecordCountLabel:0];
+    }
 }
 
 - (void)updateRecordCountLabel:(int)recordCount

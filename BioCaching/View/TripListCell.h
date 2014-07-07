@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelTripSummaryStats;
 @property (weak, nonatomic) IBOutlet UILabel *labelBackground;
 @property (weak, nonatomic) IBOutlet UIButton *buttonAction;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (weak, nonatomic) id<TripListCellDelegate> delegate;
 

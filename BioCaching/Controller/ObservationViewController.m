@@ -9,6 +9,7 @@
 #import "ObservationViewController.h"
 #import "LocationController.h"
 #import "TripsDataManager.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface ObservationViewController ()
 
@@ -22,20 +23,24 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonLocation;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
 
-
-@property (weak, nonatomic) IBOutlet UIImageView *imageObservation;
-@property (weak, nonatomic) IBOutlet UIButton *buttonObservation;
+@property (weak, nonatomic) IBOutlet UIImageView *imageObsPhoto;
+@property (weak, nonatomic) IBOutlet UIButton *buttonAddPhoto;
+@property (weak, nonatomic) IBOutlet UIButton *buttonUpdatePhoto;
 
 - (IBAction)buttonActionSave:(id)sender;
+- (IBAction)buttonActionDelete:(id)sender;
+- (IBAction)buttonActionUpdatePhoto:(id)sender;
 
 @end
 
 @implementation ObservationViewController {
-    LocationController *_locationController;
-    NSDate *_obsDate;
+    UIImagePickerController *imagePicker;
+    ALAssetsLibrary *assetsLibrary;
+    INatObservation *_observation;
     CLLocation *_obsLocation;
     NSString *_obsLocationText;
-    NSString *_notes;
+    BOOL _saveChanges;
+    LocationController *_locationController;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -51,30 +56,55 @@
 {
     [super viewDidLoad];
     
+    assetsLibrary = [[ALAssetsLibrary alloc] init];
+    
     self.navigationController.navigationBarHidden = NO;
-    self.navigationItem.backBarButtonItem.title = @"";
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = cancelButton;
     self.navigationItem.title = @"Record Observation";
-    
+
     self.view.backgroundColor = [UIColor kColorTableBackgroundColor];
-    
-    _obsDate = [NSDate date];
-    
-    [self setupButtons];
-    [self setupLabels];
-    
-    self.imageObservation.backgroundColor = [UIColor grayColor];
+    self.imageObsPhoto.backgroundColor = [UIColor grayColor];
     
     _locationController = [LocationController sharedInstance];
     _locationController.delegate = self;
+
+    _observation = self.occurrence.observation;
+    if (!_observation) {
+        _observation = [INatObservation createNewObservationFromOccurrence:self.occurrence];
+        _observation.dateRecorded = [NSDate date];
+    }
+    if (_observation.latitude && _observation.longitude) {
+        _obsLocation = [CLLocation initWithCoordinate:_observation.coordinate];
+    } else {
+        [_locationController.locationManager startUpdatingLocation];
+    }
+
+    [self setupButtons];
+    [self setupLabels];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [_locationController.locationManager startUpdatingLocation];
+    if (imagePicker) {
+        return;
+    }
+    [self updateUI];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    if (imagePicker) {
+        //Transitioning to ImagePicker so don't save MOs
+        return;
+    }
+    
+    if (_saveChanges) {
+        [[TripsDataManager sharedInstance] saveChanges];
+    } else {
+        // Rollback Context
+        [[TripsDataManager sharedInstance] rollbackChanges];
+    }
     [_locationController.locationManager stopUpdatingLocation];
     self.navigationController.navigationBarHidden = YES;
 }
@@ -88,6 +118,10 @@
     [self.buttonLocation setBackgroundImage:
      [IonIcons imageWithIcon:icon_location iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonLocation.backgroundColor = [UIColor kColorButtonBackground];
+    
+    [self.buttonUpdatePhoto setBackgroundImage:
+     [IonIcons imageWithIcon:icon_edit iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    self.buttonUpdatePhoto.backgroundColor = [UIColor kColorButtonBackground];
 }
 
 - (void)setupLabels
@@ -95,22 +129,46 @@
     self.imageTaxonIcon.image = [UIImage imageNamed:[self.occurrence getINatIconicTaxaMainImageFile]];
     self.labelTaxonTitle.text = self.occurrence.title;
     self.labelTaxonSubtitle.text = self.occurrence.subtitle;
-    self.labelDate.text = [[NSDate date] localDateTime];
     self.labelLocation.text = @"";
 }
 
-- (void)updateLabels
+- (void)updateUI
 {
-    self.labelLocation.text = [_obsLocation latLongVerbose];
+    self.labelDate.text = [_observation.dateRecorded localDateTime];
+    if (_obsLocation) {
+        self.labelLocation.text = [_obsLocation latLongVerbose];
+    }
+    if (_observation.obsPhotos.count > 0) {
+        // Reload Photo From Storage/Album
+        INatObservationPhoto *obsPhoto = _observation.obsPhotos[0];
+        [self loadImageFromLocalAsset:obsPhoto.localAssetUrl];
+        self.buttonAddPhoto.hidden = YES;
+        self.buttonUpdatePhoto.hidden = NO;
+    } else {
+        self.buttonAddPhoto.hidden = NO;
+        self.buttonUpdatePhoto.hidden = YES;
+    }
+}
+
+- (void)updateObservation
+{
+    if (_obsLocation) {
+        _observation.latitude = [NSNumber numberWithDouble:_obsLocation.coordinate.latitude];
+        _observation.longitude = [NSNumber numberWithDouble:_obsLocation.coordinate.longitude];
+    }
 }
 
 
 #pragma mark - LocationControllerDelegate
 - (void)locationUpdated:(CLLocation *)location
 {
-    NSLog(@"locationUpdated:%@", [location latLongVerbose]);
+    NSLog(@"locationUpdated:%@ Accurracy:%d", [location latLongVerbose], (int)location.horizontalAccuracy);
     _obsLocation = location;
-    [self updateLabels];
+    [self updateObservation];
+    if (location.horizontalAccuracy <= kCLLocationAccuracyNearestTenMeters) {
+        [_locationController.locationManager stopUpdatingLocation];
+    }
+    [self updateUI];
 }
 
 - (void)lookupLocation
@@ -137,9 +195,126 @@
 
 #pragma mark - IBActions
 - (IBAction)buttonActionSave:(id)sender {
-    INatObservation *observation = [INatObservation createNewObservationFromOccurrence:self.occurrence dateRecorded:_obsDate location:_obsLocation notes:_notes];
-    [[TripsDataManager sharedInstance] addObservationToTripOccurrence:observation occurrence:self.occurrence trip:[TripsDataManager sharedInstance].currentTrip];
+    [self updateObservation];
+    [[TripsDataManager sharedInstance] addObservationToTripOccurrence:_observation occurrence:self.occurrence];
+    _saveChanges = YES;
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)buttonActionDelete:(id)sender {
+    [[TripsDataManager sharedInstance] removeObservationFromTripOccurrence:_observation occurrence:self.occurrence];
+    _saveChanges = YES;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+- (IBAction)buttonActionUpdatePhoto:(id)sender {
+    UIActionSheet *photoSourceSelector = [[UIActionSheet alloc] init];
+    [photoSourceSelector setDelegate:self];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [photoSourceSelector addButtonWithTitle:NSLocalizedString(@"Take Photo",nil)];
+        [photoSourceSelector addButtonWithTitle:NSLocalizedString(@"Choose Existing",nil)];
+        [photoSourceSelector addButtonWithTitle:NSLocalizedString(@"Cancel",nil)];
+        [photoSourceSelector setCancelButtonIndex:2];
+    } else {
+        [photoSourceSelector addButtonWithTitle:NSLocalizedString(@"Choose Existing",nil)];
+        [photoSourceSelector addButtonWithTitle:NSLocalizedString(@"Cancel",nil)];
+        [photoSourceSelector setCancelButtonIndex:1];
+    }
+    
+    [photoSourceSelector showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    NSInteger sourceType;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        switch (buttonIndex) {
+            case 0:
+                sourceType = UIImagePickerControllerSourceTypeCamera;
+                break;
+            case 1:
+                sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                break;
+            default:
+                return;
+        }
+    } else {
+        if (buttonIndex == 0) {
+            sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        } else {
+            return;
+        }
+    }
+
+    imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = sourceType;
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    NSLog(@"MediaType: %@", mediaType);
+    NSURL *photoAssetUrl = [info valueForKey:UIImagePickerControllerReferenceURL];
+    NSString *photoAssetUrlString = photoAssetUrl.absoluteString;
+    NSLog(@"URL: %@", photoAssetUrlString);
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+    imagePicker = nil;
+
+    UIImage *image = [info
+                      objectForKey:UIImagePickerControllerOriginalImage];
+    
+    [self.imageObsPhoto setAutoresizingMask:(UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth)];
+    self.imageObsPhoto.image = image;
+
+    if (_observation.obsPhotos.count == 0) {
+        [[TripsDataManager sharedInstance] addNewPhotoToTripObservation:photoAssetUrl.absoluteString observation:_observation];
+    }
+    INatObservationPhoto *obsPhoto = _observation.obsPhotos[0];
+    
+    if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+        obsPhoto.localAssetUrl = photoAssetUrlString;
+        [self updateUI];
+    } else if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        [assetsLibrary writeImageToSavedPhotosAlbum:image.CGImage orientation:(ALAssetOrientation)image.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error) {
+                if (!error) {
+                    NSLog(@"New Image Asset Saved: %@", assetURL);
+                    obsPhoto.localAssetUrl = assetURL.absoluteString;
+                } else {
+                    NSLog(@"Error Saving New Photo From Camera: %@", error);
+                }
+            [self updateUI];
+        }];
+    }
+}
+
+- (void)image:(UIImage *)image finishedSavingPhotoToAlbum:(NSError *)error contextInfo:(void *)contextInfo {
+    NSLog(@"finishedSavingPhotoToAlbum: %@", contextInfo);
+}
+
+- (void)loadImageFromLocalAsset:(NSString *)localAssetUrlString
+{
+    NSURL *assetUrl = [NSURL URLWithString:localAssetUrlString];
+    
+    [assetsLibrary assetForURL:assetUrl resultBlock: ^(ALAsset *asset){
+        ALAssetRepresentation *representation = [asset defaultRepresentation];
+        CGImageRef imageRef = [representation fullScreenImage];
+//        CGImageRef imageRef = [representation fullResolutionImage];
+        if (imageRef) {
+            //TODO: Do something wiith orientation and scale if required?
+            self.imageObsPhoto.image = [UIImage imageWithCGImage:imageRef scale:representation.scale orientation:(UIImageOrientation)representation.orientation];
+//            [self updateUI];
+        } else {
+            //TODO: Add Alert/Label When Previously Saved Image Removed From Photo Store
+        }
+    } failureBlock: ^(NSError *error){
+        // Error Loading Asset From Asset Library
+        NSLog(@"Error Loading Asset: %@ %@", assetUrl, error);
+        // Display Error Text (over imageView?)
+    }];
 }
 
 @end

@@ -1,13 +1,9 @@
 #import "OccurrenceRecord.h"
 
-
-@interface OccurrenceRecord ()
-
-// Private interface goes here.
-
-@end
-
 @implementation OccurrenceRecord
+
+@synthesize coordinate, title, subtitle, locationString;
+@synthesize observation;
 
 + (id)createFromGBIFOccurrence:(GBIFOccurrence *)gbifOccurrence
 {
@@ -49,6 +45,10 @@
 }
 - (NSString *)locationString {
     return [NSString stringWithFormat:@"%.6f %.6f", self.latitude.doubleValue, self.longitude.doubleValue];
+}
+
+- (INatObservation *)observation {
+    return self.taxaAttribute.observation;
 }
 
 

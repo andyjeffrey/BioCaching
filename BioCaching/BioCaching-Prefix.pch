@@ -24,6 +24,7 @@
 
 #import "BCManagedObject.h"
 #import "ManagedObjects.h"
+#import "BCRestKitJsonParser.h"
 
 #import "UIColor+Defaults.h"
 #import "UIView+Colors.h"
@@ -39,6 +40,7 @@
 #import "BCOptions.h"
 #import "BCAlerts.h"
 #import "LoginManager.h"
+#import "ConnectionHelper.h"
 
 #import "NimbusCore.h"
 #import "NimbusWebController.h"

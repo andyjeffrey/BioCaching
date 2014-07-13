@@ -10,6 +10,10 @@
 
 @implementation CLLocation (Formatting)
 
++ (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate {
+    return [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+}
+
 - (NSString *)latLongVerbose {
     return [NSString stringWithFormat:@"Lat: %.6f Long: %.6f", self.coordinate.latitude, self.coordinate.latitude];
 }

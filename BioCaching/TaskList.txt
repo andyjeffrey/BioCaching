@@ -1,14 +1,17 @@
 High Priority (For v1.0 - Internal Test Release)
-- Full curation of trip list
-- Go back to previously created trips (whatever status)
-- User entered trip title
-- Change search process so occurrences/taxa only added to explore/trip list once taxon details available (either from local database or iNat API call)
-- Record basic observation details and assign to trip
-- Add photo to observation records
++ Full curation of trip list
++ Go back to previously created trips (whatever status)
++ User entered trip title
++ Change search process so occurrences/taxa only added to explore/trip list once taxon details available (either from local database or iNat API call)
++ Record basic observation details and assign to trip
++ Add photo to observation records
 - Push all associated observation records (and photos) to iNat
 - Fix up Website Viewer (as used for BHL species links) with back button
 - Better progress updates (loading spinner etc) when sending/receiving data over internet
 - Better info/error handling when offline or web services unavailable
+- Change default search view to current location with 1km radius (use settings to change default)
+-
+
 
 
 Medium Priority (For v1.1 - Full Public Release)
@@ -31,23 +34,30 @@ Currently Out of Scope (Wishlist for v2.0+ - Future Versions)
 - Full synching/updating of trips (and associated observations) with iNat (after initial post)
 
 
-Ongoing Tasks/TODOs (Uncategorised)
-- Refactor BCOptions (Persist original SearchOptions to OccurrenceResults/Trip, use NSUserDefaults for current DisplayOptions?)
-- Keep list of deleted occurrences (manual or automatic) and underlying Occurrence objects (rather than completing deleting from OccurrenceResults)
-- Enable addition of extra occurrence search results to unsaved trip lists (currently limited to one GBIF request of max 300 occurrences)
-- Enforce use of decimal variables for GPS related values (as opposed to default double/float) to ensure fixed precision with no rounding
-
-
 UI/UX Issues/Change Requests
 - Search area to be calculated/approximated to circle (currently displayed as circle but simple square used as polygon for actual search params)
 - Resize/zoom taxon images to fill area edge-to-edge (occurrence details screen)
 - Move main menu button in toolbar to top level view controller so that button works on all child views, e.g. Explore map/list/summary
 - Fix-up Settings screen so it works properly from main menu (as well as from ExploreMap screen)
-- Remove "Area Span" option from Settings screen?  Remove Settings button from ExploreMap screen completely (just access from main menu)?
+- Remove "Area Span" option from Settings screen?  Remove Settings button from ExploreMap screen completely (just access through sidebar menu)?
 - Keep "Remove" button on individual TaxonDetails/OccurrenceDetails screens once trip has been started?
 - Implement ability to edit ExploreList screen so items can still be removed from list once trip started (change tableview to edit mode, replacing record button with remove)
+- Change Explore List screen to show center location of current trip
 - Disable background view when main menu displayed (clicking in background view should slide menu away)
 - Change Z position of (or hide) segmented control for on Explore screen so that it is behind/disappears when location menu displayed
-- Add Trip control buttons (save/start/stop) to ExploreList screen (as well as ExploreMap)
-- Amend 
+- Add Trip control buttons (save/start/stop) to ExploreList/Summary screen (as well as ExploreMap)
+- Fix issue with some screens not in scrolling down to see all information (e.g. Trip Summary or Occurrence Details)
+- Fix display issue with segmented control on explore screen
 
+
+Ongoing Technical Tasks/TODOs
++ Keep list of deleted occurrences (manual or automatic) and underlying Occurrence objects (rather than completing deleting from OccurrenceResults)
+- Refactor BCOptions (Persist original SearchOptions to OccurrenceResults/Trip, use NSUserDefaults for current DisplayOptions?)
+- Enforce use of decimal variables for GPS related values (as opposed to default double/float) to ensure fixed precision with no rounding
+- Enable addition of extra occurrence search results to unsaved trip lists (currently limited to one GBIF request of max 300 occurrences)
+- Improve image caching to store images on 
+
+
+- Add simple control to map for current location (and map type?)
+- Add geocoder search option to explore page
+- Add alternative Explore Summary screen for when viewing saved trip, with editable trip details rather than search results (i.e. trip title, description, times etc)

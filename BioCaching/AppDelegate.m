@@ -95,9 +95,11 @@
     }
     
 // Force clearing during testing
-#ifdef DEBUG
-//    clearUserDefaults = YES;
-//    clearDatabase = YES;
+#ifdef CLEARDOWNUSERDEFAULTS
+    clearUserDefaults = YES;
+#endif
+#ifdef CLEARDOWNDATABASE
+    clearDatabase = YES;
 #endif
     
 }
@@ -229,9 +231,13 @@
     [INatTrip setupMapping];
     [INatTaxon setupMapping];
     [INatObservation setupMapping];
+//    [INatObservationPhoto setupMapping];
     
     // Show Network Activity Indicator
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    
+    // Register Custom JsonParser for RestKit, to modify responses before mapping
+    [RKMIMETypeSerialization registerClass:[BCRestKitJsonParser class] forMIMEType:@"application/json"];
 }
 
 @end

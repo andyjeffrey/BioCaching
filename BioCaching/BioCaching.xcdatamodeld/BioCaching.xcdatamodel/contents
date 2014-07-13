@@ -10,18 +10,26 @@
     <entity name="INatObservation" representedClassName="INatObservation" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="dateRecorded" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="localCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="recordId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="recordId" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <attribute name="syncedAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="taxonId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="taxonId" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="obsPhotos" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="INatObservationPhoto" inverseName="observation" inverseEntity="INatObservationPhoto" syncable="YES"/>
         <relationship name="taxaAttribute" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTripTaxaAttribute" inverseName="observation" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
-        <relationship name="trip" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTrip" syncable="YES"/>
     </entity>
-    <entity name="INatObservationPhoto" representedClassName="INatObservationPhoto" syncable="YES"/>
+    <entity name="INatObservationPhoto" representedClassName="INatObservationPhoto" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="localAssetUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="localCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="recordId" optional="YES" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="syncedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="observation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatObservation" inverseName="obsPhotos" inverseEntity="INatObservation" syncable="YES"/>
+    </entity>
     <entity name="INatTaxon" representedClassName="INatTaxon" parentEntity="BCManagedObject" syncable="YES">
         <attribute name="commonName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -45,8 +53,8 @@
     </entity>
     <entity name="INatTrip" representedClassName="INatTrip" parentEntity="BCManagedObject" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="placeId" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <attribute name="searchAreaSpan" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <attribute name="startTime" optional="YES" attributeType="Date" syncable="YES"/>
@@ -74,8 +82,8 @@
         <attribute name="dateRecorded" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="gbifId" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <attribute name="institutionCode" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="latitude" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Decimal" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Decimal" syncable="YES"/>
         <attribute name="recordedBy" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="recordSource" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="recordType" optional="YES" attributeType="String" syncable="YES"/>
@@ -90,9 +98,9 @@
         <relationship name="taxaAttribute" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTripTaxaAttribute" inverseName="occurrence" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BCManagedObject" positionX="-837" positionY="-1350" width="128" height="118"/>
+        <element name="BCManagedObject" positionX="-837" positionY="-1350" width="128" height="120"/>
         <element name="INatObservation" positionX="-423" positionY="-954" width="128" height="223"/>
-        <element name="INatObservationPhoto" positionX="-207" positionY="-954" width="128" height="45"/>
+        <element name="INatObservationPhoto" positionX="-207" positionY="-954" width="128" height="148"/>
         <element name="INatTaxon" positionX="-369" positionY="-1197" width="128" height="148"/>
         <element name="INatTaxonPhoto" positionX="-173" positionY="-1242" width="128" height="193"/>
         <element name="INatTrip" positionX="-972" positionY="-1116" width="128" height="223"/>

@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "TripsDataManagerDelegate.h"
+#import "ImageManager.h"
 #import "GBIFOccurrenceResults.h"
 #import "BCOptions.h"
 
-@interface TripsDataManager : NSObject
+@interface TripsDataManager : NSObject<ImageManagerDelegate>
 
 @property (weak, nonatomic) id<TripsDataManagerDelegate> delegate;
 @property (weak, nonatomic) id<TripsDataManagerTableDelegate> tableDelegate;
@@ -30,12 +31,13 @@
 + (instancetype)sharedInstance;
 
 - (BOOL)saveChanges;
+- (void)rollbackChanges;
 
 - (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus;
 - (INatTrip *)createNewTrip:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions;
 - (NSString *)getDefaultNewTripName:(BCOptions *)bcOptions;
 
-- (void)loadTripsFromINat:(NSDictionary *)parameters success:(void (^)(NSArray *trips))success;
+- (void)loadTripsFromINat:(NSString *)iNatUsername;
 - (void)loadAllTripsFromINat;
 - (void)saveTripToINat:(INatTrip *)trip;
 - (void)deleteTripFromINat:(INatTrip *)trip;
@@ -50,6 +52,7 @@
 - (void)removeOccurrenceFromTrip:(OccurrenceRecord *)occurrenceRecord trip:(INatTrip *)trip;
 
 - (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence;
-- (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence trip:(INatTrip *)trip;
+- (void)removeObservationFromTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence;
+- (void)addNewPhotoToTripObservation:(NSString *)localAssetUrlString observation:(INatObservation *)observation;
 
 @end

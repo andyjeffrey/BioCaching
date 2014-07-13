@@ -61,6 +61,12 @@
 - (void)fetchOccurrencesWithOptions:(BCOptions *)bcOptions
 {
     _bcOptions = bcOptions;
+    
+    if (![ConnectionHelper checkNetworkConnectivityAndDisplayAlert:NO]) {
+        return;
+    }
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [_gbifManager fetchOccurrencesWithOptions:bcOptions.searchOptions];
 }
 
@@ -75,10 +81,15 @@
 
 - (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
     NSLog(@"%s Results.count: %lu", __PRETTY_FUNCTION__, (unsigned long)occurrenceResults.Results.count);
+
+    [BCAlerts displayDefaultSuccessNotification:
+        [NSString stringWithFormat:@"%d Records Found", (int)occurrenceResults.filteredResults.count]
+                                       subtitle:@"Fetching Shortlisted Species Details..."];
     
     self.currentSearchResults = occurrenceResults;
-//    [self.delegate occurrenceResultsReceived:occurrenceResults];
     
     if ([_tripsDataManager createNewTrip:occurrenceResults bcOptions:_bcOptions])
     {
@@ -92,6 +103,14 @@
 
 - (void)fetchingResultsFailedWithError:(NSError *)error
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+#ifdef TESTING
+    [BCAlerts displayDefaultFailureNotification:@"Error Retrieving Records" subtitle:error.debugDescription];
+#else
+    [BCAlerts displayDefaultInfoAlert:@"Error Retrieving Records" message:@"Please Try Again Later"];
+#endif
+    
     NSLog(@"Error %@; %@", error, [error localizedDescription]);
 }
 
@@ -110,7 +129,9 @@
         if (gbifOccurrence.iNatTaxon.taxonPhotos.count > 0)
         {
             INatTaxonPhoto *mainPhoto = gbifOccurrence.iNatTaxon.taxonPhotos[0];
-            [ImageCache saveImageForURL:mainPhoto.mediumUrl];
+            if (_bcOptions.displayOptions.preCacheImages) {
+                [ImageCache saveImageForURL:mainPhoto.mediumUrl];
+            }
         }
         // Create new CoreData OccurrenceRecord entity if required
         if (!gbifOccurrence.occurrenceRecord)
@@ -132,8 +153,6 @@
         [self.currentSearchResults.removedResults addObject:gbifOccurrence];
         [self.delegate occurrenceRemoved:gbifOccurrence];
     }
-    
 }
-
 
 @end

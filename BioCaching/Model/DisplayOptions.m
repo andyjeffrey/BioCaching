@@ -10,6 +10,7 @@
 
 #define kOptionsKeyMapType          @"OptionsMapType"
 #define kOptionsKeyAutoSearch       @"OptionsAutoSearch"
+#define kOptionsKeyPreCacheImages   @"OptionsPreCacheImages"
 #define kOptionsKeyDisplayPoints    @"OptionsDisplayPoints"
 #define kOptionsKeyUniqueSpecies    @"OptionsUniqueSpecies"
 #define kOptionsKeyUniqueLocations  @"OptionsUniqueLocations"
@@ -45,10 +46,8 @@
         
         if (![_userDefaults objectForKey:kOptionsKeyMapType]) {
             self.mapType = kOptionsDefaultMapType;
-            self.autoSearch = YES;
-#ifdef DEBUG
-            self.autoSearch = NO;
-#endif
+            self.autoSearch = kOptionsDefaultAutoSearch;
+            self.preCacheImages = kOptionsDefaultPreCacheImages;
             self.displayPoints = kOptionsDefaultDisplayPoints;
             self.uniqueSpecies = kOptionsDefaultUniqueSpecies;
             self.uniqueLocations = kOptionsDefaultUniqueLocations;
@@ -72,6 +71,14 @@
 }
 - (void)setAutoSearch:(BOOL)autoSearch {
     [_userDefaults setBool:autoSearch forKey:kOptionsKeyAutoSearch];
+    [_userDefaults synchronize];
+}
+
+- (BOOL)preCacheImages {
+    return [[_userDefaults objectForKey:kOptionsKeyPreCacheImages] boolValue];
+}
+- (void)setPreCacheImages:(BOOL)preCacheImages {
+    [_userDefaults setBool:preCacheImages forKey:kOptionsKeyPreCacheImages];
     [_userDefaults synchronize];
 }
 

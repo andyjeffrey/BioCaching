@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "LocationController.h"
 
-@interface ObservationViewController : UIViewController<LocationControllerDelegate>
+@interface ObservationViewController : UIViewController<
+    LocationControllerDelegate,
+    UIActionSheetDelegate,
+    UINavigationControllerDelegate,
+    UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) OccurrenceRecord *occurrence;
 

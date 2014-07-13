@@ -10,6 +10,8 @@
 
 @interface CLLocation (Formatting)
 
++ (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate;
+
 - (NSString *)latLongVerbose;
 - (NSString *)latCommaLong;
 - (NSString *)latCommaLongWithTitle;

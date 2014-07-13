@@ -18,15 +18,15 @@ extern const struct INatObservationAttributes {
 } INatObservationAttributes;
 
 extern const struct INatObservationRelationships {
+	__unsafe_unretained NSString *obsPhotos;
 	__unsafe_unretained NSString *taxaAttribute;
-	__unsafe_unretained NSString *trip;
 } INatObservationRelationships;
 
 extern const struct INatObservationFetchedProperties {
 } INatObservationFetchedProperties;
 
+@class INatObservationPhoto;
 @class INatTripTaxaAttribute;
-@class INatTrip;
 
 
 
@@ -168,16 +168,16 @@ extern const struct INatObservationFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSOrderedSet *obsPhotos;
+
+- (NSMutableOrderedSet*)obsPhotosSet;
+
+
+
+
 @property (nonatomic, strong) INatTripTaxaAttribute *taxaAttribute;
 
 //- (BOOL)validateTaxaAttribute:(id*)value_ error:(NSError**)error_;
-
-
-
-
-@property (nonatomic, strong) INatTrip *trip;
-
-//- (BOOL)validateTrip:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -186,6 +186,11 @@ extern const struct INatObservationFetchedProperties {
 @end
 
 @interface _INatObservation (CoreDataGeneratedAccessors)
+
+- (void)addObsPhotos:(NSOrderedSet*)value_;
+- (void)removeObsPhotos:(NSOrderedSet*)value_;
+- (void)addObsPhotosObject:(INatObservationPhoto*)value_;
+- (void)removeObsPhotosObject:(INatObservationPhoto*)value_;
 
 @end
 
@@ -265,13 +270,13 @@ extern const struct INatObservationFetchedProperties {
 
 
 
+- (NSMutableOrderedSet*)primitiveObsPhotos;
+- (void)setPrimitiveObsPhotos:(NSMutableOrderedSet*)value;
+
+
+
 - (INatTripTaxaAttribute*)primitiveTaxaAttribute;
 - (void)setPrimitiveTaxaAttribute:(INatTripTaxaAttribute*)value;
-
-
-
-- (INatTrip*)primitiveTrip;
-- (void)setPrimitiveTrip:(INatTrip*)value;
 
 
 @end

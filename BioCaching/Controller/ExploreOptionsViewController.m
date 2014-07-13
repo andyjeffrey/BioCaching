@@ -11,6 +11,8 @@
 #import "OptionsRecordSource.h"
 #import "OptionsSpeciesFilter.h"
 
+#define kDisplayPointsSliderInterval 5
+
 @interface ExploreOptionsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldYearFrom;
@@ -33,6 +35,7 @@
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segControlMapType;
 @property (weak, nonatomic) IBOutlet UISwitch *switchAutoSearch;
+@property (weak, nonatomic) IBOutlet UISwitch *switchPreCacheImages;
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestAPI;
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestData;
@@ -41,7 +44,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelMemCacheCurr;
 @property (weak, nonatomic) IBOutlet UILabel *labelDiskCacheCap;
 @property (weak, nonatomic) IBOutlet UILabel *labelDiskCacheCurr;
-
 
 @end
 
@@ -87,7 +89,7 @@
 - (void)initiateDisplayPoints
 {
     self.sliderDisplayPoints.minimumValue = 1;
-    self.sliderDisplayPoints.maximumValue = 300;
+    self.sliderDisplayPoints.maximumValue = kOptionsDefaultMaxDisplayPoints;
     self.sliderDisplayPoints.value = self.bcOptions.displayOptions.displayPoints;
 }
 
@@ -117,6 +119,7 @@
     
     self.segControlMapType.selectedSegmentIndex = self.bcOptions.displayOptions.mapType;
     self.switchAutoSearch.on = self.bcOptions.displayOptions.autoSearch;
+    self.switchPreCacheImages.on = self.bcOptions.displayOptions.preCacheImages;
     self.switchGBIFTestAPI.on = self.bcOptions.searchOptions.testGBIFAPI;
     self.switchGBIFTestData.on = self.bcOptions.searchOptions.testGBIFData;
 }
@@ -204,7 +207,7 @@
 
 - (IBAction)sliderPoints:(id)sender {
     int output = (int)self.sliderDisplayPoints.value;
-    self.sliderDisplayPoints.value = 10 * floor(((output+5)/10)+0.5);
+    self.sliderDisplayPoints.value = kDisplayPointsSliderInterval * floor(((output+(kDisplayPointsSliderInterval/2))/kDisplayPointsSliderInterval)+0.5);
     self.bcOptions.displayOptions.displayPoints = self.sliderDisplayPoints.value;
     [self updateLabels];
 }
@@ -239,6 +242,7 @@
     
     self.bcOptions.displayOptions.mapType = self.segControlMapType.selectedSegmentIndex;
     self.bcOptions.displayOptions.autoSearch = self.switchAutoSearch.on;
+    self.bcOptions.displayOptions.preCacheImages = self.switchPreCacheImages.on;
     self.bcOptions.searchOptions.testGBIFAPI = self.switchGBIFTestAPI.on;
     self.bcOptions.searchOptions.testGBIFData = self.switchGBIFTestData.on;
     

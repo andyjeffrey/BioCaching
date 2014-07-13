@@ -17,8 +17,8 @@ const struct INatObservationAttributes INatObservationAttributes = {
 };
 
 const struct INatObservationRelationships INatObservationRelationships = {
+	.obsPhotos = @"obsPhotos",
 	.taxaAttribute = @"taxaAttribute",
-	.trip = @"trip",
 };
 
 const struct INatObservationFetchedProperties INatObservationFetchedProperties = {
@@ -223,11 +223,20 @@ const struct INatObservationFetchedProperties INatObservationFetchedProperties =
 
 
 
-@dynamic taxaAttribute;
+@dynamic obsPhotos;
 
 	
+- (NSMutableOrderedSet*)obsPhotosSet {
+	[self willAccessValueForKey:@"obsPhotos"];
+  
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"obsPhotos"];
+  
+	[self didAccessValueForKey:@"obsPhotos"];
+	return result;
+}
+	
 
-@dynamic trip;
+@dynamic taxaAttribute;
 
 	
 

@@ -10,6 +10,9 @@
 @property (nonatomic, readonly, copy) NSString *subtitle;
 @property (nonatomic, readonly, copy) NSString *locationString;
 
+#pragma mark - Convenience Properties
+@property (nonatomic, readonly, strong) INatObservation *observation;
+
 + (id)createFromGBIFOccurrence:(GBIFOccurrence *)gbifOccurrence;
 
 #pragma mark - Additional/Convenience Methods

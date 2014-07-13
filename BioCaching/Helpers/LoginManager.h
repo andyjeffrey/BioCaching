@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class LoginManager;
-
 @protocol LoginManagerDelegate <NSObject>
 @optional
 - (void)loginSuccess;

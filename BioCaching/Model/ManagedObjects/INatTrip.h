@@ -1,6 +1,9 @@
 #import "_INatTrip.h"
 #import "GBIFOccurrenceResults.h"
 
+#define kINatTripsPathPattern @"trips"
+#define kINatTripsKeyPath @"trips"
+
 typedef enum {
     TripStatusCreated = 0,
     TripStatusSaved = 1,
@@ -12,6 +15,7 @@ typedef enum {
 
 @interface INatTrip : _INatTrip  {}
 
+@property (nonatomic, readonly, assign) BOOL needsSyncing;
 @property (nonatomic, readonly) CLLocationCoordinate2D locationCoordinate;
 @property (nonatomic, strong) NSNumber *radius;
 @property (nonatomic, copy) NSString *locationName;

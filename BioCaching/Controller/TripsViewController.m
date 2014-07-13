@@ -41,8 +41,6 @@
     
     [self setupUI];
     [self setupTable];
-    
-//    [self loadCompletedTripsFromINat];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -282,7 +280,12 @@
 
 - (IBAction)buttonRefresh:(id)sender {
 #ifdef DEBUG
-    [_tripsDataManager loadAllTripsFromINat];
+    NSString *iNatUsername = [[NSUserDefaults standardUserDefaults] valueForKey:kINatAuthUsernamePrefKey];
+    if ([LoginManager sharedInstance].loggedIn) {
+        [_tripsDataManager loadTripsFromINat:iNatUsername];
+    } else {
+        [_tripsDataManager loadAllTripsFromINat];
+    }
 #endif
 }
 

@@ -88,28 +88,6 @@ static NSSortDescriptor *defaultSortDesc;
 }
 
 
-/*
- - (NSArray *)fetchSelectedTripsFromLocalStorage:(NSString *)filter {
- NSFetchRequest *request = [[NSFetchRequest alloc] init];
- NSEntityDescription *entity = [NSEntityDescription entityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
- request.entity = entity;
- NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"localCreatedAt" ascending:NO];
- request.sortDescriptors = @[sortDesc];
- NSPredicate *predicate = [NSPredicate predicateWithFormat:filter];
- [request setPredicate:predicate];
- 
- NSError *error;
- NSArray *resultsArray = [managedObjectContext executeFetchRequest:request error:&error];
- if (!resultsArray) {
- NSLog(@"Fetch Failed: %@", error);
- }
- 
- self.savedTrips = [[NSMutableArray alloc] initWithArray:resultsArray];
- 
- return nil;
- }
- */
-
 - (void)loadAllTripsFromINat
 {
     [self loadTripsFromINat:nil];
@@ -147,18 +125,9 @@ static NSSortDescriptor *defaultSortDesc;
 
 - (void)loadTripsFromLocalStore
 {
-    // Load Trips From Local Storage
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
-    request.entity = entity;
-    request.sortDescriptors = @[defaultSortDesc];
-    
-    NSError *error;
-    NSArray *resultsArray = [managedObjectContext executeFetchRequest:request error:&error];
-    if (!resultsArray) {
-        NSLog(@"Fetch Failed: %@", error);
-    } else {
-        _privateTrips = [[NSMutableArray alloc] initWithArray:resultsArray];
+    NSArray *tripsArray = [BCManagedObject fetchSelectedEntities:@"INatTrip" filter:nil];
+    if (tripsArray) {
+        _privateTrips = [[NSMutableArray alloc] initWithArray:tripsArray];
     }
 }
 
@@ -311,30 +280,15 @@ static NSSortDescriptor *defaultSortDesc;
         NSMutableURLRequest *request = [objectManager multipartFormRequestWithObject:obsPhoto method:RKRequestMethodPOST path:@"observation_photos" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:UIImageJPEGRepresentation(testImage, 0.75) name:@"file" fileName:@"TestImage.jpg" mimeType:@"image/jpeg"];
         }];
-        /*
-        RKObjectRequestOperation *operation = [objectManager objectRequestOperationWithRequest:request success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-            NSLog(@"INatObservationPhoto Upload Success: %@", mappingResult);
-            obsPhoto.syncedAt = obsPhoto.updatedAt;
-        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-            NSLog(@"INatObservationPhoto Upload Error: %@", error);
-        }];
-        */
          RKManagedObjectRequestOperation *operation = [objectManager managedObjectRequestOperationWithRequest:request managedObjectContext:managedObjectContext success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
              NSLog(@"INatObservationPhoto Upload Success: %@", mappingResult);
-             // Duplicate INatObservationPhoto entity created as response form multipartFormRequest POST
-             // not mapping to original entity.  Manually copy across values, then delete duplicate
-             // TODO: Resolve RKMapping issues to automatically update original entity
-             INatObservationPhoto *dupPhoto = mappingResult.array[0];
-             obsPhoto.recordId = dupPhoto.recordId;
-             obsPhoto.createdAt = dupPhoto.createdAt;
-             obsPhoto.updatedAt = dupPhoto.updatedAt;
              obsPhoto.syncedAt = obsPhoto.updatedAt;
-             [managedObjectContext deleteObject:dupPhoto];
              [self saveChanges];
          } failure:^(RKObjectRequestOperation *operation, NSError *error) {
          NSLog(@"INatObservationPhoto Upload Error: %@", error);
          }];
-        
+        // Ensure response object is mapped to request object
+        operation.targetObject = obsPhoto;
         [objectManager enqueueObjectRequestOperation:operation];
     }
     

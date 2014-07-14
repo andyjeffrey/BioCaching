@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TripsDataManagerDelegate.h"
+#import "UploadManagerDelegate.h"
 #import "ImageManager.h"
 #import "GBIFOccurrenceResults.h"
 #import "BCOptions.h"
@@ -16,6 +17,7 @@
 
 @property (weak, nonatomic) id<TripsDataManagerDelegate> delegate;
 @property (weak, nonatomic) id<TripsDataManagerTableDelegate> tableDelegate;
+@property (weak, nonatomic) id<UploadManagerDelegate> uploadDelegate;
 
 // Conveniece properties for TripsVC table sections
 // TODO: Replace with FetchedResultsController?

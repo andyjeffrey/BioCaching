@@ -7,6 +7,7 @@
 //
 
 #import "TripsDataManager.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 static NSSortDescriptor *defaultSortDesc;
 
@@ -269,14 +270,57 @@ static NSSortDescriptor *defaultSortDesc;
 }
 
 - (void)postObservationPhotosToINat:(INatObservation *)observation {
-    UIImage *testImage = [UIImage imageNamed:@"TestImage.jpg"];
     
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
+
     //    NSArray *obsPhotos = [trip.observations valueForKey:@"obsPhotos"];
     NSLog(@"Uploading Observation Photos For Observation: %@", observation.recordId);
     for (INatObservationPhoto *obsPhoto in observation.obsPhotos) {
-//        NSDictionary *queryParams = @{@"observation_photo[observation_id]" : obsPhoto.observationId};
-        
+        if (obsPhoto.needsSyncing) {
+            NSURL *assetUrl = [NSURL URLWithString:obsPhoto.localAssetUrl];
+            // Get image from Asset Library
+            ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+            __block NSNumber *imageSize = nil;
+            __block UIImage *myImage = nil;
+            __block INatObservationPhoto *blockImage = nil;
+            __block NSData *blockImageData = nil;
+            
+            [library assetForURL:assetUrl resultBlock:^(ALAsset *asset) {
+                myImage = [UIImage imageWithCGImage:[asset.defaultRepresentation fullResolutionImage]];
+                imageSize = [NSNumber numberWithLongLong:asset.defaultRepresentation.size];
+                
+                // make the image available on callback
+                blockImage = obsPhoto;
+                
+                NSData *imageData = UIImageJPEGRepresentation(myImage, 0.75);
+                blockImageData = imageData;
+                
+                NSMutableURLRequest *request = [objectManager multipartFormRequestWithObject:obsPhoto method:RKRequestMethodPOST path:@"observation_photos" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                    [formData appendPartWithFileData:imageData
+                                                name:@"file"
+                                            fileName:asset.defaultRepresentation.filename
+                                            mimeType:@"image/jpeg"];
+                }];
+                
+                RKManagedObjectRequestOperation *operation = [objectManager managedObjectRequestOperationWithRequest:request managedObjectContext:managedObjectContext success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                    NSLog(@"INatObservationPhoto Upload Success: %@", mappingResult);
+                    obsPhoto.syncedAt = obsPhoto.updatedAt;
+                    [self saveChanges];
+                } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                    NSLog(@"INatObservationPhoto Upload Error: %@", error);
+                }];
+                // Ensure response object is mapped to request object
+                operation.targetObject = obsPhoto;
+                [objectManager enqueueObjectRequestOperation:operation];
+                
+            } failureBlock:^(NSError *error) {
+                // Error Loading Asset From Asset Library
+                NSLog(@"Error Loading Asset: %@ %@", assetUrl, error);
+            }];
+        }
+/*
+        UIImage *testImage = [UIImage imageNamed:@"TestImage.jpg"];
+
         NSMutableURLRequest *request = [objectManager multipartFormRequestWithObject:obsPhoto method:RKRequestMethodPOST path:@"observation_photos" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:UIImageJPEGRepresentation(testImage, 0.75) name:@"file" fileName:@"TestImage.jpg" mimeType:@"image/jpeg"];
         }];
@@ -290,8 +334,8 @@ static NSSortDescriptor *defaultSortDesc;
         // Ensure response object is mapped to request object
         operation.targetObject = obsPhoto;
         [objectManager enqueueObjectRequestOperation:operation];
+*/
     }
-    
 }
 
 - (BOOL)postTripToINat:(INatTrip *)trip {

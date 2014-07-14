@@ -304,6 +304,7 @@
 		A1C524531971AA3F0002686A /* ConnectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionHelper.m; sourceTree = "<group>"; };
 		A1C524571971B5510002686A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		A1C524581971B5510002686A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		A1C5245B19741E940002686A /* UploadManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadManagerDelegate.h; sourceTree = "<group>"; };
 		A1CD979819618E8900582BF0 /* TripsDataManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TripsDataManagerDelegate.h; sourceTree = "<group>"; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
 		A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Exe Estuary MPA, UK.gpx"; path = "Resources/TestData/Exe Estuary MPA, UK.gpx"; sourceTree = "<group>"; };
@@ -851,6 +852,7 @@
 				A119199419660F7D003B15F7 /* LocationController.m */,
 				A11919991969954B003B15F7 /* UploadManager.h */,
 				A119199A1969954B003B15F7 /* UploadManager.m */,
+				A1C5245B19741E940002686A /* UploadManagerDelegate.h */,
 				A1C52443197033030002686A /* ImageManager.h */,
 				A1C52444197033030002686A /* ImageManager.m */,
 				A1C524521971AA3F0002686A /* ConnectionHelper.h */,

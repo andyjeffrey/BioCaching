@@ -1,5 +1,7 @@
 #import "_BCManagedObject.h"
 
 @interface BCManagedObject : _BCManagedObject {}
-// Custom logic goes here.
+
++ (NSManagedObject *)fetchEntityWithRecordId:(NSString *)entityName recordId:(NSNumber *)recordId;
+
 @end

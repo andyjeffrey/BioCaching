@@ -21,9 +21,15 @@
     id result = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
     
     // Change JSON before mapping
-    if ([result isKindOfClass:[NSArray class]] && ([(NSArray *)result count] > 0)) {
-        NSLog(@"BCRestKitJsonParser, Amended JSON:%@", result[0]);
-        return result[0];
+    if ([result isKindOfClass:[NSArray class]]) {
+        NSArray *resultArray = result;
+        if (resultArray.count > 0 && [resultArray[0] isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *resultDict = resultArray[0];
+            if ([resultDict valueForKey:@"observed_on_string"]) {
+                NSLog(@"BCRestKitJsonParser, Amended INatObservation JSON:%@", result[0]);
+                return resultDict;
+            }
+        }
     }
     
     return result;

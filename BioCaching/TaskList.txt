@@ -6,35 +6,41 @@ High Priority (For v1.0 - Internal Test Release)
 + Record basic observation details and assign to trip
 + Add photo to observation records
 - Push all associated observation records (and photos) to iNat
-- Fix up Website Viewer (as used for BHL species links) with back button
-- Better progress updates (loading spinner etc) when sending/receiving data over internet
-- Better info/error handling when offline or web services unavailable
-- Change default search view to current location with 1km radius (use settings to change default)
--
-
++ Better user feedback (i.e. ensure network activity spinner animating) when sending/receiving data over internet
+- Change default search view to current location with 1km radius (use settings to change default) - span or radius?
+- Add control/button to map for current location
 
 
 Medium Priority (For v1.1 - Full Public Release)
+- Add control/button to map for map type?
+- Add "Follow User" button to map screen (or option in settings page?)
+- Add alternative Explore Summary screen for when viewing saved trip, with editable trip details rather than search results (i.e. trip title, description, times etc)
+- Prevent starting a trip if outside the search area boundary
+- Display warning alert during trip if user goes outside search area boundary (record the number of times this happens - suggested storing this on iNat along with the trip, but there's no capacity in the API such as "trip_field_values" for this at the moment)
+- Better info/error handling when offline or web services unavailable
+- Fix up Website Viewer (as used for BHL species links) with back button
 - User editing of trip details before submission to iNat
+- Recording/editing of notes field on observation details
+- Ability to go back and edit key observation details (i.e. DateTime and Location) before publication to iNat?
 - Better UX for deleting taxa from trip list (edit list/delete confirmation)
 - Deletion of taxa from trip not searched for before submission to iNat?
 - Hook up trip map and list screens so selected item is highlighted when changing screens
 - Swipe to next occurrence/record (when viewing trip)
 - Redo/duplicate existing (completed) trip
-- "Follow User" option?
 - Fix any UI issues for iOS 6
 
 
 Lower Priority (Possible For v1.1+ - Post Release Updates)
+- Location/place name search from ExploreMap screen (to replace/compliment drop down list of predefined locations)
 - Retrieval of multiple pictures for trip list taxa
-- Location/place name search from ExploreMap screen (as well as drop down list)
+- Recording of trip GPS track
 
 
 Currently Out of Scope (Wishlist for v2.0+ - Future Versions)
 - Full synching/updating of trips (and associated observations) with iNat (after initial post)
 
 
-UI/UX Issues/Change Requests
+Other UI/UX Issues/Change Requests/Suggestions (need prioritising)
 - Search area to be calculated/approximated to circle (currently displayed as circle but simple square used as polygon for actual search params)
 - Resize/zoom taxon images to fill area edge-to-edge (occurrence details screen)
 - Move main menu button in toolbar to top level view controller so that button works on all child views, e.g. Explore map/list/summary
@@ -48,16 +54,16 @@ UI/UX Issues/Change Requests
 - Add Trip control buttons (save/start/stop) to ExploreList/Summary screen (as well as ExploreMap)
 - Fix issue with some screens not in scrolling down to see all information (e.g. Trip Summary or Occurrence Details)
 - Fix display issue with segmented control on explore screen
-
+- Add some kind of indicator (e.g. X of Y text in header, or change map icon in some way) on map (and list) screen to quickly show which/how many records on current trip have been found/recorded?
 
 Ongoing Technical Tasks/TODOs
 + Keep list of deleted occurrences (manual or automatic) and underlying Occurrence objects (rather than completing deleting from OccurrenceResults)
-- Refactor BCOptions (Persist original SearchOptions to OccurrenceResults/Trip, use NSUserDefaults for current DisplayOptions?)
+- Refactor BCOptions (Persist original SearchOptions to OccurrenceResults/Trip, use NSUserDefaults for current Options)
 - Enforce use of decimal variables for GPS related values (as opposed to default double/float) to ensure fixed precision with no rounding
+- Improve image caching to store taxa images in applications Library/Caches folder rather than using the general iOS URLCache
 - Enable addition of extra occurrence search results to unsaved trip lists (currently limited to one GBIF request of max 300 occurrences)
-- Improve image caching to store images on 
+- Change upload process to do all observations THEN observation photos THEN final trip
+- Add additional/detailed feedback delegates to show upload progress
+- Create observation_field_value for original GBIF recordId
+- Add GBIF recordId observation_field_value to each observation posted to iNat
 
-
-- Add simple control to map for current location (and map type?)
-- Add geocoder search option to explore page
-- Add alternative Explore Summary screen for when viewing saved trip, with editable trip details rather than search results (i.e. trip title, description, times etc)

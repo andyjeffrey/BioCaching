@@ -257,8 +257,7 @@ static NSSortDescriptor *defaultSortDesc;
     for (INatObservation *observation in trip.observations) {
         //
         [objectManager postObject:observation path:@"observations" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-            NSLog(@"Observation Upload Success: %@", mappingResult);
-            // TODO: Update local object from INat response
+            NSLog(@"INatObservation Upload Success: %@", mappingResult);
             observation.syncedAt = observation.updatedAt;
             [self saveChanges];
             if (observation.obsPhotos.count > 0) {
@@ -267,7 +266,7 @@ static NSSortDescriptor *defaultSortDesc;
             // TODO: Add Delegate To Send Progress Updates Back to VC
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
             // TODO: Update local INatObservation object
-            NSLog(@"Observation Upload Error: %@", error);
+            NSLog(@"INatObservation Upload Error: %@", error);
         }];
     }
 
@@ -307,30 +306,35 @@ static NSSortDescriptor *defaultSortDesc;
     //    NSArray *obsPhotos = [trip.observations valueForKey:@"obsPhotos"];
     NSLog(@"Uploading Observation Photos For Observation: %@", observation.recordId);
     for (INatObservationPhoto *obsPhoto in observation.obsPhotos) {
-        NSDictionary *queryParams = @{@"observation_photo[observation_id]" : obsPhoto.observationId};
+//        NSDictionary *queryParams = @{@"observation_photo[observation_id]" : obsPhoto.observationId};
         
-        NSMutableURLRequest *request = [objectManager multipartFormRequestWithObject:obsPhoto method:RKRequestMethodPOST path:@"observation_photos" parameters:queryParams constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSMutableURLRequest *request = [objectManager multipartFormRequestWithObject:obsPhoto method:RKRequestMethodPOST path:@"observation_photos" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:UIImageJPEGRepresentation(testImage, 0.75) name:@"file" fileName:@"TestImage.jpg" mimeType:@"image/jpeg"];
         }];
-        
+        /*
         RKObjectRequestOperation *operation = [objectManager objectRequestOperationWithRequest:request success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             NSLog(@"INatObservationPhoto Upload Success: %@", mappingResult);
             obsPhoto.syncedAt = obsPhoto.updatedAt;
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
             NSLog(@"INatObservationPhoto Upload Error: %@", error);
         }];
-        /*
+        */
          RKManagedObjectRequestOperation *operation = [objectManager managedObjectRequestOperationWithRequest:request managedObjectContext:managedObjectContext success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
              NSLog(@"INatObservationPhoto Upload Success: %@", mappingResult);
-             obsPhoto.recordId = [mappingResult.dictionary valueForKey:@"id"];
-             obsPhoto.createdAt = [mappingResult.dictionary valueForKey:@"created_at"];
-             obsPhoto.updatedAt = [mappingResult.dictionary valueForKey:@"updated_at"];
+             // Duplicate INatObservationPhoto entity created as response form multipartFormRequest POST
+             // not mapping to original entity.  Manually copy across values, then delete duplicate
+             // TODO: Resolve RKMapping issues to automatically update original entity
+             INatObservationPhoto *dupPhoto = mappingResult.array[0];
+             obsPhoto.recordId = dupPhoto.recordId;
+             obsPhoto.createdAt = dupPhoto.createdAt;
+             obsPhoto.updatedAt = dupPhoto.updatedAt;
              obsPhoto.syncedAt = obsPhoto.updatedAt;
+             [managedObjectContext deleteObject:dupPhoto];
              [self saveChanges];
          } failure:^(RKObjectRequestOperation *operation, NSError *error) {
          NSLog(@"INatObservationPhoto Upload Error: %@", error);
          }];
-         */
+        
         [objectManager enqueueObjectRequestOperation:operation];
     }
     

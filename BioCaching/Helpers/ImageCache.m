@@ -47,7 +47,6 @@
 }
 
 // Adapted from http://stackoverflow.com/questions/1282830/uiimagepickercontroller-uiimage-memory-and-more
-// this code has numerous authors, please see stackoverflow for them all
 + (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize
 {
     CGSize imageSize = sourceImage.size;

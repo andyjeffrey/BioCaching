@@ -231,7 +231,7 @@
     [INatTrip setupMapping];
     [INatTaxon setupMapping];
     [INatObservation setupMapping];
-//    [INatObservationPhoto setupMapping];
+    [INatObservationPhoto setupMapping];
     
     // Show Network Activity Indicator
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;

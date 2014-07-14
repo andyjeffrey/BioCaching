@@ -41,18 +41,19 @@
     // Entity Post Response Mapping
     RKEntityMapping *entityGetMapping = [RKEntityMapping mappingForEntityForName:@"INatObservationPhoto" inManagedObjectStore:managedObjectStore];
     [entityGetMapping addAttributeMappingsFromDictionary:parentMappingDict];
-    [entityGetMapping addAttributeMappingsFromDictionary:entityMappingDict];
+//    [entityGetMapping addAttributeMappingsFromDictionary:entityMappingDict];
     entityGetMapping.identificationAttributes = @[@"recordId"];
     
-    [objectManager.router.routeSet addRoute:[RKRoute routeWithClass:[INatObservationPhoto class] pathPattern:@"observation_photos" method:RKRequestMethodAny]];
-
     // Entity POST Request
-    RKRequestDescriptor *entityPostReqDesc = [RKRequestDescriptor requestDescriptorWithMapping:[entityPostMapping inverseMapping] objectClass:[INatObservationPhoto class] rootKeyPath:entityPostReqKeyPath method:RKRequestMethodAny];
+    RKRequestDescriptor *entityPostReqDesc = [RKRequestDescriptor requestDescriptorWithMapping:entityPostMapping.inverseMapping objectClass:[INatObservationPhoto class] rootKeyPath:entityPostReqKeyPath method:RKRequestMethodPOST];
     [objectManager addRequestDescriptor:entityPostReqDesc];
     
     // Entity POST Response
-    RKResponseDescriptor *entityPostRespDesc = [RKResponseDescriptor responseDescriptorWithMapping:entityGetMapping method:RKRequestMethodAny pathPattern:entityPathPattern keyPath:entityPostReqKeyPath statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    RKResponseDescriptor *entityPostRespDesc = [RKResponseDescriptor responseDescriptorWithMapping:entityGetMapping method:RKRequestMethodPOST pathPattern:entityPathPattern keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [objectManager addResponseDescriptor:entityPostRespDesc];
+
+//    [objectManager.router.routeSet addRoute:[RKRoute routeWithClass:[INatObservationPhoto class] pathPattern:@"observation_photos" method:RKRequestMethodPOST]];
+    
 }
 
 

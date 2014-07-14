@@ -7,5 +7,6 @@
 @property (nonatomic, readonly, strong) NSString *localAssetFilename;
 
 + (id)createNewObservationPhoto:(NSString *)photoAssetUrl;
++(void)setupMapping;
 
 @end

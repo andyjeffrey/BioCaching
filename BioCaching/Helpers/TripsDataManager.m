@@ -388,7 +388,7 @@ static NSSortDescriptor *defaultSortDesc;
 {
     //TODO: Should check Trip contains OccurrenceRecord to be deleted?
     if (occurrence.managedObjectContext) {
-        [managedObjectContext deleteObject:occurrence];
+        [managedObjectContext deleteObject:occurrence.taxaAttribute];
     } else {
         NSString *reasonString = [NSString stringWithFormat:@"Attempting to delete OccurrenceRecord MO that does not exist:%@", occurrence];
         @throw [NSException exceptionWithName:@"TripsDataManager"

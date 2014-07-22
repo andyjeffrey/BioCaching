@@ -41,12 +41,12 @@
     NSString *queryString = [NSString stringWithFormat:kGBIFOccurrenceSearch,
                              kGBIFOccurrenceDefaultLimit,
                              kGBIFOccurrenceDefaultOffset,
-                             searchOptions.recordType.queryStringValueGBIF,
-                             searchOptions.recordSource.queryStringValueGBIF,
-                             searchOptions.speciesFilter.queryStringValueGBIF,
-//                             [OptionsRecordType queryStringValue:searchOptions.recordType],
-//                             [OptionsRecordSource queryStringValue:searchOptions.recordSource],
-//                             [OptionsSpeciesFilter queryStringValue:searchOptions.speciesFilter],
+                             [OptionsRecordType queryStringGBIFValueForOption:searchOptions.enumRecordType],
+                             [OptionsRecordSource queryStringGBIFValueForOption:searchOptions.enumRecordSource],
+                             [OptionsSpeciesFilter queryStringGBIFValueForOption:searchOptions.enumSpeciesFilter],
+//                             searchOptions.recordType.queryStringValueGBIF,
+//                             searchOptions.recordSource.queryStringValueGBIF,
+//                             searchOptions.speciesFilter.queryStringValueGBIF,
                              searchOptions.collectorName,
                              searchOptions.year,
                              searchOptions.yearFrom,
@@ -55,9 +55,9 @@
     
     NSString *requestString;
     if (searchOptions.testGBIFAPI) {
-        requestString = [NSString stringWithFormat:@"%@%@", kGBIFTestAPIBaseURL, queryString];
-    } else {
         requestString = [NSString stringWithFormat:@"%@%@", kGBIFBaseURL, queryString];
+    } else {
+        requestString = [NSString stringWithFormat:@"%@%@", kGBIFBaseURLPreV1, queryString];
     }
     
     return requestString;

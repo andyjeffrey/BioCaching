@@ -10,6 +10,7 @@
 
 #define kOptionsKeyMapType          @"OptionsMapType"
 #define kOptionsKeyAutoSearch       @"OptionsAutoSearch"
+#define kOptionsKeyFollowUser       @"OptionsFollowUser"
 #define kOptionsKeyPreCacheImages   @"OptionsPreCacheImages"
 #define kOptionsKeyDisplayPoints    @"OptionsDisplayPoints"
 #define kOptionsKeyUniqueSpecies    @"OptionsUniqueSpecies"
@@ -20,7 +21,7 @@
     NSUserDefaults *_userDefaults;
 }
 
-+(instancetype)sharedInstance
++ (instancetype)sharedInstance
 {
     static dispatch_once_t once;
     static DisplayOptions *instance;
@@ -47,6 +48,7 @@
         if (![_userDefaults objectForKey:kOptionsKeyMapType]) {
             self.mapType = kOptionsDefaultMapType;
             self.autoSearch = kOptionsDefaultAutoSearch;
+            self.followUser = kOptionsDefaultFollowUser;
             self.preCacheImages = kOptionsDefaultPreCacheImages;
             self.displayPoints = kOptionsDefaultDisplayPoints;
             self.uniqueSpecies = kOptionsDefaultUniqueSpecies;
@@ -71,6 +73,14 @@
 }
 - (void)setAutoSearch:(BOOL)autoSearch {
     [_userDefaults setBool:autoSearch forKey:kOptionsKeyAutoSearch];
+    [_userDefaults synchronize];
+}
+
+- (BOOL)followUser {
+    return [[_userDefaults objectForKey:kOptionsKeyFollowUser] boolValue];
+}
+- (void)setFollowUser:(BOOL)followUser {
+    [_userDefaults setBool:followUser forKey:kOptionsKeyFollowUser];
     [_userDefaults synchronize];
 }
 

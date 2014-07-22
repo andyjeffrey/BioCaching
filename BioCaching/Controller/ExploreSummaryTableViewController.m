@@ -28,6 +28,7 @@
 @end
 
 @implementation ExploreSummaryTableViewController {
+    BCOptions *_bcOptions;
     NSArray *_filteredResults;
 }
 
@@ -43,6 +44,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _bcOptions = [BCOptions sharedInstance];
     [self setupUI];
 }
 

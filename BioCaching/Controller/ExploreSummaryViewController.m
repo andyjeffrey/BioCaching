@@ -44,7 +44,7 @@
     _searchResults = _exploreDataManager.currentSearchResults;
     _currentTrip = _tripsDataManager.currentTrip;
     [self setupLabels];
-    summaryTableVC.bcOptions = _bcOptions;
+//    summaryTableVC.bcOptions = _bcOptions;
     summaryTableVC.occurrenceResults = _searchResults;
     summaryTableVC.currrentTrip = _currentTrip;
 }
@@ -60,9 +60,9 @@
 
 - (void)setupSidebar
 {
+    self.buttonSidebar.enabled = NO;
     [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
-    [self.buttonSidebar setBackgroundImage:
-     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+//    [self.buttonSidebar setBackgroundImage:[IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     
     // Change button color
@@ -70,16 +70,16 @@
 }
 
 - (void)setupLabels
-{    
-    [self.labelLocation setTextWithColor:[NSString stringWithFormat:@"Location: %f,%f",
-                               self.bcOptions.searchOptions.searchAreaCentre.latitude,
-                                             self.bcOptions.searchOptions.searchAreaCentre.longitude] color:[UIColor kColorHeaderText]];
+{
+    [self.labelLocation setTextWithColor:@"No Active Search Results/Trip" color:[UIColor kColorHeaderText]];
+    [self.labelAreaSpan setTextWithColor:@"Area Span: " color:[UIColor kColorHeaderText]];
+    [self.labelResultsCount setTextWithColor:@"Record Count: " color:[UIColor kColorHeaderText]];
     
-    [self.labelAreaSpan setTextWithColor:[NSString stringWithFormat:@"Area Span: %lum",
-                                             (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
-    
-    [self.labelResultsCount setTextWithColor:[NSString stringWithFormat:@"Record Count: %d",
-                                                 (int)_currentTrip.occurrenceRecords.count] color:[UIColor kColorHeaderText]];
+    if (_currentTrip) {
+        self.labelLocation.text = [CLLocation latLongStringFromCoordinate:_currentTrip.locationCoordinate];
+        self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %@", _currentTrip.searchAreaSpan];
+        self.labelResultsCount.text = [NSString stringWithFormat:@"Record Count: %d", (int)_currentTrip.occurrenceRecords.count];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

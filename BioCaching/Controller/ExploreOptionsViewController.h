@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BCOptions.h"
+//#import "BCOptions.h"
 #import "DropDownViewController.h"
 #import "ExploreOptionsDelegate.h"
 
 @interface ExploreOptionsViewController : UITableViewController <DropDownViewDelegate>
 
-@property (nonatomic, weak) BCOptions *bcOptions;
+//@property (nonatomic, weak) BCOptions *bcOptions;
+@property (nonatomic, weak) UIViewController *returnVC;
 @property (nonatomic, weak) id <ExploreOptionsDelegate> delegate;
 
 @end

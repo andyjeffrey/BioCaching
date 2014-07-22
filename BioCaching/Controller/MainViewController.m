@@ -28,7 +28,7 @@
     NSLog(@"%s", __PRETTY_FUNCTION__);
     
     if (self) {
-        _bcOptions = [[BCOptions alloc] initWithDefaults];
+        [BCOptions sharedInstance];
     }
     return self;
 }
@@ -73,9 +73,6 @@
         if (![sidebarVC.viewControllersCache objectForKey:segue.identifier]) {
             [sidebarVC.viewControllersCache setObject:exploreNavVC forKey:segue.identifier];
         }
-        
-        ExploreContainerViewController *exploreVC = (ExploreContainerViewController *)exploreNavVC.topViewController;
-        exploreVC.bcOptions = _bcOptions;
     }
 }
 

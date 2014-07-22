@@ -175,11 +175,11 @@
         cell.buttonAction.hidden = NO;
     } else {
         cell.buttonAction.hidden = YES;
-#ifdef DEBUG
+//#ifdef DEBUG
         [cell.buttonAction setTitle:@"Delete" forState:UIControlStateNormal];
         [cell.buttonAction setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         cell.buttonAction.hidden = NO;
-#endif
+//#endif
     }
     cell.delegate = self;
     
@@ -279,14 +279,12 @@
 }
 
 - (IBAction)buttonRefresh:(id)sender {
-#ifdef DEBUG
     NSString *iNatUsername = [[NSUserDefaults standardUserDefaults] valueForKey:kINatAuthUsernamePrefKey];
     if ([LoginManager sharedInstance].loggedIn) {
         [_tripsDataManager loadTripsFromINat:iNatUsername];
     } else {
         [_tripsDataManager loadAllTripsFromINat];
     }
-#endif
 }
 
 @end

@@ -7,11 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "INatTrip.h"
-#import "BCOptions.h"
 
 @interface ExploreContainerViewController : UIViewController
-
-@property (nonatomic, strong) BCOptions *bcOptions;
 
 @end

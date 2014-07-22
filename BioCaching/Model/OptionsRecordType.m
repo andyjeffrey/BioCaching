@@ -8,24 +8,15 @@
 
 #import "OptionsRecordType.h"
 
-static int const defaultOptionIndex = 2;
-
-/*
- typedef enum {
- RecordType_ALL, // 439101885
- RecordType_OBSERVATION, // 309166576
- RecordType_PRESERVED_SPECIMEN, // 94612722
- RecordType_FOSSIL_SPECIMEN, // 2727243
- RecordType_LIVING_SPECIMEN, // 766357
- RecordType_LITERATURE, // 402974
- RecordType_UNKNOWN, // 31426013
- //    RecordType_HUMAN_OBSERVATION, // 0
- //    RecordType_MACHINE_OBSERVATION, // 0
- RecordTypeCount
- } RecordType;
-*/
-
 @implementation OptionsRecordType
+
+- (instancetype)init
+{
+    @throw [NSException exceptionWithName:@"Singleton"
+                                   reason:@"Use +[OptionsRecordType classMethod]"
+                                 userInfo:nil];
+    return nil;
+}
 
 + (NSArray *)staticArray
 {
@@ -33,42 +24,37 @@ static int const defaultOptionIndex = 2;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _staticArray = [[NSMutableArray alloc] init];
-        
-        [_staticArray addObject:[[APIOption alloc] initWithValues:@"All" queryStringValueGBIF:@""]];
-        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Observation" queryStringValueGBIF:@"OBSERVATION"]];
-        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Museum Specimen" queryStringValueGBIF:@"PRESERVED_SPECIMEN"]];
-        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Fossil Specimen" queryStringValueGBIF:@"FOSSIL_SPECIMEN"]];
-        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Living Specimen" queryStringValueGBIF:@"LIVING_SPECIMEN"]];
-        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Literature" queryStringValueGBIF:@"LITERATURE"]];
-        [_staticArray addObject:[[APIOption alloc] initWithValues:@"Unknown" queryStringValueGBIF:@"Unknown"]];
+
+        [_staticArray addObject:@[@"All", @""]];
+        [_staticArray addObject:@[@"Observation", @"OBSERVATION"]];
+        [_staticArray addObject:@[@"Museum Specimen", @"PRESERVED_SPECIMEN"]];
+        [_staticArray addObject:@[@"Fossil Specimen", @"FOSSIL_SPECIMEN"]];
+        [_staticArray addObject:@[@"Living Specimen", @"LIVING_SPECIMEN"]];
+        [_staticArray addObject:@[@"Literature", @"LITERATURE"]];
+        [_staticArray addObject:@[@"Unknown", @"Unknown"]];
     });
     
     return _staticArray;
 }
 
-+ (NSArray *)displayStrings
-{
++ (NSArray *)allDisplayStrings {
     NSMutableArray *displayStrings = [[NSMutableArray alloc] init];
-    for (APIOption *apiOption in [self staticArray]) {
-        [displayStrings addObject:apiOption.displayString];
+    for (NSArray *option in [self staticArray]) {
+        [displayStrings addObject:option[0]];
     }
     return displayStrings;
 }
 
-+ (APIOption *)defaultOption
-{
-    APIOption *apiOption = [[self staticArray] objectAtIndex:defaultOptionIndex];
-    return apiOption;
++ (NSUInteger)count {
+    return [self staticArray].count;
 }
 
-+ (APIOption *)objectAtIndex:(NSUInteger)index
-{
-    return (APIOption *) [self staticArray][index];
++ (NSString *)displayStringForOption:(NSUInteger)index {
+    return [self staticArray][index][0];
 }
 
-+ (NSUInteger)count
-{
-    return [[self staticArray] count];
++ (NSString *)queryStringGBIFValueForOption:(NSUInteger)index {
+    return [self staticArray][index][1];
 }
 
 @end

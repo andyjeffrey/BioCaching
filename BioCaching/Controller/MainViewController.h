@@ -12,9 +12,6 @@
 @interface MainViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *sidebarButton;
-//@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (weak, nonatomic) IBOutlet UIView *viewContainer;
-
-@property (nonatomic, strong) BCOptions *bcOptions;
 
 @end

@@ -17,6 +17,7 @@
 @property (nonatomic, strong, readonly) SearchOptions *searchOptions;
 @property (nonatomic, strong, readonly) DisplayOptions *displayOptions;
 
++ (instancetype)sharedInstance;
 - (id)initWithDefaults;
 
 @end

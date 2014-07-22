@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BCOptions.h"
+//#import "BCOptions.h"
 
 @interface ExploreSummaryViewController : UIViewController
 
-@property (nonatomic, strong) BCOptions *bcOptions;
+//@property (nonatomic, strong) BCOptions *bcOptions;
 
 @end

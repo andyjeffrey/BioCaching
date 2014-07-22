@@ -34,8 +34,8 @@
     [BCAlerts displayDefaultInfoNotification:@"GBIF Search Request Made" subtitle:searchOptions.searchAreaPolygon.description];
 #else
     CLLocation *location = [CLLocation initWithCoordinate:searchOptions.searchAreaCentre];
-    NSString *searchString = [NSString stringWithFormat:@"%@, Radius:%dm",
-                              location.latLongVerbose, (int)searchOptions.searchAreaSpan/2];
+    NSString *searchString = [NSString stringWithFormat:@"%@\nSearch Area: %dm",
+                              location.latLongVerbose, (int)searchOptions.searchAreaSpan];
     [BCAlerts displayDefaultInfoNotification:@"Searching For Records..." subtitle:searchString];
 #endif
     

@@ -11,6 +11,7 @@
 #import "ObservationViewController.h"
 #import "ExploreDataManager.h"
 #import "TripsDataManager.h"
+#import "BCOptions.h"
 
 @interface ExploreListViewController ()
 
@@ -27,6 +28,7 @@
 
 
 @implementation ExploreListViewController {
+    BCOptions *_bcOptions;
     TripsDataManager *_tripsDataManager;
     INatTrip *_currentTrip;
     BOOL deletingRow;
@@ -38,9 +40,9 @@
 {
     [super viewDidLoad];
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    
     self.navigationController.navigationBarHidden = YES;
     
+    _bcOptions = [BCOptions sharedInstance];
     [self setupUI];
     _tripsDataManager = [TripsDataManager sharedInstance];
 }
@@ -73,9 +75,9 @@
 
 - (void)setupSidebar
 {
+    self.buttonSidebar.enabled = NO;
     [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
-    [self.buttonSidebar setBackgroundImage:
-     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+//    [self.buttonSidebar setBackgroundImage:[IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     
     // Change button color
@@ -84,24 +86,24 @@
 
 - (void)setupButtons
 {
+    self.buttonEdit.enabled = NO;
     [self.buttonEdit setTitle:nil forState:UIControlStateNormal];
-    [self.buttonEdit setBackgroundImage:
-     [IonIcons imageWithIcon:icon_edit iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+//    [self.buttonEdit setBackgroundImage:[IonIcons imageWithIcon:icon_edit iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonEdit.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
 }
 
 
 - (void)setupLabels
 {
-    [self.labelLocation setTextWithColor:[NSString stringWithFormat:@"Location: %f,%f",
-                                          self.bcOptions.searchOptions.searchAreaCentre.latitude,
-                                          self.bcOptions.searchOptions.searchAreaCentre.longitude] color:[UIColor kColorHeaderText]];
-    
-    [self.labelAreaSpan setTextWithColor:[NSString stringWithFormat:@"Area Span: %lum",
-                                          (unsigned long)self.bcOptions.searchOptions.searchAreaSpan] color:[UIColor kColorHeaderText]];
-    
-    [self.labelResultsCount setTextWithColor:[NSString stringWithFormat:@"Record Count: %d",
-                                              (int)_currentTrip.occurrenceRecords.count] color:[UIColor kColorHeaderText]];
+    [self.labelLocation setTextWithColor:@"No Active Search Results/Trip" color:[UIColor kColorHeaderText]];
+    [self.labelAreaSpan setTextWithColor:@"Area Span: " color:[UIColor kColorHeaderText]];
+    [self.labelResultsCount setTextWithColor:@"Record Count: " color:[UIColor kColorHeaderText]];
+
+    if (_currentTrip) {
+        self.labelLocation.text = [CLLocation latLongStringFromCoordinate:_currentTrip.locationCoordinate];
+        self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %@", _currentTrip.searchAreaSpan];
+        self.labelResultsCount.text = [NSString stringWithFormat:@"Record Count: %d", (int)_currentTrip.occurrenceRecords.count];
+    }
 }
 
 
@@ -168,7 +170,7 @@
     OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
     NSLog(@"Action Button: %lu - %@", indexPath.row, occurrence.title);
     
-    if (_currentTrip && _currentTrip.status.intValue > TripStatusCreated)
+    if (_currentTrip && _currentTrip.status.intValue >= TripStatusInProgress)
     {
         ObservationViewController *observationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Observation"];
         observationVC.occurrence = occurrence;

@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "APIOption.h"
+#import "OptionsRecordType.h"
+#import "OptionsRecordSource.h"
+#import "OptionsSpeciesFilter.h"
 
 @interface SearchOptions : NSObject
 
@@ -16,12 +18,10 @@
 @property (nonatomic, strong) MKPolygon *searchAreaPolygon;
 @property (nonatomic, copy) NSString *searchLocationName;
 
-@property (nonatomic, strong) APIOption *recordType;
-@property (nonatomic, strong) APIOption *recordSource;
-@property (nonatomic, strong) APIOption *speciesFilter;
-//@property (nonatomic, assign) RecordType recordType;
-//@property (nonatomic, assign) RecordSource recordSource;
-//@property (nonatomic, assign) SpeciesFilter speciesFilter;
+@property (nonatomic, assign) RecordType enumRecordType;
+@property (nonatomic, assign) RecordSource enumRecordSource;
+@property (nonatomic, assign) SpeciesFilter enumSpeciesFilter;
+
 @property (nonatomic, copy) NSString *collectorName;
 @property (nonatomic, copy) NSString *year;
 @property (nonatomic, copy) NSString *yearFrom;
@@ -30,6 +30,7 @@
 @property (nonatomic, assign) BOOL testGBIFAPI;
 @property (nonatomic, assign) BOOL testGBIFData;
 
++ (instancetype)sharedInstance;
 + (id)initWithDefaults;
 
 @end

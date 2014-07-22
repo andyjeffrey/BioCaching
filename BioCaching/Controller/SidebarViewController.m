@@ -8,6 +8,7 @@
 
 #import "SidebarViewController.h"
 #import "SWRevealViewController.h"
+#import "ExploreOptionsViewController.h"
 
 @interface SidebarViewController ()
 
@@ -17,10 +18,11 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconAbout;
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconSettings;
 
-
 @end
 
-@implementation SidebarViewController 
+@implementation SidebarViewController {
+    UIViewController *_previousVC;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,7 +48,17 @@
     
     [self setColors];
     [self setupIcons];
-    // Do any additional setup after loading the view.
+
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    // Auto return to previous screen
+    if (_previousVC) {
+        [self.revealViewController setFrontViewController:_previousVC];
+        [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+        _previousVC = nil;
+    }
 }
 
 - (void)setColors
@@ -95,6 +107,11 @@
     if ([segue isKindOfClass:[SWRevealViewControllerSegue class]]) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue *)segue;
         
+        //Set PreviousVC To Automatically Return To When Sidebar Next Displayed
+        if ([swSegue.identifier isEqualToString:@"OptionsVC"]) {
+            _previousVC = self.revealViewController.frontViewController;
+        }
+        
         swSegue.performBlock = ^(SWRevealViewControllerSegue *rvc_segue, UIViewController *svc, UIViewController *dvc) {
             if (rvc_segue.identifier) {
                 UIViewController *cachedVC = [self.viewControllersCache objectForKey:rvc_segue.identifier];
@@ -111,7 +128,6 @@
         };
     }
 }
-
 
 //        if ([segue.identifier isEqualToString:@"segueOptions"]) {
 //            UINavigationController *navVC = (UINavigationController *)segue.destinationViewController;

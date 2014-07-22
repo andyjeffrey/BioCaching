@@ -7,6 +7,7 @@
 //
 
 #import "ExploreOptionsViewController.h"
+#import "SWRevealViewController.h"
 #import "OptionsRecordType.h"
 #import "OptionsRecordSource.h"
 #import "OptionsSpeciesFilter.h"
@@ -35,6 +36,7 @@
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segControlMapType;
 @property (weak, nonatomic) IBOutlet UISwitch *switchAutoSearch;
+@property (weak, nonatomic) IBOutlet UISwitch *switchFollowUser;
 @property (weak, nonatomic) IBOutlet UISwitch *switchPreCacheImages;
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestAPI;
@@ -45,10 +47,22 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelDiskCacheCap;
 @property (weak, nonatomic) IBOutlet UILabel *labelDiskCacheCurr;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonCancel;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonSave;
+
+- (IBAction)buttonActionCancel:(id)sender;
+- (IBAction)buttonActionSave:(id)sender;
+
 @end
 
 @implementation ExploreOptionsViewController
 {
+    BCOptions *_bcOptions;
+    double _areaSpanValue;
+    RecordType _recordTypeIndex;
+    RecordSource _recordSourceIndex;
+    SpeciesFilter _speciesFilterIndex;
+    int _displayPoints;
     DropDownViewController *activeDropDownView;
 	DropDownViewController *dropDownView1;
 	DropDownViewController *dropDownView2;
@@ -69,10 +83,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    _bcOptions = [BCOptions sharedInstance];
+    [self configureDropDownLists];
+    [self configureBackgroundControlsView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [self initiateAreaSpan];
+    [self saveCurrentSearchOptions];
     [self initiateDisplayPoints];
     [self initiateTextFields];
     [self initiateSwitches];
@@ -82,67 +103,67 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self configureDropDownLists];
-    [self configureBackgroundControlsView];
+}
+
+- (void)initiateAreaSpan
+{
+    _areaSpanValue = _bcOptions.searchOptions.searchAreaSpan;
+    self.sliderAreaSpan.minimumValue = -5;
+    self.sliderAreaSpan.maximumValue = 5;
+    self.sliderAreaSpan.value = (int)log2((double)_areaSpanValue/kDefaultSearchAreaSpan);
+}
+
+- (void)saveCurrentSearchOptions
+{
+    _recordTypeIndex = _bcOptions.searchOptions.enumRecordType;
+    _recordSourceIndex = _bcOptions.searchOptions.enumRecordSource;
+    _speciesFilterIndex = _bcOptions.searchOptions.enumSpeciesFilter;
 }
 
 - (void)initiateDisplayPoints
 {
+    _displayPoints = _bcOptions.displayOptions.displayPoints;
     self.sliderDisplayPoints.minimumValue = 1;
     self.sliderDisplayPoints.maximumValue = kOptionsDefaultMaxDisplayPoints;
-    self.sliderDisplayPoints.value = self.bcOptions.displayOptions.displayPoints;
-}
-
-- (void) initiateAreaSpan
-{
-    self.sliderAreaSpan.minimumValue = -5;
-    self.sliderAreaSpan.maximumValue = 5;
-    self.sliderAreaSpan.value = (int)log2((double)self.bcOptions.searchOptions.searchAreaSpan/kDefaultSearchAreaSpan);
+    self.sliderDisplayPoints.value = _displayPoints;
 }
 
 - (void)initiateTextFields
 {
-    if (self.bcOptions.searchOptions.yearFrom.length > 0) {
-        self.textFieldYearFrom.text = self.bcOptions.searchOptions.yearFrom;
+    if (_bcOptions.searchOptions.yearFrom.length > 0) {
+        self.textFieldYearFrom.text = _bcOptions.searchOptions.yearFrom;
     }
     
-    if (self.bcOptions.searchOptions.yearTo.length > 0) {
-        self.textFieldYearTo.text = self.bcOptions.searchOptions.yearTo;
+    if (_bcOptions.searchOptions.yearTo.length > 0) {
+        self.textFieldYearTo.text = _bcOptions.searchOptions.yearTo;
     }
 }
 
 - (void)initiateSwitches
 {
-    self.switchFullSpeciesNames.on = self.bcOptions.displayOptions.fullSpeciesNames;
-    self.switchUniqueSpecies.on = self.bcOptions.displayOptions.uniqueSpecies;
-    self.switchUniqueLocations.on = self.bcOptions.displayOptions.uniqueLocations;
+    self.switchFullSpeciesNames.on = _bcOptions.displayOptions.fullSpeciesNames;
+    self.switchUniqueSpecies.on = _bcOptions.displayOptions.uniqueSpecies;
+    self.switchUniqueLocations.on = _bcOptions.displayOptions.uniqueLocations;
     
-    self.segControlMapType.selectedSegmentIndex = self.bcOptions.displayOptions.mapType;
-    self.switchAutoSearch.on = self.bcOptions.displayOptions.autoSearch;
-    self.switchPreCacheImages.on = self.bcOptions.displayOptions.preCacheImages;
-    self.switchGBIFTestAPI.on = self.bcOptions.searchOptions.testGBIFAPI;
-    self.switchGBIFTestData.on = self.bcOptions.searchOptions.testGBIFData;
+    self.segControlMapType.selectedSegmentIndex = _bcOptions.displayOptions.mapType;
+    self.switchAutoSearch.on = _bcOptions.displayOptions.autoSearch;
+    self.switchFollowUser.on = _bcOptions.displayOptions.followUser;
+    self.switchPreCacheImages.on = _bcOptions.displayOptions.preCacheImages;
+    self.switchGBIFTestAPI.on = _bcOptions.searchOptions.testGBIFAPI;
+    self.switchGBIFTestData.on = _bcOptions.searchOptions.testGBIFData;
 }
 
 - (void)configureDropDownLists
 {
-    dropDownView1 = [[DropDownViewController alloc] initWithArrayData:[OptionsRecordType displayStrings] refFrame:[self.view convertRect:self.buttonRecordType.frame fromView:self.buttonRecordType.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+    dropDownView1 = [[DropDownViewController alloc] initWithArrayData:[OptionsRecordType allDisplayStrings] refFrame:[self.buttonRecordType.superview convertRect:self.buttonRecordType.frame toView:self.view] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     dropDownView1.delegate = self;
 	[self.view addSubview:dropDownView1.view];
     
-//    NSMutableArray *dropDownRecordSource = [[NSMutableArray alloc] init];
-//    for (NSArray *optionArray in OptionsRecordSource.optionsArray ) {
-//        [dropDownRecordSource addObject:optionArray[0]];
-//    }
-    dropDownView2 = [[DropDownViewController alloc] initWithArrayData:[OptionsRecordSource displayStrings] refFrame:[self.view convertRect:self.buttonRecordSource.frame fromView:self.buttonRecordSource.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+    dropDownView2 = [[DropDownViewController alloc] initWithArrayData:[OptionsRecordSource allDisplayStrings] refFrame:[self.buttonRecordSource.superview convertRect:self.buttonRecordSource.frame toView:self.view] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     dropDownView2.delegate = self;
 	[self.view addSubview:dropDownView2.view];
     
-//    NSMutableArray *dropDownSpeciesFilter = [[NSMutableArray alloc] init];
-//    for (NSArray *optionArray in OptionsSpeciesFilter.optionsArray ) {
-//        [dropDownSpeciesFilter addObject:optionArray[0]];
-//    }
-    dropDownView3 = [[DropDownViewController alloc] initWithArrayData:[OptionsSpeciesFilter displayStrings] refFrame:[self.view convertRect:self.buttonSpeciesFilter.frame fromView:self.buttonSpeciesFilter.superview] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+    dropDownView3 = [[DropDownViewController alloc] initWithArrayData:[OptionsSpeciesFilter allDisplayStrings] refFrame:[self.buttonSpeciesFilter.superview convertRect:self.buttonSpeciesFilter.frame toView:self.view] tableViewHeight:220 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
     dropDownView3.delegate = self;
 	[self.view addSubview:dropDownView3.view];
     
@@ -169,19 +190,18 @@
 {
     [self updateLabelAreaSpan];
 
-    self.labelRecordType.text = self.bcOptions.searchOptions.recordType.displayString;
-    self.labelRecordSource.text = self.bcOptions.searchOptions.recordSource.displayString;
-    self.labelSpeciesFilter.text = self.bcOptions.searchOptions.speciesFilter.displayString;
-
+    self.labelRecordType.text = [OptionsRecordType displayStringForOption:_recordTypeIndex];
+    self.labelRecordSource.text = [OptionsRecordSource displayStringForOption:_recordSourceIndex];
+    self.labelSpeciesFilter.text = [OptionsSpeciesFilter displayStringForOption:_speciesFilterIndex];
     self.labelPoints.text = [NSString stringWithFormat:@"%d", (int) self.sliderDisplayPoints.value];
 }
 
 - (void)updateLabelAreaSpan
 {
-    if (self.bcOptions.searchOptions.searchAreaSpan < kDefaultSearchAreaSpan) {
-        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d m", (int) self.bcOptions.searchOptions.searchAreaSpan];
+    if (_areaSpanValue < 1000) {
+        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d m", (int) _areaSpanValue];
     } else {
-        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d km", (int) self.bcOptions.searchOptions.searchAreaSpan / 1000];
+        self.labelAreaSpan.text = [NSString stringWithFormat:@"%d km", (int) _areaSpanValue / 1000];
     }
 }
 
@@ -201,14 +221,14 @@
 - (IBAction)sliderAreaSpan:(id)sender {
     int sliderIntValue = (int)self.sliderAreaSpan.value;
     self.sliderAreaSpan.value = sliderIntValue;
-    self.bcOptions.searchOptions.searchAreaSpan = kDefaultSearchAreaSpan * pow(2, sliderIntValue);
+    _areaSpanValue = kDefaultSearchAreaSpan * pow(2, sliderIntValue);
     [self updateLabelAreaSpan];
 }
 
 - (IBAction)sliderPoints:(id)sender {
     int output = (int)self.sliderDisplayPoints.value;
     self.sliderDisplayPoints.value = kDisplayPointsSliderInterval * floor(((output+(kDisplayPointsSliderInterval/2))/kDisplayPointsSliderInterval)+0.5);
-    self.bcOptions.displayOptions.displayPoints = self.sliderDisplayPoints.value;
+    _displayPoints = self.sliderDisplayPoints.value;
     [self updateLabels];
 }
 
@@ -225,6 +245,7 @@
 - (void)displayDropDownView:(DropDownViewController *)dropDownView
 {
     _viewBackgroundControls.hidden = NO;
+    self.tableView.scrollEnabled = NO;
     activeDropDownView = dropDownView;
 	[dropDownView openAnimation];
     [dropDownView.uiTableView flashScrollIndicators];
@@ -235,34 +256,57 @@
     [self updateCacheLabels];
 }
 
-- (IBAction)buttonDonePressed:(id)sender {
-    self.bcOptions.displayOptions.fullSpeciesNames = self.switchFullSpeciesNames.on;
-    self.bcOptions.displayOptions.uniqueSpecies = self.switchUniqueSpecies.on;
-    self.bcOptions.displayOptions.uniqueLocations = self.switchUniqueLocations.on;
+- (IBAction)buttonActionCancel:(id)sender {
     
-    self.bcOptions.displayOptions.mapType = self.segControlMapType.selectedSegmentIndex;
-    self.bcOptions.displayOptions.autoSearch = self.switchAutoSearch.on;
-    self.bcOptions.displayOptions.preCacheImages = self.switchPreCacheImages.on;
-    self.bcOptions.searchOptions.testGBIFAPI = self.switchGBIFTestAPI.on;
-    self.bcOptions.searchOptions.testGBIFData = self.switchGBIFTestData.on;
+    [self viewBackgroundControlsClick:nil];
+    if (self.presentingViewController) {
+        [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
+    } else if (self.revealViewController) {
+        [self.revealViewController revealToggleAnimated:YES];
+        
+//        [self.revealViewController performSegueWithIdentifier:@"ExploreVC" sender:nil];
+//        [self.revealViewController setFrontViewController:_returnVC];
+//        [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+    } else {
+        [self.navigationController popViewControllerAnimated:TRUE];
+    }
+}
+
+- (IBAction)buttonActionSave:(id)sender {
+    _bcOptions.searchOptions.searchAreaSpan = _areaSpanValue;
+    _bcOptions.searchOptions.enumRecordType = _recordTypeIndex;
+    _bcOptions.searchOptions.enumRecordSource = _recordSourceIndex;
+    _bcOptions.searchOptions.enumSpeciesFilter = _speciesFilterIndex;
     
-    [self.delegate optionsUpdated:self.bcOptions];
-    [self.presentingViewController dismissViewControllerAnimated:TRUE completion:nil];
-    //    NSLog(@"buttonOK:\n%@,%@\n%@,%@", self.textFieldYearFrom.text, self.tripOptions.yearFrom, self.textFieldYearTo.text, self.tripOptions.yearTo);
+    _bcOptions.displayOptions.displayPoints = _displayPoints;
+    _bcOptions.displayOptions.fullSpeciesNames = self.switchFullSpeciesNames.on;
+    _bcOptions.displayOptions.uniqueSpecies = self.switchUniqueSpecies.on;
+    _bcOptions.displayOptions.uniqueLocations = self.switchUniqueLocations.on;
+    
+    _bcOptions.displayOptions.mapType = self.segControlMapType.selectedSegmentIndex;
+    _bcOptions.displayOptions.autoSearch = self.switchAutoSearch.on;
+    _bcOptions.displayOptions.followUser = self.switchFollowUser.on;
+    _bcOptions.displayOptions.preCacheImages = self.switchPreCacheImages.on;
+    _bcOptions.searchOptions.testGBIFAPI = self.switchGBIFTestAPI.on;
+    _bcOptions.searchOptions.testGBIFData = self.switchGBIFTestData.on;
+    
+    [self.delegate optionsUpdated:_bcOptions];
+    [self buttonActionCancel:nil];
 }
 
 
 #pragma mark DropDownViewDelegate
 -(void)dropDownCellSelected:(NSInteger)returnIndex{
     if (activeDropDownView == dropDownView1) {
-        self.bcOptions.searchOptions.recordType = [OptionsRecordType objectAtIndex:returnIndex];
+        _recordTypeIndex = (RecordType)returnIndex;
     } else if (activeDropDownView == dropDownView2) {
-        self.bcOptions.searchOptions.recordSource = [OptionsRecordSource objectAtIndex:returnIndex];
+        _recordSourceIndex = (RecordSource)returnIndex;
     } else if (activeDropDownView == dropDownView3) {
-        self.bcOptions.searchOptions.speciesFilter = [OptionsSpeciesFilter objectAtIndex:returnIndex];
+        _speciesFilterIndex = (SpeciesFilter)returnIndex;
     }
     [self updateLabels];
     _viewBackgroundControls.hidden = YES;
+    self.tableView.scrollEnabled = YES;
 }
 
 - (void)viewBackgroundControlsClick:(UIGestureRecognizer *)gestureRecognizer
@@ -270,6 +314,7 @@
     NSLog(@"viewBackgroundControlsClick");
     [activeDropDownView closeAnimation];
     _viewBackgroundControls.hidden = YES;
+    self.tableView.scrollEnabled = YES;
 }
 
 /*
@@ -299,9 +344,9 @@
 
 - (void)saveTextFieldToTripOptions:(UITextField *)textField {
     if (textField == self.textFieldYearFrom) {
-        self.bcOptions.searchOptions.yearFrom = textField.text;
+        _bcOptions.searchOptions.yearFrom = textField.text;
     } else if (textField == self.textFieldYearTo) {
-        self.bcOptions.searchOptions.yearTo = textField.text;
+        _bcOptions.searchOptions.yearTo = textField.text;
     }
 }
 

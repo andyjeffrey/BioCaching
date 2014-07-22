@@ -76,15 +76,17 @@
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
 		A1BEE394196AB69000297526 /* TripListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BEE393196AB69000297526 /* TripListCell.m */; };
 		A1C52445197033030002686A /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C52444197033030002686A /* ImageManager.m */; };
-		A1C52448197175DC0002686A /* TestImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C52447197175DC0002686A /* TestImage.jpg */; };
 		A1C5244C197179D40002686A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1C5244B197179D40002686A /* Images.xcassets */; };
 		A1C524541971AA3F0002686A /* ConnectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C524531971AA3F0002686A /* ConnectionHelper.m */; };
 		A1C5245A1971B5510002686A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C524581971B5510002686A /* Reachability.m */; };
+		A1C52463197811B20002686A /* Finsbury Park1, London.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A1C5245F197811B20002686A /* Finsbury Park1, London.gpx */; };
+		A1C52464197811B20002686A /* Finsbury Park2, London.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A1C52460197811B20002686A /* Finsbury Park2, London.gpx */; };
+		A1C52465197811B20002686A /* Finsbury Park3, London.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A1C52461197811B20002686A /* Finsbury Park3, London.gpx */; };
+		A1C52466197811B20002686A /* Finsbury Park4, London.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A1C52462197811B20002686A /* Finsbury Park4, London.gpx */; };
 		A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */; };
 		A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DD9118C61D0F00FA005B /* Security.framework */; };
 		A1D5DDE418C7BAA500FA005B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DDE318C7BAA500FA005B /* libz.dylib */; };
 		A1D5DDE618C7BAB900FA005B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5DDE518C7BAB900FA005B /* libsqlite3.dylib */; };
-		A1EA12DD1926562A00449327 /* APIOption.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12C31926562A00449327 /* APIOption.m */; };
 		A1EA12DF1926562A00449327 /* BCOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12C71926562A00449327 /* BCOptions.m */; };
 		A1EA12E01926562A00449327 /* DisplayOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12C91926562A00449327 /* DisplayOptions.m */; };
 		A1EA12E11926562A00449327 /* GBIFOccurrence.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EA12CB1926562A00449327 /* GBIFOccurrence.m */; };
@@ -245,7 +247,6 @@
 		A15347161964730C00E1C63F /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		A15347181964790300E1C63F /* NSUserDefaults+CounterValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CounterValues.h"; sourceTree = "<group>"; };
 		A15347191964790300E1C63F /* NSUserDefaults+CounterValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CounterValues.m"; sourceTree = "<group>"; };
-		A153471D1965BDA300E1C63F /* ObservationVCDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObservationVCDelegate.h; sourceTree = "<group>"; };
 		A153471E1965BE7800E1C63F /* _INatObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _INatObservation.h; sourceTree = "<group>"; };
 		A153471F1965BE7800E1C63F /* _INatObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _INatObservation.m; sourceTree = "<group>"; };
 		A15347201965BE7800E1C63F /* _INatObservationPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _INatObservationPhoto.h; sourceTree = "<group>"; };
@@ -298,13 +299,17 @@
 		A1BEE393196AB69000297526 /* TripListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripListCell.m; sourceTree = "<group>"; };
 		A1C52443197033030002686A /* ImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManager.h; sourceTree = "<group>"; };
 		A1C52444197033030002686A /* ImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManager.m; sourceTree = "<group>"; };
-		A1C52447197175DC0002686A /* TestImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = TestImage.jpg; sourceTree = "<group>"; };
 		A1C5244B197179D40002686A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A1C524521971AA3F0002686A /* ConnectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionHelper.h; sourceTree = "<group>"; };
 		A1C524531971AA3F0002686A /* ConnectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionHelper.m; sourceTree = "<group>"; };
 		A1C524571971B5510002686A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		A1C524581971B5510002686A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		A1C5245B19741E940002686A /* UploadManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadManagerDelegate.h; sourceTree = "<group>"; };
+		A1C5245C1977EE170002686A /* APIOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIOptions.h; sourceTree = "<group>"; };
+		A1C5245F197811B20002686A /* Finsbury Park1, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Finsbury Park1, London.gpx"; path = "Resources/TestData/Finsbury Park1, London.gpx"; sourceTree = "<group>"; };
+		A1C52460197811B20002686A /* Finsbury Park2, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Finsbury Park2, London.gpx"; path = "Resources/TestData/Finsbury Park2, London.gpx"; sourceTree = "<group>"; };
+		A1C52461197811B20002686A /* Finsbury Park3, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Finsbury Park3, London.gpx"; path = "Resources/TestData/Finsbury Park3, London.gpx"; sourceTree = "<group>"; };
+		A1C52462197811B20002686A /* Finsbury Park4, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Finsbury Park4, London.gpx"; path = "Resources/TestData/Finsbury Park4, London.gpx"; sourceTree = "<group>"; };
 		A1CD979819618E8900582BF0 /* TripsDataManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TripsDataManagerDelegate.h; sourceTree = "<group>"; };
 		A1D5DD8318C61B6A00FA005B /* Alexandra Park, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Alexandra Park, London.gpx"; path = "Resources/TestData/Alexandra Park, London.gpx"; sourceTree = "<group>"; };
 		A1D5DD8418C61B6A00FA005B /* Exe Estuary MPA, UK.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Exe Estuary MPA, UK.gpx"; path = "Resources/TestData/Exe Estuary MPA, UK.gpx"; sourceTree = "<group>"; };
@@ -318,8 +323,6 @@
 		A1D5DDE518C7BAB900FA005B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A1D5DDFE18C7CDC600FA005B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A1D9A13318E3696A006C1988 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
-		A1EA12C21926562A00449327 /* APIOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIOption.h; sourceTree = "<group>"; };
-		A1EA12C31926562A00449327 /* APIOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIOption.m; sourceTree = "<group>"; };
 		A1EA12C61926562A00449327 /* BCOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCOptions.h; sourceTree = "<group>"; };
 		A1EA12C71926562A00449327 /* BCOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCOptions.m; sourceTree = "<group>"; };
 		A1EA12C81926562A00449327 /* DisplayOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayOptions.h; sourceTree = "<group>"; };
@@ -676,6 +679,10 @@
 		A1D5DCD118C10D1500FA005B /* TestData */ = {
 			isa = PBXGroup;
 			children = (
+				A1C5245F197811B20002686A /* Finsbury Park1, London.gpx */,
+				A1C52460197811B20002686A /* Finsbury Park2, London.gpx */,
+				A1C52461197811B20002686A /* Finsbury Park3, London.gpx */,
+				A1C52462197811B20002686A /* Finsbury Park4, London.gpx */,
 				A13B8F2118F75AAE000C522B /* OccurrenceResultsCASFilterv0.9.json */,
 				A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */,
 				A13B8F2318F75AAE000C522B /* OccurrenceResultsCASv0.9.json */,
@@ -699,8 +706,6 @@
 			isa = PBXGroup;
 			children = (
 				A176287E194719F900DD69DB /* ManagedObjects */,
-				A1EA12C21926562A00449327 /* APIOption.h */,
-				A1EA12C31926562A00449327 /* APIOption.m */,
 				A1EA12C61926562A00449327 /* BCOptions.h */,
 				A1EA12C71926562A00449327 /* BCOptions.m */,
 				A1EA12C81926562A00449327 /* DisplayOptions.h */,
@@ -717,10 +722,11 @@
 				A1EA12D21926562A00449327 /* INatTaxonPhoto.m */,
 				A1EA12D31926562A00449327 /* LocationsArray.h */,
 				A1EA12D41926562A00449327 /* LocationsArray.m */,
-				A1EA12D51926562A00449327 /* OptionsRecordSource.h */,
-				A1EA12D61926562A00449327 /* OptionsRecordSource.m */,
+				A1C5245C1977EE170002686A /* APIOptions.h */,
 				A1EA12D71926562A00449327 /* OptionsRecordType.h */,
 				A1EA12D81926562A00449327 /* OptionsRecordType.m */,
+				A1EA12D51926562A00449327 /* OptionsRecordSource.h */,
+				A1EA12D61926562A00449327 /* OptionsRecordSource.m */,
 				A1EA12D91926562A00449327 /* OptionsSpeciesFilter.h */,
 				A1EA12DA1926562A00449327 /* OptionsSpeciesFilter.m */,
 			);
@@ -784,7 +790,6 @@
 				A1EA13F7192DFD7D00449327 /* ProfileTableViewController.m */,
 				A1EA12FF19265B4900449327 /* BCWebViewController.h */,
 				A1EA130019265B4900449327 /* BCWebViewController.m */,
-				A153471D1965BDA300E1C63F /* ObservationVCDelegate.h */,
 				A1464510195074F4005C1107 /* ObservationViewController.h */,
 				A1464511195074F4005C1107 /* ObservationViewController.m */,
 				A15347151964730C00E1C63F /* AboutViewController.h */,
@@ -918,7 +923,6 @@
 				A1EA20A218B4F7AB00200D50 /* AppDelegate.m */,
 				A1EA20A418B4F7AB00200D50 /* Main.storyboard */,
 				A1C5244B197179D40002686A /* Images.xcassets */,
-				A1C52447197175DC0002686A /* TestImage.jpg */,
 				A176288119471A6700DD69DB /* BioCaching.xcdatamodeld */,
 				A1EA12C11926562A00449327 /* Model */,
 				A1EA12ED19265A2500449327 /* View */,
@@ -1006,10 +1010,10 @@
 			files = (
 				A1F2E12D190161110010B647 /* .gitignore in Resources */,
 				A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */,
-				A1C52448197175DC0002686A /* TestImage.jpg in Resources */,
 				A176288519471A6700DD69DB /* mogen_script.sh in Resources */,
 				A17628CC1947425000DD69DB /* TaskList.txt in Resources */,
 				A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */,
+				A1C52466197811B20002686A /* Finsbury Park4, London.gpx in Resources */,
 				A1C5244C197179D40002686A /* Images.xcassets in Resources */,
 				A15346E41962D53600E1C63F /* LICENSE in Resources */,
 				A15346E51962D53600E1C63F /* README.md in Resources */,
@@ -1017,8 +1021,11 @@
 				A15346E31962D53600E1C63F /* ionicons.ttf in Resources */,
 				A15346E61962D53600E1C63F /* iOSa_2.23.0.version in Resources */,
 				A15346E81962D53600E1C63F /* LICENSE in Resources */,
+				A1C52463197811B20002686A /* Finsbury Park1, London.gpx in Resources */,
 				A1EA20A618B4F7AB00200D50 /* Main.storyboard in Resources */,
 				A1875DFD18FD4A36001DC029 /* Podfile in Resources */,
+				A1C52464197811B20002686A /* Finsbury Park2, London.gpx in Resources */,
+				A1C52465197811B20002686A /* Finsbury Park3, London.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1082,7 +1089,6 @@
 				A15347221965BE7800E1C63F /* _INatObservation.m in Sources */,
 				A15347291965BE8300E1C63F /* INatObservationPhoto.m in Sources */,
 				A1EA12E31926562A00449327 /* INatTaxon.m in Sources */,
-				A1EA12DD1926562A00449327 /* APIOption.m in Sources */,
 				A1762875193DEF9C00DD69DB /* ExploreDataManager.m in Sources */,
 				A1EA132619265B4900449327 /* OccurrenceDetailsViewController.m in Sources */,
 				A15347231965BE7800E1C63F /* _INatObservationPhoto.m in Sources */,

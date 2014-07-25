@@ -12,6 +12,7 @@
 
 + (void)displayDefaultInfoAlert:(NSString *)title message:(NSString *)message;
 + (void)displayOKorCancelAlert:(NSString *)title message:(NSString *)message okBlock:(void (^)(void))okBlock cancelBlock:(void (^)(void))cancelBlock;
++ (void)displayOKorCancelAlert:(NSString *)title message:(NSString *)message okButtonTitle:(NSString *)okButtonTitle okBlock:(void (^)(void))okBlock cancelButtonTitle:(NSString *)cancelButtonTitle cancelBlock:(void (^)(void))cancelBlock;
 
 + (void)displayDefaultSuccessNotification:(NSString *)title subtitle:(NSString *)subtitle;
 + (void)displayDefaultFailureNotification:(NSString *)title subtitle:(NSString *)subtitle;

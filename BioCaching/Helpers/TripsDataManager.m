@@ -348,9 +348,10 @@ static NSSortDescriptor *defaultSortDesc;
     [[RKObjectManager sharedManager] deleteObject:trip path:nil parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"delete Success: %@", mappingResult);
         [_privateTrips removeObject:trip];
-        
-        [BCAlerts displayDefaultInfoNotification:@"Trip Deleted From iNat" subtitle:nil];
-
+        if(_currentTrip == trip) {
+            _currentTrip = nil;
+        }
+        [BCAlerts displayDefaultInfoNotification:@"Trip Deleted From iNaturalist" subtitle:nil];
         [self.tableDelegate tripsTableUpdated];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {

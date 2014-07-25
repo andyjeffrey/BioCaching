@@ -78,6 +78,25 @@
     });
 }
 
++ (void)displayOKorCancelAlert:(NSString *)title message:(NSString *)message
+                 okButtonTitle:(NSString *)okButtonTitle okBlock:(void (^)(void))okBlock
+             cancelButtonTitle:(NSString *)cancelButtonTitle cancelBlock:(void (^)(void))cancelBlock
+{
+    [[self sharedInstance] setOkBlock:okBlock];
+    [[self sharedInstance] setCancelBlock:cancelBlock];
+    
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(title, nil)
+                                                 message:NSLocalizedString(message, nil)
+                                                delegate:[self sharedInstance]
+                                       cancelButtonTitle:NSLocalizedString(cancelButtonTitle, nil)
+                                       otherButtonTitles:NSLocalizedString(okButtonTitle, nil), nil];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [av show];
+    });
+}
+
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {

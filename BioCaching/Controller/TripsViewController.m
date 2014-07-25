@@ -17,20 +17,23 @@
 @interface TripsViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *viewTopBar;
-@property (weak, nonatomic) IBOutlet UITableView *tableTrips;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSidebar;
-@property (weak, nonatomic) IBOutlet UIButton *buttonRefresh;
+@property (weak, nonatomic) IBOutlet UIButton *buttonEdit;
 
 - (IBAction)buttonSidebar:(id)sender;
-- (IBAction)buttonRefresh:(id)sender;
+- (IBAction)buttonActionEdit:(id)sender;
 
 @end
 
 @implementation TripsViewController {
+    UITableViewController *_tableVC;
     TripsDataManager *_tripsDataManager;
     NSArray *_tableSections;
 }
 
+
+#pragma mark - UIViewController Methods
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -40,20 +43,22 @@
     _tripsDataManager.tableDelegate = self;
     
     [self setupUI];
-    [self setupTable];
+    [self setupTableData];
+    [self setupRefreshControl];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [self refreshTable];
-    [self.tableTrips reloadData];
+    [self.tableView reloadData];
 }
 
 
+#pragma mark - Setup UI/Refresh Methods
 - (void)setupUI
 {
     self.view.backgroundColor = [UIColor kColorHeaderBackground];
     self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
-    self.tableTrips.backgroundColor = [UIColor kColorTableBackgroundColor];
+    self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
     [self setupSidebar];
     [self setupButtons];
 }
@@ -71,13 +76,46 @@
 
 - (void)setupButtons
 {
+    self.buttonEdit.enabled = YES;
+    [self.buttonEdit setTitle:nil forState:UIControlStateNormal];
+    self.buttonEdit.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
+    [self updateEditButton];
+/*
     [self.buttonRefresh setTitle:nil forState:UIControlStateNormal];
     [self.buttonRefresh setBackgroundImage:
      [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonRefresh.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
+*/
 }
 
-- (void)setupTable
+- (void)setupRefreshControl
+{
+    _tableVC = [[UITableViewController alloc] init];
+    _tableVC.tableView = self.tableView;
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to refresh Trip History from iNaturalist" attributes:@{NSForegroundColorAttributeName:[UIColor kColorTableCellText]}];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    refreshControl.tintColor = [UIColor kColorTableCellText];
+    _tableVC.refreshControl = refreshControl;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_tableVC.refreshControl beginRefreshing];
+        [_tableVC.refreshControl endRefreshing];
+    });
+    
+    
+}
+
+- (void)updateEditButton
+{
+    if (self.tableView.editing) {
+        [self.buttonEdit setBackgroundImage:[IonIcons imageWithIcon:icon_checkmark_circled iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    } else {
+        [self.buttonEdit setBackgroundImage:[IonIcons imageWithIcon:icon_edit iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    }
+}
+
+
+- (void)setupTableData
 {
     NSMutableArray *sections = [[NSMutableArray alloc] init];
 #ifdef DEBUG
@@ -94,7 +132,7 @@
 - (void)refreshTable
 {
     _tableSections = nil;
-    [self setupTable];
+    [self setupTableData];
 }
 
 
@@ -135,11 +173,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    INatTrip *trip;
-    NSArray *sectionArray = _tableSections[indexPath.section][2];
-    if (sectionArray && sectionArray.count > 0) {
-        trip = sectionArray[indexPath.row];
-    }
+    INatTrip *trip = [self getTripForIndexPath:indexPath];
 
     TripListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TripListCell" forIndexPath:indexPath];
 
@@ -172,14 +206,9 @@
     if (trip.status.intValue == TripStatusFinished) {
         [cell.buttonAction setTitle:@"Upload" forState:UIControlStateNormal];
         [cell.buttonAction setTitleColor:[UIColor cyanColor] forState:UIControlStateNormal];
-        cell.buttonAction.hidden = NO;
+        cell.buttonAction.hidden = self.tableView.editing;
     } else {
         cell.buttonAction.hidden = YES;
-//#ifdef DEBUG
-        [cell.buttonAction setTitle:@"Delete" forState:UIControlStateNormal];
-        [cell.buttonAction setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        cell.buttonAction.hidden = NO;
-//#endif
     }
     cell.delegate = self;
     
@@ -188,11 +217,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    INatTrip *trip;
-    NSArray *sectionArray = _tableSections[indexPath.section][2];
-    if (sectionArray && sectionArray.count > 0) {
-        trip = sectionArray[indexPath.row];
-    }
+    INatTrip *trip = [self getTripForIndexPath:indexPath];
     
     if (trip) {
         _tripsDataManager.currentTrip = trip;
@@ -200,19 +225,47 @@
     } else {
         NSLog(@"Cell Selected: %lu-%lu: NO TRIP", (long)indexPath.section, (long)indexPath.row);
     }
-
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    TripListCell *cell = (TripListCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.buttonAction.hidden = YES;
+}
+
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    INatTrip *trip = [self getTripForIndexPath:indexPath];
+    if (trip.status.intValue == TripStatusFinished) {
+        TripListCell *cell = (TripListCell *)[tableView cellForRowAtIndexPath:indexPath];
+        cell.buttonAction.hidden = NO;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self deleteTripAtIndexPath:indexPath];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray *sectionArray = _tableSections[indexPath.section][2];
+    if (sectionArray && sectionArray.count > 0) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (void)actionButtonSelected:(TripListCell *)cell
 {
     cell.buttonAction.hidden = YES;
-    NSIndexPath *indexPath = [self.tableTrips indexPathForCell:cell];
-    INatTrip *trip;
-    NSArray *sectionArray = _tableSections[indexPath.section][2];
-    if (sectionArray && sectionArray.count > 0) {
-        trip = sectionArray[indexPath.row];
-    }
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    INatTrip *trip = [self getTripForIndexPath:indexPath];
+
     NSLog(@"actionButtonSelectedForTripAtIndexPath:%d-%d:%@",
           (int)indexPath.section, (int)indexPath.row, trip.title);
     
@@ -242,7 +295,8 @@
 - (void)tripsTableUpdated
 {
     [self refreshTable];
-    [self.tableTrips reloadData];
+    [self.tableView reloadData];
+    [_tableVC.refreshControl endRefreshing];
 }
 
 #pragma mark UIStoryboard Methods
@@ -278,13 +332,67 @@
     [self.revealViewController revealToggleAnimated:YES];
 }
 
-- (IBAction)buttonRefresh:(id)sender {
-    NSString *iNatUsername = [[NSUserDefaults standardUserDefaults] valueForKey:kINatAuthUsernamePrefKey];
+- (IBAction)buttonActionEdit:(id)sender
+{
+    self.tableView.editing = !self.tableView.editing;
+    [self updateEditButton];
+    [self.tableView reloadData];
+}
+
+#pragma-mark Helper Methods
+- (INatTrip *)getTripForIndexPath:(NSIndexPath *)indexPath
+{
+    INatTrip *trip;
+    NSArray *sectionArray = _tableSections[indexPath.section][2];
+    if (sectionArray && sectionArray.count > 0) {
+        trip = sectionArray[indexPath.row];
+    }
+    return trip;
+}
+
+- (void)deleteTripAtIndexPath:(NSIndexPath *)indexPath
+{
+    INatTrip *trip;
+    NSArray *sectionArray = _tableSections[indexPath.section][2];
+    if (sectionArray && sectionArray.count > 0) {
+        trip = sectionArray[indexPath.row];
+    }
+    
+    if (trip.status.intValue != TripStatusPublished) {
+        [_tripsDataManager deleteTripFromLocalStore:trip];
+    } else {
+        [BCAlerts displayOKorCancelAlert:@"Please Confirm Deletion" message:@"Trip published on iNaturalist\nDo you want to delete from both\n local device and iNaturalist,\n or just local device?" okButtonTitle:@"Device" okBlock:^{
+            [_tripsDataManager deleteTripFromLocalStore:trip];
+        } cancelButtonTitle:@"Both" cancelBlock:^{
+            if ([LoginManager sharedInstance].loggedIn) {
+                TripListCell *cell = (TripListCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                [cell.activityIndicator startAnimating];
+                [_tripsDataManager deleteTripFromINat:trip];
+            } else {
+                [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
+            }
+        }];
+    }
+    
+//    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+}
+
+- (void)refreshTripsFromINat
+{
     if ([LoginManager sharedInstance].loggedIn) {
+        NSString *iNatUsername = [[NSUserDefaults standardUserDefaults] valueForKey:kINatAuthUsernamePrefKey];
         [_tripsDataManager loadTripsFromINat:iNatUsername];
     } else {
-        [_tripsDataManager loadAllTripsFromINat];
+        [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
+        [_tableVC.refreshControl endRefreshing];
     }
 }
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    [self performSelector:@selector(refreshTripsFromINat) withObject:nil afterDelay:0.5];
+}
+
+
+
 
 @end

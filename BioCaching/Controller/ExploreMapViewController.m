@@ -161,6 +161,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         [self updateSearchAreaOverlay:_currentTrip.locationCoordinate areaSpan:_currentTrip.searchAreaSpan.doubleValue];
         // Move/Zoom Map To Trip Search Area
         [self updateCurrentMapView:_currentTrip.locationCoordinate latitudinalMeters:0 longitudinalMeters:_currentTrip.searchAreaSpan.doubleValue];
+        _updateMapView = NO;
     }
     [self configureLocationDropDown];
     [self configureBackgroundControlsView];

@@ -21,19 +21,22 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxon;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonTitle;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonSubTitle;
+@property (weak, nonatomic) IBOutlet UIButton *buttonDelete;
 
 @property (weak, nonatomic) IBOutlet UIView *viewOverlayMask;
 @property (weak, nonatomic) IBOutlet UIView *viewRemoveButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageRemoveButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonDetails;
-@property (weak, nonatomic) IBOutlet UIButton *buttonRemove;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRecord;
+@property (weak, nonatomic) IBOutlet UIButton *buttonRemove;
+@property (weak, nonatomic) IBOutlet UIButton *buttonCancel;
 
+- (IBAction)buttonActionDelete:(id)sender;
 - (IBAction)viewOccurrenceDetails:(id)sender;
-- (IBAction)removeOccurrence:(id)sender;
 - (IBAction)recordObservation:(id)sender;
-
+- (IBAction)buttonActionRemove:(id)sender;
+- (IBAction)buttonActionCancel:(id)sender;
 
 @end
 
@@ -58,24 +61,44 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     _currentTrip = [TripsDataManager sharedInstance].currentTrip;
+    self.viewOverlayMask.hidden = YES;
     [self updateTaxonView];
+    [self setupButtons];
     [self updateButtons];
+}
+
+- (void)setupButtons
+{
+    [self.buttonDelete setTitle:nil forState:UIControlStateNormal];
+    [self.buttonDelete setBackgroundImage:
+     [IonIcons imageWithIcon:icon_trash_a iconColor:[UIColor kColorButtonLabel] iconSize:20.0f imageSize:CGSizeMake(25.0f, 25.0f)] forState:UIControlStateNormal];
+    [self.buttonDelete setBackgroundColor:[UIColor kColorDarkRed]];
+    
+    [self.buttonDetails setBackgroundColor:[UIColor kColorButtonBackground]];
+    if (!self.occurrence.taxaAttribute.observation) {
+        [self.buttonRecord setTitle:@"Record" forState:UIControlStateNormal];
+        [self.buttonRecord setBackgroundColor:[UIColor kColorDarkGreen]];
+    } else {
+        [self.buttonRecord setTitle:@"Edit" forState:UIControlStateNormal];
+        [self.buttonRecord setBackgroundColor:[UIColor orangeColor]];
+    }
+    [self.buttonRemove setBackgroundColor:[UIColor kColorDarkRed]];
+    [self.buttonCancel setBackgroundColor:[UIColor kColorDarkGreen]];
 }
 
 - (void)updateButtons
 {
-    if (self.showDetailsButton) {
-        self.buttonDetails.hidden = NO;
-    }
-    
-    if ([_currentTrip.status intValue] < TripStatusInProgress) {
-        self.buttonRemove.hidden = NO;
+    if (!self.viewOverlayMask.hidden) {
+        self.buttonDetails.hidden = YES;
         self.buttonRecord.hidden = YES;
+        self.buttonRemove.hidden = NO;
+        self.buttonCancel.hidden = NO;
     } else {
+        self.buttonDetails.hidden = !self.showDetailsButton;
+        self.buttonRecord.hidden = (_currentTrip.status.intValue < TripStatusInProgress);
         self.buttonRemove.hidden = YES;
-        self.buttonRecord.hidden = NO;
+        self.buttonCancel.hidden = YES;
     }
-    
 }
 
 - (void)updateTaxonView
@@ -107,30 +130,19 @@
     //    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", occurrence.Clazz, occurrence.Family];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 - (IBAction)viewOccurrenceDetails:(id)sender {
     OccurrenceDetailsViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceDetails"];
     detailsVC.occurrence = self.occurrence;
     [self.parentViewController.navigationController pushViewController:detailsVC animated:YES];
 }
 
-- (IBAction)removeOccurrence:(id)sender {
+- (IBAction)recordObservation:(id)sender {
+    ObservationViewController *observationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Observation"];
+    observationVC.occurrence = self.occurrence;
+    [self.parentViewController.navigationController pushViewController:observationVC animated:YES];
+}
+
+- (IBAction)buttonActionRemove:(id)sender {
     [[TripsDataManager sharedInstance] removeOccurrenceFromTrip:self.occurrence.taxaAttribute.trip occurrence:self.occurrence];
     if (self.navigationController.topViewController == self.parentViewController)
     {
@@ -138,10 +150,14 @@
     }
 }
 
-- (IBAction)recordObservation:(id)sender {
-    ObservationViewController *observationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Observation"];
-    observationVC.occurrence = self.occurrence;
-    [self.parentViewController.navigationController pushViewController:observationVC animated:YES];
+- (IBAction)buttonActionCancel:(id)sender {
+    self.viewOverlayMask.hidden = YES;
+    [self updateButtons];
+}
+
+- (IBAction)buttonActionDelete:(id)sender {
+    self.viewOverlayMask.hidden = NO;
+    [self updateButtons];
 }
 
 @end

@@ -22,7 +22,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
 @property (weak, nonatomic) IBOutlet UILabel *labelResultsCount;
 
-@property (weak, nonatomic) IBOutlet UITableView *tableViewResults;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+- (IBAction)buttonActionEdit:(id)sender;
 
 @end
 
@@ -31,11 +33,10 @@
     BCOptions *_bcOptions;
     TripsDataManager *_tripsDataManager;
     INatTrip *_currentTrip;
-    BOOL deletingRow;
+//    BOOL deletingRow;
 }
 
 #pragma mark - UIViewController Methods
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -51,24 +52,23 @@
 {
     _currentTrip = _tripsDataManager.currentTrip;
     [self setupLabels];
-    [self.tableViewResults reloadData];
+    [self.tableView reloadData];
     
     //    [self.tableViewResults performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self.tableViewResults deselectRowAtIndexPath:[self.tableViewResults indexPathForSelectedRow] animated:YES];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 
-#pragma mark - Init/Setup Methods
-
+#pragma mark - Setup UI/Refresh Methods
 - (void)setupUI
 {
     self.view.backgroundColor = [UIColor kColorHeaderBackground];
     //    self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
-    self.tableViewResults.backgroundColor = [UIColor kColorTableBackgroundColor];
+    self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
     [self setupSidebar];
     [self setupButtons];
 }
@@ -86,10 +86,10 @@
 
 - (void)setupButtons
 {
-    self.buttonEdit.enabled = NO;
+    self.buttonEdit.enabled = YES;
     [self.buttonEdit setTitle:nil forState:UIControlStateNormal];
-//    [self.buttonEdit setBackgroundImage:[IonIcons imageWithIcon:icon_edit iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonEdit.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
+    [self updateEditButton];
 }
 
 
@@ -106,6 +106,15 @@
     }
 }
 
+- (void)updateEditButton
+{
+    if (self.tableView.editing) {
+        [self.buttonEdit setBackgroundImage:[IonIcons imageWithIcon:icon_checkmark_circled iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    } else {
+        [self.buttonEdit setBackgroundImage:[IonIcons imageWithIcon:icon_edit iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    }
+}
+
 
 #pragma mark UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -115,11 +124,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    return _currentTrip.occurrenceRecords.count;
+/*
     if (deletingRow && (_currentTrip.occurrenceRecords.count >= _bcOptions.displayOptions.displayPoints)) {
         return _currentTrip.occurrenceRecords.count - 1;
     } else {
         return _currentTrip.occurrenceRecords.count;
     }
+*/
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -141,11 +153,8 @@
 #ifdef DEBUG
     cell.labelTaxonSubTitle.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.subtitle];
 #endif
-    
-    if (_currentTrip.status.intValue <= TripStatusSaved) {
-        [cell.buttonAction setTitle:@"Remove" forState:UIControlStateNormal];
-        cell.buttonAction.backgroundColor = [UIColor kColorDarkRed];
-    } else {
+
+    if (_currentTrip.status.intValue >= TripStatusSaved) {
         if (!occurrence.taxaAttribute.observation) {
             [cell.buttonAction setTitle:@"Record" forState:UIControlStateNormal];
             cell.buttonAction.backgroundColor = [UIColor kColorDarkGreen];
@@ -153,20 +162,50 @@
             [cell.buttonAction setTitle:@"Edit" forState:UIControlStateNormal];
             cell.buttonAction.backgroundColor = [UIColor orangeColor];
         }
+        cell.buttonAction.hidden = self.tableView.editing;
+    } else {
+        cell.buttonAction.hidden = YES;
     }
     cell.delegate = self;
-    
-    //    [cell.buttonAction addTarget:self action:@selector(performAction:) forControlEvents:UIControlEventTouchUpInside];
-    //    cell.buttonAction.backgroundColor = [UIColor redColor];
-    //    cell.buttonAction.titleLabel.text = @"Remove";
     
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    TaxonListCell *cell = (TaxonListCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.buttonAction.hidden = YES;
+}
+
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    TaxonListCell *cell = (TaxonListCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.buttonAction.hidden = NO;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"commitEditingStyle: %lu", indexPath.row);
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self deleteOccurrenceAtIndexPath:indexPath];
+    }
+}
+
+
 #pragma mark IBActions
+- (IBAction)buttonActionEdit:(id)sender {
+    //    [self.tableView setEditing:!self.tableView.editing animated:YES];
+    self.tableView.editing = !self.tableView.editing;
+    [self updateEditButton];
+    [self.tableView reloadData];
+}
+
 - (void)actionButtonSelected:(TaxonListCell *)cell
 {
-    NSIndexPath *indexPath = [self.tableViewResults indexPathForCell:cell];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
     NSLog(@"Action Button: %lu - %@", indexPath.row, occurrence.title);
     
@@ -177,31 +216,7 @@
         [self.parentViewController.navigationController pushViewController:observationVC animated:YES];
         //        [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
     } else {
-        [_tripsDataManager removeOccurrenceFromTrip:_currentTrip occurrence:occurrence];
-        deletingRow = YES;
-        [self.tableViewResults deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-        deletingRow = NO;
-        [self.tableViewResults reloadData];
-        [self setupLabels];
-    }
-}
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Row Selected: %lu", indexPath.row);
-    OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
-    
-    //    tableView.editing = YES;
-}
-
-
-// Use KVO for table updates
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    NSNumber *kind = [change objectForKey:NSKeyValueChangeKindKey];
-    if ([kind integerValue] == NSKeyValueChangeRemoval) {
-        
+        [self deleteOccurrenceAtIndexPath:indexPath];
     }
 }
 
@@ -214,11 +229,34 @@
     
     if ([segue.identifier isEqualToString:@"OccurrenceDetails"]) {
         OccurrenceDetailsViewController *detailsVC = segue.destinationViewController;
-        NSIndexPath *selectedIndexPath = [self.tableViewResults indexPathForSelectedRow];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         //        NSLog(@"%@:%lu", selectedIndexPath, (long)selectedIndexPath.row);
         detailsVC.occurrence = _currentTrip.occurrenceRecords[selectedIndexPath.row];
     }
     
 }
+
+#pragma mark-Helper Methods
+- (void)deleteOccurrenceAtIndexPath:(NSIndexPath *)indexPath
+{
+    OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
+    [_tripsDataManager removeOccurrenceFromTrip:_currentTrip occurrence:occurrence];
+    //    deletingRow = YES;
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    //    deletingRow = NO;
+    //    [self.tableView reloadData];
+    [self setupLabels];
+}
+
+// Use KVO for table updates
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSNumber *kind = [change objectForKey:NSKeyValueChangeKindKey];
+    if ([kind integerValue] == NSKeyValueChangeRemoval) {
+        
+    }
+}
+
+
 
 @end

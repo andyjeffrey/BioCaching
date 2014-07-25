@@ -37,14 +37,12 @@
 {
     [super viewDidLoad];
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    [TSMessage setDefaultViewController:self];
+    [TSMessage setDefaultViewController:self.revealViewController];
     
     //Setup Sidebar
 
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
     [_sidebarButton addTarget:self.revealViewController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
-//    _sidebarButton.target = self.revealViewController;
-//    _sidebarButton.action = @selector(revealToggle:);
     
 //    // Set the gesture
 //    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];

@@ -77,8 +77,12 @@
 
 - (void)initLocalVariables
 {
-    lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:kLastVersionPrefKey];
-
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:kLastVersionPrefKey] isKindOfClass:[NSNumber class]]) {
+        lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:kLastVersionPrefKey];
+    } else {
+        lastVersion = [NSDecimalNumber decimalNumberWithString:[[NSUserDefaults standardUserDefaults] objectForKey:kLastVersionPrefKey]];
+    }
+    
     // CFBundleShortVersionString = "Version" setting in active target Info.plist
     // CFBundleVersion = "Build" setting
     currVersion = [NSDecimalNumber decimalNumberWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];

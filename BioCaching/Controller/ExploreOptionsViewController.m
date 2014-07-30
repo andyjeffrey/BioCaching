@@ -7,7 +7,6 @@
 //
 
 #import "ExploreOptionsViewController.h"
-#import "SWRevealViewController.h"
 #import "OptionsRecordType.h"
 #import "OptionsRecordSource.h"
 #import "OptionsSpeciesFilter.h"

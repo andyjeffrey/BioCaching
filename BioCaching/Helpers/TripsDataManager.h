@@ -16,12 +16,10 @@
 @interface TripsDataManager : NSObject<ImageManagerDelegate>
 
 @property (weak, nonatomic) id<TripsDataManagerDelegate> delegate;
-@property (weak, nonatomic) id<TripsDataManagerTableDelegate> tableDelegate;
-@property (weak, nonatomic) id<UploadManagerDelegate> uploadDelegate;
+@property (weak, nonatomic) id<TripsDataManagerExploreDelegate> exploreDelegate;
 
 // Conveniece properties for TripsVC table sections
 // TODO: Replace with FetchedResultsController?
-
 @property (nonatomic, readonly, strong) NSArray *createdTrips;
 @property (nonatomic, readonly, strong) NSArray *savedTrips;
 @property (nonatomic, readonly, strong) NSArray *inProgressTrips;
@@ -29,6 +27,7 @@
 @property (nonatomic, readonly, strong) NSArray *publishedTrips;
 
 @property (nonatomic, strong) INatTrip *currentTrip;
+@property (nonatomic, readonly, strong) NSArray *uploadQueue;
 
 + (instancetype)sharedInstance;
 
@@ -41,7 +40,11 @@
 
 - (void)loadTripsFromINat:(NSString *)iNatUsername;
 - (void)loadAllTripsFromINat;
+
+- (void)addTripToUploadQueue:(INatTrip *)trip;
+- (void)initiateUploads;
 - (void)saveTripToINat:(INatTrip *)trip;
+
 - (void)deleteTripFromINat:(INatTrip *)trip;
 
 - (void)loadTripsFromLocalStore;

@@ -20,7 +20,7 @@
     ExploreOptionsDelegate,
     DropDownViewDelegate,
     ExploreDataManagerDelegate,
-    TripsDataManagerDelegate
+    TripsDataManagerExploreDelegate
 >
 
 //@property (nonatomic, strong) BCOptions *bcOptions;

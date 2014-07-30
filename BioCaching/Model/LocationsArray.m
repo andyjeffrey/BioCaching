@@ -28,6 +28,8 @@
         [_staticArray addObject:@[@"Great Smoky Mountains NP, TN", @35.661489, @-83.559093, @8000, @20000]];
         [_staticArray addObject:@[@"Everglades National Park, FL", @25.167975, @-80.884781, @8000, @20000]];
 
+
+        [_staticArray addObject:@[@"New Forest NP, Hampshire, UK", @50.924984, @-1.670339, @8000, @12000]];
         [_staticArray addObject:@[@"Tortuga Bay, Santa Cruz, Galapagos", @-0.764173, @-90.340036]];
         [_staticArray addObject:@[@"Seymour Norte, Galapagos", @-0.397408, @-90.288421]];
         [_staticArray addObject:@[@"Genovesa, Galapagos", @0.337141, @-89.961934, @2000, @8000]];

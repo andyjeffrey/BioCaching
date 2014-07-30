@@ -9,6 +9,8 @@
 @synthesize occurrenceRecords;
 @synthesize removedRecords;
 @synthesize observations;
+@synthesize observationPhotos;
+@synthesize uploading;
 
 +(void)setupMapping
 {
@@ -109,6 +111,14 @@
 
 - (NSArray *)observations {
     return [self.taxaAttributes valueForKeyPath:@"observation"];
+}
+
+- (NSArray *)observationPhotos {
+    NSMutableArray *obsPhotos = [[NSMutableArray alloc] init];
+    for (INatObservation *observation in self.observations) {
+        [obsPhotos addObjectsFromArray:[observation.obsPhotos array]];
+    }
+    return obsPhotos;
 }
 
 @end

@@ -9,14 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "TripListCell.h"
 #import "TripsDataManagerDelegate.h"
-#import "UploadManagerDelegate.h"
 
 @interface TripsViewController : UIViewController<
     UITableViewDelegate,
     UITableViewDataSource,
-    TripsDataManagerTableDelegate,
-    TripListCellDelegate,
-    UploadManagerDelegate
+    TripsDataManagerDelegate,
+    TripListCellDelegate
 >
 
 @end

@@ -14,6 +14,9 @@ static NSSortDescriptor *defaultSortDesc;
 @implementation TripsDataManager {
     NSManagedObjectContext *managedObjectContext;
     NSMutableArray *_privateTrips;
+    NSMutableArray *_uploadQueue;
+    NSMutableArray *_observationsQueue;
+    NSMutableArray *_observationPhotosQueue;
 }
 
 +(instancetype)sharedInstance
@@ -43,6 +46,8 @@ static NSSortDescriptor *defaultSortDesc;
     if (self) {
         managedObjectContext = [[RKObjectManager sharedManager] managedObjectStore].mainQueueManagedObjectContext;
         [self loadTripsFromLocalStore];
+        _uploadQueue = [[NSMutableArray alloc] init];
+//        [self refreshUploadQueue];
     }
     
     return self;
@@ -88,6 +93,10 @@ static NSSortDescriptor *defaultSortDesc;
             [[_privateTrips filteredArrayUsingPredicate:predicate] sortedArrayUsingDescriptors:@[defaultSortDesc]]];
 }
 
+- (NSArray *)uploadQueue {
+    return _uploadQueue;
+}
+
 
 - (void)loadAllTripsFromINat
 {
@@ -118,7 +127,7 @@ static NSSortDescriptor *defaultSortDesc;
                 [_privateTrips addObject:trip];
             }
         }
-        [self.tableDelegate tripsTableUpdated];
+        [self.delegate tripsDataTableUpdated];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Error Loading Trips: %@", error);
     }];
@@ -129,6 +138,15 @@ static NSSortDescriptor *defaultSortDesc;
     NSArray *tripsArray = [BCManagedObject fetchSelectedEntities:@"INatTrip" filter:nil];
     if (tripsArray) {
         _privateTrips = [[NSMutableArray alloc] initWithArray:tripsArray];
+    }
+}
+
+- (void)refreshUploadQueue
+{
+    for (INatTrip* iNatTrip in _privateTrips) {
+        if ((iNatTrip.status.intValue >= TripStatusFinished) && iNatTrip.needsSyncing) {
+            [_uploadQueue addObject:iNatTrip];
+        }
     }
 }
 
@@ -219,56 +237,225 @@ static NSSortDescriptor *defaultSortDesc;
     }
 }
 
-- (void)saveTripToINat:(INatTrip *)trip
-{
-    RKObjectManager *objectManager = [RKObjectManager sharedManager];
+- (void)addTripToUploadQueue:(INatTrip *)trip {
+    [_uploadQueue addObject:trip];
+}
 
-    // Upload Observations
+- (void)initiateUploads
+{
+    INatTrip *trip = _uploadQueue[0];
+    if (trip.uploading) {
+        return;
+    } else {
+        [self uploadNextTripInQueue];
+    }
+}
+
+- (void)finishUpload:(INatTrip *)trip success:(BOOL)success {
+    trip.uploading = NO;
+    [_uploadQueue removeObject:trip];
+    [self.delegate finishedUpload:trip success:success];
+}
+
+- (void)uploadNextTripInQueue
+{
+    if (!_uploadQueue || _uploadQueue.count == 0) {
+        return;
+    }
+
+    INatTrip *trip = _uploadQueue[0];
+    trip.uploading = YES;
+    [self.delegate startedUpload:trip];
+    
+    // Update Queue Arrays
+    _observationsQueue = [[NSMutableArray alloc] init];
     for (INatObservation *observation in trip.observations) {
-        //
-        [objectManager postObject:observation path:@"observations" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        [_observationsQueue addObject:observation];
+    }
+    _observationPhotosQueue = [[NSMutableArray alloc] init];
+    for (INatObservation *observation in _observationsQueue) {
+        [_observationPhotosQueue addObjectsFromArray:[observation.obsPhotos array]];
+    }
+    
+    // Initiaite Upload With First Observation
+    // ObservationPhotos and Trip Uploads Are Chained To Follow On
+    [self uploadNextObservationInQueue];
+}
+
+- (void)uploadNextObservationInQueue
+{
+    if (!_observationsQueue || _observationsQueue.count == 0) {
+        [self uploadNextObservationPhotoInQueue];
+        return;
+    }
+        
+    INatObservation *observation = _observationsQueue[0];
+    INatTrip *trip = observation.taxaAttribute.trip;
+    int observationsCount = (int)trip.observations.count;
+    int observationIndex = (int)[trip.observations indexOfObject:observation] + 1;
+    
+    if (observation.needsSyncing) {
+        NSString *progressString = [NSString stringWithFormat:@"Uploading Observation %d/%d...", observationIndex, observationsCount];
+        [self.delegate uploadProgress:trip progressString:progressString success:TRUE];
+        [_observationsQueue removeObject:observation];
+        [[RKObjectManager sharedManager] postObject:observation path:@"observations" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+            [self.delegate uploadProgress:trip progressString:[NSString stringWithFormat:@"%@ DONE", progressString] success:TRUE];
+            NSLog(@"INatObservation Upload Success: %@", mappingResult);
+            observation.syncedAt = observation.updatedAt;
+            [self saveChanges];
+            [self uploadNextObservationInQueue];
+        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+            [self.delegate uploadProgress:trip progressString:[NSString stringWithFormat:@"%@ ERROR", progressString] success:FALSE];
+            NSLog(@"INatObservation Upload Error: %@", error);
+            [self finishUpload:trip success:NO];
+        }];
+    } else {
+        NSString *progressString = [NSString stringWithFormat:@"Skipping Observation %d/%d...", observationIndex, observationsCount];
+        [self.delegate uploadProgress:trip progressString:progressString success:TRUE];
+        [_observationsQueue removeObject:observation];
+        [self uploadNextObservationInQueue];
+    }
+}
+
+- (void)uploadNextObservationPhotoInQueue
+{
+    if (!_observationPhotosQueue || _observationPhotosQueue.count == 0) {
+        [self uploadTripToINat:_uploadQueue[0]];
+        return;
+    }
+    
+    INatObservationPhoto *obsPhoto = _observationPhotosQueue[0];
+    INatTrip *trip = obsPhoto.observation.taxaAttribute.trip;
+    int obsPhotoCount = (int)trip.observationPhotos.count;
+    int obsPhotoIndex = (int)[trip.observationPhotos indexOfObject:obsPhoto] + 1;
+    
+    if (obsPhoto.needsSyncing) {
+        NSString *progressString = [NSString stringWithFormat:@"Uploading Observation Photo %d/%d...", obsPhotoIndex, obsPhotoCount];
+        [self.delegate uploadProgress:trip progressString:progressString success:TRUE];
+        
+        NSURL *assetUrl = [NSURL URLWithString:obsPhoto.localAssetUrl];
+        // Get image from Asset Library
+        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+        __block NSNumber *imageSize = nil;
+        __block UIImage *myImage = nil;
+        __block INatObservationPhoto *blockImage = nil;
+        __block NSData *blockImageData = nil;
+        
+        [library assetForURL:assetUrl resultBlock:^(ALAsset *asset) {
+            myImage = [UIImage imageWithCGImage:[asset.defaultRepresentation fullResolutionImage]];
+            imageSize = [NSNumber numberWithLongLong:asset.defaultRepresentation.size];
+            
+            // make the image available on callback
+            blockImage = obsPhoto;
+            
+            NSData *imageData = UIImageJPEGRepresentation(myImage, 0.75);
+            blockImageData = imageData;
+            
+            NSMutableURLRequest *request = [[RKObjectManager sharedManager] multipartFormRequestWithObject:obsPhoto method:RKRequestMethodPOST path:@"observation_photos" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                [formData appendPartWithFileData:imageData
+                                            name:@"file"
+                                        fileName:asset.defaultRepresentation.filename
+                                        mimeType:@"image/jpeg"];
+            }];
+            
+            [_observationPhotosQueue removeObject:obsPhoto];
+            RKManagedObjectRequestOperation *operation = [[RKObjectManager sharedManager] managedObjectRequestOperationWithRequest:request managedObjectContext:managedObjectContext success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                [self.delegate uploadProgress:trip progressString:[NSString stringWithFormat:@"%@ DONE", progressString] success:TRUE];
+                NSLog(@"INatObservationPhoto Upload Success: %@", mappingResult);
+                obsPhoto.syncedAt = obsPhoto.updatedAt;
+                [self saveChanges];
+                [self uploadNextObservationPhotoInQueue];
+            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                [self.delegate uploadProgress:trip progressString:[NSString stringWithFormat:@"%@ ERROR", progressString] success:FALSE];
+                NSLog(@"INatObservationPhoto Upload Error: %@", error);
+                [self finishUpload:trip success:NO];
+            }];
+            // Ensure response object is mapped to request object
+            operation.targetObject = obsPhoto;
+            
+            [operation.HTTPRequestOperation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+                int progressPercent = (int)(totalBytesWritten * 100/totalBytesExpectedToWrite);
+                [self.delegate uploadProgress:trip progressString:[NSString stringWithFormat:@"%@ %d%%", progressString, progressPercent] success:TRUE];
+                NSLog(@"%@\n %d %d %d %%:%d%%", obsPhoto.observationId, (int)bytesWritten, (int)totalBytesWritten, (int)totalBytesExpectedToWrite, progressPercent);
+            }];
+            
+            [[RKObjectManager sharedManager] enqueueObjectRequestOperation:operation];
+            
+        } failureBlock:^(NSError *error) {
+            [self.delegate uploadProgress:trip progressString:@"Error Loading Photo From Device" success:FALSE];
+            NSLog(@"Error Loading Asset: %@ %@", assetUrl, error);
+            [self finishUpload:trip success:NO];
+        }];
+    } else {
+        NSString *progressString = [NSString stringWithFormat:@"Skipping Observation %d/%d...", obsPhotoIndex, obsPhotoCount];
+        [self.delegate uploadProgress:trip progressString:progressString success:TRUE];
+        [_observationPhotosQueue removeObject:obsPhoto];
+        [self uploadNextObservationPhotoInQueue];
+    }
+}
+
+
+- (void)uploadTripToINat:(INatTrip *)trip
+{
+    if (!_uploadQueue || _uploadQueue.count == 0) {
+        return;
+    }
+    
+    if (trip.needsSyncing) {
+        NSString *progressString = @"Uploading Trip Details...";
+        [self.delegate uploadProgress:trip progressString:progressString success:TRUE];
+        
+        NSDictionary *queryParams = @{@"publish" : @"Publish"};
+        [[RKObjectManager sharedManager] postObject:trip path:kINatTripsPathPattern parameters:queryParams success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+            [self.delegate uploadProgress:trip progressString:[NSString stringWithFormat:@"%@ SUCCESS", progressString] success:TRUE];
+            NSLog(@"INatTrip Upload Success: %@", mappingResult);
+            trip.status = [NSNumber numberWithInt:TripStatusPublished];
+            //TODO: Check trip.createdAt timestamp has been updated from POST response
+            trip.syncedAt = trip.updatedAt;
+            [self saveChanges];
+            [self finishUpload:trip success:YES];
+            [self uploadNextTripInQueue];
+        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+            [self.delegate uploadProgress:trip progressString:[NSString stringWithFormat:@"%@ ERROR", progressString] success:FALSE];
+            NSLog(@"INatTrip Upload Error: %@", error);
+            [self finishUpload:trip success:NO];
+        }];
+    }
+}
+
+/*
+- (BOOL)uploadObservationsToINat {
+    // Upload Observations
+    for (int i = 0; i < trip.observations.count; i++) {
+        INatObservation *observation = trip.observations[i];
+        NSString *progressString = [NSString stringWithFormat:@"Uploading Observation %d/%d...", i+1, (int)trip.observations.count];
+        [self.delegate uploadProgress:trip progressString:progressString success:TRUE];
+        [[RKObjectManager sharedManager] postObject:observation path:@"observations" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+            [self.delegate uploadProgress:trip progressString:[NSString stringWithFormat:@"%@ DONE", progressString] success:TRUE];
             NSLog(@"INatObservation Upload Success: %@", mappingResult);
             observation.syncedAt = observation.updatedAt;
             [self saveChanges];
             if (observation.obsPhotos.count > 0) {
-                [self postObservationPhotosToINat:observation];
+                //                [self postObservationPhotosToINat:observation];
             }
             // TODO: Add Delegate To Send Progress Updates Back to VC
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-            // TODO: Update local INatObservation object
+            // TODO: Update local INatObservation object ??
+            [self.delegate uploadProgress:trip progressString:[NSString stringWithFormat:@"%@ ERROR", progressString] success:FALSE];
             NSLog(@"INatObservation Upload Error: %@", error);
         }];
     }
-
+    
+}
+*/
     // TODO: Only upload ObservationPhotos AFTER all Observations have been uploaded?
+    
+/*
+     // TODO: Only Upload Trip AFTER all Observations and ObservationPhotos?
+     // Upload Trip
+*/
 
-    // TODO: Only Upload Trip AFTER all Observations and ObservationPhotos?
-    // Upload Trip
-    NSDictionary *queryParams = @{@"publish" : @"Publish"};
-    [[RKObjectManager sharedManager] postObject:trip path:kINatTripsPathPattern parameters:queryParams success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"save Success: %@", mappingResult);
-        trip.status = [NSNumber numberWithInt:TripStatusPublished];
-        //TODO: Check trip.createdAt timestamp has been updated from POST response
-        trip.syncedAt = trip.updatedAt;
-        [self saveChanges];
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Trip Published To iNat", nil)
-                                                     message:NSLocalizedString(@"Explanatory Message About How To Edit/Delete Trip Through iNat Website", nil)
-                                                    delegate:self
-                                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                           otherButtonTitles:nil];
-        [av show];
-        [self.tableDelegate tripsTableUpdated];
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"saveTrip Error: %@", error);
-    }];
-
-}
-
-- (BOOL)postObservationToINat:(INatObservation *)observation {
-    return TRUE;
-}
-
+    
 - (void)postObservationPhotosToINat:(INatObservation *)observation {
     
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
@@ -276,48 +463,6 @@ static NSSortDescriptor *defaultSortDesc;
     //    NSArray *obsPhotos = [trip.observations valueForKey:@"obsPhotos"];
     NSLog(@"Uploading Observation Photos For Observation: %@", observation.recordId);
     for (INatObservationPhoto *obsPhoto in observation.obsPhotos) {
-        if (obsPhoto.needsSyncing) {
-            NSURL *assetUrl = [NSURL URLWithString:obsPhoto.localAssetUrl];
-            // Get image from Asset Library
-            ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-            __block NSNumber *imageSize = nil;
-            __block UIImage *myImage = nil;
-            __block INatObservationPhoto *blockImage = nil;
-            __block NSData *blockImageData = nil;
-            
-            [library assetForURL:assetUrl resultBlock:^(ALAsset *asset) {
-                myImage = [UIImage imageWithCGImage:[asset.defaultRepresentation fullResolutionImage]];
-                imageSize = [NSNumber numberWithLongLong:asset.defaultRepresentation.size];
-                
-                // make the image available on callback
-                blockImage = obsPhoto;
-                
-                NSData *imageData = UIImageJPEGRepresentation(myImage, 0.75);
-                blockImageData = imageData;
-                
-                NSMutableURLRequest *request = [objectManager multipartFormRequestWithObject:obsPhoto method:RKRequestMethodPOST path:@"observation_photos" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                    [formData appendPartWithFileData:imageData
-                                                name:@"file"
-                                            fileName:asset.defaultRepresentation.filename
-                                            mimeType:@"image/jpeg"];
-                }];
-                
-                RKManagedObjectRequestOperation *operation = [objectManager managedObjectRequestOperationWithRequest:request managedObjectContext:managedObjectContext success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                    NSLog(@"INatObservationPhoto Upload Success: %@", mappingResult);
-                    obsPhoto.syncedAt = obsPhoto.updatedAt;
-                    [self saveChanges];
-                } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                    NSLog(@"INatObservationPhoto Upload Error: %@", error);
-                }];
-                // Ensure response object is mapped to request object
-                operation.targetObject = obsPhoto;
-                [objectManager enqueueObjectRequestOperation:operation];
-                
-            } failureBlock:^(NSError *error) {
-                // Error Loading Asset From Asset Library
-                NSLog(@"Error Loading Asset: %@ %@", assetUrl, error);
-            }];
-        }
 /*
         UIImage *testImage = [UIImage imageNamed:@"TestImage.jpg"];
 
@@ -352,7 +497,7 @@ static NSSortDescriptor *defaultSortDesc;
             _currentTrip = nil;
         }
         [BCAlerts displayDefaultInfoNotification:@"Trip Deleted From iNaturalist" subtitle:nil];
-        [self.tableDelegate tripsTableUpdated];
+        [self.delegate tripsDataTableUpdated];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"deleteTrip Error: %@", error);
@@ -382,7 +527,7 @@ static NSSortDescriptor *defaultSortDesc;
     if(_currentTrip == trip) {
         _currentTrip = nil;
     }
-    [self.tableDelegate tripsTableUpdated];
+    [self.delegate tripsDataTableUpdated];
 }
 
 - (void)removeOccurrenceFromTrip:(INatTrip *)trip occurrence:(OccurrenceRecord *)occurrence
@@ -399,7 +544,7 @@ static NSSortDescriptor *defaultSortDesc;
     
     if ([self saveChanges]) {
         [trip.removedRecords addObject:occurrence];
-        [self.delegate occurrenceRemovedFromTrip:occurrence];
+        [self.exploreDelegate occurrenceRemovedFromTrip:occurrence];
     }
 }
 
@@ -411,7 +556,7 @@ static NSSortDescriptor *defaultSortDesc;
     [self.currentTrip.taxaAttributesSet addObject:taxaAttribute];
     [self saveChanges];
 
-    [self.delegate occurrenceAddedToTrip:occurrenceRecord];
+    [self.exploreDelegate occurrenceAddedToTrip:occurrenceRecord];
 }
 
 - (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence

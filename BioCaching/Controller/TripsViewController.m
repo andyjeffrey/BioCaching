@@ -8,7 +8,6 @@
 
 #import "TripsViewController.h"
 #import "ExploreContainerViewController.h"
-#import "SWRevealViewController.h"
 #import "SidebarViewController.h"
 
 #import "TripsDataManager.h"
@@ -40,7 +39,7 @@
     NSLog(@"%s", __PRETTY_FUNCTION__);
     
     _tripsDataManager = [TripsDataManager sharedInstance];
-    _tripsDataManager.tableDelegate = self;
+    _tripsDataManager.delegate = self;
     
     [self setupUI];
     [self setupTableData];
@@ -196,6 +195,9 @@
     } else {
         subtitle = [NSString stringWithFormat:@"Created: %@", [trip.localCreatedAt localDateTime]];
     }
+    
+    cell.labelTripSubtitle.font = [UIFont systemFontOfSize:13];
+    cell.labelTripSubtitle.textColor = [UIColor kColorTableCellText];
     cell.labelTripSubtitle.text = subtitle;
     
     cell.labelTripSummaryStats.text = [NSString stringWithFormat:@"%d / %d",
@@ -206,6 +208,7 @@
     if (trip.status.intValue == TripStatusFinished) {
         [cell.buttonAction setTitle:@"Upload" forState:UIControlStateNormal];
         [cell.buttonAction setTitleColor:[UIColor cyanColor] forState:UIControlStateNormal];
+        cell.buttonAction.enabled = YES;
         cell.buttonAction.hidden = self.tableView.editing;
     } else {
         cell.buttonAction.hidden = YES;
@@ -262,7 +265,6 @@
 
 - (void)actionButtonSelected:(TripListCell *)cell
 {
-    cell.buttonAction.hidden = YES;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     INatTrip *trip = [self getTripForIndexPath:indexPath];
 
@@ -270,10 +272,11 @@
           (int)indexPath.section, (int)indexPath.row, trip.title);
     
     if (trip.status.intValue == TripStatusFinished) {
-        [cell.buttonAction setTitle:@"Uploading" forState:UIControlStateNormal];
+        cell.buttonAction.enabled = NO;
+        [cell.buttonAction setTitle:@"Queued" forState:UIControlStateNormal];
         if ([LoginManager sharedInstance].loggedIn) {
-            [cell.activityIndicator startAnimating];
-            [_tripsDataManager saveTripToINat:trip];
+            [_tripsDataManager addTripToUploadQueue:trip];
+            [_tripsDataManager initiateUploads];
         } else {
             [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
         }
@@ -290,14 +293,62 @@
 }
 
 
+
+
 #pragma mark - TripsDataManagerDelegate
 
-- (void)tripsTableUpdated
+- (void)tripsDataTableUpdated
 {
     [self refreshTable];
     [self.tableView reloadData];
     [_tableVC.refreshControl endRefreshing];
 }
+
+- (void)startedUpload:(INatTrip *)trip
+{
+    TripListCell *cell = [self getTableCellForTrip:trip];
+    cell.buttonAction.hidden = YES;
+    [cell.activityIndicator startAnimating];
+    cell.labelTripSubtitle.font = [UIFont systemFontOfSize:10];
+}
+
+- (void)finishedUpload:(INatTrip *)trip success:(BOOL)success
+{
+    TripListCell *cell = [self getTableCellForTrip:trip];
+    if (success) {
+        [BCAlerts displayDefaultSuccessNotification:@"Trip Successfully Published To iNaturalist" subtitle:nil];
+        [self tripsDataTableUpdated];
+    } else {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            cell.labelTripSubtitle.alpha = 0;
+            cell.labelTripSubtitle.font = [UIFont systemFontOfSize:13];
+            cell.labelTripSubtitle.text = @"Error Uploading Trip - Please Retry";
+            cell.buttonAction.alpha = 0;
+            cell.buttonAction.hidden = NO;
+            [cell.buttonAction setTitle:@"Upload" forState:UIControlStateNormal];
+            [UIView animateWithDuration:1 animations:^{
+                cell.labelTripSubtitle.alpha = 1;
+                cell.buttonAction.alpha = 1;
+            }];
+        });
+        [BCAlerts displayDefaultFailureNotification:@"Trip Publication Failed" subtitle:@"Please Retry The Upload"];
+    }
+}
+
+- (void)uploadProgress:(INatTrip *)trip progressString:(NSString *)progressString success:(BOOL)success
+{
+    TripListCell *cell = [self getTableCellForTrip:trip];
+    // Update UI on main thread??...
+    //        dispatch_async(dispatch_get_main_queue(), ^{
+    cell.labelTripSubtitle.text = progressString;
+    if (success) {
+        cell.labelTripSubtitle.textColor = [UIColor kColorDarkGreen];
+    } else {
+        cell.labelTripSubtitle.textColor = [UIColor redColor];
+    }
+    //        });
+}
+
 
 #pragma mark UIStoryboard Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -349,6 +400,20 @@
     }
     return trip;
 }
+
+- (TripListCell *)getTableCellForTrip:(INatTrip *)trip
+{
+    int uploadingTableSection = 2;
+#if DEBUG
+    uploadingTableSection = 3;
+#endif
+    int uploadingTableRow = (int)[_tableSections[uploadingTableSection][2] indexOfObject:trip];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:uploadingTableRow inSection:uploadingTableSection];
+    TripListCell *cell = (TripListCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+
+    return cell;
+}
+
 
 - (void)deleteTripAtIndexPath:(NSIndexPath *)indexPath
 {

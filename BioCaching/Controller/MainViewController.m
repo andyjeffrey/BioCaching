@@ -7,7 +7,6 @@
 //
 
 #import "MainViewController.h"
-#import "SWRevealViewController.h"
 #import "SidebarViewController.h"
 #import "ExploreContainerViewController.h"
 

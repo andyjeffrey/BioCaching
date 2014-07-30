@@ -7,7 +7,6 @@
 //
 
 #import "ProfileViewController.h"
-#import "SWRevealViewController.h"
 
 @interface ProfileViewController ()
 

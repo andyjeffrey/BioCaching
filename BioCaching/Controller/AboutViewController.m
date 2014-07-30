@@ -7,7 +7,6 @@
 //
 
 #import "AboutViewController.h"
-#import "SWRevealViewController.h"
 
 @interface AboutViewController ()
 

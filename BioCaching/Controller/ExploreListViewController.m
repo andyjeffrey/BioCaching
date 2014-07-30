@@ -54,7 +54,7 @@
     [self setupLabels];
     [self.tableView reloadData];
     
-    //    [self.tableViewResults performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+//    [self.tableViewResults performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated

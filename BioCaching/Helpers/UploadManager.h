@@ -10,4 +10,6 @@
 
 @interface UploadManager : NSObject
 
+@property (nonatomic, readonly, strong) NSArray *tripsQueue;
+
 @end

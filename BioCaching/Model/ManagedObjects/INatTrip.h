@@ -22,6 +22,8 @@ typedef enum {
 @property (nonatomic, readonly, strong) NSArray *occurrenceRecords;
 @property (nonatomic, strong) NSMutableArray *removedRecords;
 @property (nonatomic, readonly, strong) NSArray *observations;
+@property (nonatomic, readonly, strong) NSArray *observationPhotos;
+@property (nonatomic, assign) BOOL uploading;
 
 +(void)setupMapping;
 

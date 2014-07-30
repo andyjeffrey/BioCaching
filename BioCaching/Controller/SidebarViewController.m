@@ -7,8 +7,10 @@
 //
 
 #import "SidebarViewController.h"
-#import "SWRevealViewController.h"
 #import "ExploreOptionsViewController.h"
+#import "ExploreDataManager.h"
+#import "TripsDataManager.h"
+#import "LoginManager.h"
 
 @interface SidebarViewController ()
 
@@ -17,6 +19,11 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconProfile;
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconAbout;
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconSettings;
+
+@property (weak, nonatomic) IBOutlet TDBadgedCell *tableCellExplore;
+@property (weak, nonatomic) IBOutlet TDBadgedCell *tableCellTrips;
+@property (weak, nonatomic) IBOutlet TDBadgedCell *tableCellProfile;
+
 
 @end
 
@@ -48,7 +55,12 @@
     
     [self setColors];
     [self setupIcons];
+}
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [self updateBadges];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -89,6 +101,44 @@
                                                  iconColor:[UIColor kColorLabelText]
                                                   iconSize:30.0f
                                                  imageSize:CGSizeMake(40.0f, 40.0f)];
+}
+
+- (void)updateBadges
+{
+    TripsDataManager *tripsManager = [TripsDataManager sharedInstance];
+
+    self.tableCellExplore.badgeLeftOffset = 120;
+    if (tripsManager.currentTrip) {
+        self.tableCellExplore.badge.hidden = NO;
+        if (tripsManager.currentTrip.statusValue == TripStatusInProgress) {
+            self.tableCellExplore.badgeColor = [UIColor kColorDarkGreen];
+        } else {
+            self.tableCellExplore.badgeColor = [UIColor kColorTableCellText];
+        }
+        self.tableCellExplore.badgeString = [NSString stringWithFormat:@"%d / %d", (int)tripsManager.currentTrip.observations.count, (int)tripsManager.currentTrip.occurrenceRecords.count];
+    } else {
+        self.tableCellExplore.badge.hidden = YES;
+    }
+    
+    self.tableCellTrips.badgeLeftOffset = 120;
+    if (tripsManager.finishedTrips.count > 0) {
+        self.tableCellTrips.badge.hidden = NO;
+        self.tableCellTrips.badgeColor = [UIColor kColorDarkRed];
+        self.tableCellTrips.badgeTextColor = [UIColor whiteColor];
+        self.tableCellTrips.badgeString = [NSString stringWithFormat:@"%d To Upload", (int)tripsManager.finishedTrips.count];
+    } else {
+        self.tableCellTrips.badge.hidden = YES;
+    }
+    
+    self.tableCellProfile.badgeLeftOffset = 120;
+    if ([LoginManager sharedInstance].loggedIn) {
+        self.tableCellProfile.badge.hidden = NO;
+        self.tableCellProfile.badgeColor = [UIColor kColorDarkGreen];
+        self.tableCellProfile.badgeString = @"Logged In";
+    } else {
+        self.tableCellProfile.badge.hidden = YES;
+        self.tableCellProfile.badgeColor = [UIColor kColorDarkRed];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section

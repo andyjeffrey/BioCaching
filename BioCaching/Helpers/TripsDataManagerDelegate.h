@@ -10,7 +10,7 @@
 #import "INatTrip.h"
 #import "OccurrenceRecord.h"
 
-@protocol TripsDataManagerDelegate <NSObject>
+@protocol TripsDataManagerExploreDelegate <NSObject>
 
 - (void)newTripCreated:(INatTrip *)trip;
 - (void)occurrenceAddedToTrip:(OccurrenceRecord *)occurrence;
@@ -18,8 +18,12 @@
 
 @end
 
-@protocol TripsDataManagerTableDelegate <NSObject>
 
-- (void)tripsTableUpdated;
+@protocol TripsDataManagerDelegate <NSObject>
+
+- (void)tripsDataTableUpdated;
+- (void)startedUpload:(INatTrip *)trip;
+- (void)finishedUpload:(INatTrip *)trip success:(BOOL)success;
+- (void)uploadProgress:(INatTrip *)trip progressString:(NSString *)progressString success:(BOOL)success;
 
 @end

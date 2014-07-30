@@ -10,7 +10,6 @@
 #import "ExploreListViewController.h"
 #import "ExploreOptionsViewController.h"
 #import "TaxonInfoViewController.h"
-#import "SWRevealViewController.h"
 
 #import "MapViewLayoutGuide.h"
 #import "CrossHairView.h"
@@ -135,7 +134,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     _exploreDataManager.delegate = self;
     
     _tripsDataManager = [TripsDataManager sharedInstance];
-    _tripsDataManager.delegate = self;
+    _tripsDataManager.exploreDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated

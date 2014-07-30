@@ -93,7 +93,7 @@
     
     if ([_tripsDataManager createNewTrip:occurrenceResults bcOptions:_bcOptions])
     {
-        [_tripsDataManager.delegate newTripCreated:_tripsDataManager.currentTrip];
+        [_tripsDataManager.exploreDelegate newTripCreated:_tripsDataManager.currentTrip];
         for (GBIFOccurrence *occurrence in occurrenceResults.tripListResults)
         {
             [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];

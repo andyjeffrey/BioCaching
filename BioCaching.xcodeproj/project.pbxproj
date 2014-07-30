@@ -54,6 +54,7 @@
 		A15347231965BE7800E1C63F /* _INatObservationPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = A15347211965BE7800E1C63F /* _INatObservationPhoto.m */; };
 		A15347281965BE8300E1C63F /* INatObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = A15347251965BE8300E1C63F /* INatObservation.m */; };
 		A15347291965BE8300E1C63F /* INatObservationPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = A15347271965BE8300E1C63F /* INatObservationPhoto.m */; };
+		A1727B2119869C8000150952 /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1727B2019869C8000150952 /* TDBadgedCell.m */; };
 		A176286F1937359500DD69DB /* UIImage+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = A176286E1937359500DD69DB /* UIImage+Colors.m */; };
 		A17628721937385400DD69DB /* BCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628711937385400DD69DB /* BCButton.m */; };
 		A1762875193DEF9C00DD69DB /* ExploreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762874193DEF9C00DD69DB /* ExploreDataManager.m */; };
@@ -258,6 +259,8 @@
 		A162FD3A18D7060F00362A0A /* Genovesa, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Genovesa, Galapagos.gpx"; path = "Resources/TestData/Genovesa, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3C18D7075B00362A0A /* Tortuga Bay, Santa Cruz, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Tortuga Bay, Santa Cruz, Galapagos.gpx"; path = "Resources/TestData/Tortuga Bay, Santa Cruz, Galapagos.gpx"; sourceTree = "<group>"; };
 		A162FD3E18D708FD00362A0A /* Seymour Norte, Galapagos.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Seymour Norte, Galapagos.gpx"; path = "Resources/TestData/Seymour Norte, Galapagos.gpx"; sourceTree = "<group>"; };
+		A1727B1F19869C8000150952 /* TDBadgedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDBadgedCell.h; sourceTree = "<group>"; };
+		A1727B2019869C8000150952 /* TDBadgedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDBadgedCell.m; sourceTree = "<group>"; };
 		A176286D1937359500DD69DB /* UIImage+Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Colors.h"; sourceTree = "<group>"; };
 		A176286E1937359500DD69DB /* UIImage+Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Colors.m"; sourceTree = "<group>"; };
 		A17628701937385400DD69DB /* BCButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCButton.h; sourceTree = "<group>"; };
@@ -471,6 +474,7 @@
 		A15346901962D53600E1C63F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A1727B1E19869C8000150952 /* TDBadgedCell */,
 				A1C524551971B5510002686A /* Reachability */,
 				A15346911962D53600E1C63F /* Flurry */,
 				A15346941962D53600E1C63F /* ionicons */,
@@ -610,6 +614,15 @@
 				A15346E01962D53600E1C63F /* SWRevealViewController.m */,
 			);
 			path = SWRevealViewController;
+			sourceTree = "<group>";
+		};
+		A1727B1E19869C8000150952 /* TDBadgedCell */ = {
+			isa = PBXGroup;
+			children = (
+				A1727B1F19869C8000150952 /* TDBadgedCell.h */,
+				A1727B2019869C8000150952 /* TDBadgedCell.m */,
+			);
+			path = TDBadgedCell;
 			sourceTree = "<group>";
 		};
 		A176287E194719F900DD69DB /* ManagedObjects */ = {
@@ -1127,6 +1140,7 @@
 				A15346F41962D53600E1C63F /* NIInMemoryCache.m in Sources */,
 				A1EA13F5192D5A6400449327 /* LoginManager.m in Sources */,
 				A1EA132119265B4900449327 /* ExploreMapViewController.m in Sources */,
+				A1727B2119869C8000150952 /* TDBadgedCell.m in Sources */,
 				A1EA12E61926562A00449327 /* OptionsRecordSource.m in Sources */,
 				A15346F11962D53600E1C63F /* NIError.m in Sources */,
 				A1EA132419265B4900449327 /* ExploreSummaryViewController.m in Sources */,

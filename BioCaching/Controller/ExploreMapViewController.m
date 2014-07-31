@@ -101,11 +101,9 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [super viewDidLoad];
     NSLog(@"%s", __PRETTY_FUNCTION__);
     
-    // TODO: Remove from here (passed in from parent/container controller)
-    _bcOptions = [BCOptions sharedInstance];
-    
-    self.navigationController.navigationBarHidden = YES;
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
+
+    _bcOptions = [BCOptions sharedInstance];
     
     [self setupSidebar];
     [self setupButtons];

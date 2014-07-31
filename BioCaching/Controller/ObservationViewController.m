@@ -27,6 +27,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonAddPhoto;
 @property (weak, nonatomic) IBOutlet UIButton *buttonUpdatePhoto;
 
+@property (weak, nonatomic) IBOutlet UIButton *buttonDelete;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSave;
+
 - (IBAction)buttonActionSave:(id)sender;
 - (IBAction)buttonActionDelete:(id)sender;
 - (IBAction)buttonActionUpdatePhoto:(id)sender;
@@ -58,10 +61,11 @@
     
     assetsLibrary = [[ALAssetsLibrary alloc] init];
     
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationItem.title = @"Your Observation";
+    
+    // Changing of Navigation Back Button Here Not Working!
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.backBarButtonItem = cancelButton;
-    self.navigationItem.title = @"Record Observation";
+    [self.navigationItem setBackBarButtonItem:cancelButton];
 
     self.view.backgroundColor = [UIColor kColorTableBackgroundColor];
     self.imageObsPhoto.backgroundColor = [UIColor grayColor];
@@ -86,6 +90,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.navigationController.navigationBarHidden = NO;
+    
     if (imagePicker) {
         return;
     }
@@ -114,14 +120,22 @@
     [self.buttonDate setBackgroundImage:
      [IonIcons imageWithIcon:icon_calendar iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonDate.backgroundColor = [UIColor kColorButtonBackground];
+    self.buttonDate.enabled = NO;
     
     [self.buttonLocation setBackgroundImage:
      [IonIcons imageWithIcon:icon_location iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonLocation.backgroundColor = [UIColor kColorButtonBackground];
+    self.buttonLocation.enabled = NO;
     
     [self.buttonUpdatePhoto setBackgroundImage:
      [IonIcons imageWithIcon:icon_edit iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonUpdatePhoto.backgroundColor = [UIColor kColorButtonBackground];
+
+    if (self.locked) {
+        self.buttonUpdatePhoto.enabled = NO;
+        self.buttonDelete.hidden = YES;
+        [self.buttonSave setTitle:@"Done" forState:UIControlStateNormal];
+    }
 }
 
 - (void)setupLabels
@@ -138,14 +152,19 @@
     if (_obsLocation) {
         self.labelLocation.text = [_obsLocation latLongVerbose];
     }
-    if (_observation.obsPhotos.count > 0) {
-        // Reload Photo From Storage/Album
-        INatObservationPhoto *obsPhoto = _observation.obsPhotos[0];
-        [self loadImageFromLocalAsset:obsPhoto.localAssetUrl];
-        self.buttonAddPhoto.hidden = YES;
-        self.buttonUpdatePhoto.hidden = NO;
+    if (!self.locked) {
+        if (_observation.obsPhotos.count > 0) {
+            // Reload Photo From Storage/Album
+            INatObservationPhoto *obsPhoto = _observation.obsPhotos[0];
+            [self loadImageFromLocalAsset:obsPhoto.localAssetUrl];
+            self.buttonAddPhoto.hidden = YES;
+            self.buttonUpdatePhoto.hidden = NO;
+        } else {
+            self.buttonAddPhoto.hidden = NO;
+            self.buttonUpdatePhoto.hidden = YES;
+        }
     } else {
-        self.buttonAddPhoto.hidden = NO;
+        self.buttonAddPhoto.hidden = YES;
         self.buttonUpdatePhoto.hidden = YES;
     }
 }
@@ -195,9 +214,11 @@
 
 #pragma mark - IBActions
 - (IBAction)buttonActionSave:(id)sender {
-    [self updateObservation];
-    [[TripsDataManager sharedInstance] addObservationToTripOccurrence:_observation occurrence:self.occurrence];
-    _saveChanges = YES;
+    if (!self.locked) {
+        [self updateObservation];
+        [[TripsDataManager sharedInstance] addObservationToTripOccurrence:_observation occurrence:self.occurrence];
+        _saveChanges = YES;
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

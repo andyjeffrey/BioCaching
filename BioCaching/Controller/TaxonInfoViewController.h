@@ -12,5 +12,6 @@
 
 @property (nonatomic, strong) OccurrenceRecord *occurrence;
 @property (nonatomic, assign) BOOL showDetailsButton;
+@property (nonatomic, strong) UINavigationController *navVC;
 
 @end

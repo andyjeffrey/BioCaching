@@ -34,7 +34,7 @@
 
 - (IBAction)buttonActionDelete:(id)sender;
 - (IBAction)viewOccurrenceDetails:(id)sender;
-- (IBAction)recordObservation:(id)sender;
+- (IBAction)buttonActionRecord:(id)sender;
 - (IBAction)buttonActionRemove:(id)sender;
 - (IBAction)buttonActionCancel:(id)sender;
 
@@ -75,11 +75,16 @@
     [self.buttonDelete setBackgroundColor:[UIColor kColorDarkRed]];
     
     [self.buttonDetails setBackgroundColor:[UIColor kColorButtonBackground]];
-    if (!self.occurrence.taxaAttribute.observation) {
-        [self.buttonRecord setTitle:@"Record" forState:UIControlStateNormal];
-        [self.buttonRecord setBackgroundColor:[UIColor kColorDarkGreen]];
+    if (_currentTrip.status.intValue != TripStatusPublished) {
+        if (!self.occurrence.taxaAttribute.observation) {
+            [self.buttonRecord setTitle:@"Record" forState:UIControlStateNormal];
+            [self.buttonRecord setBackgroundColor:[UIColor kColorDarkGreen]];
+        } else {
+            [self.buttonRecord setTitle:@"Edit" forState:UIControlStateNormal];
+            [self.buttonRecord setBackgroundColor:[UIColor orangeColor]];
+        }
     } else {
-        [self.buttonRecord setTitle:@"Edit" forState:UIControlStateNormal];
+        [self.buttonRecord setTitle:@"View" forState:UIControlStateNormal];
         [self.buttonRecord setBackgroundColor:[UIColor orangeColor]];
     }
     [self.buttonRemove setBackgroundColor:[UIColor kColorDarkRed]];
@@ -133,13 +138,18 @@
 - (IBAction)viewOccurrenceDetails:(id)sender {
     OccurrenceDetailsViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceDetails"];
     detailsVC.occurrence = self.occurrence;
-    [self.parentViewController.navigationController pushViewController:detailsVC animated:YES];
+
+    [self.navigationController pushViewController:detailsVC animated:YES];
 }
 
-- (IBAction)recordObservation:(id)sender {
+- (IBAction)buttonActionRecord:(id)sender {
     ObservationViewController *observationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Observation"];
     observationVC.occurrence = self.occurrence;
-    [self.parentViewController.navigationController pushViewController:observationVC animated:YES];
+    if (_currentTrip.status.intValue == TripStatusPublished) {
+        observationVC.locked = YES;
+    }
+    
+    [self.navigationController pushViewController:observationVC animated:YES];
 }
 
 - (IBAction)buttonActionRemove:(id)sender {

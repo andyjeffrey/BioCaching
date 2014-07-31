@@ -16,5 +16,6 @@
     UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) OccurrenceRecord *occurrence;
+@property (nonatomic, assign) BOOL locked;
 
 @end

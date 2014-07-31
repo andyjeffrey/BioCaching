@@ -35,6 +35,8 @@ static int const defaultEmbeddedView = 0;
     [super viewDidLoad];
     NSLog(@"%s", __PRETTY_FUNCTION__);
     
+    self.navigationController.navigationBarHidden = YES;
+    
     [self initEmbeddedVCs];
     [self setupSegControl];
 

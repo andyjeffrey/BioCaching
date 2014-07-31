@@ -7,7 +7,6 @@
 //
 
 #import "OccurrenceDetailsViewController.h"
-#import "TaxonInfoViewController.h"
 #import "BCWebViewController.h"
 #import "INatTaxonPhoto.h"
 
@@ -40,8 +39,6 @@
 {
     [super viewDidLoad];
 
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationItem.backBarButtonItem.title = @"";
     self.navigationItem.title = @"Occurrence Details";
     
 //    [imageView setImageWithURL:[NSURL URLWithString:@"http://i.imgur.com/r4uwx.jpg"] placeholderImage:[UIImage imageNamed:@"placeholder-avatar"]];
@@ -70,6 +67,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

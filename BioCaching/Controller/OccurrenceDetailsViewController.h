@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GBIFOccurrence.h"
+#import "TaxonInfoViewController.h"
 
 @interface OccurrenceDetailsViewController : UIViewController
 
-//@property (nonatomic, strong) GBIFOccurrence *occurrence;
 @property (nonatomic, strong) OccurrenceRecord *occurrence;
 
 @end

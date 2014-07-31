@@ -41,9 +41,9 @@
 {
     [super viewDidLoad];
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    self.navigationController.navigationBarHidden = YES;
     
     _bcOptions = [BCOptions sharedInstance];
+
     [self setupUI];
     _tripsDataManager = [TripsDataManager sharedInstance];
 }
@@ -136,7 +136,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    GBIFOccurrence *occurrence = _filteredResults[indexPath.row];
     OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
     
     TaxonListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaxonListCell" forIndexPath:indexPath];
@@ -155,14 +154,23 @@
 #endif
 
     if (_currentTrip.status.intValue >= TripStatusSaved) {
-        if (!occurrence.taxaAttribute.observation) {
-            [cell.buttonAction setTitle:@"Record" forState:UIControlStateNormal];
-            cell.buttonAction.backgroundColor = [UIColor kColorDarkGreen];
+        if (_currentTrip.status.intValue < TripStatusPublished) {
+            if (!occurrence.taxaAttribute.observation) {
+                [cell.buttonAction setTitle:@"Record" forState:UIControlStateNormal];
+                cell.buttonAction.backgroundColor = [UIColor kColorDarkGreen];
+            } else {
+                [cell.buttonAction setTitle:@"Edit" forState:UIControlStateNormal];
+                cell.buttonAction.backgroundColor = [UIColor orangeColor];
+            }
+            cell.buttonAction.hidden = self.tableView.editing;
         } else {
-            [cell.buttonAction setTitle:@"Edit" forState:UIControlStateNormal];
-            cell.buttonAction.backgroundColor = [UIColor orangeColor];
+            if (!occurrence.taxaAttribute.observation) {
+                cell.buttonAction.hidden = YES;
+            } else {
+                [cell.buttonAction setTitle:@"View" forState:UIControlStateNormal];
+                cell.buttonAction.backgroundColor = [UIColor orangeColor];
+            }
         }
-        cell.buttonAction.hidden = self.tableView.editing;
     } else {
         cell.buttonAction.hidden = YES;
     }
@@ -173,6 +181,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
+    NSLog(@"didSelectRowAtIndexPath: %lu - %@", indexPath.row, occurrence.title);
+    
+    OccurrenceDetailsViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceDetails"];
+    detailsVC.occurrence = occurrence;
+    [self.navigationController pushViewController:detailsVC animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
@@ -208,16 +222,15 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
     NSLog(@"Action Button: %lu - %@", indexPath.row, occurrence.title);
-    
-    if (_currentTrip && _currentTrip.status.intValue >= TripStatusInProgress)
-    {
-        ObservationViewController *observationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Observation"];
-        observationVC.occurrence = occurrence;
-        [self.parentViewController.navigationController pushViewController:observationVC animated:YES];
-        //        [cell.buttonAction setTitle:@"Seen" forState:UIControlStateNormal];
-    } else {
-        [self deleteOccurrenceAtIndexPath:indexPath];
+
+    // Only used for record/edit now, so can delete TripStatus condition
+//    if (_currentTrip && _currentTrip.status.intValue >= TripStatusInProgress)
+    ObservationViewController *observationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Observation"];
+    observationVC.occurrence = occurrence;
+    if (_currentTrip.status.intValue == TripStatusPublished) {
+        observationVC.locked = YES;
     }
+    [self.navigationController pushViewController:observationVC animated:YES];
 }
 
 

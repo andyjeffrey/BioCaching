@@ -85,19 +85,24 @@
     
     NSLog(@"%s Results.count: %lu", __PRETTY_FUNCTION__, (unsigned long)occurrenceResults.Results.count);
 
-    [BCAlerts displayDefaultSuccessNotification:
-        [NSString stringWithFormat:@"%d Records Found", (int)occurrenceResults.filteredResults.count]
-                                       subtitle:@"Fetching Shortlisted Species Details..."];
-    
-    self.currentSearchResults = occurrenceResults;
-    
-    if ([_tripsDataManager createNewTrip:occurrenceResults bcOptions:_bcOptions])
-    {
-        [_tripsDataManager.exploreDelegate newTripCreated:_tripsDataManager.currentTrip];
-        for (GBIFOccurrence *occurrence in occurrenceResults.tripListResults)
+    if (occurrenceResults.Results.count > 0) {
+        [BCAlerts displayDefaultSuccessNotification:
+         [NSString stringWithFormat:@"%d Records Found", (int)occurrenceResults.filteredResults.count] subtitle:@"Fetching Shortlisted Species Details..."];
+
+        self.currentSearchResults = occurrenceResults;
+        
+        if ([_tripsDataManager createNewTrip:occurrenceResults bcOptions:_bcOptions])
         {
-            [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
+            [_tripsDataManager.exploreDelegate newTripCreated:_tripsDataManager.currentTrip];
+            for (GBIFOccurrence *occurrence in occurrenceResults.tripListResults)
+            {
+                [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
+            }
         }
+    } else {
+        [BCAlerts displayDefaultFailureNotification:@"No Records Found" subtitle:nil];
+        
+        [BCAlerts displayDefaultInfoAlert:@"No Records Found" message:@"Please try a different location/area or change the search options in the Settings menu"];
     }
 }
 

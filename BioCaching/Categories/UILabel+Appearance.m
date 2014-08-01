@@ -39,6 +39,7 @@ static NSString *htmlDocFormat =
 {
     NSString *htmlDoc = [NSString stringWithFormat:htmlDocFormat, html];
     NSError *err = nil;
+    NSData *htmlData = [htmlDoc dataUsingEncoding:NSUTF8StringEncoding];
     self.attributedText =
     [[NSAttributedString alloc]
      initWithData:[htmlDoc dataUsingEncoding:NSUTF8StringEncoding]

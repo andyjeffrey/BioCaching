@@ -17,9 +17,9 @@
 #define kOptionsKeyUniqueLocations  @"OptionsUniqueLocations"
 #define kOptionsKeySpeciesBinomial  @"OptionsSpeciesBinomial"
 
-@implementation DisplayOptions {
-    NSUserDefaults *_userDefaults;
-}
+static NSUserDefaults *_userDefaults;
+
+@implementation DisplayOptions
 
 + (instancetype)sharedInstance
 {

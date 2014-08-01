@@ -49,24 +49,29 @@
     summaryTableVC.currrentTrip = _currentTrip;
 }
 
-#pragma mark - Init/Setup Methods
 
+#pragma mark Sidebar Methods
+- (void)setupSidebar
+{
+    [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
+    [self.buttonSidebar setBackgroundImage:[IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    //    self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
+    // Change button color
+    //    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
+
+}
+
+- (IBAction)buttonSidebar:(id)sender {
+    [self.revealViewController revealToggleAnimated:YES];
+}
+
+
+#pragma mark - Init/Setup Methods
 - (void)setupUI
 {
     self.view.backgroundColor = [UIColor kColorHeaderBackground];
     //    self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
     [self setupSidebar];
-}
-
-- (void)setupSidebar
-{
-    self.buttonSidebar.enabled = NO;
-    [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
-//    [self.buttonSidebar setBackgroundImage:[IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
-    
-    // Change button color
-    //    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
 }
 
 - (void)setupLabels

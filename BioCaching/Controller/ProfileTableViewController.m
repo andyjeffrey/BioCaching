@@ -51,8 +51,10 @@ static int const kTableCellTagResetAuth = 200;
         self.textFieldUsername.text = [_userDefaults valueForKey:kINatAuthUsernamePrefKey];
         self.textFieldPassword.text = [_userDefaults valueForKey:kINatAuthPasswordPrefKey];
     } else {
+#ifdef DEBUG
         self.textFieldUsername.text = kINatTestAccountId;
         self.textFieldPassword.text = kINatTestAccountPassword;
+#endif
     }
 
     if ([_userDefaults objectForKey:kINatAuthTokenPrefKey]) {

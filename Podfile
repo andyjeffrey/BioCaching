@@ -5,5 +5,4 @@ pod 'JSONModel'
 # pod 'AFNetworking', '~> 2.0'
 pod 'RestKit', '~> 0.23.1'
 pod 'NXOAuth2Client', '~> 1.2.2'
-
-
+pod 'DTCoreText'

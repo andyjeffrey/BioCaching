@@ -10,6 +10,7 @@
 #import "ExploreListViewController.h"
 #import "ExploreOptionsViewController.h"
 #import "TaxonInfoViewController.h"
+#import "LocationController.h"
 
 #import "MapViewLayoutGuide.h"
 #import "CrossHairView.h"
@@ -111,6 +112,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     
     self.mapView.showsUserLocation = YES;
     
+    NSLog(@"CurrentLocation: %@", self.mapView.userLocation.location);
     if (!self.mapView.userLocation.location) {
         self.labelLocationDetails.text = @"Searching For Location...";
         [self.activityViewLocationSearch startAnimating];
@@ -174,9 +176,23 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
+#pragma mark Sidebar Methods
+- (void)setupSidebar
+{
+    //    self.buttonSidebar.alpha = 1.0f;
+    [self.buttonSidebar setBackgroundImage:
+     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    
+    // Change button color
+    //    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
+}
+
+- (IBAction)buttonSidebar:(id)sender {
+    [self.revealViewController revealToggleAnimated:YES];
+}
+
 
 #pragma mark Init/UI Setup Methods
-
 - (void)setupButtons
 {
     self.viewTopBar.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
@@ -184,14 +200,17 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [self.buttonRefreshSearch setTitle:nil forState:UIControlStateNormal];
     [self.buttonRefreshSearch setBackgroundImage:
      [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackground];
+//    self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackground];
     
-    self.buttonLocationList.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
+//    self.buttonLocationList.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     self.labelLocationDetails.textColor = [UIColor kColorButtonLabel];
     
-    self.buttonSettings.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
     [self.buttonSettings setBackgroundImage:
      [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor whiteColor] iconSize:28.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
+    
+    [self.buttonCurrentLocation setBackgroundImage:
+     [IonIcons imageWithIcon:icon_navigate iconColor:[UIColor whiteColor] iconSize:20.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
+//    self.buttonCurrentLocation.hidden = YES;
     
     [self resetTripButtons];
 }
@@ -502,7 +521,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 
 - (IBAction)actionCurrentLocation:(id)sender {
-    [self updateCurrentMapView:_currentUserLocation.coordinate latitudinalMeters:0 longitudinalMeters:[self getCurrentMapViewSpan]];
+    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
+        [BCAlerts displayDefaultInfoAlert:@"Location Services Unavailable" message:@"Please go to Settings/Privacy to enable Location Services"];
+    } else {
+        [self updateCurrentMapView:_currentUserLocation.coordinate latitudinalMeters:0 longitudinalMeters:[self getCurrentMapViewSpan]];
+    }
 }
 
 - (IBAction)zoomToSearchArea:(id)sender {
@@ -600,6 +623,8 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         return;
     }
     
+
+    
     if (self.activityViewLocationSearch.isAnimating) {
         [self.activityViewLocationSearch stopAnimating];
         _currentUserLocation = userLocation.location;
@@ -618,7 +643,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (BOOL)isLocationAccurateEnough:(CLLocation *)location {
     CLLocationAccuracy minimumAccuracy = kCLLocationAccuracyHundredMeters;
-    return (location.horizontalAccuracy <= minimumAccuracy);
+    return (location  && (location.horizontalAccuracy <= minimumAccuracy));
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
@@ -906,20 +931,5 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     return [[MapViewLayoutGuide alloc]initWithLength:20];
 }
 
-#pragma mark Sidebar Methods
-
-- (void)setupSidebar
-{
-    //    self.buttonSidebar.alpha = 1.0f;
-    [self.buttonSidebar setBackgroundImage:
-     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    
-    // Change button color
-    //    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
-}
-
-- (IBAction)buttonSidebar:(id)sender {
-    [self.revealViewController revealToggleAnimated:YES];
-}
 
 @end

@@ -20,10 +20,8 @@ DerivedData
 .xcworkspace
 Certificates/
 
-Pods/
-
-Resources/TestData/
-Resources/dev.config.h
-
 Reveal.framework
 Parse.framework
+
+Pods/
+Resources/

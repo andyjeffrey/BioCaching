@@ -39,13 +39,14 @@ static NSString *htmlDocFormat =
 {
     NSString *htmlDoc = [NSString stringWithFormat:htmlDocFormat, html];
     NSError *err = nil;
+    
     NSData *htmlData = [htmlDoc dataUsingEncoding:NSUTF8StringEncoding];
-    self.attributedText =
-    [[NSAttributedString alloc]
-     initWithData:[htmlDoc dataUsingEncoding:NSUTF8StringEncoding]
-     options: @{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType }
-     documentAttributes: nil
-     error: &err];
+//    self.attributedText = [[NSAttributedString alloc] initWithHTMLData:htmlData documentAttributes:nil];
+    
+    self.attributedText = [[NSAttributedString alloc] initWithData:htmlData options:@{DTUseiOS6Attributes:@YES} documentAttributes:nil error: &err];
+
+//    self.attributedText = [[NSAttributedString alloc] initWithData:htmlData options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType} documentAttributes:nil error: &err];
+
     if(err)
         NSLog(@"Unable to parse label text: %@", err);
 }

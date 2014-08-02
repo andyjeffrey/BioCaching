@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxon;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonTitle;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonSubTitle;
+@property (weak, nonatomic) IBOutlet UILabel *labelTaxonScientific;
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonAction;
 
 @property (weak, nonatomic) id<TaxonListCellDelegate> delegate;

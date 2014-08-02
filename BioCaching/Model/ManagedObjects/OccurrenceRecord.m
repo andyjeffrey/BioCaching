@@ -40,8 +40,8 @@
     return [self.iNatTaxon.commonName capitalizedString];
 }
 - (NSString *)subtitle {
-    return [NSString stringWithFormat:@"%@ - %@",
-                self.taxonClass, self.taxonSpecies];
+//    return [NSString stringWithFormat:@"%@ - %@", self.taxonClass, self.taxonSpecies];
+    return self.taxonSpecies;
 }
 - (NSString *)locationString {
     return [NSString stringWithFormat:@"%.6f %.6f", self.latitude.doubleValue, self.longitude.doubleValue];
@@ -133,6 +133,35 @@
     }
     
     return mapMarkerImageFile;
+}
+
+- (UIColor *)getINatIconicTaxonColor
+{
+    UIColor *taxonColor;
+    
+    if ([self.taxonKingdom isEqualToString:@"Plantae"]) {
+        taxonColor = [UIColor kColorINatTaxaGreen];
+    } else if ([self.taxonKingdom isEqualToString:@"Fungi"]) {
+        taxonColor = [UIColor kColorINatTaxaPinkLight];
+    } else if ([self.taxonKingdom isEqualToString:@"Chromista"]) {
+        taxonColor = [UIColor kColorINatTaxaBrown];
+    } else if ([self.taxonKingdom isEqualToString:@"Protozoa"]) {
+        taxonColor = [UIColor kColorINatTaxaBrown];
+    } else if ([self.taxonKingdom isEqualToString:@"Animalia"]) {
+        if ([self.taxonPhylum isEqualToString:@"Mollusca"]) {
+            taxonColor = [UIColor kColorINatTaxaOrange];
+        } else if ([self.taxonPhylum isEqualToString:@"Arthropoda"]) {
+            taxonColor = [UIColor kColorINatTaxaOrange];
+        } else if ([self.taxonPhylum isEqualToString:@"Chordata"]) {
+            taxonColor = [UIColor kColorINatTaxaBlue];
+        } else {
+            taxonColor = [UIColor kColorINatTaxaGrey];
+        }
+    } else {
+        taxonColor = [UIColor kColorINatTaxaGrey];
+    }
+    
+    return taxonColor;
 }
 
 

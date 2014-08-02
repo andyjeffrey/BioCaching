@@ -12,14 +12,9 @@
 
 @interface OccurrenceDetailsViewController ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageMainPhoto;
-@property (weak, nonatomic) IBOutlet UIImageView *imageTaxonIcon;
-@property (weak, nonatomic) IBOutlet UILabel *labelTaxonSpecies;
-@property (weak, nonatomic) IBOutlet UILabel *labelTaxonFamily;
-@property (weak, nonatomic) IBOutlet UILabel *labelPhotoCopyright;
-
+@property (weak, nonatomic) IBOutlet UILabel *labelDescription;
 @property (weak, nonatomic) IBOutlet UITextView *textViewDescription;
-@property (weak, nonatomic) IBOutlet NIAttributedLabel *labelDescription;
+
 @property (weak, nonatomic) IBOutlet UILabel *labelDate;
 @property (weak, nonatomic) IBOutlet UILabel *labelObserver;
 @property (weak, nonatomic) IBOutlet UILabel *labelInstitution;
@@ -41,22 +36,12 @@
 
     self.navigationItem.title = @"Occurrence Details";
     
-//    [imageView setImageWithURL:[NSURL URLWithString:@"http://i.imgur.com/r4uwx.jpg"] placeholderImage:[UIImage imageNamed:@"placeholder-avatar"]];
-    
-    self.imageTaxonIcon.image = [UIImage imageNamed:[self.occurrence getINatIconicTaxaMainImageFile]];
-    self.labelTaxonSpecies.text = self.occurrence.taxonSpecies;
-    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", self.occurrence.taxonSpecies, self.occurrence.taxonFamily];
-    
-    if (self.occurrence.iNatTaxon.taxonPhotos.count > 0)
-    {
-        iNatTaxonPhoto = self.occurrence.iNatTaxon.taxonPhotos[0];
-        [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.mediumUrl]];
-        self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
-    }
-    
+    self.textViewDescription.hidden = YES;
+    self.textViewDescription.text = self.occurrence.iNatTaxon.summaryText;
+    self.textViewDescription.textColor = [UIColor kColorTableCellText];
+
+    self.labelDescription.hidden = NO;
     [self.labelDescription setHtml:self.occurrence.iNatTaxon.summaryText];
-//    self.textViewDescription.text = self.occurrence.iNatTaxon.wikipedia_summary;
-//    self.textViewDescription.textColor = [UIColor kColorTableCellText];
 
     self.labelDate.text = [self.occurrence.dateRecorded localDate];
     self.labelObserver.text = self.occurrence.recordedBy;
@@ -84,7 +69,7 @@
     NSLog(@"Loading URL:%@", biblioURL);
     
     BCWebViewController *webController = [[BCWebViewController alloc] initWithURL:[NSURL URLWithString:biblioURL]];
-    [webController setToolbarTintColor:[UIColor blackColor]];
+//    [webController setToolbarTintColor:[UIColor blackColor]];
     [self.navigationController pushViewController:webController animated:YES];
 }
 

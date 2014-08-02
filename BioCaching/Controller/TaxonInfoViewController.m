@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxon;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonTitle;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonSubTitle;
+@property (weak, nonatomic) IBOutlet UILabel *labelTaxonScientific;
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonDelete;
 
 @property (weak, nonatomic) IBOutlet UIView *viewOverlayMask;
@@ -130,8 +132,18 @@
     }
     
     self.imageIconicTaxon.image = [UIImage imageNamed:[self.occurrence getINatIconicTaxaMainImageFile]];
-    self.labelTaxonTitle.text = self.occurrence.title;
-    self.labelTaxonSubTitle.text = self.occurrence.subtitle;
+    
+    if (self.occurrence.iNatTaxon.commonName) {
+        self.labelTaxonTitle.text = self.occurrence.title;
+        self.labelTaxonSubTitle.text = self.occurrence.subtitle;
+        [self.labelTaxonTitle setTextColor:[self.occurrence getINatIconicTaxonColor]];
+        self.labelTaxonTitle.hidden = NO;
+        self.labelTaxonSubTitle.hidden = NO;
+    } else {
+        self.labelTaxonScientific.text = self.occurrence.subtitle;
+        [self.labelTaxonScientific setTextColor:[self.occurrence getINatIconicTaxonColor]];
+        self.labelTaxonScientific.hidden = NO;
+    }
     //    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", occurrence.Clazz, occurrence.Family];
 }
 

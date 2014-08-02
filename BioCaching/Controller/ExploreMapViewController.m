@@ -144,6 +144,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     if (_currentTrip != _tripsDataManager.currentTrip) {
         _updateMapView = YES;
         _currentTrip = _tripsDataManager.currentTrip;
+        [self.activityViewLocationSearch stopAnimating];
     }
     [self updateSearchResultsView];
     [self updateButtons];
@@ -622,8 +623,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     if (![self isLocationAccurateEnough:userLocation.location]) {
         return;
     }
-    
-
     
     if (self.activityViewLocationSearch.isAnimating) {
         [self.activityViewLocationSearch stopAnimating];

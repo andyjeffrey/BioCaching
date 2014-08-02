@@ -84,4 +84,33 @@
     return [UIColor colorWithRed:135/255.0f green:0/255.0f blue:0/255.0f alpha:1.0f];
 }
 
++(UIColor *) kColorINatTaxaBlue {
+    return [UIColor colorWithRed:30/255.0f green:144/255.0f blue:255/255.0f alpha:1.0f];
+}
++(UIColor *) kColorINatTaxaGreen {
+    return [UIColor colorWithRed:116/255.0f green:172/255.0f blue:0/255.0f alpha:1.0f];
+}
++(UIColor *) kColorINatTaxaOrange {
+    return [UIColor colorWithRed:255/255.0f green:69/255.0f blue:0/255.0f alpha:1.0f];
+}
++(UIColor *) kColorINatTaxaBrown {
+    return [UIColor colorWithRed:153/255.0f green:51/255.0f blue:0/255.0f alpha:1.0f];
+}
++(UIColor *) kColorINatTaxaPinkLight {
+    return [UIColor colorWithRed:255/255.0f green:0/255.0f blue:102/255.0f alpha:1.0f];
+}
++(UIColor *) kColorINatTaxaPinkDark {
+    return [UIColor colorWithRed:170/255.0f green:0/255.0f blue:68/255.0f alpha:1.0f];
+}
++(UIColor *) kColorINatTaxaPurpleLight {
+    return [UIColor colorWithRed:255/255.0f green:0/255.0f blue:255/255.0f alpha:1.0f];
+}
++(UIColor *) kColorINatTaxaPurpleDark {
+    return [UIColor colorWithRed:128/255.0f green:0/255.0f blue:12/255.0f alpha:1.0f];
+}
++(UIColor *) kColorINatTaxaGrey {
+    return [UIColor colorWithRed:102/255.0f green:102/255.0f blue:102/255.0f alpha:1.0f];
+}
+
+
 @end

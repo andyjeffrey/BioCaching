@@ -14,6 +14,14 @@
 
 @implementation BCWebViewController
 
+- (id)initWithURL:(NSURL *)url {
+    self = [super init];
+    if (self) {
+        //NSLog "Do Something With URL";
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

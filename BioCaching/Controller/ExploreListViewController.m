@@ -145,8 +145,20 @@
     cell.backgroundColor = [UIColor kColorTableBackgroundColor];
     
     cell.imageIconicTaxon.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMainImageFile]];
-    [cell.labelTaxonTitle setTextWithDefaults:occurrence.title];
-    [cell.labelTaxonSubTitle setTextWithDefaults:occurrence.subtitle];
+    
+
+    if (occurrence.iNatTaxon.commonName) {
+        [cell.labelTaxonTitle setTextWithColor:occurrence.title color:[occurrence getINatIconicTaxonColor]];
+        [cell.labelTaxonSubTitle setTextWithDefaults:occurrence.subtitle];
+        cell.labelTaxonTitle.hidden = NO;
+        cell.labelTaxonSubTitle.hidden = NO;
+        cell.labelTaxonScientific.hidden = YES;
+    } else {
+        [cell.labelTaxonScientific setTextWithColor:occurrence.subtitle color:[occurrence getINatIconicTaxonColor]];
+        cell.labelTaxonTitle.hidden = YES;
+        cell.labelTaxonSubTitle.hidden = YES;
+        cell.labelTaxonScientific.hidden = NO;
+    }
     
     if (occurrence.iNatTaxon.taxonPhotos.count == 0) {
         cell.labelTaxonTitle.text = [NSString stringWithFormat:@"%@ **", cell.labelTaxonTitle.text];
@@ -155,7 +167,7 @@
     cell.labelTaxonSubTitle.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.subtitle];
 #endif
 
-    if (_currentTrip.status.intValue >= TripStatusSaved) {
+    if (_currentTrip.status.intValue >= TripStatusInProgress) {
         if (_currentTrip.status.intValue < TripStatusPublished) {
             if (!occurrence.taxaAttribute.observation) {
                 [cell.buttonAction setTitle:@"Record" forState:UIControlStateNormal];

@@ -35,4 +35,14 @@
 +(UIColor*) kColorDarkRed;
 +(UIColor*) kColorDarkRedHighlighted;
 
++(UIColor *) kColorINatTaxaBlue;
++(UIColor *) kColorINatTaxaGreen;
++(UIColor *) kColorINatTaxaOrange;
++(UIColor *) kColorINatTaxaBrown;
++(UIColor *) kColorINatTaxaPinkLight;
++(UIColor *) kColorINatTaxaPinkDark;
++(UIColor *) kColorINatTaxaPurpleLight;
++(UIColor *) kColorINatTaxaPurpleDark;
++(UIColor *) kColorINatTaxaGrey;
+
 @end

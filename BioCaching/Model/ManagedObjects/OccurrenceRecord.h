@@ -18,5 +18,6 @@
 #pragma mark - Additional/Convenience Methods
 - (NSString *)getINatIconicTaxaMapMarkerImageFile:(BOOL)highlighted;
 - (NSString *)getINatIconicTaxaMainImageFile;
+- (UIColor *)getINatIconicTaxonColor;
 
 @end

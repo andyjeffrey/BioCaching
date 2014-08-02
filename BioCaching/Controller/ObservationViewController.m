@@ -63,9 +63,9 @@
     
     self.navigationItem.title = @"Your Observation";
     
-    // Changing of Navigation Back Button Here Not Working!
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:cancelButton];
+//    // Changing of Navigation Back Button Here Not Working!
+//    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:nil];
+//    [self.navigationItem setBackBarButtonItem:cancelButton];
 
     self.view.backgroundColor = [UIColor kColorTableBackgroundColor];
     self.imageObsPhoto.backgroundColor = [UIColor grayColor];

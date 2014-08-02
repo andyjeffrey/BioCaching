@@ -48,8 +48,8 @@
 
 #import <TSMessage.h>
 #import <UIImageView+AFNetworking.h>
-
-#import "NimbusCore.h"
-#import "NimbusWebController.h"
-#import "NimbusAttributedLabel.h"
+#import <DTCoreText.h>
+//#import "NimbusCore.h"
+//#import "NimbusWebController.h"
+//#import "NimbusAttributedLabel.h"
 

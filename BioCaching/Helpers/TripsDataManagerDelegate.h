@@ -15,6 +15,7 @@
 - (void)newTripCreated:(INatTrip *)trip;
 - (void)occurrenceAddedToTrip:(OccurrenceRecord *)occurrence;
 - (void)occurrenceRemovedFromTrip:(OccurrenceRecord *)occurrence;
+- (void)locationTrackUpdated:(INatTrip *)trip;
 
 @end
 

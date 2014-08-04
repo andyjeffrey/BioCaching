@@ -10,7 +10,7 @@
 #import "ExploreListViewController.h"
 #import "ExploreOptionsViewController.h"
 #import "TaxonInfoViewController.h"
-#import "LocationController.h"
+#import "BCLocationManager.h"
 
 #import "MapViewLayoutGuide.h"
 #import "CrossHairView.h"
@@ -88,6 +88,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     
     MKPolygon *_currentSearchAreaPolygon;
     MKCircle *_currentSearchAreaCircle;
+    MKPolyline *_currentLocationTrack;
     
     ExploreDataManager *_exploreDataManager;
     GBIFOccurrenceResults *_occurrenceResults;
@@ -161,6 +162,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         [self updateSearchAreaOverlay:_currentTrip.locationCoordinate areaSpan:_currentTrip.searchAreaSpan.doubleValue];
         // Move/Zoom Map To Trip Search Area
         [self updateCurrentMapView:_currentTrip.locationCoordinate latitudinalMeters:0 longitudinalMeters:_currentTrip.searchAreaSpan.doubleValue];
+        if ((_currentTrip.statusValue == TripStatusInProgress) && _bcOptions.displayOptions.trackLocation) {
+            [BCLocationManager startRecordingTrack];
+        } else {
+            [BCLocationManager stopRecordingTrack];
+        }
         _updateMapView = NO;
     }
     [self configureLocationDropDown];
@@ -326,6 +332,10 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
             break;
     }
     self.mapView.mapType = _bcOptions.displayOptions.mapType;
+    
+    if (_currentSearchAreaCircle) {
+        [self updateSearchAreaOverlay:_currentSearchAreaCircle.coordinate areaSpan:_currentSearchAreaCircle.radius*2];
+    }
 }
 
 - (void)updateLocationLabelAndMapView:(CLLocationCoordinate2D)location mapViewSpan:(NSInteger)viewSpan
@@ -560,6 +570,14 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         [_tripsDataManager saveChanges];
     }
     
+    if (_bcOptions.displayOptions.trackLocation) {
+        if (_currentTrip.statusValue == TripStatusInProgress) {
+            [BCLocationManager startRecordingTrack];
+        } else if (_currentTrip.statusValue == TripStatusFinished) {
+            [BCLocationManager stopRecordingTrack];
+        }
+    }
+    
     [self updateButtons];
 }
 
@@ -599,6 +617,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     
     // Use current view region for searchAreaSpan
     if (_currentTrip) {
+        [BCLocationManager stopRecordingTrack];
         _currentTrip = nil;
         _bcOptions.searchOptions.searchAreaSpan = [self getCurrentMapViewSpan];
         [self updateButtons];
@@ -666,14 +685,19 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     return MKMetersBetweenMapPoints(eastMapPoint, westMapPoint);
 }
 
+
 - (MKOverlayView *)mapView:(MKMapView *)map viewForOverlay:(id <MKOverlay>)overlay
 {
     if ([overlay isKindOfClass:[MKCircle class]]) {
         MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
-        circleView.strokeColor = [UIColor grayColor];
-        circleView.lineWidth = 2.0;
+        circleView.lineWidth = 4.0;
+        if (self.mapView.mapType == MKMapTypeStandard) {
+            circleView.strokeColor = [UIColor darkGrayColor];
+        } else {
+            circleView.strokeColor = [UIColor yellowColor];
+        }
         [circleView setLineDashPattern:@[@10, @10]];
-        circleView.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.1];
+//        circleView.fillColor = [[UIColor whiteColor] colorWithAlphaComponent:0.1];
         return circleView;
     }
     else if ([overlay isKindOfClass:[MKPolygon class]]) {
@@ -683,6 +707,12 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
         [polygonView setLineDashPattern:@[@10, @10]];
         polygonView.fillColor = [[UIColor redColor] colorWithAlphaComponent:0.2];
         return polygonView;
+    }
+    else if ([overlay isKindOfClass:[MKPolyline class]]) {
+        MKPolylineView *polylineView = [[MKPolylineView alloc] initWithOverlay:overlay];
+        polylineView.strokeColor = [UIColor redColor];
+        polylineView.lineWidth = 4.0;
+        return polylineView;
     }
     return nil;
 }
@@ -884,6 +914,24 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     _taxonInfoVC.occurrence = nil;
     [self.mapView removeAnnotation:occurrence];
     [self updateRecordCountLabel];
+}
+
+- (void)locationTrackUpdated:(INatTrip *)trip
+{
+    if (_currentLocationTrack) {
+        [self.mapView removeOverlay:_currentLocationTrack];
+        _currentLocationTrack = nil;
+    }
+    
+    CLLocationCoordinate2D *coordArray = malloc(sizeof(CLLocationCoordinate2D) * trip.locationTrack.count);
+    
+    for (int i=0; i < trip.locationTrack.count; i++) {
+        CLLocation *location = [trip.locationTrack objectAtIndex:i];
+        coordArray[i] = location.coordinate;
+    }
+    _currentLocationTrack = [MKPolyline polylineWithCoordinates:coordArray count:trip.locationTrack.count];
+    
+    [self.mapView addOverlay:_currentLocationTrack];
 }
 
 

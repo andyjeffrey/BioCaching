@@ -7,7 +7,7 @@
 //
 
 #import "ObservationViewController.h"
-#import "LocationController.h"
+#import "BCLocationManager.h"
 #import "TripsDataManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -43,7 +43,7 @@
     CLLocation *_obsLocation;
     NSString *_obsLocationText;
     BOOL _saveChanges;
-    LocationController *_locationController;
+    BCLocationManager *_locationManager;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -70,8 +70,8 @@
     self.view.backgroundColor = [UIColor kColorTableBackgroundColor];
     self.imageObsPhoto.backgroundColor = [UIColor grayColor];
     
-    _locationController = [LocationController sharedInstance];
-    _locationController.delegate = self;
+    _locationManager = [BCLocationManager sharedInstance];
+    _locationManager.delegate = self;
 
     _observation = self.occurrence.observation;
     if (!_observation) {
@@ -81,7 +81,7 @@
     if (_observation.latitude && _observation.longitude) {
         _obsLocation = [CLLocation initWithCoordinate:_observation.coordinate];
     } else {
-        [_locationController.locationManager startUpdatingLocation];
+        [_locationManager.locationManager startUpdatingLocation];
     }
 
     [self setupButtons];
@@ -111,7 +111,7 @@
         // Rollback Context
         [[TripsDataManager sharedInstance] rollbackChanges];
     }
-    [_locationController.locationManager stopUpdatingLocation];
+    [_locationManager.locationManager stopUpdatingLocation];
     self.navigationController.navigationBarHidden = YES;
 }
 
@@ -185,7 +185,7 @@
     _obsLocation = location;
     [self updateObservation];
     if (location.horizontalAccuracy <= kCLLocationAccuracyNearestTenMeters) {
-        [_locationController.locationManager stopUpdatingLocation];
+        [_locationManager.locationManager stopUpdatingLocation];
     }
     [self updateUI];
 }

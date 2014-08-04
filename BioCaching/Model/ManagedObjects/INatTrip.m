@@ -11,6 +11,7 @@
 @synthesize observations;
 @synthesize observationPhotos;
 @synthesize uploading;
+@synthesize locationTrack;
 
 +(void)setupMapping
 {

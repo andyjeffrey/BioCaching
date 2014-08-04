@@ -117,16 +117,18 @@
         }
         self.tableCellExplore.badgeString = [NSString stringWithFormat:@"%d / %d", (int)tripsManager.currentTrip.observations.count, (int)tripsManager.currentTrip.occurrenceRecords.count];
     } else {
+        self.tableCellExplore.badgeString = nil;
         self.tableCellExplore.badge.hidden = YES;
     }
     
     self.tableCellTrips.badgeLeftOffset = 120;
-    if (tripsManager.finishedTrips.count > 0) {
+    if (tripsManager.finishedTrips && tripsManager.finishedTrips.count > 0) {
         self.tableCellTrips.badge.hidden = NO;
         self.tableCellTrips.badgeColor = [UIColor kColorDarkRed];
         self.tableCellTrips.badgeTextColor = [UIColor whiteColor];
         self.tableCellTrips.badgeString = [NSString stringWithFormat:@"%d To Upload", (int)tripsManager.finishedTrips.count];
     } else {
+        self.tableCellTrips.badgeString = nil;
         self.tableCellTrips.badge.hidden = YES;
     }
     
@@ -136,9 +138,12 @@
         self.tableCellProfile.badgeColor = [UIColor kColorDarkGreen];
         self.tableCellProfile.badgeString = @"Logged In";
     } else {
-        self.tableCellProfile.badge.hidden = YES;
         self.tableCellProfile.badgeColor = [UIColor kColorDarkRed];
+        self.tableCellProfile.badgeString = nil;
+        self.tableCellProfile.badge.hidden = YES;
     }
+    
+    [self.tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section

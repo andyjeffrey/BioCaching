@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "TripsDataManagerDelegate.h"
-#import "UploadManagerDelegate.h"
 #import "ImageManager.h"
 #import "GBIFOccurrenceResults.h"
 #import "BCOptions.h"
@@ -54,10 +53,11 @@
 - (void)addNewTaxaAttributeFromOccurrence:(OccurrenceRecord *)occurrenceRecord;
 
 - (void)removeOccurrenceFromTrip:(INatTrip *)trip occurrence:(OccurrenceRecord *)occurrenceRecord;
-- (void)removeOccurrenceFromTrip:(OccurrenceRecord *)occurrenceRecord trip:(INatTrip *)trip;
 
 - (void)addObservationToTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence;
 - (void)removeObservationFromTripOccurrence:(INatObservation *)observation occurrence:(OccurrenceRecord *)occurrence;
 - (void)addNewPhotoToTripObservation:(NSString *)localAssetUrlString observation:(INatObservation *)observation;
+
+- (void)addLocationToCurrentTripTrack:(CLLocation *)location;
 
 @end

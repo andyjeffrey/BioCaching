@@ -24,6 +24,7 @@ typedef enum {
 @property (nonatomic, readonly, strong) NSArray *observations;
 @property (nonatomic, readonly, strong) NSArray *observationPhotos;
 @property (nonatomic, assign) BOOL uploading;
+@property (nonatomic, strong) NSMutableOrderedSet *locationTrack;
 
 +(void)setupMapping;
 

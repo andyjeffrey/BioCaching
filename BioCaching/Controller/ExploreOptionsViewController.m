@@ -11,6 +11,9 @@
 #import "OptionsRecordSource.h"
 #import "OptionsSpeciesFilter.h"
 
+#import "TripsDataManager.h"
+#import "BCLocationManager.h"
+
 #define kDisplayPointsSliderInterval 5
 
 @interface ExploreOptionsViewController ()
@@ -34,8 +37,9 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switchUniqueLocations;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segControlMapType;
-@property (weak, nonatomic) IBOutlet UISwitch *switchAutoSearch;
 @property (weak, nonatomic) IBOutlet UISwitch *switchFollowUser;
+@property (weak, nonatomic) IBOutlet UISwitch *switchRecordTrack;
+@property (weak, nonatomic) IBOutlet UISwitch *switchAutoSearch;
 @property (weak, nonatomic) IBOutlet UISwitch *switchPreCacheImages;
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestAPI;
@@ -145,8 +149,9 @@
     self.switchUniqueLocations.on = _bcOptions.displayOptions.uniqueLocations;
     
     self.segControlMapType.selectedSegmentIndex = _bcOptions.displayOptions.mapType;
-    self.switchAutoSearch.on = _bcOptions.displayOptions.autoSearch;
     self.switchFollowUser.on = _bcOptions.displayOptions.followUser;
+    self.switchRecordTrack.on = _bcOptions.displayOptions.trackLocation;
+    self.switchAutoSearch.on = _bcOptions.displayOptions.autoSearch;
     self.switchPreCacheImages.on = _bcOptions.displayOptions.preCacheImages;
     self.switchGBIFTestAPI.on = _bcOptions.searchOptions.testGBIFAPI;
     self.switchGBIFTestData.on = _bcOptions.searchOptions.testGBIFData;
@@ -283,13 +288,20 @@
     _bcOptions.displayOptions.uniqueLocations = self.switchUniqueLocations.on;
     
     _bcOptions.displayOptions.mapType = self.segControlMapType.selectedSegmentIndex;
-    _bcOptions.displayOptions.autoSearch = self.switchAutoSearch.on;
     _bcOptions.displayOptions.followUser = self.switchFollowUser.on;
+    _bcOptions.displayOptions.trackLocation = self.switchRecordTrack.on;
+    _bcOptions.displayOptions.autoSearch = self.switchAutoSearch.on;
     _bcOptions.displayOptions.preCacheImages = self.switchPreCacheImages.on;
     _bcOptions.searchOptions.testGBIFAPI = self.switchGBIFTestAPI.on;
     _bcOptions.searchOptions.testGBIFData = self.switchGBIFTestData.on;
     
     [self.delegate optionsUpdated:_bcOptions];
+    
+    if (_bcOptions.displayOptions.trackLocation) {
+        
+    } else {
+        
+    }
     [self buttonActionCancel:nil];
 }
 

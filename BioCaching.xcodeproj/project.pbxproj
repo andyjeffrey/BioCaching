@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A119199519660F7D003B15F7 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199419660F7D003B15F7 /* LocationController.m */; };
+		A119199519660F7D003B15F7 /* BCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199419660F7D003B15F7 /* BCLocationManager.m */; };
 		A119199819661E4E003B15F7 /* CLLocation+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199719661E4E003B15F7 /* CLLocation+Formatting.m */; };
-		A119199B1969954B003B15F7 /* UploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199A1969954B003B15F7 /* UploadManager.m */; };
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
 		A1464512195074F4005C1107 /* ObservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1464511195074F4005C1107 /* ObservationViewController.m */; };
@@ -125,12 +124,10 @@
 
 /* Begin PBXFileReference section */
 		346CC70B6936431AB81A1540 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A119199319660F7D003B15F7 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
-		A119199419660F7D003B15F7 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
+		A119199319660F7D003B15F7 /* BCLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLocationManager.h; sourceTree = "<group>"; };
+		A119199419660F7D003B15F7 /* BCLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLocationManager.m; sourceTree = "<group>"; };
 		A119199619661E4E003B15F7 /* CLLocation+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+Formatting.h"; sourceTree = "<group>"; };
 		A119199719661E4E003B15F7 /* CLLocation+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Formatting.m"; sourceTree = "<group>"; };
-		A11919991969954B003B15F7 /* UploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadManager.h; sourceTree = "<group>"; };
-		A119199A1969954B003B15F7 /* UploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadManager.m; sourceTree = "<group>"; };
 		A12B63B718EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 2783288252_6f21bf941c.jpg; path = Resources/TestData/Images/2783288252_6f21bf941c.jpg; sourceTree = "<group>"; };
 		A13B8F2118F75AAE000C522B /* OccurrenceResultsCASFilterv0.9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv0.9.json; path = Resources/TestData/OccurrenceResultsCASFilterv0.9.json; sourceTree = "<group>"; };
 		A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv1.0.json; path = Resources/TestData/OccurrenceResultsCASFilterv1.0.json; sourceTree = "<group>"; };
@@ -227,7 +224,6 @@
 		A1C524531971AA3F0002686A /* ConnectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionHelper.m; sourceTree = "<group>"; };
 		A1C524571971B5510002686A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		A1C524581971B5510002686A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		A1C5245B19741E940002686A /* UploadManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadManagerDelegate.h; sourceTree = "<group>"; };
 		A1C5245C1977EE170002686A /* APIOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIOptions.h; sourceTree = "<group>"; };
 		A1C5245F197811B20002686A /* Finsbury Park1, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Finsbury Park1, London.gpx"; path = "Resources/TestData/Finsbury Park1, London.gpx"; sourceTree = "<group>"; };
 		A1C52460197811B20002686A /* Finsbury Park2, London.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Finsbury Park2, London.gpx"; path = "Resources/TestData/Finsbury Park2, London.gpx"; sourceTree = "<group>"; };
@@ -690,15 +686,12 @@
 				A1EA134E19265B5D00449327 /* INatManagerDelegate.h */,
 				A17628D3194F08CD00DD69DB /* BCAlerts.h */,
 				A17628D4194F08CD00DD69DB /* BCAlerts.m */,
-				A119199319660F7D003B15F7 /* LocationController.h */,
-				A119199419660F7D003B15F7 /* LocationController.m */,
-				A11919991969954B003B15F7 /* UploadManager.h */,
-				A119199A1969954B003B15F7 /* UploadManager.m */,
-				A1C5245B19741E940002686A /* UploadManagerDelegate.h */,
 				A1C52443197033030002686A /* ImageManager.h */,
 				A1C52444197033030002686A /* ImageManager.m */,
 				A1C524521971AA3F0002686A /* ConnectionHelper.h */,
 				A1C524531971AA3F0002686A /* ConnectionHelper.m */,
+				A119199319660F7D003B15F7 /* BCLocationManager.h */,
+				A119199419660F7D003B15F7 /* BCLocationManager.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -938,7 +931,7 @@
 				A1EA132919265B4900449327 /* TaxonInfoViewController.m in Sources */,
 				A1EA135219265B5D00449327 /* GBIFCommunicatorMock.m in Sources */,
 				A1EA133E19265B5200449327 /* UILabel+Appearance.m in Sources */,
-				A119199519660F7D003B15F7 /* LocationController.m in Sources */,
+				A119199519660F7D003B15F7 /* BCLocationManager.m in Sources */,
 				A1464512195074F4005C1107 /* ObservationViewController.m in Sources */,
 				A1EA132019265B4900449327 /* ExploreListViewController.m in Sources */,
 				A1C52445197033030002686A /* ImageManager.m in Sources */,
@@ -969,7 +962,6 @@
 				A1F05118195AEF20008569AB /* INatTaxonPhoto.m in Sources */,
 				A1EA12E71926562A00449327 /* OptionsRecordType.m in Sources */,
 				A17BAE35195DBBA2004B1C37 /* OccurrenceRecord.m in Sources */,
-				A119199B1969954B003B15F7 /* UploadManager.m in Sources */,
 				A1EA12FB19265A2500449327 /* TaxonListCell.m in Sources */,
 				A1EA132519265B4900449327 /* MainViewController.m in Sources */,
 				A1EA12E21926562A00449327 /* GBIFOccurrenceResults.m in Sources */,
@@ -1095,7 +1087,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andy Jeffrey (FXN278DC86)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching,

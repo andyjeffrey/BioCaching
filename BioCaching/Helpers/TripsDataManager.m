@@ -174,6 +174,7 @@ static NSSortDescriptor *defaultSortDesc;
     
     [_privateTrips addObject:trip];
     trip.removedRecords = [[NSMutableArray alloc] init];
+    
 
     self.currentTrip = trip;
     return trip;
@@ -584,5 +585,14 @@ static NSSortDescriptor *defaultSortDesc;
     INatObservationPhoto *obsPhoto = [INatObservationPhoto createNewObservationPhoto:localAssetUrlString];
     [observation.obsPhotosSet addObject:obsPhoto];
 }
+
+- (void)addLocationToCurrentTripTrack:(CLLocation *)location {
+    if (!_currentTrip.locationTrack) {
+        _currentTrip.locationTrack = [[NSMutableOrderedSet alloc] init];
+    }
+    [_currentTrip.locationTrack addObject:location];
+    [self.exploreDelegate locationTrackUpdated:_currentTrip];
+}
+
 
 @end

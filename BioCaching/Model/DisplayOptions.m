@@ -9,8 +9,9 @@
 #import "DisplayOptions.h"
 
 #define kOptionsKeyMapType          @"OptionsMapType"
-#define kOptionsKeyAutoSearch       @"OptionsAutoSearch"
 #define kOptionsKeyFollowUser       @"OptionsFollowUser"
+#define kOptionsKeyTrackLocation    @"OptionsTrackLocation"
+#define kOptionsKeyAutoSearch       @"OptionsAutoSearch"
 #define kOptionsKeyPreCacheImages   @"OptionsPreCacheImages"
 #define kOptionsKeyDisplayPoints    @"OptionsDisplayPoints"
 #define kOptionsKeyUniqueSpecies    @"OptionsUniqueSpecies"
@@ -47,8 +48,9 @@ static NSUserDefaults *_userDefaults;
         
         if (![_userDefaults objectForKey:kOptionsKeyMapType]) {
             self.mapType = kOptionsDefaultMapType;
-            self.autoSearch = kOptionsDefaultAutoSearch;
             self.followUser = kOptionsDefaultFollowUser;
+            self.trackLocation = kOptionsDefaultTrackLocation;
+            self.autoSearch = kOptionsDefaultAutoSearch;
             self.preCacheImages = kOptionsDefaultPreCacheImages;
             self.displayPoints = kOptionsDefaultDisplayPoints;
             self.uniqueSpecies = kOptionsDefaultUniqueSpecies;
@@ -68,19 +70,27 @@ static NSUserDefaults *_userDefaults;
     [_userDefaults synchronize];
 }
 
-- (BOOL)autoSearch {
-    return [[_userDefaults objectForKey:kOptionsKeyAutoSearch] boolValue];
-}
-- (void)setAutoSearch:(BOOL)autoSearch {
-    [_userDefaults setBool:autoSearch forKey:kOptionsKeyAutoSearch];
-    [_userDefaults synchronize];
-}
-
 - (BOOL)followUser {
     return [[_userDefaults objectForKey:kOptionsKeyFollowUser] boolValue];
 }
 - (void)setFollowUser:(BOOL)followUser {
     [_userDefaults setBool:followUser forKey:kOptionsKeyFollowUser];
+    [_userDefaults synchronize];
+}
+
+- (BOOL)trackLocation {
+    return [[_userDefaults objectForKey:kOptionsKeyTrackLocation] boolValue];
+}
+- (void)setTrackLocation:(BOOL)trackLocation {
+    [_userDefaults setBool:trackLocation forKey:kOptionsKeyTrackLocation];
+    [_userDefaults synchronize];
+}
+
+- (BOOL)autoSearch {
+    return [[_userDefaults objectForKey:kOptionsKeyAutoSearch] boolValue];
+}
+- (void)setAutoSearch:(BOOL)autoSearch {
+    [_userDefaults setBool:autoSearch forKey:kOptionsKeyAutoSearch];
     [_userDefaults synchronize];
 }
 

@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LocationController.h"
+#import "BCLocationManager.h"
 
 @interface ObservationViewController : UIViewController<
-    LocationControllerDelegate,
+    BCLocationManagerDelegate,
     UIActionSheetDelegate,
     UINavigationControllerDelegate,
     UIImagePickerControllerDelegate>

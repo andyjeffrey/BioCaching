@@ -13,14 +13,16 @@
 
 @interface ObservationViewController ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageTaxonIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxon;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonTitle;
-@property (weak, nonatomic) IBOutlet UILabel *labelTaxonSubtitle;
+@property (weak, nonatomic) IBOutlet UILabel *labelTaxonSubTitle;
+@property (weak, nonatomic) IBOutlet UILabel *labelTaxonScientific;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonDate;
 @property (weak, nonatomic) IBOutlet UILabel *labelDate;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonLocation;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityLocation;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocation;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageObsPhoto;
@@ -44,6 +46,8 @@
     NSString *_obsLocationText;
     BOOL _saveChanges;
     BCLocationManager *_locationManager;
+    NSDate *eventTimer;
+    BOOL _newObservation;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -70,18 +74,17 @@
     self.view.backgroundColor = [UIColor kColorTableBackgroundColor];
     self.imageObsPhoto.backgroundColor = [UIColor grayColor];
     
-    _locationManager = [BCLocationManager sharedInstance];
-    _locationManager.delegate = self;
-
     _observation = self.occurrence.observation;
     if (!_observation) {
         _observation = [INatObservation createNewObservationFromOccurrence:self.occurrence];
         _observation.dateRecorded = [NSDate date];
+        _newObservation = YES;
     }
     if (_observation.latitude && _observation.longitude) {
         _obsLocation = [CLLocation initWithCoordinate:_observation.coordinate];
-    } else {
-        [_locationManager.locationManager startUpdatingLocation];
+    } else if (!self.locked) {
+        [BCLocationManager getCurrentLocationWithDelegate:self];
+        [self.activityLocation startAnimating];
     }
 
     [self setupButtons];
@@ -98,6 +101,12 @@
     [self updateUI];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [BCLoggingHelper recordGoogleScreen:@"INatObservation"];
+}
+
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     if (imagePicker) {
@@ -107,6 +116,9 @@
     
     if (_saveChanges) {
         [[TripsDataManager sharedInstance] saveChanges];
+        if (_newObservation) {
+            [BCLoggingHelper recordGoogleEvent:@"Observation" action:@"Created" value:_observation.taxonId];
+        }
     } else {
         // Rollback Context
         [[TripsDataManager sharedInstance] rollbackChanges];
@@ -132,7 +144,7 @@
     self.buttonUpdatePhoto.backgroundColor = [UIColor kColorButtonBackground];
 
     if (self.locked) {
-        self.buttonUpdatePhoto.enabled = NO;
+        self.buttonUpdatePhoto.hidden = YES;
         self.buttonDelete.hidden = YES;
         [self.buttonSave setTitle:@"Done" forState:UIControlStateNormal];
     }
@@ -140,10 +152,22 @@
 
 - (void)setupLabels
 {
-    self.imageTaxonIcon.image = [UIImage imageNamed:[self.occurrence getINatIconicTaxaMainImageFile]];
-    self.labelTaxonTitle.text = self.occurrence.title;
-    self.labelTaxonSubtitle.text = self.occurrence.subtitle;
-    self.labelLocation.text = @"";
+    self.imageIconicTaxon.image = [UIImage imageNamed:[self.occurrence getINatIconicTaxaMainImageFile]];
+    
+    if (self.occurrence.iNatTaxon.commonName) {
+        self.labelTaxonTitle.text = self.occurrence.title;
+        self.labelTaxonSubTitle.text = self.occurrence.subtitle;
+        [self.labelTaxonTitle setTextColor:[self.occurrence getINatIconicTaxonColor]];
+        self.labelTaxonTitle.hidden = NO;
+        self.labelTaxonSubTitle.hidden = NO;
+        self.labelTaxonScientific.hidden = YES;
+    } else {
+        self.labelTaxonScientific.text = self.occurrence.subtitle;
+        [self.labelTaxonScientific setTextColor:[self.occurrence getINatIconicTaxonColor]];
+        self.labelTaxonTitle.hidden = YES;
+        self.labelTaxonSubTitle.hidden = YES;
+        self.labelTaxonScientific.hidden = NO;
+    }
 }
 
 - (void)updateUI
@@ -151,19 +175,22 @@
     self.labelDate.text = [_observation.dateRecorded localDateTime];
     if (_obsLocation) {
         self.labelLocation.text = [_obsLocation latLongVerbose];
-    }
-    if (!self.locked) {
-        if (_observation.obsPhotos.count > 0) {
-            // Reload Photo From Storage/Album
-            INatObservationPhoto *obsPhoto = _observation.obsPhotos[0];
-            [self loadImageFromLocalAsset:obsPhoto.localAssetUrl];
-            self.buttonAddPhoto.hidden = YES;
-            self.buttonUpdatePhoto.hidden = NO;
-        } else {
-            self.buttonAddPhoto.hidden = NO;
-            self.buttonUpdatePhoto.hidden = YES;
-        }
+    } else if (!self.locked) {
+        self.labelLocation.text = @"Searching For Location...";
     } else {
+        self.labelLocation.text = @"No Location Recorded";
+    }
+    if (_observation.obsPhotos.count > 0) {
+        // Reload Photo From Storage/Album
+        INatObservationPhoto *obsPhoto = _observation.obsPhotos[0];
+        [self loadImageFromLocalAsset:obsPhoto.localAssetUrl];
+        self.buttonAddPhoto.hidden = YES;
+        self.buttonUpdatePhoto.hidden = NO;
+    } else {
+        self.buttonAddPhoto.hidden = NO;
+        self.buttonUpdatePhoto.hidden = YES;
+    }
+    if (self.locked) {
         self.buttonAddPhoto.hidden = YES;
         self.buttonUpdatePhoto.hidden = YES;
     }
@@ -179,13 +206,14 @@
 
 
 #pragma mark - LocationControllerDelegate
-- (void)locationUpdated:(CLLocation *)location
+- (void)currentLocationUpdated:(CLLocation *)location
 {
     NSLog(@"locationUpdated:%@ Accurracy:%d", [location latLongVerbose], (int)location.horizontalAccuracy);
     _obsLocation = location;
     [self updateObservation];
     if (location.horizontalAccuracy <= kCLLocationAccuracyNearestTenMeters) {
         [_locationManager.locationManager stopUpdatingLocation];
+        [self.activityLocation stopAnimating];
     }
     [self updateUI];
 }
@@ -318,6 +346,7 @@
 
 - (void)loadImageFromLocalAsset:(NSString *)localAssetUrlString
 {
+    eventTimer = [NSDate date];
     NSURL *assetUrl = [NSURL URLWithString:localAssetUrlString];
     
     [assetsLibrary assetForURL:assetUrl resultBlock: ^(ALAsset *asset){
@@ -327,6 +356,10 @@
         if (imageRef) {
             //TODO: Do something wiith orientation and scale if required?
             self.imageObsPhoto.image = [UIImage imageWithCGImage:imageRef scale:representation.scale orientation:(UIImageOrientation)representation.orientation];
+            NSTimeInterval timeElapsed = [eventTimer timeIntervalSinceNow];
+            NSLog(@"%.3f", timeElapsed);
+            [BCLoggingHelper recordGoogleTiming:@"Device" name:@"LoadAsset" timing:timeElapsed];
+            
 //            [self updateUI];
         } else {
             //TODO: Add Alert/Label When Previously Saved Image Removed From Photo Store

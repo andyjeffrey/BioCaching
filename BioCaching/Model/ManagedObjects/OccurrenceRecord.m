@@ -152,10 +152,8 @@
             taxonColor = [UIColor kColorINatTaxaOrange];
         } else if ([self.taxonPhylum isEqualToString:@"Arthropoda"]) {
             taxonColor = [UIColor kColorINatTaxaOrange];
-        } else if ([self.taxonPhylum isEqualToString:@"Chordata"]) {
-            taxonColor = [UIColor kColorINatTaxaBlue];
         } else {
-            taxonColor = [UIColor kColorINatTaxaGrey];
+            taxonColor = [UIColor kColorINatTaxaBlue];
         }
     } else {
         taxonColor = [UIColor kColorINatTaxaGrey];

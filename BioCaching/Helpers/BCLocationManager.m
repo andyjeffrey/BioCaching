@@ -54,7 +54,7 @@ static BOOL gettingCurrentLocation;
     } else {
         self.lastLocation = lastLocation;
         if (gettingCurrentLocation) {
-            [self.delegate currentLocation:self.lastLocation];
+            [self.delegate currentLocationUpdated:self.lastLocation];
             gettingCurrentLocation = FALSE;
         }
 
@@ -70,6 +70,7 @@ static BOOL gettingCurrentLocation;
     gettingCurrentLocation = YES;
     [[[self sharedInstance] locationManager] setDesiredAccuracy:desiredAccurary];
     [[[self sharedInstance] locationManager] startUpdatingLocation];
+    [[self sharedInstance] setDelegate:delegate];
 }
 
 

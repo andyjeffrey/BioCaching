@@ -10,7 +10,7 @@
 
 @protocol BCLocationManagerDelegate
 @required
-- (void)currentLocation:(CLLocation *)location;
+- (void)currentLocationUpdated:(CLLocation *)location;
 @end
 
 

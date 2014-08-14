@@ -10,7 +10,7 @@
 
 @interface UIView (UtilityMethods)
 
--(NSString *)debugDescription;
--(NSString *)coords;
+- (NSString *)debugDescription;
+- (NSString *)coords;
 
 @end

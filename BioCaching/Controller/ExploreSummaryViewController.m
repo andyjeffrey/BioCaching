@@ -49,6 +49,11 @@
     summaryTableVC.currrentTrip = _currentTrip;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [BCLoggingHelper recordGoogleScreen:@"ExploreSummary"];
+}
+
 
 #pragma mark Sidebar Methods
 - (void)setupSidebar

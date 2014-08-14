@@ -12,6 +12,9 @@
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
 		A1464512195074F4005C1107 /* ObservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1464511195074F4005C1107 /* ObservationViewController.m */; };
+		A14D5E43199C2E3A00454D6A /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E42199C2E3A00454D6A /* libGoogleAnalyticsServices.a */; };
+		A14D5E46199CC24400454D6A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E45199CC24400454D6A /* Crashlytics.framework */; };
+		A14D5E4D199CECBE00454D6A /* BCLoggingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A14D5E4C199CECBE00454D6A /* BCLoggingHelper.m */; };
 		A15346E11962D53600E1C63F /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A15346931962D53600E1C63F /* libFlurry_4.3.2.a */; };
 		A15346E21962D53600E1C63F /* IonIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = A15346971962D53600E1C63F /* IonIcons.m */; };
 		A15346E31962D53600E1C63F /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A15346981962D53600E1C63F /* ionicons.ttf */; };
@@ -51,6 +54,7 @@
 		A17BAE3C1961532B004B1C37 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA20CE18B4F7ED00200D50 /* MapKit.framework */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
 		A1BEE394196AB69000297526 /* TripListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BEE393196AB69000297526 /* TripListCell.m */; };
+		A1C124B3199BD10F0091E4C8 /* BCDatabaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C124B2199BD10F0091E4C8 /* BCDatabaseHelper.m */; };
 		A1C52445197033030002686A /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C52444197033030002686A /* ImageManager.m */; };
 		A1C5244C197179D40002686A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1C5244B197179D40002686A /* Images.xcassets */; };
 		A1C524541971AA3F0002686A /* ConnectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C524531971AA3F0002686A /* ConnectionHelper.m */; };
@@ -135,6 +139,11 @@
 		A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASv1.0.json; path = Resources/TestData/OccurrenceResultsCASv1.0.json; sourceTree = "<group>"; };
 		A1464510195074F4005C1107 /* ObservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationViewController.h; sourceTree = "<group>"; };
 		A1464511195074F4005C1107 /* ObservationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationViewController.m; sourceTree = "<group>"; };
+		A14D5E42199C2E3A00454D6A /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		A14D5E45199CC24400454D6A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		A14D5E49199CCDCE00454D6A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		A14D5E4B199CECBE00454D6A /* BCLoggingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLoggingHelper.h; sourceTree = "<group>"; };
+		A14D5E4C199CECBE00454D6A /* BCLoggingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLoggingHelper.m; sourceTree = "<group>"; };
 		A15346921962D53600E1C63F /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		A15346931962D53600E1C63F /* libFlurry_4.3.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.3.2.a; sourceTree = "<group>"; };
 		A15346951962D53600E1C63F /* ionicons-codes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ionicons-codes.h"; sourceTree = "<group>"; };
@@ -217,6 +226,17 @@
 		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		A1BEE392196AB69000297526 /* TripListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripListCell.h; sourceTree = "<group>"; };
 		A1BEE393196AB69000297526 /* TripListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripListCell.m; sourceTree = "<group>"; };
+		A1C124A8199BC4C50091E4C8 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		A1C124A9199BC4C50091E4C8 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		A1C124AA199BC4C50091E4C8 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		A1C124AB199BC4C50091E4C8 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		A1C124AC199BC4C50091E4C8 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		A1C124AD199BC4C50091E4C8 /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		A1C124AE199BC4C50091E4C8 /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		A1C124AF199BC4C50091E4C8 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		A1C124B0199BC4C50091E4C8 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		A1C124B1199BD10F0091E4C8 /* BCDatabaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCDatabaseHelper.h; sourceTree = "<group>"; };
+		A1C124B2199BD10F0091E4C8 /* BCDatabaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCDatabaseHelper.m; sourceTree = "<group>"; };
 		A1C52443197033030002686A /* ImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManager.h; sourceTree = "<group>"; };
 		A1C52444197033030002686A /* ImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManager.m; sourceTree = "<group>"; };
 		A1C5244B197179D40002686A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -366,8 +386,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1727B2B198BF37800150952 /* libxml2.dylib in Frameworks */,
+				A14D5E46199CC24400454D6A /* Crashlytics.framework in Frameworks */,
 				A1D5DDE618C7BAB900FA005B /* libsqlite3.dylib in Frameworks */,
 				A1D5DDE418C7BAA500FA005B /* libz.dylib in Frameworks */,
+				A14D5E43199C2E3A00454D6A /* libGoogleAnalyticsServices.a in Frameworks */,
 				A15346E11962D53600E1C63F /* libFlurry_4.3.2.a in Frameworks */,
 				A17BAE3C1961532B004B1C37 /* MapKit.framework in Frameworks */,
 				A1EB226B1923961F005650D9 /* CoreData.framework in Frameworks */,
@@ -387,6 +409,7 @@
 		A15346901962D53600E1C63F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A1C124A7199BC4C50091E4C8 /* GoogleAnalytics */,
 				A1727B1E19869C8000150952 /* TDBadgedCell */,
 				A1C524551971B5510002686A /* Reachability */,
 				A15346911962D53600E1C63F /* Flurry */,
@@ -502,6 +525,23 @@
 				A17BAE31195DBB8A004B1C37 /* _OccurrenceRecord.m */,
 			);
 			path = Generated;
+			sourceTree = "<group>";
+		};
+		A1C124A7199BC4C50091E4C8 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				A14D5E42199C2E3A00454D6A /* libGoogleAnalyticsServices.a */,
+				A1C124A8199BC4C50091E4C8 /* GAI.h */,
+				A1C124A9199BC4C50091E4C8 /* GAIDictionaryBuilder.h */,
+				A1C124AA199BC4C50091E4C8 /* GAIEcommerceProduct.h */,
+				A1C124AB199BC4C50091E4C8 /* GAIEcommerceProductAction.h */,
+				A1C124AC199BC4C50091E4C8 /* GAIEcommercePromotion.h */,
+				A1C124AD199BC4C50091E4C8 /* GAIFields.h */,
+				A1C124AE199BC4C50091E4C8 /* GAILogger.h */,
+				A1C124AF199BC4C50091E4C8 /* GAITrackedViewController.h */,
+				A1C124B0199BC4C50091E4C8 /* GAITracker.h */,
+			);
+			path = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 		A1C524551971B5510002686A /* Reachability */ = {
@@ -665,6 +705,10 @@
 			children = (
 				A1EA13F3192D5A6300449327 /* LoginManager.h */,
 				A1EA13F4192D5A6300449327 /* LoginManager.m */,
+				A14D5E4B199CECBE00454D6A /* BCLoggingHelper.h */,
+				A14D5E4C199CECBE00454D6A /* BCLoggingHelper.m */,
+				A1C124B1199BD10F0091E4C8 /* BCDatabaseHelper.h */,
+				A1C124B2199BD10F0091E4C8 /* BCDatabaseHelper.m */,
 				A1762873193DEF9C00DD69DB /* ExploreDataManager.h */,
 				A1762874193DEF9C00DD69DB /* ExploreDataManager.m */,
 				A17628791940A5C100DD69DB /* ExploreDataManagerDelegate.h */,
@@ -724,6 +768,8 @@
 		A1EA209118B4F7AB00200D50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A14D5E49199CCDCE00454D6A /* AdSupport.framework */,
+				A14D5E45199CC24400454D6A /* Crashlytics.framework */,
 				A1727B28198BF31100150952 /* CoreText.framework */,
 				A1727B25198BF2F800150952 /* ImageIO.framework */,
 				A1727B23198BF2E800150952 /* libxml2.dylib */,
@@ -789,6 +835,7 @@
 				A1EA208C18B4F7AB00200D50 /* Frameworks */,
 				A1EA208D18B4F7AB00200D50 /* Resources */,
 				AE1D03355F574D8CAE6E59C9 /* Copy Pods Resources */,
+				A14D5E44199CC1BA00454D6A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -880,6 +927,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		A14D5E44199CC1BA00454D6A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run c05b717e0df5c913b6670ecc9ec422bf45ff6361 d0425b8fda7e8d1820d31bddaeca488f55ed41e3dcbc30503b2da67c8a320b24";
+		};
 		AE1D03355F574D8CAE6E59C9 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -903,8 +963,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1EA12E11926562A00449327 /* GBIFOccurrence.m in Sources */,
+				A1C124B3199BD10F0091E4C8 /* BCDatabaseHelper.m in Sources */,
 				A15346E21962D53600E1C63F /* IonIcons.m in Sources */,
 				A17BAE32195DBB8A004B1C37 /* _OccurrenceRecord.m in Sources */,
+				A14D5E4D199CECBE00454D6A /* BCLoggingHelper.m in Sources */,
 				A1EA12F919265A2500449327 /* CrossHairView.m in Sources */,
 				A119199819661E4E003B15F7 /* CLLocation+Formatting.m in Sources */,
 				A17628C319471BA500DD69DB /* _INatTripTaxaAttribute.m in Sources */,
@@ -1103,6 +1165,7 @@
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching/Libraries/Localytics,
 					"$(PROJECT_DIR)/Libraries/Localytics",
 					"$(PROJECT_DIR)/Libraries/Flurry",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
 				);
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-ObjC",
@@ -1110,7 +1173,7 @@
 					Reveal,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "DEBD90D3-454C-4BFD-82DD-D25E0EE7B394";
+				PROVISIONING_PROFILE = "1EF5A4D9-73B5-46FD-ABEA-DDE2A53C1644";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1137,9 +1200,10 @@
 					/Volumes/Data/Dev/Xcode/MPApps/BioCaching/Libraries/Localytics,
 					"$(PROJECT_DIR)/Libraries/Localytics",
 					"$(PROJECT_DIR)/Libraries/Flurry",
+					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "67D9B687-DC8C-476E-81B2-FB0812F116F1";
+				PROVISIONING_PROFILE = "C09086A2-105A-4766-BD49-D473D0A94EB8";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

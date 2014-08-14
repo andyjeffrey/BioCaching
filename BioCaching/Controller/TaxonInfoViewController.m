@@ -44,6 +44,7 @@
 
 @implementation TaxonInfoViewController {
     INatTrip *_currentTrip;
+    INatObservation *_observation;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -63,10 +64,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     _currentTrip = [TripsDataManager sharedInstance].currentTrip;
+    _observation = self.occurrence.taxaAttribute.observation;
     self.viewOverlayMask.hidden = YES;
     [self updateTaxonView];
     [self setupButtons];
     [self updateButtons];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [BCLoggingHelper recordGoogleScreen:@"TaxonInfo"];
 }
 
 - (void)setupButtons
@@ -76,9 +83,11 @@
      [IonIcons imageWithIcon:icon_trash_a iconColor:[UIColor kColorButtonLabel] iconSize:20.0f imageSize:CGSizeMake(25.0f, 25.0f)] forState:UIControlStateNormal];
     [self.buttonDelete setBackgroundColor:[UIColor kColorDarkRed]];
     
-    [self.buttonDetails setBackgroundColor:[UIColor kColorButtonBackground]];
+    [self.buttonDetails setBackgroundImage:
+     [IonIcons imageWithIcon:icon_information_circled iconColor:[UIColor kColorButtonLabel] iconSize:24.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
+
     if (_currentTrip.status.intValue != TripStatusPublished) {
-        if (!self.occurrence.taxaAttribute.observation) {
+        if (!_observation) {
             [self.buttonRecord setTitle:@"Record" forState:UIControlStateNormal];
             [self.buttonRecord setBackgroundColor:[UIColor kColorDarkGreen]];
         } else {
@@ -103,6 +112,9 @@
     } else {
         self.buttonDetails.hidden = !self.showDetailsButton;
         self.buttonRecord.hidden = (_currentTrip.status.intValue < TripStatusInProgress);
+        if (_currentTrip.statusValue >= TripStatusFinished && !_observation) {
+            self.buttonRecord.hidden = YES;
+        }
         self.buttonRemove.hidden = YES;
         self.buttonCancel.hidden = YES;
     }
@@ -139,9 +151,12 @@
         [self.labelTaxonTitle setTextColor:[self.occurrence getINatIconicTaxonColor]];
         self.labelTaxonTitle.hidden = NO;
         self.labelTaxonSubTitle.hidden = NO;
+        self.labelTaxonScientific.hidden = YES;
     } else {
         self.labelTaxonScientific.text = self.occurrence.subtitle;
         [self.labelTaxonScientific setTextColor:[self.occurrence getINatIconicTaxonColor]];
+        self.labelTaxonTitle.hidden = YES;
+        self.labelTaxonSubTitle.hidden = YES;
         self.labelTaxonScientific.hidden = NO;
     }
     //    self.labelTaxonFamily.text = [NSString stringWithFormat:@"Class: %@   Family: %@", occurrence.Clazz, occurrence.Family];

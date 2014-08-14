@@ -10,4 +10,10 @@
 
 @interface BCButton : UIButton
 
+@property (nonatomic, assign) BOOL semiTransparent;
+
+@end
+
+@interface BCButtonRounded : BCButton
+
 @end

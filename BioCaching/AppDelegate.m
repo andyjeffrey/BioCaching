@@ -7,9 +7,12 @@
 //
 
 #import "AppDelegate.h"
-#import "LoginManager.h"
+#import "BCLoggingHelper.h"
+#import <Crashlytics/Crashlytics.h>
 #import "Flurry.h"
 #import "LocalyticsSession.h"
+#import "GAI.h"
+
 
 @implementation AppDelegate {
     NSDecimalNumber *lastVersion;
@@ -25,11 +28,13 @@
 
     [self configureDebugging];
     [self configureFlurryAnalytics];
-//    [self configureParse:launchOptions];
+    [self configureGoogleAnalytics];
     [self startLocalytics];
+    //    [self configureParse:launchOptions];
     [self configureRestKit];
     [[LoginManager sharedInstance] configureOAuth2Client];
-    
+    [self configureCrashlytics];
+
     // Override point for customization after application launch.
     return YES;
 }
@@ -128,15 +133,57 @@
 
 - (void)configureFlurryAnalytics
 {
-#ifdef BIOC_ANALYTICS
-    [Flurry setCrashReportingEnabled:YES];
+#ifdef BC_ANALYTICS
+    if (kUseFlurryErrorLogging) {
+        [Flurry setCrashReportingEnabled:YES];
+    }
     [Flurry startSession:kFlurryAPIKey];
 #endif
 }
 
+- (void)configureGoogleAnalytics
+{
+#ifdef BC_ANALYTICS
+    if (kUseGoogleErrorLogging) {
+        // Optional: automatically send uncaught exceptions to Google Analytics.
+        [[GAI sharedInstance] setTrackUncaughtExceptions:YES];
+    }
+    // Optional: set Google Analytics dispatch interval
+    [GAI sharedInstance].dispatchInterval = 60;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+
+    // Initialize tracker. Replace with your tracking ID.
+    [[GAI sharedInstance] trackerWithTrackingId:kGoogleTrackingID];
+
+#endif
+}
+
+- (void)configureCrashlytics
+{
+    if (kUseCrashlyticsLogging) {
+        [Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
+        [self addCrashlyticsUserIDObserver];
+        [[LoginManager sharedInstance] loggedIn];
+    }
+}
+
+- (void)addCrashlyticsUserIDObserver
+{
+    [[LoginManager sharedInstance] addObserver:self forKeyPath:@"currentUserID" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"currentUserID"]) {
+        [BCLoggingHelper updateCrashlyticsUserID];
+    }
+}
+
+
 - (void)configureParse:(NSDictionary *)launchOptions
 {
-//#ifdef BIOC_ANALYTICS
+//#ifdef BC_ANALYTICS
 //    [Parse setApplicationId:kParseAppId clientKey:kParseClientKey];
 //    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 //#endif
@@ -144,14 +191,14 @@
 
 - (void)startLocalytics
 {
-#ifdef BIOC_ANALYTICS
+#ifdef BC_ANALYTICS
     [[LocalyticsSession shared] startSession:kLocalyticsAPIKey];
 #endif
 }
 
 - (void)stopLocalytics
 {
-#ifdef BIOC_ANALYTICS
+#ifdef BC_ANALYTICS
     [[LocalyticsSession shared] close];
     [[LocalyticsSession shared] upload];
 #endif
@@ -159,7 +206,7 @@
 
 - (void)resumeLocalytics
 {
-#ifdef BIOC_ANALYTICS
+#ifdef BC_ANALYTICS
     [[LocalyticsSession shared] resume];
     [[LocalyticsSession shared] upload];
 #endif

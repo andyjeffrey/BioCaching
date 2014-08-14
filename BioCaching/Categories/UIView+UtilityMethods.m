@@ -10,14 +10,14 @@
 
 @implementation UIView (UtilityMethods)
 
--(NSString *)debugDescription
+- (NSString *)debugDescription
 {
     NSString *debugString = [NSString stringWithFormat:@"%@ = %@", self, self.coords];
     
     return debugString;
 }
 
--(NSString *)coords
+- (NSString *)coords
 {
     NSString *coordsString = [NSString stringWithFormat:@"(%.f,%.f)->(%.f,%.f)", self.frame.origin.x, self.frame.origin.y, self.frame.origin.x + self.frame.size.width, self.frame.origin.y + self.frame.size.height];
 

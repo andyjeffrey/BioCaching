@@ -24,12 +24,10 @@
 +(UIColor*) kColorButtonBackground;
 +(UIColor*) kColorButtonBackgroundHighlight;
 +(UIColor*) kColorButtonLabel;
-+(UIColor*) kColorButtonLabelHighlight;
 
 +(UIColor*) kColorBCButtonBackground;
 +(UIColor*) kColorBCButtonBackgroundHighlight;
-+(UIColor*) kColorBCButtonLabel;
-    
+
 +(UIColor*) kColorINatGreen;
 +(UIColor*) kColorDarkGreen;
 +(UIColor*) kColorDarkRed;

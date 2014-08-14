@@ -26,8 +26,7 @@
     NSLog(@"GBIFCommunicator Request: %@", requestString);
     
     NSURL *url = [[NSURL alloc] initWithString:requestString];
-
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kDefaultInternetTimeout] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (connectionError) {
             [self.delegate GBIFCommunicatorFailedWithError:connectionError];
         } else {

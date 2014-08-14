@@ -51,6 +51,11 @@
     [self.tableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [BCLoggingHelper recordGoogleScreen:@"TripList"];
+}
+
 
 #pragma mark - Setup UI/Refresh Methods
 - (void)setupUI

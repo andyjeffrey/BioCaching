@@ -162,9 +162,13 @@
     if ([segue isKindOfClass:[SWRevealViewControllerSegue class]]) {
         SWRevealViewControllerSegue *swSegue = (SWRevealViewControllerSegue *)segue;
         
-        //Set PreviousVC To Automatically Return To When Sidebar Next Displayed
+        UINavigationController *prevNav = self.revealViewController.frontViewController.childViewControllers[0];
+        //If Going From Explore Screen to Settings Screen Save Reference To ExploreVC To Automatically Return When Sidebar Next Displayed
         if ([swSegue.identifier isEqualToString:@"OptionsVC"]) {
-            _previousVC = self.revealViewController.frontViewController;
+            UIViewController *exploreVC = [self.viewControllersCache objectForKey:@"ExploreVC"];
+            if ((exploreVC == self.revealViewController.frontViewController) || (exploreVC == self.revealViewController.frontViewController.childViewControllers[0])) {
+                _previousVC = exploreVC;
+            }
         }
         
         swSegue.performBlock = ^(SWRevealViewControllerSegue *rvc_segue, UIViewController *svc, UIViewController *dvc) {

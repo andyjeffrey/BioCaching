@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonSubTitle;
 @property (weak, nonatomic) IBOutlet UILabel *labelTaxonScientific;
 
-@property (weak, nonatomic) IBOutlet UIButton *buttonAction;
+@property (weak, nonatomic) IBOutlet BCButtonRounded *buttonAction;
 
 @property (weak, nonatomic) id<TaxonListCellDelegate> delegate;
 

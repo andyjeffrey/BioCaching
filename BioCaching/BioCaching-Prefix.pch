@@ -36,9 +36,11 @@
 #import "NSDictionary+Filtering.h"
 #import "NSDate+Formatting.h"
 #import "CLLocation+Formatting.h"
+#import "BCButton.h"
 
 #import "BCOptions.h"
 #import "BCAlerts.h"
+#import "BCLoggingHelper.h"
 #import "LoginManager.h"
 #import "ConnectionHelper.h"
 

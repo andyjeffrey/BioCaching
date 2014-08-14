@@ -8,6 +8,10 @@
 
 #import "LoginManager.h"
 
+@interface LoginManager()
+@property (nonatomic, readwrite) NSString *currentUserID;
+@end
+
 @implementation LoginManager {
     NSString *AccountType;
     NSString *INatAccessToken;
@@ -16,6 +20,8 @@
     NSString *_iNatAccessPassword;
     NSUserDefaults *_userDefaults;
 }
+@synthesize currentUserID;
+
 
 +(instancetype)sharedInstance
 {
@@ -42,7 +48,7 @@
     if (self) {
         _userDefaults = [NSUserDefaults standardUserDefaults];
         AccountType = kINatAuthService;
-        [self initOAuth2Service];
+        
     }
     return self;
 }
@@ -50,6 +56,7 @@
 - (BOOL)loggedIn
 {
     if ([_userDefaults objectForKey:kINatAuthTokenPrefKey]) {
+        self.currentUserID = [_userDefaults objectForKey:kINatAuthUserIDPrefKey];
         return YES;
     } else {
         return NO;
@@ -59,7 +66,7 @@
 - (void)configureOAuth2Client{
     NXOAuth2AccountStore *sharedStore = [NXOAuth2AccountStore sharedStore];
     for (NXOAuth2Account *account in [sharedStore accountsWithAccountType:kINatAuthService]) {
-        // Do something with the account
+        // Remove any existing accounts from the sharedStore
         [[NXOAuth2AccountStore sharedStore] removeAccount:account];
     };
     //
@@ -72,7 +79,7 @@
                                      forAccountType:kINatAuthService];
     
     for (NXOAuth2Account *account in [sharedStore accountsWithAccountType:kINatAuthServiceExtToken]) {
-        // Do something with the account
+        // Remove any existing accounts from the sharedStore
         [[NXOAuth2AccountStore sharedStore] removeAccount:account];
     };
     [[NXOAuth2AccountStore sharedStore] setClientID:kINatClientID
@@ -81,6 +88,8 @@
                                            tokenURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/oauth/assertion_token.json", kINatBaseURL]]
                                         redirectURL:[NSURL URLWithString:@"urn:ietf:wg:oauth:2.0:oob"]
                                      forAccountType:kINatAuthServiceExtToken];
+
+    [self initOAuth2Service];
 }
 
 - (void)loginToINat:(NSString *)iNatUsername password:(NSString *)iNatPassword
@@ -101,6 +110,7 @@
     [_userDefaults removeObjectForKey:kINatAuthUserIDPrefKey];
     [_userDefaults removeObjectForKey:kINatAuthTokenPrefKey];
     [_userDefaults synchronize];
+    self.currentUserID = nil;
     [[RKObjectManager sharedManager].HTTPClient setDefaultHeader:@"Authorization" value:nil];
     [self.delegate logoutCompleted];
     
@@ -179,11 +189,14 @@
             NSLog(@"Login Success, Response: %@", responseObject);
             [_userDefaults setValue:[responseObject valueForKey:@"id"] forKey:kINatAuthUserIDPrefKey];
             [_userDefaults synchronize];
+            self.currentUserID = [_userDefaults objectForKey:kINatAuthUserIDPrefKey];
             [self.delegate loginSuccess];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Login Error, Response: %@", error);
             [_userDefaults setValue:nil forKey:kINatAuthUserIDPrefKey];
             [_userDefaults setValue:nil forKey:kINatAuthTokenPrefKey];
+            [_userDefaults synchronize];
+            self.currentUserID = nil;
             [self.delegate loginFailure];
         }];
     }
@@ -197,5 +210,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NXOAuth2AccountStoreAccountsDidChangeNotification object:[NXOAuth2AccountStore sharedStore]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NXOAuth2AccountStoreDidFailToRequestAccessNotification object:[NXOAuth2AccountStore sharedStore]];
 }
+
+
 
 @end

@@ -35,12 +35,14 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 @property (weak, nonatomic) IBOutlet UIView *viewMapAnnotationRefFrame;
 
 @property (weak, nonatomic) IBOutlet UIView *viewTopBar;
-@property (weak, nonatomic) IBOutlet UIButton *buttonSidebar;
+@property (weak, nonatomic) IBOutlet BCButton *buttonSidebar;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityViewLocationSearch;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocationDetails;
 @property (weak, nonatomic) IBOutlet UIButton *buttonLocationList;
 @property (weak, nonatomic) IBOutlet UIView *viewDropDownRef;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRefreshSearch;
+@property (weak, nonatomic) IBOutlet UIImageView *imageRefreshSearchButton;
+
 
 @property (weak, nonatomic) IBOutlet UIView *viewSearchResults;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
@@ -67,7 +69,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 @property (weak, nonatomic) IBOutlet UIView *viewTaxonInfo;
 
-//@property (nonatomic, strong) UIView *viewBackgroundControls;
+typedef void (^AnimationBlock)();
 
 @end
 
@@ -83,6 +85,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     BOOL _mapViewLoaded;
     BOOL _updateMapView;
     BOOL _searchInProgress;
+
     CLLocation *_currentUserLocation;
     CLLocationCoordinate2D _currentViewCoordinate;
     
@@ -115,6 +118,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     
     NSLog(@"CurrentLocation: %@", self.mapView.userLocation.location);
     if (!self.mapView.userLocation.location) {
+        self.labelLocationDetails.font = [UIFont italicSystemFontOfSize:self.labelLocationDetails.font.pointSize];
         self.labelLocationDetails.text = @"Searching For Location...";
         [self.activityViewLocationSearch startAnimating];
     }
@@ -154,19 +158,27 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [BCLoggingHelper recordGoogleScreen:@"ExploreMap"];
+    
     if (_currentTrip && _updateMapView) {
         // Update Add Trip Occurrence Annotations
         [self updateOccurrenceAnnotations:_currentTrip.occurrenceRecords];
+
         // Update Trip Search Area Overlay
         [self updateSearchAreaOverlay:_currentTrip.locationCoordinate areaSpan:_currentTrip.searchAreaSpan.doubleValue];
-        // Move/Zoom Map To Trip Search Area
-        [self updateCurrentMapView:_currentTrip.locationCoordinate latitudinalMeters:0 longitudinalMeters:_currentTrip.searchAreaSpan.doubleValue];
+
+        // Update Track Overlay And Stop/Resume Recording If Necessary
+        [self updateLocationTrackOverlay:_currentTrip];
         if ((_currentTrip.statusValue == TripStatusInProgress) && _bcOptions.displayOptions.trackLocation) {
             [BCLocationManager startRecordingTrack];
         } else {
             [BCLocationManager stopRecordingTrack];
         }
+
+        // Move/Zoom Map To Trip Search Area
+        [self updateCurrentMapView:_currentTrip.locationCoordinate latitudinalMeters:0 longitudinalMeters:_currentTrip.searchAreaSpan.doubleValue];
+
         _updateMapView = NO;
     }
     [self configureLocationDropDown];
@@ -186,7 +198,6 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 #pragma mark Sidebar Methods
 - (void)setupSidebar
 {
-    //    self.buttonSidebar.alpha = 1.0f;
     [self.buttonSidebar setBackgroundImage:
      [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     
@@ -208,6 +219,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     [self.buttonRefreshSearch setBackgroundImage:
      [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
 //    self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackground];
+    [self.imageRefreshSearchButton setImage:[IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)]];
     
 //    self.buttonLocationList.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     self.labelLocationDetails.textColor = [UIColor kColorButtonLabel];
@@ -216,7 +228,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
      [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor whiteColor] iconSize:28.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
     
     [self.buttonCurrentLocation setBackgroundImage:
-     [IonIcons imageWithIcon:icon_navigate iconColor:[UIColor whiteColor] iconSize:20.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
+     [IonIcons imageWithIcon:icon_navigate iconColor:[UIColor whiteColor] iconSize:16.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
 //    self.buttonCurrentLocation.hidden = YES;
     
     [self resetTripButtons];
@@ -271,9 +283,11 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)resetTripButtons
 {
-    self.labelButtonStart.text = @"Save";
+    self.labelButtonSave.textColor = [UIColor kColorButtonLabel];
+    self.labelButtonSave.font = [UIFont systemFontOfSize:20];
+    self.labelButtonSave.text = @"Save";
     self.imageButtonSave.image =
-    [IonIcons imageWithIcon:icon_archive iconColor:[UIColor kColorBCButtonLabel] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+    [IonIcons imageWithIcon:icon_archive iconColor:[UIColor kColorButtonLabel] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
     //    [self.buttonSave setBackgroundImage:[UIImage imageWithColor:[UIColor redColor]] forState:UIControlStateHighlighted];
     self.viewButtonSave.hidden = YES;
     
@@ -351,6 +365,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)updateLocationLabel:(CLLocationCoordinate2D)location horizAccuracy:(double)accuracy {
     //    self.labelLocationDetails.text = [NSString stringWithFormat:@"Lat: %f Long: %f Acc: %.1fm",
+    self.labelLocationDetails.font = [UIFont systemFontOfSize:self.labelLocationDetails.font.pointSize];
     self.labelLocationDetails.text = [CLLocation latLongStringFromCoordinate:location];
 }
 
@@ -418,6 +433,26 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     // Circle area overlay
     _currentSearchAreaCircle = [MKCircle circleWithCenterCoordinate:location radius:longSpan];
     [self.mapView addOverlay:_currentSearchAreaCircle];
+}
+
+- (void)updateLocationTrackOverlay:(INatTrip *)trip
+{
+    if (_currentLocationTrack) {
+        [self.mapView removeOverlay:_currentLocationTrack];
+        _currentLocationTrack = nil;
+    }
+    
+    if (trip.locationTrack) {
+        CLLocationCoordinate2D *coordArray = malloc(sizeof(CLLocationCoordinate2D) * trip.locationTrack.count);
+        
+        for (int i=0; i < trip.locationTrack.count; i++) {
+            CLLocation *location = [trip.locationTrack objectAtIndex:i];
+            coordArray[i] = location.coordinate;
+        }
+        _currentLocationTrack = [MKPolyline polylineWithCoordinates:coordArray count:trip.locationTrack.count];
+        
+        [self.mapView addOverlay:_currentLocationTrack];
+    }
 }
 
 
@@ -546,18 +581,27 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (IBAction)buttonStart:(id)sender {
     if (!_currentTrip) {
+        if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_bcOptions.searchOptions.searchAreaCentre areaSpan:[NSNumber numberWithUnsignedInteger:_bcOptions.searchOptions.searchAreaSpan*2]]) {
+            //TODO:return if outside search area?
+        }
         _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusInProgress];
         _currentTrip.startTime = [NSDate date];
+        [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Started"];
     } else {
         if (_currentTrip.status.intValue <= TripStatusSaved) {
+            if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_currentTrip.locationCoordinate areaSpan:[NSNumber numberWithInt:_currentTrip.searchAreaSpan.intValue*2]]) {
+                //TODO:return if outside search area?
+            }
             if (_currentTrip.status.intValue == TripStatusCreated) {
                 [self displayTripNameDialog];
             }
             _currentTrip.status = [NSNumber numberWithInt:TripStatusInProgress];
             _currentTrip.startTime = [NSDate date];
+            [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Started"];
         } else if (_currentTrip.status.intValue == TripStatusInProgress){
             _currentTrip.status = [NSNumber numberWithInt:TripStatusFinished];
             _currentTrip.stopTime = [NSDate date];
+            [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Finished"];
             
 #ifdef DEBUG
             _currentTrip.stopTime = [_currentTrip.startTime dateByAddingTimeInterval:kDefaultTripDuration];
@@ -580,6 +624,18 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     
     [self updateButtons];
 }
+
+- (BOOL)checkUserLocationInsideArea:(CLLocation *)userLocation areaCenter:(CLLocationCoordinate2D)center areaSpan:(NSNumber *)span
+{
+    CLLocationDistance distance = [userLocation distanceFromLocation:[CLLocation initWithCoordinate:center]];
+    if (!userLocation || distance > (span.intValue/2)) {
+        [BCAlerts displayDefaultInfoAlert:@"Location Warning!" message:@"Your Current Location Is Outside\nThe Search Area\n\nPrevent Starting Of Trip?"];
+        return FALSE;
+    } else {
+        return TRUE;
+    }
+}
+
 
 - (IBAction)buttonSave:(id)sender {
     if (!_currentTrip) {
@@ -614,6 +670,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 - (void)performSearch
 {
     _searchInProgress = YES;
+    [self startSpin];
     
     // Use current view region for searchAreaSpan
     if (_currentTrip) {
@@ -886,6 +943,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
     _occurrenceResults = occurrenceResults;
     
+    _searchInProgress = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateSearchResultsView];
 //        [self updateRecordCountLabel];
@@ -918,20 +976,7 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 
 - (void)locationTrackUpdated:(INatTrip *)trip
 {
-    if (_currentLocationTrack) {
-        [self.mapView removeOverlay:_currentLocationTrack];
-        _currentLocationTrack = nil;
-    }
-    
-    CLLocationCoordinate2D *coordArray = malloc(sizeof(CLLocationCoordinate2D) * trip.locationTrack.count);
-    
-    for (int i=0; i < trip.locationTrack.count; i++) {
-        CLLocation *location = [trip.locationTrack objectAtIndex:i];
-        coordArray[i] = location.coordinate;
-    }
-    _currentLocationTrack = [MKPolyline polylineWithCoordinates:coordArray count:trip.locationTrack.count];
-    
-    [self.mapView addOverlay:_currentLocationTrack];
+    [self updateLocationTrackOverlay:trip];
 }
 
 
@@ -978,5 +1023,31 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
     return [[MapViewLayoutGuide alloc]initWithLength:20];
 }
 
+
+- (void) spinWithOptions: (UIViewAnimationOptions) options {
+    [UIView animateWithDuration: 0.25f
+                          delay: 0.0f
+                        options: options
+                     animations: ^{
+                         [self.imageRefreshSearchButton setTransform:CGAffineTransformRotate(self.imageRefreshSearchButton.transform, M_PI / 2)];
+                     }
+                     completion: ^(BOOL finished) {
+                         if (finished) {
+                             if (_searchInProgress) {
+                                 // if flag still set, keep spinning with constant speed
+                                 [self spinWithOptions: UIViewAnimationOptionCurveLinear];
+                             } else {
+                                 self.imageRefreshSearchButton.hidden = YES;
+                                 self.buttonRefreshSearch.hidden = NO;
+                             }
+                         }
+                     }];
+}
+
+- (void) startSpin {
+    self.buttonRefreshSearch.hidden = YES;
+    self.imageRefreshSearchButton.hidden = NO;
+    [self spinWithOptions: UIViewAnimationOptionCurveEaseIn];
+}
 
 @end

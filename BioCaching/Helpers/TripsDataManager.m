@@ -256,6 +256,11 @@ static NSSortDescriptor *defaultSortDesc;
     trip.uploading = NO;
     [_uploadQueue removeObject:trip];
     [self.delegate finishedUpload:trip success:success];
+    if (success) {
+        [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Published" value:trip.recordId];
+    } else {
+        [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Upload Failure"];
+    }
 }
 
 - (void)uploadNextTripInQueue
@@ -267,6 +272,7 @@ static NSSortDescriptor *defaultSortDesc;
     INatTrip *trip = _uploadQueue[0];
     trip.uploading = YES;
     [self.delegate startedUpload:trip];
+    [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Upload" value:[NSNumber numberWithUnsignedInteger:trip.observations.count]];
     
     // Update Queue Arrays
     _observationsQueue = [[NSMutableArray alloc] init];

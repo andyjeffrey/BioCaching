@@ -67,6 +67,7 @@
     }
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [BCLoggingHelper recordGoogleEvent:@"GBIF" action:@"OccurrenceSearchRequest"];
     [_gbifManager fetchOccurrencesWithOptions:bcOptions.searchOptions];
 }
 
@@ -82,6 +83,7 @@
 - (void)didReceiveOccurences:(GBIFOccurrenceResults *)occurrenceResults
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [BCLoggingHelper recordGoogleEvent:@"GBIF" action:@"OccurrenceSearchResponse" value:[NSNumber numberWithUnsignedInteger:occurrenceResults.filteredResults.count]];
     
     NSLog(@"%s Results.count: %lu", __PRETTY_FUNCTION__, (unsigned long)occurrenceResults.Results.count);
 

@@ -60,6 +60,8 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [BCLoggingHelper recordGoogleScreen:@"ExploreList"];
+
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
@@ -172,11 +174,16 @@
             if (!occurrence.taxaAttribute.observation) {
                 [cell.buttonAction setTitle:@"Record" forState:UIControlStateNormal];
                 cell.buttonAction.backgroundColor = [UIColor kColorDarkGreen];
+                if (_currentTrip.statusValue < TripStatusFinished) {
+                    cell.buttonAction.hidden = self.tableView.editing;
+                } else {
+                    cell.buttonAction.hidden = YES;
+                }
             } else {
                 [cell.buttonAction setTitle:@"Edit" forState:UIControlStateNormal];
                 cell.buttonAction.backgroundColor = [UIColor orangeColor];
+                cell.buttonAction.hidden = self.tableView.editing;
             }
-            cell.buttonAction.hidden = self.tableView.editing;
         } else {
             if (!occurrence.taxaAttribute.observation) {
                 cell.buttonAction.hidden = YES;

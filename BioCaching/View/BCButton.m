@@ -16,22 +16,44 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.backgroundColor = [UIColor kColorBCButtonBackground];
-        
-        // Initialization code
+        self.backgroundColor = [UIColor kColorButtonBackground];
+        [self setTransparency];
     }
     return self;
 }
 
-- (void) setHighlighted:(BOOL)highlighted {
+- (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     
     if (highlighted) {
-        self.backgroundColor = [UIColor kColorBCButtonBackgroundHighlight];
+        self.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+        [self setTransparency];
     }
     else {
-        self.backgroundColor = [UIColor kColorBCButtonBackground];
+        self.backgroundColor = [UIColor kColorButtonBackground];
+        [self setTransparency];
     }
+}
+
+- (void)setTransparency {
+    if (self.semiTransparent) {
+        self.alpha = 0.8f;
+    }
+}
+
+@end
+
+
+@implementation BCButtonRounded
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        self.layer.cornerRadius = 5;
+        self.clipsToBounds = YES;
+    }
+    return self;
 }
 
 @end

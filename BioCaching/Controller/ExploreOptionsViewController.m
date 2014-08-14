@@ -11,6 +11,7 @@
 #import "OptionsRecordSource.h"
 #import "OptionsSpeciesFilter.h"
 
+#import "BCDatabaseHelper.h"
 #import "TripsDataManager.h"
 #import "BCLocationManager.h"
 
@@ -49,9 +50,19 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelMemCacheCurr;
 @property (weak, nonatomic) IBOutlet UILabel *labelDiskCacheCap;
 @property (weak, nonatomic) IBOutlet UILabel *labelDiskCacheCurr;
+- (IBAction)buttonClearCaches:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UILabel *labelDatabaseOccurrences;
+@property (weak, nonatomic) IBOutlet UILabel *labelDatabaseTaxa;
+@property (weak, nonatomic) IBOutlet UILabel *labelDatabaseObservations;
+@property (weak, nonatomic) IBOutlet UILabel *labelDatabaseTrips;
+
+- (IBAction)buttonClearDatabase:(id)sender;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonCancel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonSave;
+
+@property (weak, nonatomic) IBOutlet UIButton *buttonDebugTest;
+- (IBAction)buttonActionDebugTest:(id)sender;
 
 - (IBAction)buttonActionCancel:(id)sender;
 - (IBAction)buttonActionSave:(id)sender;
@@ -102,6 +113,7 @@
     [self initiateSwitches];
     [self updateLabels];
     [self updateCacheLabels];
+    [self updateDatabaseLabels];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -217,7 +229,18 @@
     self.labelMemCacheCurr.text = [NSByteCountFormatter stringFromByteCount:urlCache.currentMemoryUsage countStyle:NSByteCountFormatterCountStyleMemory];
     self.labelDiskCacheCap.text = [NSByteCountFormatter stringFromByteCount:urlCache.diskCapacity countStyle:NSByteCountFormatterCountStyleFile];
     self.labelDiskCacheCurr.text = [NSByteCountFormatter stringFromByteCount:urlCache.currentDiskUsage countStyle:NSByteCountFormatterCountStyleFile];
-                            
+}
+
+- (void)updateDatabaseLabels
+{
+#ifdef DEBUG
+    self.buttonDebugTest.hidden = NO;
+#endif
+    
+    self.labelDatabaseOccurrences.text = [NSString stringWithFormat:@"%d", (int)[BCDatabaseHelper rowCountForEntity:[OccurrenceRecord entityName]]];
+    self.labelDatabaseTaxa.text = [NSString stringWithFormat:@"%d", (int)[BCDatabaseHelper rowCountForEntity:[INatTaxon entityName]]];
+    self.labelDatabaseObservations.text = [NSString stringWithFormat:@"%d", (int)[BCDatabaseHelper rowCountForEntity:[INatObservation entityName]]];
+    self.labelDatabaseTrips.text = [NSString stringWithFormat:@"%d", (int)[BCDatabaseHelper rowCountForEntity:[INatTrip entityName]]];
 }
 
 #pragma mark IBActions
@@ -375,5 +398,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (IBAction)buttonClearDatabase:(id)sender {
+}
+
+- (IBAction)buttonActionDebugTest:(id)sender {
+    [NSException raise:NSInternalInconsistencyException format:@"Test Exception Thrown From %@", self.description];
+}
+
 
 @end

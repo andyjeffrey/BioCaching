@@ -18,16 +18,13 @@
     return [UIColor lightGrayColor];
 }
 
-
 +(UIColor*) kColorHeaderBackground {
     return [UIColor darkGrayColor];
-    
 }
 
 +(UIColor*) kColorHeaderText {
     return [UIColor whiteColor];
 }
-
 
 +(UIColor*) kColorTableBackgroundColor {
     return [UIColor colorWithWhite:0.2f alpha:1.0f];
@@ -50,24 +47,10 @@
     return [UIColor darkGrayColor];
 }
 +(UIColor*) kColorButtonBackgroundHighlight {
-    return [UIColor colorWithWhite:0.3f alpha:1.0];
-}
-
-+(UIColor*) kColorButtonLabel {
-    return [UIColor whiteColor];
-}
-+(UIColor*) kColorButtonLabelHighlight {
-    return [UIColor kColorINatGreen];
-}
-
-+(UIColor*) kColorBCButtonBackground {
-    return [UIColor colorWithWhite:0.3f alpha:1.0];
-}
-+(UIColor*) kColorBCButtonBackgroundHighlight {
     return [UIColor colorWithWhite:0.2f alpha:1.0];
 }
-+(UIColor*) kColorBCButtonLabel {
-    return [UIColor lightGrayColor];
++(UIColor*) kColorButtonLabel {
+    return [UIColor whiteColor];
 }
 
 

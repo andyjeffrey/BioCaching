@@ -55,6 +55,11 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [BCLoggingHelper recordGoogleScreen:@"GBIFOccurrence"];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = YES;

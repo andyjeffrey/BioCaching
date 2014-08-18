@@ -14,6 +14,9 @@ PODS:
   - HexColors (2.2.1)
   - ISO8601DateFormatterValueTransformer (0.6.0):
     - RKValueTransformers (~> 1.1.0)
+  - Nimbus/Core (1.2.0)
+  - Nimbus/WebController (1.2.0):
+    - Nimbus/Core
   - NXOAuth2Client (1.2.6)
   - RestKit (0.23.2):
     - RestKit/Core
@@ -42,6 +45,7 @@ PODS:
 
 DEPENDENCIES:
   - DTCoreText
+  - Nimbus/WebController
   - NXOAuth2Client (~> 1.2.2)
   - RestKit (~> 0.23.1)
   - TSMessages
@@ -52,6 +56,7 @@ SPEC CHECKSUMS:
   DTFoundation: 126729614911ae7dbab3dcc1c078f189943bee66
   HexColors: 01384d2bbe8dc4ffa43c3b4135db6e976952d153
   ISO8601DateFormatterValueTransformer: a705384ea6531255258e25b6480ba1180db703a0
+  Nimbus: 14fd6f034c5f53d3dccef6cfd5763959497289a9
   NXOAuth2Client: f9a3efde1cce92c92fd1518070caf305bd363ef4
   RestKit: dd01867ddb4098e7cfd26125515a9b03b2accadf
   RKValueTransformers: b705e7b4651b9206b94600408462b74554bba969

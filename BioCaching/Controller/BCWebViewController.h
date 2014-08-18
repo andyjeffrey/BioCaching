@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 MPApps.net. All rights reserved.
 //
 
-//#import "NIWebController.h"
+#import <NIWebController.h>
 
-@interface BCWebViewController : UIViewController
+@interface BCWebViewController : NIWebController
 
-- (id)initWithURL:(NSURL *)url;
+- (id)initWithURL:(NSURL *)url fixedTitle:(NSString *)fixedTitle;
 
 @end

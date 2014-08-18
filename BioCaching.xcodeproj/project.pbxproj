@@ -13,8 +13,8 @@
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
 		A1464512195074F4005C1107 /* ObservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1464511195074F4005C1107 /* ObservationViewController.m */; };
 		A14D5E43199C2E3A00454D6A /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E42199C2E3A00454D6A /* libGoogleAnalyticsServices.a */; };
-		A14D5E46199CC24400454D6A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E45199CC24400454D6A /* Crashlytics.framework */; };
 		A14D5E4D199CECBE00454D6A /* BCLoggingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A14D5E4C199CECBE00454D6A /* BCLoggingHelper.m */; };
+		A14D5E6019A2430000454D6A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E5F19A2430000454D6A /* Crashlytics.framework */; };
 		A15346E21962D53600E1C63F /* IonIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = A15346971962D53600E1C63F /* IonIcons.m */; };
 		A15346E31962D53600E1C63F /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A15346981962D53600E1C63F /* ionicons.ttf */; };
 		A15346E41962D53600E1C63F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A15346991962D53600E1C63F /* LICENSE */; };
@@ -135,10 +135,10 @@
 		A1464510195074F4005C1107 /* ObservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationViewController.h; sourceTree = "<group>"; };
 		A1464511195074F4005C1107 /* ObservationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationViewController.m; sourceTree = "<group>"; };
 		A14D5E42199C2E3A00454D6A /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
-		A14D5E45199CC24400454D6A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		A14D5E49199CCDCE00454D6A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		A14D5E4B199CECBE00454D6A /* BCLoggingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLoggingHelper.h; sourceTree = "<group>"; };
 		A14D5E4C199CECBE00454D6A /* BCLoggingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLoggingHelper.m; sourceTree = "<group>"; };
+		A14D5E5F19A2430000454D6A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		A15346951962D53600E1C63F /* ionicons-codes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ionicons-codes.h"; sourceTree = "<group>"; };
 		A15346961962D53600E1C63F /* IonIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IonIcons.h; sourceTree = "<group>"; };
 		A15346971962D53600E1C63F /* IonIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IonIcons.m; sourceTree = "<group>"; };
@@ -371,8 +371,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1727B2B198BF37800150952 /* libxml2.dylib in Frameworks */,
-				A14D5E46199CC24400454D6A /* Crashlytics.framework in Frameworks */,
 				A1D5DDE618C7BAB900FA005B /* libsqlite3.dylib in Frameworks */,
+				A14D5E6019A2430000454D6A /* Crashlytics.framework in Frameworks */,
 				A1D5DDE418C7BAA500FA005B /* libz.dylib in Frameworks */,
 				A14D5E43199C2E3A00454D6A /* libGoogleAnalyticsServices.a in Frameworks */,
 				A17BAE3C1961532B004B1C37 /* MapKit.framework in Frameworks */,
@@ -726,8 +726,8 @@
 		A1EA209118B4F7AB00200D50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A14D5E5F19A2430000454D6A /* Crashlytics.framework */,
 				A14D5E49199CCDCE00454D6A /* AdSupport.framework */,
-				A14D5E45199CC24400454D6A /* Crashlytics.framework */,
 				A1727B28198BF31100150952 /* CoreText.framework */,
 				A1727B25198BF2F800150952 /* ImageIO.framework */,
 				A1727B23198BF2E800150952 /* libxml2.dylib */,
@@ -893,7 +893,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run c05b717e0df5c913b6670ecc9ec422bf45ff6361 d0425b8fda7e8d1820d31bddaeca488f55ed41e3dcbc30503b2da67c8a320b24";
+			shellScript = "./Crashlytics.framework/run c05b717e0df5c913b6670ecc9ec422bf45ff6361 d0425b8fda7e8d1820d31bddaeca488f55ed41e3dcbc30503b2da67c8a320b24\n";
 		};
 		AE1D03355F574D8CAE6E59C9 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

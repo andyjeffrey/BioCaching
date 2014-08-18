@@ -20,6 +20,8 @@
 {
     [self initLocalVariables];
     [self clearUserDefaultsIfReq];
+    
+    [self configureAppearanceSettings];
 
 //    [BCLoggingHelper configureFlurryAnalytics];
 //    [BCLoggingHelper startLocalytics];
@@ -115,6 +117,13 @@
     }
     [[NSUserDefaults standardUserDefaults] setObject:currVersion forKey:kLastVersionPrefKey];
 }
+
+- (void)configureAppearanceSettings
+{
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor kColorTableBackgroundColor]];
+//    [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
+}
+
 
 - (void)configureRestKitDebugging
 {

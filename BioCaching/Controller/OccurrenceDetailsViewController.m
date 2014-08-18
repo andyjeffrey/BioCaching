@@ -34,7 +34,11 @@
 {
     [super viewDidLoad];
 
+    self.view.backgroundColor = [UIColor kColorTableBackgroundColor];
     self.navigationItem.title = @"Occurrence Details";
+    self.navigationController.navigationBar.barTintColor = [UIColor kColorHeaderBackground];
+    self.navigationController.navigationBar.tintColor = [UIColor kColorHeaderText];
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor kColorHeaderText], UITextAttributeTextColor, nil];
     
     self.textViewDescription.hidden = YES;
     self.textViewDescription.text = self.occurrence.iNatTaxon.summaryText;
@@ -73,8 +77,7 @@
                            [self.occurrence.taxonSpecies stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSLog(@"Loading URL:%@", biblioURL);
     
-    BCWebViewController *webController = [[BCWebViewController alloc] initWithURL:[NSURL URLWithString:biblioURL]];
-//    [webController setToolbarTintColor:[UIColor blackColor]];
+    BCWebViewController *webController = [[BCWebViewController alloc] initWithURL:[NSURL URLWithString:biblioURL] fixedTitle:@"Species Bibliograpy"];
     [self.navigationController pushViewController:webController animated:YES];
 }
 

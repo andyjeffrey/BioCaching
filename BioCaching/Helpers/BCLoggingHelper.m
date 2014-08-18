@@ -7,8 +7,8 @@
 //
 
 #import "BCLoggingHelper.h"
-#import "Flurry.h"
-#import "LocalyticsSession.h"
+//#import "Flurry.h"
+//#import "LocalyticsSession.h"
 #import <Crashlytics/Crashlytics.h>
 #import "GAI.h"
 #import "GAIFields.h"
@@ -57,6 +57,17 @@
 #endif
 }
 
++ (void)stopAnalyticsIfRequired
+{
+//    [self stopLocalytics];
+}
++ (void)resumeAnalyticsIfRequired
+{
+//    [self resumeLocalytics];
+}
+
+
+/*
 + (void)configureFlurryAnalytics
 {
 #ifdef BC_ANALYTICS
@@ -97,7 +108,7 @@
     //    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     //#endif
 }
-
+*/
 
 + (void)configureCrashlytics
 {

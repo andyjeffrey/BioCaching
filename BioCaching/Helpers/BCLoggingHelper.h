@@ -10,13 +10,14 @@
 
 @interface BCLoggingHelper : NSObject
 
+/*
 + (void)configureFlurryAnalytics;
-
 + (void)startLocalytics;
-+ (void)stopLocalytics;
-+ (void)resumeLocalytics;
-
 + (void)configureParse:(NSDictionary *)launchOptions;
+*/
+
++ (void)stopAnalyticsIfRequired;
++ (void)resumeAnalyticsIfRequired;
 
 + (void)configureCrashlytics;
 

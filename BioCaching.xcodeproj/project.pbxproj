@@ -15,10 +15,6 @@
 		A14D5E43199C2E3A00454D6A /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E42199C2E3A00454D6A /* libGoogleAnalyticsServices.a */; };
 		A14D5E46199CC24400454D6A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E45199CC24400454D6A /* Crashlytics.framework */; };
 		A14D5E4D199CECBE00454D6A /* BCLoggingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A14D5E4C199CECBE00454D6A /* BCLoggingHelper.m */; };
-		A14D5E5719A2235100454D6A /* libFlurry_4.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E5019A2235000454D6A /* libFlurry_4.3.2.a */; };
-		A14D5E5819A2235100454D6A /* iOSa_2.23.0.version in Resources */ = {isa = PBXBuildFile; fileRef = A14D5E5219A2235000454D6A /* iOSa_2.23.0.version */; };
-		A14D5E5919A2235100454D6A /* libLocalyticsAMP_x64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E5319A2235100454D6A /* libLocalyticsAMP_x64.a */; };
-		A14D5E5A19A2235100454D6A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A14D5E5419A2235100454D6A /* LICENSE */; };
 		A15346E21962D53600E1C63F /* IonIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = A15346971962D53600E1C63F /* IonIcons.m */; };
 		A15346E31962D53600E1C63F /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A15346981962D53600E1C63F /* ionicons.ttf */; };
 		A15346E41962D53600E1C63F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A15346991962D53600E1C63F /* LICENSE */; };
@@ -143,13 +139,6 @@
 		A14D5E49199CCDCE00454D6A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		A14D5E4B199CECBE00454D6A /* BCLoggingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLoggingHelper.h; sourceTree = "<group>"; };
 		A14D5E4C199CECBE00454D6A /* BCLoggingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLoggingHelper.m; sourceTree = "<group>"; };
-		A14D5E4F19A2235000454D6A /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		A14D5E5019A2235000454D6A /* libFlurry_4.3.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.3.2.a; sourceTree = "<group>"; };
-		A14D5E5219A2235000454D6A /* iOSa_2.23.0.version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOSa_2.23.0.version; sourceTree = "<group>"; };
-		A14D5E5319A2235100454D6A /* libLocalyticsAMP_x64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLocalyticsAMP_x64.a; sourceTree = "<group>"; };
-		A14D5E5419A2235100454D6A /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		A14D5E5519A2235100454D6A /* LocalyticsAmpSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsAmpSession.h; sourceTree = "<group>"; };
-		A14D5E5619A2235100454D6A /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsSession.h; sourceTree = "<group>"; };
 		A15346951962D53600E1C63F /* ionicons-codes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ionicons-codes.h"; sourceTree = "<group>"; };
 		A15346961962D53600E1C63F /* IonIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IonIcons.h; sourceTree = "<group>"; };
 		A15346971962D53600E1C63F /* IonIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IonIcons.m; sourceTree = "<group>"; };
@@ -258,7 +247,6 @@
 		A1D5DDE318C7BAA500FA005B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A1D5DDE518C7BAB900FA005B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A1D5DDFE18C7CDC600FA005B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A1D9A13318E3696A006C1988 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		A1EA12C61926562A00449327 /* BCOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCOptions.h; sourceTree = "<group>"; };
 		A1EA12C71926562A00449327 /* BCOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCOptions.m; sourceTree = "<group>"; };
 		A1EA12C81926562A00449327 /* DisplayOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayOptions.h; sourceTree = "<group>"; };
@@ -389,46 +377,21 @@
 				A14D5E43199C2E3A00454D6A /* libGoogleAnalyticsServices.a in Frameworks */,
 				A17BAE3C1961532B004B1C37 /* MapKit.framework in Frameworks */,
 				A1EB226B1923961F005650D9 /* CoreData.framework in Frameworks */,
-				A14D5E5919A2235100454D6A /* libLocalyticsAMP_x64.a in Frameworks */,
 				A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */,
 				A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */,
 				A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */,
 				A1EA209718B4F7AB00200D50 /* UIKit.framework in Frameworks */,
 				A1EA209318B4F7AB00200D50 /* Foundation.framework in Frameworks */,
 				B338778CE5E9420C93C92294 /* libPods.a in Frameworks */,
-				A14D5E5719A2235100454D6A /* libFlurry_4.3.2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A14D5E4E19A2235000454D6A /* Flurry */ = {
-			isa = PBXGroup;
-			children = (
-				A14D5E4F19A2235000454D6A /* Flurry.h */,
-				A14D5E5019A2235000454D6A /* libFlurry_4.3.2.a */,
-			);
-			path = Flurry;
-			sourceTree = "<group>";
-		};
-		A14D5E5119A2235000454D6A /* Localytics */ = {
-			isa = PBXGroup;
-			children = (
-				A14D5E5219A2235000454D6A /* iOSa_2.23.0.version */,
-				A14D5E5319A2235100454D6A /* libLocalyticsAMP_x64.a */,
-				A14D5E5419A2235100454D6A /* LICENSE */,
-				A14D5E5519A2235100454D6A /* LocalyticsAmpSession.h */,
-				A14D5E5619A2235100454D6A /* LocalyticsSession.h */,
-			);
-			path = Localytics;
-			sourceTree = "<group>";
-		};
 		A15346901962D53600E1C63F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				A14D5E4E19A2235000454D6A /* Flurry */,
-				A14D5E5119A2235000454D6A /* Localytics */,
 				A1C124A7199BC4C50091E4C8 /* GoogleAnalytics */,
 				A1727B1E19869C8000150952 /* TDBadgedCell */,
 				A1C524551971B5510002686A /* Reachability */,
@@ -775,7 +738,6 @@
 				A153470B1964150D00E1C63F /* CFNetwork.framework */,
 				A1534709196414FA00E1C63F /* CoreLocation.framework */,
 				A1EB226A1923961F005650D9 /* CoreData.framework */,
-				A1D9A13318E3696A006C1988 /* Reveal.framework */,
 				A1D5DD9118C61D0F00FA005B /* Security.framework */,
 				A1D5DD8F18C61D0300FA005B /* SystemConfiguration.framework */,
 				A1EA20CE18B4F7ED00200D50 /* MapKit.framework */,
@@ -885,11 +847,9 @@
 			files = (
 				A1F2E12D190161110010B647 /* .gitignore in Resources */,
 				A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */,
-				A14D5E5819A2235100454D6A /* iOSa_2.23.0.version in Resources */,
 				A176288519471A6700DD69DB /* mogen_script.sh in Resources */,
 				A17628CC1947425000DD69DB /* TaskList.txt in Resources */,
 				A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */,
-				A14D5E5A19A2235100454D6A /* LICENSE in Resources */,
 				A1C52466197811B20002686A /* Finsbury Park4, London.gpx in Resources */,
 				A1C5244C197179D40002686A /* Images.xcassets in Resources */,
 				A15346E41962D53600E1C63F /* LICENSE in Resources */,

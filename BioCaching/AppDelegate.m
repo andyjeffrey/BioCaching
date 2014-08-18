@@ -21,9 +21,9 @@
     [self initLocalVariables];
     [self clearUserDefaultsIfReq];
 
-//    [BCLoggingHelper configureFlurryAnalytics];
-//    [BCLoggingHelper startLocalytics];
-//    [BCLoggingHelper configureParse:launchOptions];
+    [BCLoggingHelper configureFlurryAnalytics];
+    [BCLoggingHelper startLocalytics];
+    [BCLoggingHelper configureParse:launchOptions];
     [BCLoggingHelper configureGoogleAnalytics];
     [self configureRestKitDebugging];
     [self configureRestKit];

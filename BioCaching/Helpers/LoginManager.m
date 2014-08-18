@@ -190,6 +190,7 @@
             [_userDefaults setValue:[responseObject valueForKey:@"id"] forKey:kINatAuthUserIDPrefKey];
             [_userDefaults synchronize];
             self.currentUserID = [_userDefaults objectForKey:kINatAuthUserIDPrefKey];
+            [BCLoggingHelper recordGoogleEvent:@"INAT" action:@"LoginSuccess"];
             [self.delegate loginSuccess];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Login Error, Response: %@", error);
@@ -197,6 +198,7 @@
             [_userDefaults setValue:nil forKey:kINatAuthTokenPrefKey];
             [_userDefaults synchronize];
             self.currentUserID = nil;
+            [BCLoggingHelper recordGoogleEvent:@"INAT" action:@"LoginFailure" label:_iNatAccessUsername];
             [self.delegate loginFailure];
         }];
     }

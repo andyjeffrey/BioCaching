@@ -44,6 +44,7 @@
 //        [_staticArray addObject:@[@"Kruger NP, South Africa", @-23.853615, @31.532104]];
 //        [_staticArray addObject:@[@"Virunga NP, DRC", @0.094444, @29.499171]];
         [_staticArray addObject:@[@"Ngorongoro, Tanzania", @-2.983820, @35.388311, @8000, @25000]];
+        [_staticArray addObject:@[@"Clear Lake State Park, CA", @39.010850, @-122.812920, @200, @500]];
         
 //        [_optionsArray addObject:@[@"NAME", @LAT, @LONG]];
     });

@@ -8,11 +8,6 @@
 
 #import "AppDelegate.h"
 #import "BCLoggingHelper.h"
-#import <Crashlytics/Crashlytics.h>
-#import "Flurry.h"
-#import "LocalyticsSession.h"
-#import "GAI.h"
-
 
 @implementation AppDelegate {
     NSDecimalNumber *lastVersion;
@@ -26,14 +21,14 @@
     [self initLocalVariables];
     [self clearUserDefaultsIfReq];
 
-    [self configureDebugging];
-    [self configureFlurryAnalytics];
-    [self configureGoogleAnalytics];
-    [self startLocalytics];
-    //    [self configureParse:launchOptions];
+//    [BCLoggingHelper configureFlurryAnalytics];
+//    [BCLoggingHelper startLocalytics];
+//    [BCLoggingHelper configureParse:launchOptions];
+    [BCLoggingHelper configureGoogleAnalytics];
+    [self configureRestKitDebugging];
     [self configureRestKit];
     [[LoginManager sharedInstance] configureOAuth2Client];
-    [self configureCrashlytics];
+    [BCLoggingHelper configureCrashlytics];
 
     // Override point for customization after application launch.
     return YES;
@@ -44,7 +39,7 @@
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 
-    [self stopLocalytics];
+    [BCLoggingHelper stopLocalytics];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -52,21 +47,21 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    [self stopLocalytics];
+    [BCLoggingHelper stopLocalytics];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
-    [self resumeLocalytics];
+    [BCLoggingHelper resumeLocalytics];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    [self resumeLocalytics];
+    [BCLoggingHelper resumeLocalytics];
 
 }
 
@@ -74,7 +69,7 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
-    [self stopLocalytics];
+    [BCLoggingHelper stopLocalytics];
 }
 
 
@@ -122,7 +117,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:currVersion forKey:kLastVersionPrefKey];
 }
 
-- (void)configureDebugging
+- (void)configureRestKitDebugging
 {
 //    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
 //    RKLogConfigureByName("RestKit/Network/Core Data", RKLogLevelTrace);
@@ -131,86 +126,6 @@
 //    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelInfo);
 }
 
-- (void)configureFlurryAnalytics
-{
-#ifdef BC_ANALYTICS
-    if (kUseFlurryErrorLogging) {
-        [Flurry setCrashReportingEnabled:YES];
-    }
-    [Flurry startSession:kFlurryAPIKey];
-#endif
-}
-
-- (void)configureGoogleAnalytics
-{
-#ifdef BC_ANALYTICS
-    if (kUseGoogleErrorLogging) {
-        // Optional: automatically send uncaught exceptions to Google Analytics.
-        [[GAI sharedInstance] setTrackUncaughtExceptions:YES];
-    }
-    // Optional: set Google Analytics dispatch interval
-    [GAI sharedInstance].dispatchInterval = 60;
-    
-    // Optional: set Logger to VERBOSE for debug information.
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-
-    // Initialize tracker. Replace with your tracking ID.
-    [[GAI sharedInstance] trackerWithTrackingId:kGoogleTrackingID];
-
-#endif
-}
-
-- (void)configureCrashlytics
-{
-    if (kUseCrashlyticsLogging) {
-        [Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
-        [self addCrashlyticsUserIDObserver];
-        [[LoginManager sharedInstance] loggedIn];
-    }
-}
-
-- (void)addCrashlyticsUserIDObserver
-{
-    [[LoginManager sharedInstance] addObserver:self forKeyPath:@"currentUserID" options:NSKeyValueObservingOptionNew context:nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"currentUserID"]) {
-        [BCLoggingHelper updateCrashlyticsUserID];
-    }
-}
-
-
-- (void)configureParse:(NSDictionary *)launchOptions
-{
-//#ifdef BC_ANALYTICS
-//    [Parse setApplicationId:kParseAppId clientKey:kParseClientKey];
-//    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-//#endif
-}
-
-- (void)startLocalytics
-{
-#ifdef BC_ANALYTICS
-    [[LocalyticsSession shared] startSession:kLocalyticsAPIKey];
-#endif
-}
-
-- (void)stopLocalytics
-{
-#ifdef BC_ANALYTICS
-    [[LocalyticsSession shared] close];
-    [[LocalyticsSession shared] upload];
-#endif
-}
-
-- (void)resumeLocalytics
-{
-#ifdef BC_ANALYTICS
-    [[LocalyticsSession shared] resume];
-    [[LocalyticsSession shared] upload];
-#endif
-}
 
 - (void)configureRestKit
 {

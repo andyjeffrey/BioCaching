@@ -160,7 +160,6 @@ static NSSortDescriptor *defaultSortDesc;
     INatTrip *trip = [NSEntityDescription insertNewObjectForEntityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
     
     trip.status = [NSNumber numberWithInteger:TripStatusCreated];
-//    trip.title = [NSString stringWithFormat:@"Test Trip %d - %.3f,%.3f", (int)_privateTrips.count + 1, bcOptions.searchOptions.searchAreaCentre.latitude, bcOptions.searchOptions.searchAreaCentre.longitude];
     trip.title = [NSString stringWithFormat:@"Trip %d - %@", (int)_privateTrips.count + 1, bcOptions.searchOptions.searchLocationName];
     trip.localCreatedAt = [NSDate date];
     trip.latitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.latitude];
@@ -174,14 +173,15 @@ static NSSortDescriptor *defaultSortDesc;
     
     [_privateTrips addObject:trip];
     trip.removedRecords = [[NSMutableArray alloc] init];
-    
 
     self.currentTrip = trip;
     return trip;
 }
 
-- (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus
+- (INatTrip *)createTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus
 {
+    [NSException raise:NSInternalInconsistencyException format:@"TripsDataManager:createTripFromOccurrenceResults"];
+    
     NSError *error = nil;
     
     INatTrip *trip = [NSEntityDescription insertNewObjectForEntityForName:@"INatTrip" inManagedObjectContext:managedObjectContext];
@@ -257,9 +257,9 @@ static NSSortDescriptor *defaultSortDesc;
     [_uploadQueue removeObject:trip];
     [self.delegate finishedUpload:trip success:success];
     if (success) {
-        [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Published" value:trip.recordId];
+        [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:[NSString stringWithFormat:@"Published: %d", trip.recordId.intValue] value:[NSNumber numberWithInt:1]];
     } else {
-        [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Upload Failure"];
+        [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:[NSString stringWithFormat:@"Upload Failure: %d", trip.recordId.intValue] value:[NSNumber numberWithInt:0]];
     }
 }
 
@@ -272,7 +272,7 @@ static NSSortDescriptor *defaultSortDesc;
     INatTrip *trip = _uploadQueue[0];
     trip.uploading = YES;
     [self.delegate startedUpload:trip];
-    [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Upload" value:[NSNumber numberWithUnsignedInteger:trip.observations.count]];
+    [BCLoggingHelper recordGoogleEvent:@"INAT" action:@"Upload Request" value:[NSNumber numberWithUnsignedInteger:trip.observations.count]];
     
     // Update Queue Arrays
     _observationsQueue = [[NSMutableArray alloc] init];

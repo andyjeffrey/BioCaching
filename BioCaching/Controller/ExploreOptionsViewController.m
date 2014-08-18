@@ -283,6 +283,13 @@
     [self updateCacheLabels];
 }
 
+- (IBAction)buttonClearDatabase:(id)sender {
+}
+
+- (IBAction)buttonActionDebugTest:(id)sender {
+    [NSException raise:NSInternalInconsistencyException format:@"Test Exception Thrown From %@", self.description];
+}
+
 - (IBAction)buttonActionCancel:(id)sender {
     
     [self viewBackgroundControlsClick:nil];
@@ -398,13 +405,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-- (IBAction)buttonClearDatabase:(id)sender {
-}
-
-- (IBAction)buttonActionDebugTest:(id)sender {
-    [NSException raise:NSInternalInconsistencyException format:@"Test Exception Thrown From %@", self.description];
-}
-
 
 @end

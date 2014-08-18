@@ -33,7 +33,7 @@
 - (BOOL)saveChanges;
 - (void)rollbackChanges;
 
-- (INatTrip *)CreateTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus;
+- (INatTrip *)createTripFromOccurrenceResults:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions tripStatus:(INatTripStatus)tripStatus;
 - (INatTrip *)createNewTrip:(GBIFOccurrenceResults *)occurrenceResults bcOptions:(BCOptions *)bcOptions;
 - (NSString *)getDefaultNewTripName:(BCOptions *)bcOptions;
 

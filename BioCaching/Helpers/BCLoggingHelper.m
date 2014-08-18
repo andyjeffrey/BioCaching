@@ -7,17 +7,141 @@
 //
 
 #import "BCLoggingHelper.h"
+#import "Flurry.h"
+#import "LocalyticsSession.h"
 #import <Crashlytics/Crashlytics.h>
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 
+@interface BCLoggingHelper()
++(instancetype)sharedInstance;
+@end
+
 @implementation BCLoggingHelper
 
-+ (void)updateCrashlyticsUserID
++(instancetype)sharedInstance
 {
-    [Crashlytics setUserIdentifier:[LoginManager sharedInstance].currentUserID];
+    static dispatch_once_t once;
+    static BCLoggingHelper *instance;
+    dispatch_once(&once, ^{
+        instance = [[self alloc] initPrivate];
+    });
+    return instance;
+}
+
+
+- (instancetype)init
+{
+    @throw [NSException exceptionWithName:@"Singleton"
+                                   reason:@"Use +[BCLoggingHelper sharedInstance]"
+                                 userInfo:nil];
+    return nil;
+}
+
+- (instancetype)initPrivate
+{
+    self = [super init];
+    if (self) {
+        // Private Inititalisation
+    }
+    return self;
+}
+
++ (NSString *)getDebugLabel
+{
+#ifdef DEBUG
+    return ([NSString stringWithFormat:@"DEBUG%@", [LoginManager sharedInstance].currentUserID]);
+#else
+    return ([LoginManager sharedInstance].currentUserID);
+#endif
+}
+
++ (void)configureFlurryAnalytics
+{
+#ifdef BC_ANALYTICS
+    if (kUseFlurryErrorLogging) {
+        [Flurry setCrashReportingEnabled:YES];
+    }
+    [Flurry startSession:kFlurryAPIKey];
+#endif
+}
+
++ (void)startLocalytics
+{
+#ifdef BC_ANALYTICS
+    [[LocalyticsSession shared] startSession:kLocalyticsAPIKey];
+#endif
+}
+
++ (void)stopLocalytics
+{
+#ifdef BC_ANALYTICS
+    [[LocalyticsSession shared] close];
+    [[LocalyticsSession shared] upload];
+#endif
+}
+
++ (void)resumeLocalytics
+{
+#ifdef BC_ANALYTICS
+    [[LocalyticsSession shared] resume];
+    [[LocalyticsSession shared] upload];
+#endif
+}
+
++ (void)configureParse:(NSDictionary *)launchOptions
+{
+    //#ifdef BC_ANALYTICS
+    //    [Parse setApplicationId:kParseAppId clientKey:kParseClientKey];
+    //    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    //#endif
+}
+
+
++ (void)configureCrashlytics
+{
+    if (kUseCrashlyticsLogging) {
+        [Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
+        [self addCrashlyticsUserIDObserver];
+        [[LoginManager sharedInstance] loggedIn];
+    }
+}
+
++ (void)addCrashlyticsUserIDObserver
+{
+    [[LoginManager sharedInstance] addObserver:[BCLoggingHelper sharedInstance] forKeyPath:@"currentUserID" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"currentUserID"]) {
+        [self updateCrashlyticsUserID];
+    }
+}
+
+- (void)updateCrashlyticsUserID
+{
+    [Crashlytics setUserIdentifier:[BCLoggingHelper getDebugLabel]];
 //    [Crashlytics setUserName:[[NSUserDefaults standardUserDefaults] objectForKey:kINatAuthUsernamePrefKey]];
+}
+
++ (void)configureGoogleAnalytics
+{
+#ifdef BC_ANALYTICS
+    if (kUseGoogleErrorLogging) {
+        // Optional: automatically send uncaught exceptions to Google Analytics.
+        [[GAI sharedInstance] setTrackUncaughtExceptions:YES];
+    }
+    // Optional: set Google Analytics dispatch interval
+    [GAI sharedInstance].dispatchInterval = 60;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    
+    // Initialize tracker. Replace with your tracking ID.
+    [[GAI sharedInstance] trackerWithTrackingId:kGoogleTrackingID];
+    
+#endif
 }
 
 + (void)recordGoogleScreen:(NSString *)screenName
@@ -29,13 +153,26 @@
 
 + (void)recordGoogleEvent:(NSString *)category action:(NSString *)action
 {
-    [self recordGoogleEvent:category action:action value:nil];
+    [self recordGoogleEvent:category action:action label:nil value:nil];
+}
+
++ (void)recordGoogleEvent:(NSString *)category action:(NSString *)action label:(NSString *)label
+{
+    [self recordGoogleEvent:category action:action label:label value:nil];
 }
 
 + (void)recordGoogleEvent:(NSString *)category action:(NSString *)action value:(NSNumber *)value
 {
+    [self recordGoogleEvent:category action:action label:nil value:value];
+}
+
++ (void)recordGoogleEvent:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value
+{
+    if (!label) {
+        label = [self getDebugLabel];
+    }
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category action:action label:[LoginManager sharedInstance].currentUserID value:value] build]];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category action:action label:label value:value] build]];
 }
 
 
@@ -45,5 +182,7 @@
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker send:[[GAIDictionaryBuilder createTimingWithCategory:category interval:timeInterval name:name label:[LoginManager sharedInstance].currentUserID] build]];
 }
+
+
 
 @end

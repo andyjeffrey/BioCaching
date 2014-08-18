@@ -46,13 +46,13 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
             NSError *error = nil;
             
             RKLogInfo(@"Taxa Search Returned %d results", (int)mappingResult.array.count);
-            // INatTaxon MOs automatically created for all search results using RK, so remove all but first
+            // INatTaxon MOs automatically created for all search results using RestKit, so remove all but first
             INatTaxon *primaryTaxon = mappingResult.firstObject;
             for (INatTaxon *taxon in mappingResult.array) {
                 if (taxon == primaryTaxon) {
                     taxon.searchName = occurrence.speciesBinomial;
                     taxon.localCreatedAt = [NSDate date];
-                } else {
+                } else if (taxon) {
                     [managedObjectContext deleteObject:taxon];
                     NSLog(@"Taxon Object Deleted: \n%d-%@", (int)taxon.recordId, taxon.objectID);
                 }
@@ -60,11 +60,18 @@ static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
             if (![managedObjectContext saveToPersistentStore:&error]) {
                 RKLogError(@"Error Saving Changes To Store: %@", error);
             } else {
-                RKLogInfo(@"INatTaxon Entity Saved To Store: %@-%@", primaryTaxon.recordId, primaryTaxon.name);
+                if (primaryTaxon) {
+                    RKLogInfo(@"INatTaxon Entity Saved To Store: %@-%@", primaryTaxon.recordId, primaryTaxon.name);
+                    [BCLoggingHelper recordGoogleEvent:@"INAT" action:[NSString stringWithFormat:@"Taxon Received: %d (%d)", primaryTaxon.recordId.intValue, occurrence.SpeciesKey.intValue] value:[NSNumber numberWithInt:1]];
+                } else {
+                    [BCLoggingHelper recordGoogleEvent:@"INAT" action:[NSString stringWithFormat:@"Taxon Not Found: (%d)", occurrence.SpeciesKey.intValue] value:[NSNumber numberWithInt:0]];
+                    [BCLoggingHelper recordGoogleEvent:@"INAT" action:@"Taxon Not Found" value:occurrence.SpeciesKey];
+                }
                 [self addTaxonToOccurrenceAndCallDelegate:primaryTaxon occurrence:occurrence];
             }
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
             NSLog(@"Error Performing Taxa Search: %@", error);
+            [BCLoggingHelper recordGoogleEvent:@"INAT" action:[NSString stringWithFormat:@"Taxon Lookup Error: (%d)", occurrence.SpeciesKey.intValue] value:[NSNumber numberWithInt:0]];
         }];
     }
 }

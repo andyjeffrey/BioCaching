@@ -117,7 +117,7 @@
     if (_saveChanges) {
         [[TripsDataManager sharedInstance] saveChanges];
         if (_newObservation) {
-            [BCLoggingHelper recordGoogleEvent:@"Observation" action:@"Created" value:_observation.taxonId];
+            [BCLoggingHelper recordGoogleEvent:@"Observation" action:[NSString stringWithFormat:@"Created: %d",  _observation.taxonId.intValue]];
         }
     } else {
         // Rollback Context

@@ -584,7 +584,7 @@ typedef void (^AnimationBlock)();
         if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_bcOptions.searchOptions.searchAreaCentre areaSpan:[NSNumber numberWithUnsignedInteger:_bcOptions.searchOptions.searchAreaSpan*2]]) {
             //TODO:return if outside search area?
         }
-        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusInProgress];
+        _currentTrip = [[TripsDataManager sharedInstance] createTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusInProgress];
         _currentTrip.startTime = [NSDate date];
         [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Started"];
     } else {
@@ -639,7 +639,7 @@ typedef void (^AnimationBlock)();
 
 - (IBAction)buttonSave:(id)sender {
     if (!_currentTrip) {
-        _currentTrip = [[TripsDataManager sharedInstance] CreateTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusSaved];
+        _currentTrip = [[TripsDataManager sharedInstance] createTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusSaved];
     } else {
         _currentTrip.status = [NSNumber numberWithInteger:TripStatusSaved];
         [self displayTripNameDialog];
@@ -907,12 +907,11 @@ typedef void (^AnimationBlock)();
 - (void)newTripCreated:(INatTrip *)trip
 {
     _currentTrip = trip;
+    _searchInProgress = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateButtons];
         [self updateSearchResultsView];
-//        [self updateRecordCountLabel];
         [self zoomToSearchArea:nil];
-        _searchInProgress = NO;
     });
 }
 

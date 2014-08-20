@@ -8,6 +8,7 @@
 
 #import "TaxonInfoViewController.h"
 #import "OccurrenceDetailsViewController.h"
+#import "OccurrenceTableViewControler.h"
 #import "ObservationViewController.h"
 #import "ImageCache.h"
 #import "ExploreDataManager.h"
@@ -53,6 +54,16 @@
     if (self) {
         // Custom initialization
     }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    return self;
+}
+
+- (id)init {
+    self = [super init];
     return self;
 }
 
@@ -163,10 +174,13 @@
 }
 
 - (IBAction)viewOccurrenceDetails:(id)sender {
-    OccurrenceDetailsViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceDetails"];
-    detailsVC.occurrence = self.occurrence;
-
-    [self.navigationController pushViewController:detailsVC animated:YES];
+//    OccurrenceDetailsViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceDetails"];
+//    detailsVC.occurrence = self.occurrence;
+//    [self.navigationController pushViewController:detailsVC animated:YES];
+    
+    OccurrenceTableViewControler *occurrenceVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceVC"];
+    occurrenceVC.occurrence = self.occurrence;
+    [self.navigationController pushViewController:occurrenceVC animated:YES];
 }
 
 - (IBAction)buttonActionRecord:(id)sender {

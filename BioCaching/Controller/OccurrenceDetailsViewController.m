@@ -7,8 +7,8 @@
 //
 
 #import "OccurrenceDetailsViewController.h"
+#import "TaxonInfoViewController.h"
 #import "BCWebViewController.h"
-#import "INatTaxonPhoto.h"
 
 @interface OccurrenceDetailsViewController ()
 
@@ -27,7 +27,6 @@
 
 @implementation OccurrenceDetailsViewController {
     TaxonInfoViewController *_taxonInfoVC;
-    INatTaxonPhoto *iNatTaxonPhoto;
 }
 
 - (void)viewDidLoad

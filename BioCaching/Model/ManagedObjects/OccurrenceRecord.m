@@ -44,7 +44,7 @@
     return self.taxonSpecies;
 }
 - (NSString *)locationString {
-    return [NSString stringWithFormat:@"%.6f %.6f", self.latitude.doubleValue, self.longitude.doubleValue];
+    return [NSString stringWithFormat:@"%.6f, %.6f", self.latitude.doubleValue, self.longitude.doubleValue];
 }
 
 - (INatObservation *)observation {

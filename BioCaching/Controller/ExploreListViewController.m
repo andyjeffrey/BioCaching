@@ -8,6 +8,7 @@
 
 #import "ExploreListViewController.h"
 #import "OccurrenceDetailsViewController.h"
+#import "OccurrenceTableViewControler.h"
 #import "ObservationViewController.h"
 #import "ExploreDataManager.h"
 #import "TripsDataManager.h"
@@ -205,9 +206,13 @@
     OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
     NSLog(@"didSelectRowAtIndexPath: %lu - %@", indexPath.row, occurrence.title);
     
-    OccurrenceDetailsViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceDetails"];
-    detailsVC.occurrence = occurrence;
-    [self.navigationController pushViewController:detailsVC animated:YES];
+//    OccurrenceDetailsViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceDetails"];
+//    detailsVC.occurrence = occurrence;
+//    [self.navigationController pushViewController:detailsVC animated:YES];
+
+    OccurrenceTableViewControler *occurrenceVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceVC"];
+    occurrenceVC.occurrence = occurrence;
+    [self.navigationController pushViewController:occurrenceVC animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath

@@ -15,6 +15,7 @@
 		A14D5E43199C2E3A00454D6A /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E42199C2E3A00454D6A /* libGoogleAnalyticsServices.a */; };
 		A14D5E4D199CECBE00454D6A /* BCLoggingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A14D5E4C199CECBE00454D6A /* BCLoggingHelper.m */; };
 		A14D5E6019A2430000454D6A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A14D5E5F19A2430000454D6A /* Crashlytics.framework */; };
+		A14D5E6619A3962900454D6A /* OccurrenceTableViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = A14D5E6519A3962900454D6A /* OccurrenceTableViewControler.m */; };
 		A15346E21962D53600E1C63F /* IonIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = A15346971962D53600E1C63F /* IonIcons.m */; };
 		A15346E31962D53600E1C63F /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A15346981962D53600E1C63F /* ionicons.ttf */; };
 		A15346E41962D53600E1C63F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A15346991962D53600E1C63F /* LICENSE */; };
@@ -139,6 +140,8 @@
 		A14D5E4B199CECBE00454D6A /* BCLoggingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCLoggingHelper.h; sourceTree = "<group>"; };
 		A14D5E4C199CECBE00454D6A /* BCLoggingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCLoggingHelper.m; sourceTree = "<group>"; };
 		A14D5E5F19A2430000454D6A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		A14D5E6419A3962900454D6A /* OccurrenceTableViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OccurrenceTableViewControler.h; sourceTree = "<group>"; };
+		A14D5E6519A3962900454D6A /* OccurrenceTableViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OccurrenceTableViewControler.m; sourceTree = "<group>"; };
 		A15346951962D53600E1C63F /* ionicons-codes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ionicons-codes.h"; sourceTree = "<group>"; };
 		A15346961962D53600E1C63F /* IonIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IonIcons.h; sourceTree = "<group>"; };
 		A15346971962D53600E1C63F /* IonIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IonIcons.m; sourceTree = "<group>"; };
@@ -611,6 +614,8 @@
 				A1EA130C19265B4900449327 /* ExploreOptionsViewController.m */,
 				A1EA131319265B4900449327 /* OccurrenceDetailsViewController.h */,
 				A1EA131419265B4900449327 /* OccurrenceDetailsViewController.m */,
+				A14D5E6419A3962900454D6A /* OccurrenceTableViewControler.h */,
+				A14D5E6519A3962900454D6A /* OccurrenceTableViewControler.m */,
 				A1EA131919265B4900449327 /* TaxonInfoViewController.h */,
 				A1EA131A19265B4900449327 /* TaxonInfoViewController.m */,
 				A1EA131B19265B4900449327 /* TripsViewController.h */,
@@ -934,6 +939,7 @@
 				A17628C419471BA500DD69DB /* _INatTripTaxaPurpose.m in Sources */,
 				A15347221965BE7800E1C63F /* _INatObservation.m in Sources */,
 				A15347291965BE8300E1C63F /* INatObservationPhoto.m in Sources */,
+				A14D5E6619A3962900454D6A /* OccurrenceTableViewControler.m in Sources */,
 				A1762875193DEF9C00DD69DB /* ExploreDataManager.m in Sources */,
 				A1EA132619265B4900449327 /* OccurrenceDetailsViewController.m in Sources */,
 				A15347231965BE7800E1C63F /* _INatObservationPhoto.m in Sources */,

@@ -57,6 +57,9 @@
 +(UIColor*) kColorINatGreen {
     return [UIColor colorWithRed:116/255.0f green:172/255.0f blue:0/255.0f alpha:1.0f];
 }
++(UIColor*) kColorPastelGreen {
+    return [UIColor colorWithRed:129/255.0f green:195/255.0f blue:65/255.0f alpha:1.0f];
+}
 +(UIColor*) kColorDarkGreen {
     return [UIColor colorWithRed:0/255.0f green:160/255.0f blue:0/255.0f alpha:1.0f];
 }

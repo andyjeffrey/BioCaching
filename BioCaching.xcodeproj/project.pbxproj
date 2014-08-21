@@ -113,6 +113,7 @@
 		A1EA20A618B4F7AB00200D50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1EA20A418B4F7AB00200D50 /* Main.storyboard */; };
 		A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA209418B4F7AB00200D50 /* CoreGraphics.framework */; };
 		A1EB226B1923961F005650D9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EB226A1923961F005650D9 /* CoreData.framework */; };
+		A1ED280C19A5F4AE00D159C1 /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED280B19A5F4AE00D159C1 /* AboutTableViewController.m */; };
 		A1EE9C50196F4AAF00D51972 /* BCRestKitJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE9C4F196F4AAF00D51972 /* BCRestKitJsonParser.m */; };
 		A1F0511219588F2D008569AB /* INatTaxon.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F0511119588F2D008569AB /* INatTaxon.m */; };
 		A1F0511519588F3F008569AB /* _INatTaxon.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F0511419588F3F008569AB /* _INatTaxon.m */; };
@@ -354,6 +355,8 @@
 		A1EA6CD518D0BFD5002FCDDD /* OccurrenceResultsAP.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsAP.json; path = Resources/TestData/OccurrenceResultsAP.json; sourceTree = "<group>"; };
 		A1EA6CD918D1B278002FCDDD /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		A1EB226A1923961F005650D9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A1ED280A19A5F4AE00D159C1 /* AboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutTableViewController.h; sourceTree = "<group>"; };
+		A1ED280B19A5F4AE00D159C1 /* AboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutTableViewController.m; sourceTree = "<group>"; };
 		A1EE9C4E196F4AAF00D51972 /* BCRestKitJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCRestKitJsonParser.h; sourceTree = "<group>"; };
 		A1EE9C4F196F4AAF00D51972 /* BCRestKitJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCRestKitJsonParser.m; sourceTree = "<group>"; };
 		A1F0511019588F2D008569AB /* INatTaxon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INatTaxon.h; sourceTree = "<group>"; };
@@ -630,6 +633,8 @@
 				A1464511195074F4005C1107 /* ObservationViewController.m */,
 				A15347151964730C00E1C63F /* AboutViewController.h */,
 				A15347161964730C00E1C63F /* AboutViewController.m */,
+				A1ED280A19A5F4AE00D159C1 /* AboutTableViewController.h */,
+				A1ED280B19A5F4AE00D159C1 /* AboutTableViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1004,6 +1009,7 @@
 				A1EA135119265B5D00449327 /* GBIFCommunicator.m in Sources */,
 				A1EA131E19265B4900449327 /* DropDownViewController.m in Sources */,
 				A1BEE394196AB69000297526 /* TripListCell.m in Sources */,
+				A1ED280C19A5F4AE00D159C1 /* AboutTableViewController.m in Sources */,
 				A1EA133B19265B5200449327 /* NSCountedSet+Sorting.m in Sources */,
 				A1EA133A19265B5200449327 /* MKPolygon+WKTParser.m in Sources */,
 			);

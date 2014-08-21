@@ -906,8 +906,8 @@ typedef void (^AnimationBlock)();
 
 - (void)newTripCreated:(INatTrip *)trip
 {
-    _currentTrip = trip;
     _searchInProgress = NO;
+    _currentTrip = trip;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateButtons];
         [self updateSearchResultsView];
@@ -940,14 +940,16 @@ typedef void (^AnimationBlock)();
 - (void)occurrenceResultsReceived:(GBIFOccurrenceResults *)occurrenceResults
 {
     NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
-    _occurrenceResults = occurrenceResults;
-    
+
     _searchInProgress = NO;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateSearchResultsView];
-//        [self updateRecordCountLabel];
-        [self zoomToSearchArea:nil];
-    });
+    if (occurrenceResults) {
+        _occurrenceResults = occurrenceResults;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateButtons];
+            [self updateSearchResultsView];
+            [self zoomToSearchArea:nil];
+        });
+    }
 }
 
 - (void)taxonAddedToOccurrence:(GBIFOccurrence *)occurrence

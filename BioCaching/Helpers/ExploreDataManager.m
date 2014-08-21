@@ -104,6 +104,7 @@
     } else {
         [BCAlerts displayDefaultFailureNotification:@"No Records Found" subtitle:nil];
         [BCAlerts displayDefaultInfoAlert:@"No Records Found" message:@"Please try a different location/area or change the search options in the Settings menu"];
+        [self.delegate occurrenceResultsReceived:nil];
     }
 }
 

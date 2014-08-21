@@ -61,16 +61,13 @@
 
 - (void)setupLabels
 {
-    [self.labelVersion setTextWithDefaults:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
-    [self.labelBuild setTextWithDefaults:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
+    [self.labelVersion setTextWithDefaults:[NSString stringWithFormat:@"Ver %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
+    [self.labelBuild setTextWithDefaults:[NSString stringWithFormat:@"Build %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]]];
 }
 
 #pragma-mark IBActions
-
 - (IBAction)buttonSidebar:(id)sender {
     [self.revealViewController revealToggleAnimated:YES];
 }
-
-
 
 @end

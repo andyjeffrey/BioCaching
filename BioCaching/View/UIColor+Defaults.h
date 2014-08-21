@@ -26,6 +26,7 @@
 +(UIColor*) kColorButtonLabel;
 
 +(UIColor*) kColorINatGreen;
++(UIColor*) kColorPastelGreen;
 +(UIColor*) kColorDarkGreen;
 +(UIColor*) kColorDarkRed;
 +(UIColor*) kColorDarkRedHighlighted;

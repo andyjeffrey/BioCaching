@@ -147,6 +147,7 @@ typedef void (^AnimationBlock)();
     NSLog(@"%s", __PRETTY_FUNCTION__);
     // Force ExploreMapVC To Always Show Current Trip?
     if (_currentTrip != _tripsDataManager.currentTrip) {
+        self.viewTaxonInfo.hidden = YES;
         _updateMapView = YES;
         _currentTrip = _tripsDataManager.currentTrip;
         [self.activityViewLocationSearch stopAnimating];
@@ -237,7 +238,6 @@ typedef void (^AnimationBlock)();
 - (void)setupTaxonInfoView
 {
     _taxonInfoRefFrame = self.viewTaxonInfo.frame;
-    self.viewTaxonInfo.hidden = YES;
     self.viewTaxonInfo.alpha = 0.0f;
 }
 
@@ -507,6 +507,7 @@ typedef void (^AnimationBlock)();
         } completion:^(BOOL finished) {
         }];
     }
+    [BCLoggingHelper recordGoogleScreen:@"TaxonInfoPopUp"];
 }
 
 - (void)hideTaxonView
@@ -851,15 +852,11 @@ typedef void (^AnimationBlock)();
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
         return;
     
+    MKAnnotationView *selectedView = self.mapView.selectedAnnotations[0];
     CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
-    UIView *selectedView = [self.mapView hitTest:touchPoint withEvent:nil];
-    
-    if ([selectedView isKindOfClass:[MKAnnotationView class]]) {
-        double annotationOffset = kOccurrenceAnnotationOffset;
-        if ([((MKAnnotationView *)selectedView).annotation isKindOfClass:[MKUserLocation class]]) {
-            annotationOffset = 0;
-        }
-        CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:CGPointMake(touchPoint.x, touchPoint.y + annotationOffset) toCoordinateFromView:self.mapView];
+
+    if ([selectedView isKindOfClass:[OccurrenceRecord class]]) {
+        CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:CGPointMake(touchPoint.x, touchPoint.y + kOccurrenceAnnotationOffset) toCoordinateFromView:self.mapView];
         [self.mapView setCenterCoordinate:mapCoord animated:YES];
         return;
     } else if (!self.viewTaxonInfo.hidden) {
@@ -867,11 +864,7 @@ typedef void (^AnimationBlock)();
         [self hideTaxonView];
         return;
     }
-    
-//    CGRect visibleRect = CGRectIntersection(self.mapView.frame, self.view.frame);
-//    NSString *coordsString = [NSString stringWithFormat:@"(%.f,%.f)->(%.f,%.f)", visibleRect.origin.x, visibleRect.origin.y, visibleRect.origin.x + visibleRect.size.width, visibleRect.origin.y + visibleRect.size.height];
-//    NSLog(@"Visible Rect:%@", coordsString);
-    
+
     CLLocationCoordinate2D mapCoord = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
     [self.mapView setCenterCoordinate:mapCoord animated:YES];
 }

@@ -84,7 +84,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [BCLoggingHelper recordGoogleScreen:@"TaxonInfo"];
+//    [BCLoggingHelper recordGoogleScreen:@"TaxonInfo"];
 }
 
 - (void)setupButtons

@@ -138,6 +138,10 @@
 
 + (void)configureGoogleAnalytics
 {
+#ifdef DEBUG
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+#endif
+    
 #ifdef BC_ANALYTICS
     if (kUseGoogleErrorLogging) {
         // Optional: automatically send uncaught exceptions to Google Analytics.
@@ -146,11 +150,9 @@
     // Optional: set Google Analytics dispatch interval
     [GAI sharedInstance].dispatchInterval = 60;
     
-    // Optional: set Logger to VERBOSE for debug information.
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-    
     // Initialize tracker. Replace with your tracking ID.
-    [[GAI sharedInstance] trackerWithTrackingId:kGoogleTrackingID];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:kGoogleTrackingID];
+    [tracker set:kGAIAppVersion value:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
     
 #endif
 }

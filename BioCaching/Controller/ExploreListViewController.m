@@ -166,7 +166,7 @@
     if (occurrence.iNatTaxon.taxonPhotos.count == 0) {
         cell.labelTaxonTitle.text = [NSString stringWithFormat:@"%@ **", cell.labelTaxonTitle.text];
     }
-#ifdef DEBUG
+#ifdef TESTING
     cell.labelTaxonSubTitle.text = [NSString stringWithFormat:@"%03lu  %@", (long)indexPath.row, occurrence.subtitle];
 #endif
 

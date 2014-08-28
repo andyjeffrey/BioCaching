@@ -48,7 +48,7 @@
     return self;
 }
 
-+ (NSString *)getDebugLabel
++ (NSString *)getTestingLabel
 {
 #ifdef DEBUG
     return ([NSString stringWithFormat:@"DEBUG%@", [LoginManager sharedInstance].currentUserID]);
@@ -132,7 +132,7 @@
 
 - (void)updateCrashlyticsUserID
 {
-    [Crashlytics setUserIdentifier:[BCLoggingHelper getDebugLabel]];
+    [Crashlytics setUserIdentifier:[BCLoggingHelper getTestingLabel]];
 //    [Crashlytics setUserName:[[NSUserDefaults standardUserDefaults] objectForKey:kINatAuthUsernamePrefKey]];
 }
 
@@ -182,7 +182,7 @@
 + (void)recordGoogleEvent:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value
 {
     if (!label) {
-        label = [self getDebugLabel];
+        label = [self getTestingLabel];
     }
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category action:action label:label value:value] build]];

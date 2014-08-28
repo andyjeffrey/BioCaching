@@ -120,8 +120,13 @@
 
 - (void)configureAppearanceSettings
 {
-    [[UINavigationBar appearance] setBackgroundColor:[UIColor kColorTableBackgroundColor]];
-//    [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
+    if IS_IOS_7_OR_LATER {
+        [[UINavigationBar appearance] setBarTintColor:[UIColor kColorHeaderBackground]];
+        [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor kColorHeaderText]}];
+        [[UINavigationBar appearance] setTintColor:[UIColor lightGrayColor]];
+    } else {
+        [[UINavigationBar appearance] setBackgroundColor:[UIColor kColorHeaderBackground]];
+    }
 }
 
 

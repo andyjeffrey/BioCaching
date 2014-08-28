@@ -10,9 +10,9 @@
 #define BioCaching_constants_h
 
 #define IS_IPHONE5 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
-#define IS_IOS_5_OR_LATER    (floor(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_5_0)
-#define IS_IOS_6_OR_LATER    (floor(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_6_0)
-#define IS_IOS_7_OR_LATER    (floor(NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1)
+#define IS_IOS_5_OR_LATER (floor(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_5_0))
+#define IS_IOS_6_OR_LATER (floor(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_6_0))
+#define IS_IOS_7_OR_LATER (floor(NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1))
 
 #define kLastVersionPrefKey             @"LastVersionPrefKey"
 #define kCounterLaunchesKey             @"CounterLaunches"
@@ -57,8 +57,11 @@
 #define kOptionsDefaultUniqueSpecies    YES
 #define kOptionsDefaultUniqueLocations  YES
 
+#define kDefaultScrollviewHeightPadding 10
+
 #ifdef DEBUG
 #define kINatBaseURL                    @"http://www.inaturalist.org/"
+#define kDefaultScrollviewHeightPadding 110
 //#define kOptionsDefaultDisplayPoints    15
 //#define kOptionsDefaultAutoSearch       NO
 //#define kOptionsDefaultPreCacheImages   NO

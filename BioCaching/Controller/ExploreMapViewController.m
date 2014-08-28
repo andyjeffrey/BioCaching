@@ -186,16 +186,6 @@ typedef void (^AnimationBlock)();
     [self configureBackgroundControlsView];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
 #pragma mark Sidebar Methods
 - (void)setupSidebar
 {

@@ -29,8 +29,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonAddPhoto;
 @property (weak, nonatomic) IBOutlet UIButton *buttonUpdatePhoto;
 
+@property (weak, nonatomic) IBOutlet UITextView *textViewNotes;
+
+@property (weak, nonatomic) IBOutlet UIView *viewBottomButtons;
 @property (weak, nonatomic) IBOutlet UIButton *buttonDelete;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 - (IBAction)buttonActionSave:(id)sender;
 - (IBAction)buttonActionDelete:(id)sender;
@@ -48,30 +53,20 @@
     BCLocationManager *_locationManager;
     NSDate *eventTimer;
     BOOL _newObservation;
+    int _scrollViewHeight;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     assetsLibrary = [[ALAssetsLibrary alloc] init];
-    
-    self.navigationItem.title = @"Your Observation";
-    
-//    // Changing of Navigation Back Button Here Not Working!
-//    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:nil];
-//    [self.navigationItem setBackBarButtonItem:cancelButton];
 
-    self.view.backgroundColor = [UIColor kColorTableBackgroundColor];
+    [self.view setBackgroundColor:[UIColor kColorTableBackgroundColor]];
+    self.navigationItem.title = @"Observation Record";
+    
+    self.viewBottomButtons.backgroundColor = [UIColor kColorHeaderBackground];
     self.imageObsPhoto.backgroundColor = [UIColor grayColor];
     
     _observation = self.occurrence.observation;
@@ -86,6 +81,10 @@
         [BCLocationManager getCurrentLocationWithDelegate:self];
         [self.activityLocation startAnimating];
     }
+    
+    _scrollViewHeight = self.textViewNotes.frame.origin.y + self.textViewNotes.frame.size.height + kDefaultScrollviewHeightPadding;
+    
+    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, _scrollViewHeight)];
 
     [self setupButtons];
     [self setupLabels];
@@ -93,17 +92,18 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden = NO;
-    
     if (imagePicker) {
         return;
     }
+//    [self.navigationItem setTitle:@"Occurrence Details"];
+    self.navigationController.navigationBarHidden = NO;
     [self updateUI];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [BCLoggingHelper recordGoogleScreen:@"INatObservation"];
+    [self.scrollView flashScrollIndicators];
 }
 
 
@@ -143,6 +143,9 @@
      [IonIcons imageWithIcon:icon_edit iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
     self.buttonUpdatePhoto.backgroundColor = [UIColor kColorButtonBackground];
 
+    [self.buttonDelete setBackgroundColor:[UIColor kColorDarkRed]];
+    [self.buttonSave setBackgroundColor:[UIColor kColorDarkGreen]];
+    
     if (self.locked) {
         self.buttonUpdatePhoto.hidden = YES;
         self.buttonDelete.hidden = YES;

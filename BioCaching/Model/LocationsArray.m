@@ -38,7 +38,7 @@
         [_staticArray addObject:@[@"Exe Estuary MPA, UK", @50.647222, @-3.442222, @2000, @5000]];
         
         [_staticArray addObject:@[@"Gunung Mulu NP, Malaysia", @4.144579, @114.930725, @8000, @30000]];
-//        [_staticArray addObject:@[@"Komodo NP, Indonesia", @-8.512431, @119.484972]];
+        [_staticArray addObject:@[@"Komodo NP, Indonesia", @-8.437795, @119.577022]];
         [_staticArray addObject:@[@"Kakadu NP, Australia", @-12.708650, @132.751885, @8000, @25000]];
         [_staticArray addObject:@[@"Great Barrier Reef, Australia", @-14.684754, @145.451969, @4000, @8000]];
 //        [_staticArray addObject:@[@"Kruger NP, South Africa", @-23.853615, @31.532104]];

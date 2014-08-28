@@ -36,14 +36,30 @@
     TaxonInfoViewController *_taxonInfoVC;
 }
 
+- (id)init {
+    self = [super init];
+    return self;
+}
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    return self;
+}
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    return self;
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     self.navigationItem.title = @"Occurrence Details";
-    self.navigationController.navigationBar.barTintColor = [UIColor kColorHeaderBackground];
-    self.navigationController.navigationBar.tintColor = [UIColor kColorHeaderText];
-    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor kColorHeaderText], UITextAttributeTextColor, nil];
+
+//    self.navigationItem.title = @"Occurrence Details";
+//    self.navigationController.navigationBar.barTintColor = [UIColor kColorHeaderBackground];
+//    self.navigationController.navigationBar.tintColor = [UIColor kColorHeaderText];
+//    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor kColorHeaderText], UITextAttributeTextColor, nil];
 
     self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
 
@@ -84,13 +100,40 @@
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Include extra details for debugging
+    // Include extra details for testing
 #ifdef DEBUG
     return 3;
 #else
     return 2;
 #endif
 }
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // If shorter Pre-iPhone5 display, use alternative layout for main details table section (section#1)
+/*
+    if (!IS_IPHONE5 && (indexPath.section == 1)) {
+        NSLog(@"Using Pre-iPhone5 Table Section, Row Height:");
+        indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:3];
+    }
+*/
+    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat rowHeight = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    // If shorter Pre-iPhone5 display, use alternative layout for main details table section (section#1)
+    if (!IS_IPHONE5 && (indexPath.section == 1) && (indexPath.row == 0)) {
+        NSLog(@"Using Pre-iPhone5 Table Section, Row Height:");
+        [self.labelDescription setNumberOfLines:2];
+        [self.labelDescription sizeToFit];
+        rowHeight = 50;
+    }
+    
+    return rowHeight;
+}
+
 
 #pragma mark UIStoryboard Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

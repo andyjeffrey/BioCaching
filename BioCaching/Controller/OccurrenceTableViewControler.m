@@ -101,7 +101,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Include extra details for testing
-#ifdef DEBUG
+#ifdef TESTING
     return 3;
 #else
     return 2;

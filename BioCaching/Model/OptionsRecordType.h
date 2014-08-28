@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "APIOptions.h"
 
-#define kDefaultOptionRecordType RecordType_PRESERVED_SPECIMEN
-#ifdef DEBUG
-#define kDefaultOptionRecordType RecordType_ALL
+#ifdef TESTING
+    #define kDefaultOptionRecordType RecordType_ALL
+#else
+    #define kDefaultOptionRecordType RecordType_ALL
 #endif
 
 typedef enum {

@@ -31,6 +31,7 @@
 #define kGBIFOccurrenceDefaultOffset    0
 
 #define kINatBaseURL                    @"https://www.inaturalist.org/"
+#define kINatSignupURL                  @"users/new.mobile"
 #define kINatAuthService                @"INatAuthService"
 #define kINatAuthServiceExtToken        @"INatAuthServiceExtToken"
 #define kINatAuthUsernamePrefKey        @"INatUsernamePrefKey"

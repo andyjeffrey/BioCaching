@@ -9,6 +9,7 @@
 #import "TripsViewController.h"
 #import "ExploreContainerViewController.h"
 #import "SidebarViewController.h"
+#import "BCWebViewController.h"
 
 #import "TripsDataManager.h"
 #import "INatTrip.h"
@@ -43,7 +44,7 @@
     
     [self setupUI];
     [self setupTableData];
-    [self setupRefreshControl];
+//    [self setupRefreshControl];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -122,7 +123,7 @@
 - (void)setupTableData
 {
     NSMutableArray *sections = [[NSMutableArray alloc] init];
-#ifdef DEBUG
+#ifdef TESTING
     [sections addObject:@[@"Created (Not Saved)", [NSNumber numberWithInt:TripStatusCreated], _tripsDataManager.createdTrips]];
 #endif
     [sections addObject:@[@"Saved For Later", [NSNumber numberWithInt:TripStatusSaved], _tripsDataManager.savedTrips]];
@@ -210,9 +211,14 @@
                                        (int)trip.taxaAttributes.count];
     cell.labelBackground.text = @"";
     
-    if (trip.status.intValue == TripStatusFinished) {
+    if (trip.statusValue == TripStatusFinished) {
         [cell.buttonAction setTitle:@"Upload" forState:UIControlStateNormal];
         [cell.buttonAction setTitleColor:[UIColor cyanColor] forState:UIControlStateNormal];
+        cell.buttonAction.enabled = YES;
+        cell.buttonAction.hidden = self.tableView.editing;
+    } else if (trip.statusValue == TripStatusPublished) {
+        [cell.buttonAction setTitle:@"iNat" forState:UIControlStateNormal];
+        [cell.buttonAction setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
         cell.buttonAction.enabled = YES;
         cell.buttonAction.hidden = self.tableView.editing;
     } else {
@@ -286,12 +292,18 @@
             [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
         }
     } else if (trip.status.intValue == TripStatusPublished) {
+/*
         if ([LoginManager sharedInstance].loggedIn) {
             [cell.activityIndicator startAnimating];
             [_tripsDataManager deleteTripFromINat:trip];
         } else {
             [BCAlerts displayDefaultInfoAlert:@"Authentication Required" message:@"Please Sign In Before Continuing\n (Automatically take user to profile/signin screen?)"];
         }
+*/
+        NSURL *tripURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/trips/%d", kINatBaseURL, trip.recordIdValue]];
+        BCWebViewController *webVC = [[BCWebViewController alloc] initWithURL:tripURL fixedTitle:@"Trip Record on iNat"];
+        [self.navigationController pushViewController:webVC animated:TRUE];
+        
     } else {
         [_tripsDataManager deleteTripFromLocalStore:trip];
     }

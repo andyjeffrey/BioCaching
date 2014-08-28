@@ -8,10 +8,6 @@
 
 #import "BCWebViewController.h"
 
-@interface BCWebViewController ()
-
-@end
-
 @implementation BCWebViewController {
     NSDictionary *_currentNavBarTitleTextAttributes;
     NSString *_fixedTitle;
@@ -48,6 +44,9 @@
     [super webViewDidFinishLoad:webView];
     if (_fixedTitle) {
         self.navigationItem.title = _fixedTitle;
+    }
+    if (self.didFinishLoadBlock) {
+        self.didFinishLoadBlock();
     }
 }
 

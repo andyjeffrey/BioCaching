@@ -10,6 +10,8 @@
 
 @interface BCWebViewController : NIWebController
 
+@property (copy) void (^didFinishLoadBlock)(void);
+
 - (id)initWithURL:(NSURL *)url fixedTitle:(NSString *)fixedTitle;
 
 @end

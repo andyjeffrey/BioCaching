@@ -233,7 +233,7 @@
 
 - (void)updateDatabaseLabels
 {
-#ifdef DEBUG
+#ifdef TESTING
     self.buttonDebugTest.hidden = NO;
 #endif
     

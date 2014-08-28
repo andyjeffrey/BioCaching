@@ -125,11 +125,11 @@ typedef void (^AnimationBlock)();
     
 #ifdef TESTING
     // Go to preset location
-    _currentViewLocation = LocationsArray.defaultLocation;
-    [self updateLocationLabelAndMapView:_currentViewLocation mapViewSpan:[LocationsArray locationViewSpan:LocationsArray.defaultLocationIndex]];
+    _currentViewCoordinate = LocationsArray.defaultLocation;
+    [self updateLocationLabelAndMapView:_currentViewCoordinate mapViewSpan:[LocationsArray locationViewSpan:LocationsArray.defaultLocationIndex]];
     
     _bcOptions.searchOptions.searchAreaSpan = [LocationsArray locationSearchAreaSpan:LocationsArray.defaultLocationIndex];
-    [self updateSearchAreaOverlay:_currentViewLocation areaSpan:_bcOptions.searchOptions.searchAreaSpan];
+    [self updateSearchAreaOverlay:_currentViewCoordinate areaSpan:_bcOptions.searchOptions.searchAreaSpan];
 #endif
     
     [self configureGestureRecognizers];
@@ -594,7 +594,7 @@ typedef void (^AnimationBlock)();
             _currentTrip.stopTime = [NSDate date];
             [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Finished"];
             
-#ifdef DEBUG
+#ifdef TESTING
             _currentTrip.stopTime = [_currentTrip.startTime dateByAddingTimeInterval:kDefaultTripDuration];
 #endif
             [BCAlerts displayDefaultInfoAlert:@"Trip Completed, Ready to Publish" message:@"Please goto Trips Screen to publish trip to iNat"];

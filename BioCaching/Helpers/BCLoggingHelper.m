@@ -7,6 +7,8 @@
 //
 
 #import "BCLoggingHelper.h"
+#import <DDASLLogger.h>
+#import <DDTTYLogger.h>
 //#import "Flurry.h"
 //#import "LocalyticsSession.h"
 #import <Crashlytics/Crashlytics.h>
@@ -46,6 +48,12 @@
         // Private Inititalisation
     }
     return self;
+}
+
++ (void)configureDDLogger
+{
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
 }
 
 + (NSString *)getTestingLabel
@@ -138,7 +146,7 @@
 
 + (void)configureGoogleAnalytics
 {
-#ifdef DEBUG
+#ifdef GA_LOGGING
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
 #endif
     

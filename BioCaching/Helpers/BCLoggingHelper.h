@@ -16,6 +16,8 @@
 + (void)configureParse:(NSDictionary *)launchOptions;
 */
 
++ (void)configureDDLogger;
+
 + (void)stopAnalyticsIfRequired;
 + (void)resumeAnalyticsIfRequired;
 

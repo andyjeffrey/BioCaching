@@ -11,6 +11,8 @@
 #import "GBIFCommunicatorMock.h"
 #import "GBIFOccurrenceResults.h"
 
+static const int ddLogLevel = LOG_LEVEL_DEBUG;
+
 @implementation GBIFManager {
     SearchOptions *_bcOptions;
 }
@@ -46,7 +48,7 @@
 
 - (void)receivedResultsJSON:(NSData *)objectNotation
 {
-    NSLog(@"GBIFManager receivedResultsJSON");
+    DDLogVerbose(@"GBIFManager receivedResultsJSON");
     NSError *error = nil;
     GBIFOccurrenceResults *occurrenceResults = [self buildOccurrenceResultsFromJSON:objectNotation error:&error];
     
@@ -65,7 +67,7 @@
 
 - (void)GBIFCommunicatorFailedWithError:(NSError *)error
 {
-    NSLog(@"GBIFManager Error: %@", error);
+    DDLogError(@"GBIFManager Error: %@", error);
     [self.delegate fetchingResultsFailedWithError:error];
 }
 
@@ -76,14 +78,14 @@
     
     if (localError != nil) {
         *error = localError;
-        NSLog(@"GBIFManager Error: %@", localError);
+        DDLogError(@"GBIFManager Error: %@", localError);
         return nil;
     }
     
     GBIFOccurrenceResults *occurrenceResults = [GBIFOccurrenceResults objectWithDictionary:parsedObject];
     
-    NSLog(@"GBIFOccurenceResultsBuilder TotalResultsCount: %d", occurrenceResults.Count.intValue);
-    NSLog(@"GBIFOccurenceResultsBuilder OccurenceRecordsReceived: %d - %d",
+    DDLogVerbose(@"GBIFManager TotalResultsCount: %d", occurrenceResults.Count.intValue);
+    DDLogVerbose(@"GBIFManager OccurenceRecordsReceived: %d - %d",
           [occurrenceResults.Offset intValue],
           ([occurrenceResults.Offset intValue] + (int)occurrenceResults.Results.count));
     

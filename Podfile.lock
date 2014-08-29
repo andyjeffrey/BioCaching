@@ -1,5 +1,14 @@
 PODS:
   - AFNetworking (1.3.4)
+  - CocoaLumberjack (2.0.0-beta):
+    - CocoaLumberjack/CLI
+    - CocoaLumberjack/Core
+    - CocoaLumberjack/Extensions
+  - CocoaLumberjack/CLI (2.0.0-beta):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Core (2.0.0-beta)
+  - CocoaLumberjack/Extensions (2.0.0-beta):
+    - CocoaLumberjack/Core
   - DTCoreText (1.6.13):
     - DTFoundation/Core (~> 1.7.1)
     - DTFoundation/DTAnimatedGIF (~> 1.7.1)
@@ -44,6 +53,7 @@ PODS:
     - HexColors
 
 DEPENDENCIES:
+  - CocoaLumberjack
   - DTCoreText
   - Nimbus/WebController
   - NXOAuth2Client (~> 1.2.2)
@@ -52,6 +62,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 80c4e0652b08eb34e25b9c0ff3c82556fe5967b4
+  CocoaLumberjack: aadc76d7bd6c839ca84b38ed50cbf89d7cf8c693
   DTCoreText: 84eb8ba2e70448fdd9d837540e371f9f587b65ba
   DTFoundation: 126729614911ae7dbab3dcc1c078f189943bee66
   HexColors: 01384d2bbe8dc4ffa43c3b4135db6e976952d153

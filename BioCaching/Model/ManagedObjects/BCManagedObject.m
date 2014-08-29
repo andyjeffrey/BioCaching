@@ -1,6 +1,6 @@
 #import "BCManagedObject.h"
 
-
+static const int ddLogLevel = LOG_LEVEL_INFO;
 
 @implementation BCManagedObject
 
@@ -17,9 +17,9 @@
     NSError *error;
     NSArray *resultsArray = [managedObjectContext executeFetchRequest:request error:&error];
     if (!resultsArray) {
-        NSLog(@"Fetch Failed: %@", error);
+        DDLogError(@"Fetch Failed: %@", error);
     } else if (resultsArray.count == 0) {
-        NSLog(@"No Results Found, EntityName: %@, RecordId: %@", entityName, recordId);
+        DDLogDebug(@"No Results Found, EntityName: %@, RecordId: %@", entityName, recordId);
     } else {
         fetchedEntity = resultsArray[0];
     }
@@ -42,9 +42,9 @@
     NSError *error;
     NSArray *fetchedEntities = [managedObjectContext executeFetchRequest:request error:&error];
     if (!fetchedEntities) {
-        NSLog(@"Fetch Failed: %@", error);
+        DDLogError(@"Fetch Failed: %@", error);
     } else if (fetchedEntities.count == 0) {
-        NSLog(@"No Results Found, EntityName: %@, Filter: %@", entityName, filter);
+        DDLogDebug(@"No Results Found, EntityName: %@, Filter: %@", entityName, filter);
     }
     
     return fetchedEntities;

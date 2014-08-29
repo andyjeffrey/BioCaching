@@ -11,6 +11,8 @@
 #import "ExploreListViewController.h"
 #import "ExploreSummaryViewController.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 static int const defaultEmbeddedView = 0;
 
 @interface ExploreContainerViewController ()
@@ -33,7 +35,7 @@ static int const defaultEmbeddedView = 0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogVerbose(@"%s", __PRETTY_FUNCTION__);
     
     [self initEmbeddedVCs];
     [self setupSegControl];
@@ -83,7 +85,7 @@ static int const defaultEmbeddedView = 0;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
-    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
+    DDLogVerbose(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
     
     // Keep track of embedded VC instances to save reloading each time
     NSMutableArray *embeddedVC = self.embeddedVCs[self.segControlView.selectedSegmentIndex];
@@ -129,7 +131,7 @@ static int const defaultEmbeddedView = 0;
 
 - (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController
 {
-	NSLog(@"ContainerViewController - swapFromViewController\n from:%@\n to:%@", fromViewController, toViewController);
+	DDLogVerbose(@"ContainerViewController - swapFromViewController\n from:%@\n to:%@", fromViewController, toViewController);
     
     toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     

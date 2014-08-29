@@ -12,6 +12,8 @@
 #import "TripsDataManager.h"
 #import "ImageCache.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @implementation ExploreDataManager {
     GBIFManager *_gbifManager;
     INatManager *_iNatManager;
@@ -85,7 +87,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [BCLoggingHelper recordGoogleEvent:@"GBIF" action:@"OccurrenceSearchResponse" value:[NSNumber numberWithUnsignedInteger:occurrenceResults.filteredResults.count]];
     
-    NSLog(@"%s Results.count: %lu", __PRETTY_FUNCTION__, (unsigned long)occurrenceResults.Results.count);
+    DDLogVerbose(@"%s Results.count: %lu", __PRETTY_FUNCTION__, (unsigned long)occurrenceResults.Results.count);
 
     if (occurrenceResults.Results.count > 0) {
         [BCAlerts displayDefaultSuccessNotification:
@@ -98,6 +100,7 @@
             [_tripsDataManager.exploreDelegate newTripCreated:_tripsDataManager.currentTrip];
             for (GBIFOccurrence *occurrence in occurrenceResults.tripListResults)
             {
+                occurrence.occurrenceResultsRef = occurrenceResults;
                 [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
             }
         }
@@ -118,7 +121,7 @@
     [BCAlerts displayDefaultInfoAlert:@"Error Retrieving Records" message:@"Please Try Again Later"];
 #endif
     
-    NSLog(@"Error %@; %@", error, [error localizedDescription]);
+    DDLogError(@"Error %@; %@", error, [error localizedDescription]);
 }
 
 
@@ -130,8 +133,7 @@
     
     if (gbifOccurrence.iNatTaxon)
     {
-        NSLog(@"%s \niNatTaxon Received: %@ - %@ \nAdding To Occurrence: %@", __PRETTY_FUNCTION__,
-              gbifOccurrence.speciesBinomial, gbifOccurrence.iNatTaxon.commonName, gbifOccurrence.Key);
+        DDLogVerbose(@"%s \niNatTaxon Received: %@ - %@ \nAdding To Occurrence: %@", __PRETTY_FUNCTION__, gbifOccurrence.speciesBinomial, gbifOccurrence.iNatTaxon.commonName, gbifOccurrence.Key);
         
         if (gbifOccurrence.iNatTaxon.taxonPhotos.count > 0)
         {
@@ -154,8 +156,7 @@
     }
     else
     {
-        NSLog(@"%s \nNO iNatTaxon Received: %@ \nRemoving Occurrence: %@", __PRETTY_FUNCTION__,
-              gbifOccurrence.speciesBinomial, gbifOccurrence.Key);
+        DDLogVerbose(@"%s \nNO iNatTaxon Received: %@ \nRemoving Occurrence: %@", __PRETTY_FUNCTION__, gbifOccurrence.speciesBinomial, gbifOccurrence.Key);
         
         [self.currentSearchResults.removedResults addObject:gbifOccurrence];
         [self.delegate occurrenceRemoved:gbifOccurrence];

@@ -9,6 +9,8 @@
 #import "CrossHairView.h"
 #import <QuartzCore/QuartzCore.h>
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @implementation CrossHairView
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -26,7 +28,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    NSLog(@"CrossHairView Center:(%.0f,%.0f)", self.center.x, self.center.y);
+    DDLogDebug(@"CrossHairView Center:(%.0f,%.0f)", self.center.x, self.center.y);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetAllowsAntialiasing(context, false);
     CGContextSetLineWidth(context, 2);

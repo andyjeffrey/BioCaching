@@ -25,7 +25,8 @@
 #import "ExploreDataManager.h"
 #import "GBIFOccurrenceResults.h"
 
-static float const kOccurrenceAnnotationOffset = 50.0f;
+static const int ddLogLevel = LOG_LEVEL_INFO;
+static const float kOccurrenceAnnotationOffset = 50.0f;
 
 @interface ExploreMapViewController ()
 
@@ -42,7 +43,10 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 @property (weak, nonatomic) IBOutlet UIView *viewDropDownRef;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRefreshSearch;
 @property (weak, nonatomic) IBOutlet UIImageView *imageRefreshSearchButton;
-
+@property (weak, nonatomic) IBOutlet BCButton *buttonCancelSearch;
+- (IBAction)buttonLocationSelect:(id)sender;
+- (IBAction)buttonRefreshSearch:(id)sender;
+- (IBAction)buttonActionCancelSearch:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *viewSearchResults;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
@@ -54,6 +58,8 @@ static float const kOccurrenceAnnotationOffset = 50.0f;
 - (IBAction)actionMaptype:(id)sender;
 - (IBAction)actionSettings:(id)sender;
 - (IBAction)actionCurrentLocation:(id)sender;
+- (IBAction)zoomToSearchArea:(id)sender;
+
 
 @property (weak, nonatomic) IBOutlet UIView *viewButtonSave;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
@@ -104,7 +110,7 @@ typedef void (^AnimationBlock)();
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
 
@@ -116,7 +122,7 @@ typedef void (^AnimationBlock)();
     
     self.mapView.showsUserLocation = YES;
     
-    NSLog(@"CurrentLocation: %@", self.mapView.userLocation.location);
+    DDLogDebug(@"CurrentLocation: %@", self.mapView.userLocation.location);
     if (!self.mapView.userLocation.location) {
         self.labelLocationDetails.font = [UIFont italicSystemFontOfSize:self.labelLocationDetails.font.pointSize];
         self.labelLocationDetails.text = @"Searching For Location...";
@@ -144,7 +150,7 @@ typedef void (^AnimationBlock)();
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     // Force ExploreMapVC To Always Show Current Trip?
     if (_currentTrip != _tripsDataManager.currentTrip) {
         self.viewTaxonInfo.hidden = YES;
@@ -159,7 +165,7 @@ typedef void (^AnimationBlock)();
 
 - (void)viewDidAppear:(BOOL)animated
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     [BCLoggingHelper recordGoogleScreen:@"ExploreMap"];
     
     if (_currentTrip && _updateMapView) {
@@ -211,6 +217,10 @@ typedef void (^AnimationBlock)();
      [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
 //    self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackground];
     [self.imageRefreshSearchButton setImage:[IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)]];
+//    [self.buttonCancelSearch setBackgroundImage:[IonIcons imageWithIcon:icon_close iconColor:[UIColor redColor] iconSize:36.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    [self.buttonCancelSearch setImage:[IonIcons imageWithIcon:icon_close iconColor:[UIColor redColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    [self.buttonCancelSearch setBackgroundColor:[UIColor clearColor]];
+//    self.buttonCancelSearch.hidden = NO;
     
 //    self.buttonLocationList.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     self.labelLocationDetails.textColor = [UIColor kColorButtonLabel];
@@ -418,7 +428,7 @@ typedef void (^AnimationBlock)();
     
     _currentSearchAreaPolygon = [MKPolygon polygonWithCoordinates:searchPolygonCoords count:5];
     //    [self.mapView addOverlay:_currentSearchAreaPolygon];
-    NSLog(@"%s SearchArea=%@", __PRETTY_FUNCTION__, _currentSearchAreaPolygon);
+    DDLogDebug(@"%s SearchArea=%@", __PRETTY_FUNCTION__, _currentSearchAreaPolygon);
     
     // Circle area overlay
     _currentSearchAreaCircle = [MKCircle circleWithCenterCoordinate:location radius:longSpan];
@@ -462,26 +472,8 @@ typedef void (^AnimationBlock)();
 
 - (void)updateCurrentMapView:(CLLocationCoordinate2D)location latitudinalMeters:(NSInteger)latRegionSpan longitudinalMeters:(NSInteger)longRegionSpan
 {
-/*
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    NSLog(@"Location:(%.6f,%.6f)", location.latitude, location.longitude);
-    NSLog(@"MapView CenterCoords:(%.6f,%.6f)", self.mapView.centerCoordinate.latitude, self.mapView.centerCoordinate.longitude);
-    NSLog(@"MapView CenterPoint:(%.0f,%.0f)", self.mapView.center.x, self.mapView.center.y);
-    NSLog(@"CrossHair CenterPoint:(%.0f,%.0f)", self.viewMapCrossHair.center.x , self.viewMapCrossHair.center.y);
-    NSLog(@"VC Frame:%@", self.view.description);
-    NSLog(@"MapView Frame:%@", self.mapView.description);
-*/
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location, latRegionSpan, longRegionSpan);
     [self.mapView setRegion:region animated:YES];
-/*
-    NSLog(@"Region: center=(%.6f,%.6f) span=(%.20f,%.20f)", region.center.latitude, region.center.longitude, region.span.latitudeDelta, region.span.longitudeDelta);
-    NSLog(@"MapView CenterCoords:(%.6f,%.6f)", self.mapView.centerCoordinate.latitude, self.mapView.centerCoordinate.longitude);
-    NSLog(@"MapView CenterPoint:(%.0f,%.0f)", self.mapView.center.x, self.mapView.center.y);
-    NSLog(@"CrossHair CenterPoint:(%.0f,%.0f)", self.viewMapCrossHair.center.x , self.viewMapCrossHair.center.y);
-    
-    NSLog(@"%@", [self.topLayoutGuide debugDescription]);
-    NSLog(@"%@", [self.bottomLayoutGuide debugDescription]);
-*/
 }
 
 - (void)showTaxonView
@@ -517,10 +509,6 @@ typedef void (^AnimationBlock)();
 
 #pragma mark IBActions
 - (IBAction)buttonLocationSelect:(id)sender {
-    /*
-     [self activateUIControls:FALSE];
-     */
-    NSLog(@"buttonLocationSelect");
     [self hideTaxonView];
     _viewBackgroundControls.hidden = NO;
     [_dropDownViewLocations openAnimation];
@@ -547,6 +535,16 @@ typedef void (^AnimationBlock)();
     }
 }
 
+- (IBAction)buttonActionCancelSearch:(id)sender
+{
+    _searchInProgress = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.buttonCancelSearch.hidden = YES;
+        self.imageRefreshSearchButton.hidden = YES;
+        self.buttonRefreshSearch.hidden = NO;
+    });
+}
+
 - (IBAction)actionMaptype:(id)sender {
     _bcOptions.displayOptions.mapType++;
     if (_bcOptions.displayOptions.mapType == 3) {
@@ -555,7 +553,6 @@ typedef void (^AnimationBlock)();
     [self updateMapType];
     
 }
-
 
 - (IBAction)actionCurrentLocation:(id)sender {
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
@@ -719,7 +716,7 @@ typedef void (^AnimationBlock)();
         [self updateLocationLabel:mapView.centerCoordinate horizAccuracy:0];
 
         // If loading for the first time, perform search on current location
-        if (!_currentTrip && _bcOptions.displayOptions.autoSearch && !_searchInProgress) {
+        if (!_currentTrip && _bcOptions.displayOptions.autoSearch && !_searchInProgress && !([ExploreDataManager sharedInstance].currentSearchResults)) {
             [self performSearch];
         }
     }
@@ -795,7 +792,7 @@ typedef void (^AnimationBlock)();
     }
     
     OccurrenceRecord *occurrence = (OccurrenceRecord *)view.annotation;
-    NSLog(@"didSelectAnnotationView: %@", occurrence.taxonSpecies);
+    DDLogDebug(@"didSelectAnnotationView: %@", occurrence.taxonSpecies);
     
     view.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:YES]];
     
@@ -812,14 +809,14 @@ typedef void (^AnimationBlock)();
     }
     
     OccurrenceRecord *occurrence = (OccurrenceRecord *)view.annotation;
-    NSLog(@"didDeselectAnnotationView: %@", occurrence.taxonSpecies);
+    DDLogDebug(@"didDeselectAnnotationView: %@", occurrence.taxonSpecies);
     
     view.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMapMarkerImageFile:NO]];
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    NSLog(@"calloutAccessoryControlTapped");
+    DDLogDebug(@"calloutAccessoryControlTapped");
 }
 
 
@@ -837,7 +834,7 @@ typedef void (^AnimationBlock)();
 
 - (void)mapSingleClick:(UIGestureRecognizer *)gestureRecognizer
 {
-    //    NSLog(@"%s dropDownViewVisible:%@", __PRETTY_FUNCTION__, !_dropDownViewLocations.view.hidden ? @"YES" : @"NO");
+    //    DDLogDebug(@"%s dropDownViewVisible:%@", __PRETTY_FUNCTION__, !_dropDownViewLocations.view.hidden ? @"YES" : @"NO");
     
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
         return;
@@ -861,12 +858,12 @@ typedef void (^AnimationBlock)();
 
 - (void)mapDoubleClick:(UIGestureRecognizer *)gestureRecognizer
 {
-    NSLog(@"DoubleClick");
+    DDLogDebug(@"DoubleClick");
 }
 
 - (void)viewBackgroundControlsClick:(UIGestureRecognizer *)gestureRecognizer
 {
-    NSLog(@"viewBackgroundControlsClick");
+    DDLogDebug(@"viewBackgroundControlsClick");
     [_dropDownViewLocations closeAnimation];
     _viewBackgroundControls.hidden = YES;
 }
@@ -900,7 +897,7 @@ typedef void (^AnimationBlock)();
 
 - (void)occurrenceAddedToTrip:(OccurrenceRecord *)occurrence
 {
-    NSLog(@"ExploreMapViewController occurrenceAddedToTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
+    DDLogDebug(@"ExploreMapViewController occurrenceAddedToTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.mapView addAnnotation:occurrence];
         [self updateRecordCountLabel];
@@ -909,7 +906,7 @@ typedef void (^AnimationBlock)();
 
 - (void)occurrenceRemovedFromTrip:(OccurrenceRecord *)occurrence
 {
-    NSLog(@"ExploreMapViewController occurrenceRemovedFromTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
+    DDLogDebug(@"ExploreMapViewController occurrenceRemovedFromTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
     [self hideTaxonView];
     _taxonInfoVC.occurrence = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -922,7 +919,7 @@ typedef void (^AnimationBlock)();
 
 - (void)occurrenceResultsReceived:(GBIFOccurrenceResults *)occurrenceResults
 {
-    NSLog(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
+    DDLogDebug(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
 
     _searchInProgress = NO;
     if (occurrenceResults) {
@@ -937,7 +934,7 @@ typedef void (^AnimationBlock)();
 
 - (void)taxonAddedToOccurrence:(GBIFOccurrence *)occurrence
 {
-    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.commonName);
+    DDLogDebug(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.commonName);
     //    _occurrenceResults = _exploreDataManager.occurrenceResults;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.mapView addAnnotation:occurrence];
@@ -947,7 +944,7 @@ typedef void (^AnimationBlock)();
 
 - (void)occurrenceRemoved:(GBIFOccurrence *)occurrence
 {
-    NSLog(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.commonName);
+    DDLogDebug(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.commonName);
     //    if (self.navigationController.topViewController != self.parentViewController)
     //    {
     //        [self.navigationController popViewControllerAnimated:YES];
@@ -1021,8 +1018,11 @@ typedef void (^AnimationBlock)();
                                  // if flag still set, keep spinning with constant speed
                                  [self spinWithOptions: UIViewAnimationOptionCurveLinear];
                              } else {
-                                 self.imageRefreshSearchButton.hidden = YES;
-                                 self.buttonRefreshSearch.hidden = NO;
+                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                     self.buttonCancelSearch.hidden = YES;
+                                     self.imageRefreshSearchButton.hidden = YES;
+                                     self.buttonRefreshSearch.hidden = NO;
+                                 });
                              }
                          }
                      }];
@@ -1031,6 +1031,7 @@ typedef void (^AnimationBlock)();
 - (void) startSpin {
     self.buttonRefreshSearch.hidden = YES;
     self.imageRefreshSearchButton.hidden = NO;
+    self.buttonCancelSearch.hidden = NO;
     [self spinWithOptions: UIViewAnimationOptionCurveEaseIn];
 }
 

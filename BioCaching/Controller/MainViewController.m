@@ -10,12 +10,14 @@
 #import "SidebarViewController.h"
 #import "ExploreContainerViewController.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @implementation MainViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogVerbose(@"%s", __PRETTY_FUNCTION__);
     if (self) {
         // Custom initialization
     }
@@ -24,7 +26,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogVerbose(@"%s", __PRETTY_FUNCTION__);
     
     if (self) {
         [BCOptions sharedInstance];
@@ -36,7 +38,7 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogVerbose(@"%s", __PRETTY_FUNCTION__);
     [TSMessage setDefaultViewController:self.revealViewController];
     
     //Setup Sidebar
@@ -45,18 +47,18 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"MainViewController:viewWillAppear");
+    DDLogVerbose(@"MainViewController:viewWillAppear");
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogVerbose(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
-    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
+    DDLogVerbose(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
     
     SidebarViewController *sidebarVC = (SidebarViewController*)self.revealViewController.rearViewController;
     if ([segue.identifier isEqualToString:@"ExploreVC"]) {

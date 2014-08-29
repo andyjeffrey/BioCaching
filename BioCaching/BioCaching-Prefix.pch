@@ -44,6 +44,9 @@
 #import "LoginManager.h"
 #import "ConnectionHelper.h"
 
+#import <DDLog.h>
+#import <DDLogMacros.h>
+
 #import "SWRevealViewController.h"
 #import "IonIcons.h"
 #import "TDBadgedCell.h"
@@ -51,7 +54,4 @@
 #import <TSMessage.h>
 #import <UIImageView+AFNetworking.h>
 #import <DTCoreText.h>
-//#import "NimbusCore.h"
-//#import "NimbusWebController.h"
-//#import "NimbusAttributedLabel.h"
 

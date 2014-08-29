@@ -8,6 +8,8 @@
 
 #import "MKPolygon+WKTParser.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @implementation MKPolygon (WKTParser)
 
 - (NSString *)convertToWKT
@@ -25,7 +27,7 @@
     }
     
     NSString *wktPolygon = [NSString stringWithFormat:wktPolygonFormat, wktPoints];
-    NSLog(@"MKPolygon.convertToWKT: %@", wktPolygon);
+    DDLogDebug(@"MKPolygon.convertToWKT: %@", wktPolygon);
     
     return wktPolygon;
 }

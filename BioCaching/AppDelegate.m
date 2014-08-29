@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "BCLoggingHelper.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @implementation AppDelegate {
     NSDecimalNumber *lastVersion;
     NSDecimalNumber *currVersion;
@@ -23,6 +25,7 @@
     
     [self configureAppearanceSettings];
 
+    [BCLoggingHelper configureDDLogger];
 //    [BCLoggingHelper configureFlurryAnalytics];
 //    [BCLoggingHelper startLocalytics];
 //    [BCLoggingHelper configureParse:launchOptions];
@@ -93,10 +96,13 @@
     BOOL preVersion1 = (!([[NSDecimalNumber one] compare:currVersion] == NSOrderedAscending));
 
     //    if ([currVersion <= 1.0) && (lastVersion  < currVersion ))
+    
+    if (newVersion) {
+        clearDatabase = YES;
+    }
     if (newVersion && preVersion1)
     {
         clearUserDefaults = YES;
-        clearDatabase = YES;
     }
     
 // Force clearing during testing
@@ -132,11 +138,12 @@
 
 - (void)configureRestKitDebugging
 {
-//    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
-//    RKLogConfigureByName("RestKit/Network/Core Data", RKLogLevelTrace);
-//    RKLogConfigureByName("RestKit/Core Data", RKLogLevelInfo);
-//    RKLogConfigureByName("RestKit/Core Data/Cache", RKLogLevelTrace);
-//    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelInfo);
+    RKLogConfigureByName("RestKit", RKLogLevelOff);
+    RKLogConfigureByName("RestKit/Network", RKLogLevelOff);
+    RKLogConfigureByName("RestKit/Network/Core Data", RKLogLevelOff);
+    RKLogConfigureByName("RestKit/Core Data", RKLogLevelOff);
+    RKLogConfigureByName("RestKit/Core Data/Cache", RKLogLevelOff);
+    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelOff);
 }
 
 
@@ -162,9 +169,7 @@
         RKLogError(@"Failed To Create Application Data Directory At Path: %@ : %@", RKApplicationDataDirectory(), error);
     }
     NSString *dataStorePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"BioCaching.sqlite"];
-#ifdef DEBUG
-    NSLog(@"Data Store Path: %@", dataStorePath);
-#endif
+    DDLogInfo(@"Data Store Path: %@", dataStorePath);
     
     //Completely Remove Old Data Store Files If Required (during testing)
     if (clearDatabase)

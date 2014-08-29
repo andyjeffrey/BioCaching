@@ -8,6 +8,8 @@
 
 #import "ImageCache.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @implementation ImageCache
 
 + (void)saveImageForURL:(NSString *)urlString
@@ -17,9 +19,9 @@
     
     NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
     if (cachedResponse) {
-        NSLog(@"ImageURL already cached:%@", urlString);
+        DDLogDebug(@"ImageURL already cached:%@", urlString);
     } else {
-        NSLog(@"Caching Image URL:%@", urlString);
+        DDLogDebug(@"Caching Image URL:%@", urlString);
         UIImageView *tempImageView = [[UIImageView alloc] init];
         [tempImageView setImageWithURL:[NSURL URLWithString:urlString]];
     }
@@ -33,11 +35,11 @@
     
     NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
     if (cachedResponse) {
-        NSLog(@"ImageURL cached:%@", urlString);
+        DDLogDebug(@"ImageURL cached:%@", urlString);
         responseData = cachedResponse.data;
     }
     else{
-        NSLog(@"ImageURL NOT cached:%@", urlString);
+        DDLogDebug(@"ImageURL NOT cached:%@", urlString);
         NSError *error = nil;
         NSURLResponse *response = nil;
         responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];

@@ -8,12 +8,14 @@
 
 #import "CustomEmbedSegue.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @implementation CustomEmbedSegue
 
 - (id)initWithIdentifier:(NSString *)identifier source:(UIViewController *)source destination:(UIViewController *)destination {
 	
 	self = [super initWithIdentifier:identifier source:source destination:destination];
-    NSLog(@"%s\n source:%@\n destination:%@", __PRETTY_FUNCTION__, source.class, destination.class);
+    DDLogVerbose(@"%s\n source:%@\n destination:%@", __PRETTY_FUNCTION__, source.class, destination.class);
     
     //	if (self) {
     //
@@ -31,7 +33,7 @@
 
 - (void)perform
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogVerbose(@"%s", __PRETTY_FUNCTION__);
     
     // Nothing. The ContainerViewController class handles all of the view
     // controller action.

@@ -2,14 +2,18 @@
 // Make changes to INatTaxon.h instead.
 
 #import <CoreData/CoreData.h>
-#import "BCManagedObject.h"
+
 
 extern const struct INatTaxonAttributes {
 	__unsafe_unretained NSString *commonName;
+	__unsafe_unretained NSString *createdAt;
+	__unsafe_unretained NSString *localCreatedAt;
 	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *recordId;
 	__unsafe_unretained NSString *searchName;
 	__unsafe_unretained NSString *squareImageUrl;
 	__unsafe_unretained NSString *summaryText;
+	__unsafe_unretained NSString *updatedAt;
 } INatTaxonAttributes;
 
 extern const struct INatTaxonRelationships {
@@ -29,10 +33,14 @@ extern const struct INatTaxonFetchedProperties {
 
 
 
+
+
+
+
 @interface INatTaxonID : NSManagedObjectID {}
 @end
 
-@interface _INatTaxon : BCManagedObject {}
+@interface _INatTaxon : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -52,11 +60,45 @@ extern const struct INatTaxonFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSDate* createdAt;
+
+
+
+//- (BOOL)validateCreatedAt:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* localCreatedAt;
+
+
+
+//- (BOOL)validateLocalCreatedAt:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* name;
 
 
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* recordId;
+
+
+
+@property int32_t recordIdValue;
+- (int32_t)recordIdValue;
+- (void)setRecordIdValue:(int32_t)value_;
+
+//- (BOOL)validateRecordId:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -87,6 +129,16 @@ extern const struct INatTaxonFetchedProperties {
 
 
 //- (BOOL)validateSummaryText:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* updatedAt;
+
+
+
+//- (BOOL)validateUpdatedAt:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -132,8 +184,29 @@ extern const struct INatTaxonFetchedProperties {
 
 
 
+- (NSDate*)primitiveCreatedAt;
+- (void)setPrimitiveCreatedAt:(NSDate*)value;
+
+
+
+
+- (NSDate*)primitiveLocalCreatedAt;
+- (void)setPrimitiveLocalCreatedAt:(NSDate*)value;
+
+
+
+
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveRecordId;
+- (void)setPrimitiveRecordId:(NSNumber*)value;
+
+- (int32_t)primitiveRecordIdValue;
+- (void)setPrimitiveRecordIdValue:(int32_t)value_;
 
 
 
@@ -152,6 +225,12 @@ extern const struct INatTaxonFetchedProperties {
 
 - (NSString*)primitiveSummaryText;
 - (void)setPrimitiveSummaryText:(NSString*)value;
+
+
+
+
+- (NSDate*)primitiveUpdatedAt;
+- (void)setPrimitiveUpdatedAt:(NSDate*)value;
 
 
 

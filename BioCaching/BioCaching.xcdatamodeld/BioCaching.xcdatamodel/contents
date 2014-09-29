@@ -30,12 +30,16 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="observation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatObservation" inverseName="obsPhotos" inverseEntity="INatObservation" syncable="YES"/>
     </entity>
-    <entity name="INatTaxon" representedClassName="INatTaxon" parentEntity="BCManagedObject" syncable="YES">
+    <entity name="INatTaxon" representedClassName="INatTaxon" syncable="YES">
         <attribute name="commonName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="localCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="searchName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="squareImageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="summaryText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="occurrences" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OccurrenceRecord" inverseName="iNatTaxon" inverseEntity="OccurrenceRecord" syncable="YES"/>
         <relationship name="taxonPhotos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="INatTaxonPhoto" inverseName="taxon" inverseEntity="INatTaxonPhoto" syncable="YES"/>
     </entity>
@@ -102,7 +106,7 @@
         <element name="BCManagedObject" positionX="-837" positionY="-1350" width="128" height="120"/>
         <element name="INatObservation" positionX="-423" positionY="-954" width="128" height="223"/>
         <element name="INatObservationPhoto" positionX="-207" positionY="-954" width="128" height="148"/>
-        <element name="INatTaxon" positionX="-369" positionY="-1197" width="128" height="148"/>
+        <element name="INatTaxon" positionX="-369" positionY="-1197" width="128" height="208"/>
         <element name="INatTaxonPhoto" positionX="-173" positionY="-1242" width="128" height="193"/>
         <element name="INatTrip" positionX="-972" positionY="-1116" width="128" height="223"/>
         <element name="INatTripTaxaAttribute" positionX="-785" positionY="-937" width="128" height="118"/>

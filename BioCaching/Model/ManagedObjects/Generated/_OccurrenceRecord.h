@@ -2,13 +2,14 @@
 // Make changes to OccurrenceRecord.h instead.
 
 #import <CoreData/CoreData.h>
-#import "BCManagedObject.h"
+
 
 extern const struct OccurrenceRecordAttributes {
 	__unsafe_unretained NSString *dateRecorded;
 	__unsafe_unretained NSString *gbifId;
 	__unsafe_unretained NSString *institutionCode;
 	__unsafe_unretained NSString *latitude;
+	__unsafe_unretained NSString *localCreatedAt;
 	__unsafe_unretained NSString *longitude;
 	__unsafe_unretained NSString *recordSource;
 	__unsafe_unretained NSString *recordType;
@@ -49,10 +50,11 @@ extern const struct OccurrenceRecordFetchedProperties {
 
 
 
+
 @interface OccurrenceRecordID : NSManagedObjectID {}
 @end
 
-@interface _OccurrenceRecord : BCManagedObject {}
+@interface _OccurrenceRecord : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -101,6 +103,16 @@ extern const struct OccurrenceRecordFetchedProperties {
 
 
 //- (BOOL)validateLatitude:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* localCreatedAt;
+
+
+
+//- (BOOL)validateLocalCreatedAt:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -263,6 +275,12 @@ extern const struct OccurrenceRecordFetchedProperties {
 
 - (NSDecimalNumber*)primitiveLatitude;
 - (void)setPrimitiveLatitude:(NSDecimalNumber*)value;
+
+
+
+
+- (NSDate*)primitiveLocalCreatedAt;
+- (void)setPrimitiveLocalCreatedAt:(NSDate*)value;
 
 
 

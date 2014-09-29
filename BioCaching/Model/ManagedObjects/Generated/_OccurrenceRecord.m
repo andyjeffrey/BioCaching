@@ -8,6 +8,7 @@ const struct OccurrenceRecordAttributes OccurrenceRecordAttributes = {
 	.gbifId = @"gbifId",
 	.institutionCode = @"institutionCode",
 	.latitude = @"latitude",
+	.localCreatedAt = @"localCreatedAt",
 	.longitude = @"longitude",
 	.recordSource = @"recordSource",
 	.recordType = @"recordType",
@@ -108,6 +109,13 @@ const struct OccurrenceRecordFetchedProperties OccurrenceRecordFetchedProperties
 
 
 @dynamic latitude;
+
+
+
+
+
+
+@dynamic localCreatedAt;
 
 
 

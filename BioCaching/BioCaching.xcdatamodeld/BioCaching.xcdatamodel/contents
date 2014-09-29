@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="BCManagedObject" representedClassName="BCManagedObject" isAbstract="YES" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="localCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
@@ -78,11 +78,12 @@
         <attribute name="resourceType" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="trip" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTrip" inverseName="taxaPurposes" inverseEntity="INatTrip" syncable="YES"/>
     </entity>
-    <entity name="OccurrenceRecord" representedClassName="OccurrenceRecord" parentEntity="BCManagedObject" syncable="YES">
+    <entity name="OccurrenceRecord" representedClassName="OccurrenceRecord" syncable="YES">
         <attribute name="dateRecorded" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="gbifId" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <attribute name="institutionCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Decimal" syncable="YES"/>
+        <attribute name="localCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Decimal" syncable="YES"/>
         <attribute name="recordedBy" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="recordSource" optional="YES" attributeType="String" syncable="YES"/>
@@ -106,6 +107,6 @@
         <element name="INatTrip" positionX="-972" positionY="-1116" width="128" height="223"/>
         <element name="INatTripTaxaAttribute" positionX="-785" positionY="-937" width="128" height="118"/>
         <element name="INatTripTaxaPurpose" positionX="-785" positionY="-787" width="128" height="103"/>
-        <element name="OccurrenceRecord" positionX="-621" positionY="-1296" width="128" height="298"/>
+        <element name="OccurrenceRecord" positionX="-621" positionY="-1296" width="128" height="315"/>
     </elements>
 </model>

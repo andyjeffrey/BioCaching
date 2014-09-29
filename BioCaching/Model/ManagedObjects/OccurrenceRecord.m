@@ -10,7 +10,8 @@
     NSManagedObjectContext *managedObjectContext = [[RKObjectManager sharedManager] managedObjectStore].mainQueueManagedObjectContext;
     
     OccurrenceRecord *occurrenceRecord = [NSEntityDescription insertNewObjectForEntityForName:@"OccurrenceRecord" inManagedObjectContext:managedObjectContext];
-    
+
+    occurrenceRecord.localCreatedAt = [NSDate date];
     occurrenceRecord.dateRecorded = [[NSDate dateFromISO8601String:gbifOccurrence.OccurrenceDate] copy];
     occurrenceRecord.gbifId = [gbifOccurrence.Key copy];
     occurrenceRecord.institutionCode = [gbifOccurrence.InstitutionCode copy];

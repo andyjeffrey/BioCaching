@@ -56,8 +56,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelDatabaseTaxa;
 @property (weak, nonatomic) IBOutlet UILabel *labelDatabaseObservations;
 @property (weak, nonatomic) IBOutlet UILabel *labelDatabaseTrips;
-
 - (IBAction)buttonClearDatabase:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonCancel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonSave;
 
@@ -284,6 +284,13 @@
 }
 
 - (IBAction)buttonClearDatabase:(id)sender {
+    [BCAlerts displayOKorCancelAlert:@"Clear Database - Are You Sure?" message:@"Warning! - This will remove all stored records from your mobile device" okBlock:^{
+        [BCDatabaseHelper clearDataStore];
+        [TripsDataManager sharedInstance].currentTrip = nil;
+        [self updateDatabaseLabels];
+    } cancelBlock:^{
+        return;
+    }];
 }
 
 - (IBAction)buttonActionDebugTest:(id)sender {

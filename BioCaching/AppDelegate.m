@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "BCLoggingHelper.h"
+#import "BCDatabaseHelper.h"
 
 static const int ddLogLevel = LOG_LEVEL_INFO;
 
@@ -91,26 +92,24 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     // CFBundleVersion = "Build" setting
     currVersion = [NSDecimalNumber decimalNumberWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
     
-    // Default is to completely clear UserDefaults and Database on version change, up to v1.0
     BOOL newVersion = ([lastVersion compare:currVersion] == NSOrderedAscending);
     BOOL preVersion1 = (!([[NSDecimalNumber one] compare:currVersion] == NSOrderedAscending));
+    BOOL preVersion1pt1 = (!([[NSDecimalNumber decimalNumberWithString:@"1.1"] compare:currVersion] == NSOrderedAscending));
 
-    //    if ([currVersion <= 1.0) && (lastVersion  < currVersion ))
-    
-    if (newVersion) {
-        clearDatabase = YES;
-    }
-    if (newVersion && preVersion1)
-    {
+    // Default is to clear UserDefaults on version change upto v1.0, and clear Database on version change, up to v1.1
+    if (newVersion && preVersion1) {
         clearUserDefaults = YES;
     }
+    if (newVersion && preVersion1pt1) {
+        clearDatabase = YES;
+    }
     
-// Force clearing during testing
-#ifdef CLEARDOWNUSERDEFAULTS
-    clearUserDefaults = YES;
+// Override flags during testing
+#ifdef kClearUserDefaults
+    clearUserDefaults = kClearUserDefaults;
 #endif
-#ifdef CLEARDOWNDATABASE
-    clearDatabase = YES;
+#ifdef kClearDataStore
+    clearDatabase = kClearDataStore;
 #endif
     
 }
@@ -149,47 +148,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)configureRestKit
 {
-    NSError *error = nil;
+    [BCDatabaseHelper initDataStore:clearDatabase];
 
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:kINatBaseURL]];
-//    objectManager.requestSerializationMIMEType=RKMIMETypeJSON;
-
-    NSURL *modelURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"BioCaching" ofType:@"momd"]];
-    NSManagedObjectModel *managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
-    
-    // Create In-Memory Date Store
-//    [managedObjectStore createPersistentStoreCoordinator];
-//    NSPersistentStore __unused *persistentStore = [managedObjectStore addInMemoryPersistentStore:&error];
-//    NSAssert(persistentStore, @"Failed to add persistent store: %@", error);
-    
-    // Create On-disk SQLite Data Store
-    BOOL success = RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error);
-    if (!success) {
-        RKLogError(@"Failed To Create Application Data Directory At Path: %@ : %@", RKApplicationDataDirectory(), error);
-    }
-    NSString *dataStorePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"BioCaching.sqlite"];
-    DDLogInfo(@"Data Store Path: %@", dataStorePath);
-    
-    //Completely Remove Old Data Store Files If Required (during testing)
-    if (clearDatabase)
-    {
-        [[NSFileManager defaultManager] removeItemAtPath:dataStorePath error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@-shm", dataStorePath] error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@-wal", dataStorePath] error:nil];
-    }
-    
-    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:dataStorePath fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
-    if (!persistentStore) {
-        RKLogError(@"Failed To Add Persistent Store At Path: %@ : %@", dataStorePath, error);
-    }
-    
-    [managedObjectStore createManagedObjectContexts];
-    [RKManagedObjectStore setDefaultStore:managedObjectStore];
-    
-    objectManager.managedObjectStore = managedObjectStore;
-    [RKObjectManager setSharedManager:objectManager];
-    
     // Reset AuthKey
 //    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:kINatAuthTokenPrefKey];
 //    [[NSUserDefaults standardUserDefaults] synchronize];

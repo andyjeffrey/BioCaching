@@ -10,8 +10,9 @@
 
 @interface BCDatabaseHelper : NSObject
 
-+ (NSManagedObjectContext *)sharedMOC;
-+ (void)clearDownDatabase;
++ (void)initDataStore:(BOOL)resetDatabase;
++ (void)clearDataStore;
+
 + (NSUInteger)rowCountForEntity:(NSString *)entityName;
 
 @end

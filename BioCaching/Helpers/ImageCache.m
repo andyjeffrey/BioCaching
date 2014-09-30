@@ -8,7 +8,7 @@
 
 #import "ImageCache.h"
 
-static const int ddLogLevel = LOG_LEVEL_INFO;
+static const int ddLogLevel = LOG_LEVEL_DEBUG;
 
 @implementation ImageCache
 
@@ -51,6 +51,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 // Adapted from http://stackoverflow.com/questions/1282830/uiimagepickercontroller-uiimage-memory-and-more
 + (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize
 {
+//    DDLogDebug(@"ImageWithImage Source: %.0f,%.0f %.3f", sourceImage.size.width, sourceImage.size.height, sourceImage.size.width/sourceImage.size.height);
+//    DDLogDebug(@"ImageWithImage Frame: %.0f,%.0f %.3f", targetSize.width, targetSize.height, targetSize.width/targetSize.height);
+    
     CGSize imageSize = sourceImage.size;
     CGFloat width = imageSize.width;
     CGFloat height = imageSize.height;
@@ -147,6 +150,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     CGContextRelease(bitmap);
     CGImageRelease(ref);
+
+//    DDLogDebug(@"ImageWithImage Scaled: %.0f,%.0f %.3f", newImage.size.width, newImage.size.height, newImage.size.width/newImage.size.height);
     
     return newImage;
 }

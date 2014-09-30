@@ -10,6 +10,8 @@
 #import "TaxonInfoViewController.h"
 #import "BCWebViewController.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @interface OccurrenceTableViewControler ()
 
 @property (weak, nonatomic) IBOutlet UILabel *labelDescription;
@@ -113,7 +115,7 @@
     // If shorter Pre-iPhone5 display, use alternative layout for main details table section (section#1)
 /*
     if (!IS_IPHONE5 && (indexPath.section == 1)) {
-        NSLog(@"Using Pre-iPhone5 Table Section, Row Height:");
+        DDLogDebug(@"Using Pre-iPhone5 Table Section, Row Height:%.0f", rowHeight);
         indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:3];
     }
 */
@@ -125,7 +127,7 @@
     CGFloat rowHeight = [super tableView:tableView heightForRowAtIndexPath:indexPath];
     // If shorter Pre-iPhone5 display, use alternative layout for main details table section (section#1)
     if (!IS_IPHONE5 && (indexPath.section == 1) && (indexPath.row == 0)) {
-        NSLog(@"Using Pre-iPhone5 Table Section, Row Height:");
+        DDLogDebug(@"Using Pre-iPhone5 Table Section, Row Height:%.0f", rowHeight);
         [self.labelDescription setNumberOfLines:2];
         [self.labelDescription sizeToFit];
         rowHeight = 50;
@@ -150,7 +152,7 @@
                            kBHLBaseURL,
                            kBHLSpeciesBiblioPath,
                            [self.occurrence.taxonSpecies stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSLog(@"Loading URL:%@", biblioURL);
+    DDLogDebug(@"Loading URL:%@", biblioURL);
     
     BCWebViewController *webController = [[BCWebViewController alloc] initWithURL:[NSURL URLWithString:biblioURL] fixedTitle:@"Species Bibliograpy"];
     [self.navigationController pushViewController:webController animated:YES];
@@ -162,7 +164,7 @@
 - (IBAction)buttonActionLocation:(id)sender {
     NSString *urlLocation = [NSString stringWithFormat:@"http://www.google.com/maps?q=%.6f,%.6f", self.occurrence.latitude.doubleValue, self.occurrence.longitude.doubleValue];
 
-    NSLog(@"Loading URL:%@", urlLocation);
+    DDLogDebug(@"Loading URL:%@", urlLocation);
     
     BCWebViewController *webController = [[BCWebViewController alloc] initWithURL:[NSURL URLWithString:urlLocation]];
     [self.navigationController pushViewController:webController animated:YES];
@@ -173,7 +175,7 @@
                            kGBIFBaseURL,
                            @"occurrence/",
                          self.occurrence.gbifId.stringValue];
-    NSLog(@"Loading URL:%@", urlGBIF);
+    DDLogDebug(@"Loading URL:%@", urlGBIF);
     
     BCWebViewController *webController = [[BCWebViewController alloc] initWithURL:[NSURL URLWithString:urlGBIF] fixedTitle:@"GBIF Record"];
     [self.navigationController pushViewController:webController animated:YES];
@@ -184,7 +186,7 @@
                          kINatBaseURL,
                          @"taxa/",
                          self.occurrence.iNatTaxon.recordId.stringValue];
-    NSLog(@"Loading URL:%@", urlINAT);
+    DDLogDebug(@"Loading URL:%@", urlINAT);
     
     BCWebViewController *webController = [[BCWebViewController alloc] initWithURL:[NSURL URLWithString:urlINAT] fixedTitle:@"iNat Taxon Record"];
     [self.navigationController pushViewController:webController animated:YES];

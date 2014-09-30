@@ -15,6 +15,6 @@
 + (void)saveImageForURL:(NSString *)url;
 + (UIImage *)getImageForURL:(NSString *)url;
 
-+ (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
++ (UIImage *)imageWithImage:(UIImage *)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
 
 @end

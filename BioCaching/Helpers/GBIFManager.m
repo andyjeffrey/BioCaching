@@ -67,7 +67,7 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
 
 - (void)GBIFCommunicatorFailedWithError:(NSError *)error
 {
-    DDLogError(@"GBIFManager Error: %@", error);
+    DDLogError(@"GBIFCommunicatorFailedWithError: %@", error);
     [self.delegate fetchingResultsFailedWithError:error];
 }
 
@@ -90,7 +90,6 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
           ([occurrenceResults.Offset intValue] + (int)occurrenceResults.Results.count));
     
     return occurrenceResults;
-    
 }
 
 @end

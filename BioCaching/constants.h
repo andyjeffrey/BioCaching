@@ -21,7 +21,7 @@
 #define kCounterTripsCreated            @"TripsCreated"
 #define kCounterTripsFailed             @"TripsFailed"
 
-#define kDefaultInternetTimeout         30
+#define kDefaultInternetTimeout         10
 
 #define kGBIFBaseURL                    @"http://api.gbif.org/v1/"
 #define kGBIFBaseURLPreV1               @"http://api.gbif.org/v0.9/"

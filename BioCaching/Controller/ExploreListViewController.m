@@ -14,6 +14,8 @@
 #import "TripsDataManager.h"
 #import "BCOptions.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @interface ExploreListViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonSidebar;
@@ -41,7 +43,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     
     _bcOptions = [BCOptions sharedInstance];
 
@@ -204,7 +206,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
-    NSLog(@"didSelectRowAtIndexPath: %lu - %@", indexPath.row, occurrence.title);
+    
+    DDLogDebug(@"didSelectRowAtIndexPath: %d - %@", indexPath.row, occurrence.title);
     
 //    OccurrenceDetailsViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OccurrenceDetails"];
 //    detailsVC.occurrence = occurrence;
@@ -228,7 +231,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"commitEditingStyle: %lu", indexPath.row);
+    DDLogDebug(@"commitEditingStyle: %d", indexPath.row);
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self deleteOccurrenceAtIndexPath:indexPath];
     }
@@ -247,7 +250,7 @@
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
-    NSLog(@"Action Button: %lu - %@", indexPath.row, occurrence.title);
+    DDLogDebug(@"Action Button: %d - %@", indexPath.row, occurrence.title);
 
     // Only used for record/edit now, so can delete TripStatus condition
 //    if (_currentTrip && _currentTrip.status.intValue >= TripStatusInProgress)
@@ -263,13 +266,10 @@
 #pragma mark Storyboard Segues
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    //    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
-    //    NSLog(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
-    
     if ([segue.identifier isEqualToString:@"OccurrenceDetails"]) {
         OccurrenceDetailsViewController *detailsVC = segue.destinationViewController;
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-        //        NSLog(@"%@:%lu", selectedIndexPath, (long)selectedIndexPath.row);
+//        DDLogDebug(@"%@:%lu", selectedIndexPath, (long)selectedIndexPath.row);
         detailsVC.occurrence = _currentTrip.occurrenceRecords[selectedIndexPath.row];
     }
     

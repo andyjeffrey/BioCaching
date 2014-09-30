@@ -90,7 +90,15 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     // CFBundleShortVersionString = "Version" setting in active target Info.plist
     // CFBundleVersion = "Build" setting
-    currVersion = [NSDecimalNumber decimalNumberWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+    NSString *currentVer = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
+    if ([[currentVer componentsSeparatedByString:@"."] count] > 2) {
+        NSRange releaseVer = [currentVer rangeOfString:@"." options:NSBackwardsSearch];
+        if (releaseVer.location != NSNotFound) {
+            currentVer = [currentVer stringByReplacingCharactersInRange:releaseVer withString:@""];
+        }
+    }
+    currVersion = [NSDecimalNumber decimalNumberWithString:currentVer];
     
     BOOL newVersion = ([lastVersion compare:currVersion] == NSOrderedAscending);
     BOOL preVersion1 = (!([[NSDecimalNumber one] compare:currVersion] == NSOrderedAscending));

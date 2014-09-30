@@ -14,6 +14,8 @@
 #import "ExploreDataManager.h"
 #import "TripsDataManager.h"
 
+static const int ddLogLevel = LOG_LEVEL_DEBUG;
+
 @interface TaxonInfoViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageMainPhoto;
@@ -139,15 +141,31 @@
         iNatTaxonPhoto = self.occurrence.iNatTaxon.taxonPhotos[0];
         
         CGRect imageFrame = self.imageMainPhoto.frame;
-        
-        //        [self.imageMainPhoto setImageWithURL:[NSURL URLWithString:iNatTaxonPhoto.medium_url]];
+        double frameRatio = [ImageHelper getFrameAspectRatio:imageFrame.size];
+
         self.imageMainPhoto.image = [ImageCache getImageForURL:iNatTaxonPhoto.mediumUrl];
-        if (self.imageMainPhoto.image.size.height > imageFrame.size.height) {
+        double sourceRatio = [ImageHelper getFrameAspectRatio:self.imageMainPhoto.image.size];
+
+        DDLogDebug(@"ImageWithImage Frame: %.0f,%.0f %.3f", imageFrame.size.width, imageFrame.size.height, frameRatio);
+        DDLogDebug(@"ImageWithImage Source: %.0f,%.0f %.3f", self.imageMainPhoto.image.size.width, self.imageMainPhoto.image.size.height, sourceRatio);
+        
+//        self.imageMainPhoto.image = [ImageCache imageWithImage:self.imageMainPhoto.image scaledToSizeWithSameAspectRatio:imageFrame.size];
+        
+        if (sourceRatio < frameRatio) {
             self.imageMainPhoto.contentMode = UIViewContentModeScaleAspectFit;
         } else {
             self.imageMainPhoto.contentMode = UIViewContentModeScaleAspectFill;
         }
+
+        DDLogDebug(@"ImageWithImage Scaled: %.0f,%.0f %.3f", self.imageMainPhoto.image.size.width, self.imageMainPhoto.image.size.height, self.imageMainPhoto.image.scale);
         
+//        self.imageMainPhoto.image = [ImageCache getImageForURL:iNatTaxonPhoto.mediumUrl];
+//        if (self.imageMainPhoto.image.size.height > imageFrame.size.height) {
+//            self.imageMainPhoto.contentMode = UIViewContentModeScaleAspectFit;
+//        } else {
+//            self.imageMainPhoto.contentMode = UIViewContentModeScaleAspectFill;
+//        }
+
         self.labelPhotoCopyright.text = iNatTaxonPhoto.attribution;
     } else {
         self.imageMainPhoto.image = nil;

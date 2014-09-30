@@ -5,14 +5,19 @@
 
 const struct INatTripAttributes INatTripAttributes = {
 	.body = @"body",
+	.createdAt = @"createdAt",
 	.latitude = @"latitude",
+	.localCreatedAt = @"localCreatedAt",
 	.longitude = @"longitude",
 	.placeId = @"placeId",
+	.recordId = @"recordId",
 	.searchAreaSpan = @"searchAreaSpan",
 	.startTime = @"startTime",
 	.status = @"status",
 	.stopTime = @"stopTime",
+	.syncedAt = @"syncedAt",
 	.title = @"title",
+	.updatedAt = @"updatedAt",
 	.userId = @"userId",
 };
 
@@ -65,6 +70,11 @@ const struct INatTripFetchedProperties INatTripFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"recordIdValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"recordId"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"searchAreaSpanValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"searchAreaSpan"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -94,6 +104,13 @@ const struct INatTripFetchedProperties INatTripFetchedProperties = {
 
 
 
+@dynamic createdAt;
+
+
+
+
+
+
 @dynamic latitude;
 
 
@@ -115,6 +132,13 @@ const struct INatTripFetchedProperties INatTripFetchedProperties = {
 - (void)setPrimitiveLatitudeValue:(double)value_ {
 	[self setPrimitiveLatitude:[NSNumber numberWithDouble:value_]];
 }
+
+
+
+
+
+@dynamic localCreatedAt;
+
 
 
 
@@ -166,6 +190,32 @@ const struct INatTripFetchedProperties INatTripFetchedProperties = {
 
 - (void)setPrimitivePlaceIdValue:(int32_t)value_ {
 	[self setPrimitivePlaceId:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic recordId;
+
+
+
+- (int32_t)recordIdValue {
+	NSNumber *result = [self recordId];
+	return [result intValue];
+}
+
+- (void)setRecordIdValue:(int32_t)value_ {
+	[self setRecordId:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveRecordIdValue {
+	NSNumber *result = [self primitiveRecordId];
+	return [result intValue];
+}
+
+- (void)setPrimitiveRecordIdValue:(int32_t)value_ {
+	[self setPrimitiveRecordId:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -238,7 +288,21 @@ const struct INatTripFetchedProperties INatTripFetchedProperties = {
 
 
 
+@dynamic syncedAt;
+
+
+
+
+
+
 @dynamic title;
+
+
+
+
+
+
+@dynamic updatedAt;
 
 
 

@@ -2,18 +2,23 @@
 // Make changes to INatTrip.h instead.
 
 #import <CoreData/CoreData.h>
-#import "BCManagedObject.h"
+
 
 extern const struct INatTripAttributes {
 	__unsafe_unretained NSString *body;
+	__unsafe_unretained NSString *createdAt;
 	__unsafe_unretained NSString *latitude;
+	__unsafe_unretained NSString *localCreatedAt;
 	__unsafe_unretained NSString *longitude;
 	__unsafe_unretained NSString *placeId;
+	__unsafe_unretained NSString *recordId;
 	__unsafe_unretained NSString *searchAreaSpan;
 	__unsafe_unretained NSString *startTime;
 	__unsafe_unretained NSString *status;
 	__unsafe_unretained NSString *stopTime;
+	__unsafe_unretained NSString *syncedAt;
 	__unsafe_unretained NSString *title;
+	__unsafe_unretained NSString *updatedAt;
 	__unsafe_unretained NSString *userId;
 } INatTripAttributes;
 
@@ -39,10 +44,15 @@ extern const struct INatTripFetchedProperties {
 
 
 
+
+
+
+
+
 @interface INatTripID : NSManagedObjectID {}
 @end
 
-@interface _INatTrip : BCManagedObject {}
+@interface _INatTrip : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -62,6 +72,16 @@ extern const struct INatTripFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSDate* createdAt;
+
+
+
+//- (BOOL)validateCreatedAt:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* latitude;
 
 
@@ -71,6 +91,16 @@ extern const struct INatTripFetchedProperties {
 - (void)setLatitudeValue:(double)value_;
 
 //- (BOOL)validateLatitude:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* localCreatedAt;
+
+
+
+//- (BOOL)validateLocalCreatedAt:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -99,6 +129,20 @@ extern const struct INatTripFetchedProperties {
 - (void)setPlaceIdValue:(int32_t)value_;
 
 //- (BOOL)validatePlaceId:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* recordId;
+
+
+
+@property int32_t recordIdValue;
+- (int32_t)recordIdValue;
+- (void)setRecordIdValue:(int32_t)value_;
+
+//- (BOOL)validateRecordId:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -152,11 +196,31 @@ extern const struct INatTripFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSDate* syncedAt;
+
+
+
+//- (BOOL)validateSyncedAt:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* title;
 
 
 
 //- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* updatedAt;
+
+
+
+//- (BOOL)validateUpdatedAt:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -216,11 +280,23 @@ extern const struct INatTripFetchedProperties {
 
 
 
+- (NSDate*)primitiveCreatedAt;
+- (void)setPrimitiveCreatedAt:(NSDate*)value;
+
+
+
+
 - (NSNumber*)primitiveLatitude;
 - (void)setPrimitiveLatitude:(NSNumber*)value;
 
 - (double)primitiveLatitudeValue;
 - (void)setPrimitiveLatitudeValue:(double)value_;
+
+
+
+
+- (NSDate*)primitiveLocalCreatedAt;
+- (void)setPrimitiveLocalCreatedAt:(NSDate*)value;
 
 
 
@@ -239,6 +315,15 @@ extern const struct INatTripFetchedProperties {
 
 - (int32_t)primitivePlaceIdValue;
 - (void)setPrimitivePlaceIdValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitiveRecordId;
+- (void)setPrimitiveRecordId:(NSNumber*)value;
+
+- (int32_t)primitiveRecordIdValue;
+- (void)setPrimitiveRecordIdValue:(int32_t)value_;
 
 
 
@@ -273,8 +358,20 @@ extern const struct INatTripFetchedProperties {
 
 
 
+- (NSDate*)primitiveSyncedAt;
+- (void)setPrimitiveSyncedAt:(NSDate*)value;
+
+
+
+
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;
+
+
+
+
+- (NSDate*)primitiveUpdatedAt;
+- (void)setPrimitiveUpdatedAt:(NSDate*)value;
 
 
 

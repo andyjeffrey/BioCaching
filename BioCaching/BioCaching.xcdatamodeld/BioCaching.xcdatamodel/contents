@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="BCManagedObject" representedClassName="BCManagedObject" isAbstract="YES" syncable="YES">
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="localCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="recordId" optional="YES" attributeType="Integer 32" syncable="YES"/>
-        <attribute name="syncedAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
-    </entity>
     <entity name="INatObservation" representedClassName="INatObservation" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="dateRecorded" optional="YES" attributeType="Date" syncable="YES"/>
@@ -55,16 +48,21 @@
         <attribute name="thumbUrl" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="taxon" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="INatTaxon" inverseName="taxonPhotos" inverseEntity="INatTaxon" syncable="YES"/>
     </entity>
-    <entity name="INatTrip" representedClassName="INatTrip" parentEntity="BCManagedObject" syncable="YES">
+    <entity name="INatTrip" representedClassName="INatTrip" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="localCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="placeId" optional="YES" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="recordId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="searchAreaSpan" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <attribute name="startTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <attribute name="stopTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="syncedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <relationship name="taxaAttributes" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="INatTripTaxaAttribute" inverseName="trip" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
         <relationship name="taxaPurposes" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="INatTripTaxaPurpose" inverseName="trip" inverseEntity="INatTripTaxaPurpose" syncable="YES"/>
@@ -103,12 +101,11 @@
         <relationship name="taxaAttribute" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="INatTripTaxaAttribute" inverseName="occurrence" inverseEntity="INatTripTaxaAttribute" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BCManagedObject" positionX="-837" positionY="-1350" width="128" height="120"/>
         <element name="INatObservation" positionX="-423" positionY="-954" width="128" height="223"/>
         <element name="INatObservationPhoto" positionX="-207" positionY="-954" width="128" height="148"/>
         <element name="INatTaxon" positionX="-369" positionY="-1197" width="128" height="208"/>
         <element name="INatTaxonPhoto" positionX="-173" positionY="-1242" width="128" height="193"/>
-        <element name="INatTrip" positionX="-972" positionY="-1116" width="128" height="223"/>
+        <element name="INatTrip" positionX="-972" positionY="-1116" width="128" height="298"/>
         <element name="INatTripTaxaAttribute" positionX="-785" positionY="-937" width="128" height="118"/>
         <element name="INatTripTaxaPurpose" positionX="-785" positionY="-787" width="128" height="103"/>
         <element name="OccurrenceRecord" positionX="-621" positionY="-1296" width="128" height="315"/>

@@ -114,14 +114,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)fetchingResultsFailedWithError:(NSError *)error
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-#ifdef TESTING
-    [BCAlerts displayDefaultFailureNotification:@"Error Retrieving Records" subtitle:error.debugDescription];
-#else
-    [BCAlerts displayDefaultInfoAlert:@"Error Retrieving Records" message:@"Please Try Again Later"];
-#endif
-    
-    DDLogError(@"Error %@; %@", error, [error localizedDescription]);
+    [self.delegate errorReceived:error];
 }
 
 

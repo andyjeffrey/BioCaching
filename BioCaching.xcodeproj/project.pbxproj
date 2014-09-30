@@ -45,7 +45,6 @@
 		A17628D5194F08CD00DD69DB /* BCAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = A17628D4194F08CD00DD69DB /* BCAlerts.m */; };
 		A17BAE32195DBB8A004B1C37 /* _OccurrenceRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BAE31195DBB8A004B1C37 /* _OccurrenceRecord.m */; };
 		A17BAE35195DBBA2004B1C37 /* OccurrenceRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BAE34195DBBA2004B1C37 /* OccurrenceRecord.m */; };
-		A17BAE38195DC6AD004B1C37 /* _BCManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BAE37195DC6AD004B1C37 /* _BCManagedObject.m */; };
 		A17BAE3B195DC6B9004B1C37 /* BCManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BAE3A195DC6B9004B1C37 /* BCManagedObject.m */; };
 		A17BAE3C1961532B004B1C37 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA20CE18B4F7ED00200D50 /* MapKit.framework */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
@@ -119,6 +118,7 @@
 		A1F0511519588F3F008569AB /* _INatTaxon.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F0511419588F3F008569AB /* _INatTaxon.m */; };
 		A1F05118195AEF20008569AB /* INatTaxonPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F05117195AEF20008569AB /* INatTaxonPhoto.m */; };
 		A1F0511B195AEF2E008569AB /* _INatTaxonPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F0511A195AEF2E008569AB /* _INatTaxonPhoto.m */; };
+		A1F056AD19D99963009F3AD2 /* ImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F056AC19D99963009F3AD2 /* ImageHelper.m */; };
 		A1F2E12D190161110010B647 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A1F2E12C190161110010B647 /* .gitignore */; };
 		B338778CE5E9420C93C92294 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 346CC70B6936431AB81A1540 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -208,8 +208,6 @@
 		A17BAE31195DBB8A004B1C37 /* _OccurrenceRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _OccurrenceRecord.m; sourceTree = "<group>"; };
 		A17BAE33195DBBA2004B1C37 /* OccurrenceRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OccurrenceRecord.h; path = BioCaching/Model/ManagedObjects/OccurrenceRecord.h; sourceTree = SOURCE_ROOT; };
 		A17BAE34195DBBA2004B1C37 /* OccurrenceRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OccurrenceRecord.m; path = BioCaching/Model/ManagedObjects/OccurrenceRecord.m; sourceTree = SOURCE_ROOT; };
-		A17BAE36195DC6AD004B1C37 /* _BCManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _BCManagedObject.h; sourceTree = "<group>"; };
-		A17BAE37195DC6AD004B1C37 /* _BCManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _BCManagedObject.m; sourceTree = "<group>"; };
 		A17BAE39195DC6B9004B1C37 /* BCManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCManagedObject.h; sourceTree = "<group>"; };
 		A17BAE3A195DC6B9004B1C37 /* BCManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCManagedObject.m; sourceTree = "<group>"; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -367,6 +365,8 @@
 		A1F05117195AEF20008569AB /* INatTaxonPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INatTaxonPhoto.m; sourceTree = "<group>"; };
 		A1F05119195AEF2E008569AB /* _INatTaxonPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _INatTaxonPhoto.h; sourceTree = "<group>"; };
 		A1F0511A195AEF2E008569AB /* _INatTaxonPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _INatTaxonPhoto.m; sourceTree = "<group>"; };
+		A1F056AB19D99963009F3AD2 /* ImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageHelper.h; sourceTree = "<group>"; };
+		A1F056AC19D99963009F3AD2 /* ImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageHelper.m; sourceTree = "<group>"; };
 		A1F2E12C190161110010B647 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		F438E4ED526F4BA7AB5770BF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -475,8 +475,6 @@
 				A153471F1965BE7800E1C63F /* _INatObservation.m */,
 				A15347201965BE7800E1C63F /* _INatObservationPhoto.h */,
 				A15347211965BE7800E1C63F /* _INatObservationPhoto.m */,
-				A17BAE36195DC6AD004B1C37 /* _BCManagedObject.h */,
-				A17BAE37195DC6AD004B1C37 /* _BCManagedObject.m */,
 				A17628B319471BA500DD69DB /* _INatTrip.h */,
 				A17628B419471BA500DD69DB /* _INatTrip.m */,
 				A17628B519471BA500DD69DB /* _INatTripTaxaAttribute.h */,
@@ -700,6 +698,8 @@
 				A17628D4194F08CD00DD69DB /* BCAlerts.m */,
 				A1C52443197033030002686A /* ImageManager.h */,
 				A1C52444197033030002686A /* ImageManager.m */,
+				A1F056AB19D99963009F3AD2 /* ImageHelper.h */,
+				A1F056AC19D99963009F3AD2 /* ImageHelper.m */,
 				A1C524521971AA3F0002686A /* ConnectionHelper.h */,
 				A1C524531971AA3F0002686A /* ConnectionHelper.m */,
 				A119199319660F7D003B15F7 /* BCLocationManager.h */,
@@ -955,7 +955,6 @@
 				A1C524541971AA3F0002686A /* ConnectionHelper.m in Sources */,
 				A1EA133C19265B5200449327 /* NSDictionary+Filtering.m in Sources */,
 				A1EA12FA19265A2500449327 /* CustomEmbedSegue.m in Sources */,
-				A17BAE38195DC6AD004B1C37 /* _BCManagedObject.m in Sources */,
 				A1EA132919265B4900449327 /* TaxonInfoViewController.m in Sources */,
 				A1EA135219265B5D00449327 /* GBIFCommunicatorMock.m in Sources */,
 				A1EA133E19265B5200449327 /* UILabel+Appearance.m in Sources */,
@@ -972,6 +971,7 @@
 				A1EE9C50196F4AAF00D51972 /* BCRestKitJsonParser.m in Sources */,
 				A1EA132319265B4900449327 /* ExploreSummaryTableViewController.m in Sources */,
 				A1EA135419265B5D00449327 /* ImageCache.m in Sources */,
+				A1F056AD19D99963009F3AD2 /* ImageHelper.m in Sources */,
 				A17628CA1947274A00DD69DB /* NSDate+Formatting.m in Sources */,
 				A1F0511219588F2D008569AB /* INatTaxon.m in Sources */,
 				A1EA13F5192D5A6400449327 /* LoginManager.m in Sources */,

@@ -43,6 +43,7 @@
 #import "BCLoggingHelper.h"
 #import "LoginManager.h"
 #import "ConnectionHelper.h"
+#import "ImageHelper.h"
 
 #import <DDLog.h>
 #import <DDLogMacros.h>

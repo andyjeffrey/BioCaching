@@ -13,6 +13,7 @@
 @protocol ExploreDataManagerDelegate <NSObject>
 
 - (void)occurrenceResultsReceived:(GBIFOccurrenceResults *)occurrenceResults;
+- (void)errorReceived:(NSError *)error;
 - (void)taxonAddedToOccurrence:(GBIFOccurrence *)occurrence;
 - (void)occurrenceRemoved:(GBIFOccurrence *)occurrence;
 

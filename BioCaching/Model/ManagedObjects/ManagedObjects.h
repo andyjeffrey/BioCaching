@@ -1,4 +1,3 @@
-#import "BCManagedObject.h"
 #import "INatObservation.h"
 #import "INatObservationPhoto.h"
 #import "INatTaxon.h"

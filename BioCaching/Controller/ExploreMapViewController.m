@@ -932,6 +932,18 @@ typedef void (^AnimationBlock)();
     }
 }
 
+- (void)errorReceived:(NSError *)error
+{
+    _searchInProgress = NO;
+    
+#ifdef DEBUG
+    [BCAlerts displayDefaultFailureNotification:@"Error Retrieving Records" subtitle:error.debugDescription];
+#else
+    [BCAlerts displayDefaultInfoAlert:@"Error Retrieving Records" message:@"Please Try Again Later"];
+#endif
+    
+}
+
 - (void)taxonAddedToOccurrence:(GBIFOccurrence *)occurrence
 {
     DDLogDebug(@"%s iNatTaxon: %@ - %@", __PRETTY_FUNCTION__, occurrence.speciesBinomial, occurrence.iNatTaxon.commonName);

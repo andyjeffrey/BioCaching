@@ -11,6 +11,8 @@
 #import "TripsDataManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
+static const int ddLogLevel = LOG_LEVEL_DEBUG;
+
 @interface ObservationViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageIconicTaxon;
@@ -53,7 +55,7 @@
     BCLocationManager *_locationManager;
     NSDate *eventTimer;
     BOOL _newObservation;
-    int _scrollViewHeight;
+    float _scrollViewHeight;
 }
 
 
@@ -66,7 +68,8 @@
     [self.view setBackgroundColor:[UIColor kColorTableBackgroundColor]];
     self.navigationItem.title = @"Observation Record";
     
-    self.viewBottomButtons.backgroundColor = [UIColor kColorHeaderBackground];
+    self.viewBottomButtons.backgroundColor = [UIColor darkGrayColor];
+    
     self.imageObsPhoto.backgroundColor = [UIColor grayColor];
     
     _observation = self.occurrence.observation;
@@ -81,14 +84,26 @@
         [BCLocationManager getCurrentLocationWithDelegate:self];
         [self.activityLocation startAnimating];
     }
-    
-    _scrollViewHeight = self.textViewNotes.frame.origin.y + self.textViewNotes.frame.size.height + kDefaultScrollviewHeightPadding;
-    
-    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, _scrollViewHeight)];
 
     [self setupButtons];
     [self setupLabels];
 }
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    _scrollViewHeight = self.textViewNotes.frame.origin.y + self.textViewNotes.frame.size.height + kDefaultScrollviewHeightPadding;
+    
+    DDLogDebug(@"textViewNotes Bottom: %.0f", self.textViewNotes.frame.origin.y + self.textViewNotes.frame.size.height);
+    DDLogDebug(@"scrollView Height: %.0f->%.0f", self.scrollView.frame.origin.y, self.scrollView.frame.size.height);
+    DDLogDebug(@"scrollView Content Height: %.0f", self.scrollView.contentSize.height);
+    
+    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, _scrollViewHeight)];
+    
+    DDLogDebug(@"scrollView Content Height: %.0f", self.scrollView.contentSize.height);
+}
+
 
 - (void)viewWillAppear:(BOOL)animated
 {

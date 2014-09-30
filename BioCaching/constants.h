@@ -62,7 +62,6 @@
 
 #ifdef DEBUG
 #define kINatBaseURL                    @"http://www.inaturalist.org/"
-#define kDefaultScrollviewHeightPadding 110
 //#define kOptionsDefaultDisplayPoints    15
 //#define kOptionsDefaultAutoSearch       NO
 //#define kOptionsDefaultPreCacheImages   NO

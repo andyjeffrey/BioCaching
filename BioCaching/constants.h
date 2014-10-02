@@ -21,7 +21,7 @@
 #define kCounterTripsCreated            @"TripsCreated"
 #define kCounterTripsFailed             @"TripsFailed"
 
-#define kDefaultInternetTimeout         10
+#define kDefaultInternetTimeout         30
 
 #define kGBIFBaseURL                    @"http://api.gbif.org/v1/"
 #define kGBIFBaseURLPreV1               @"http://api.gbif.org/v0.9/"
@@ -62,6 +62,7 @@
 
 #ifdef DEBUG
 #define kINatBaseURL                    @"http://www.inaturalist.org/"
+//#define kDefaultInternetTimeout         10
 //#define kOptionsDefaultDisplayPoints    15
 //#define kOptionsDefaultAutoSearch       NO
 //#define kOptionsDefaultPreCacheImages   NO

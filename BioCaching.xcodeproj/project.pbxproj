@@ -48,6 +48,7 @@
 		A17BAE3B195DC6B9004B1C37 /* BCManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BAE3A195DC6B9004B1C37 /* BCManagedObject.m */; };
 		A17BAE3C1961532B004B1C37 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA20CE18B4F7ED00200D50 /* MapKit.framework */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
+		A1A4AE8219DD9E4700FD5984 /* UIImage+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A4AE8119DD9E4700FD5984 /* UIImage+Transform.m */; };
 		A1BEE394196AB69000297526 /* TripListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BEE393196AB69000297526 /* TripListCell.m */; };
 		A1C124B3199BD10F0091E4C8 /* BCDatabaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C124B2199BD10F0091E4C8 /* BCDatabaseHelper.m */; };
 		A1C52445197033030002686A /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C52444197033030002686A /* ImageManager.m */; };
@@ -212,6 +213,8 @@
 		A17BAE3A195DC6B9004B1C37 /* BCManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCManagedObject.m; sourceTree = "<group>"; };
 		A1875DFC18FD4A36001DC029 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A1875E3318FED8D2001DC029 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
+		A1A4AE8019DD9E4700FD5984 /* UIImage+Transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Transform.h"; sourceTree = "<group>"; };
+		A1A4AE8119DD9E4700FD5984 /* UIImage+Transform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Transform.m"; sourceTree = "<group>"; };
 		A1BEE392196AB69000297526 /* TripListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripListCell.h; sourceTree = "<group>"; };
 		A1BEE393196AB69000297526 /* TripListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripListCell.m; sourceTree = "<group>"; };
 		A1C124A8199BC4C50091E4C8 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
@@ -656,6 +659,8 @@
 				A1EA133919265B5200449327 /* UIView+UtilityMethods.m */,
 				A176286D1937359500DD69DB /* UIImage+Colors.h */,
 				A176286E1937359500DD69DB /* UIImage+Colors.m */,
+				A1A4AE8019DD9E4700FD5984 /* UIImage+Transform.h */,
+				A1A4AE8119DD9E4700FD5984 /* UIImage+Transform.m */,
 				A17628C81947274A00DD69DB /* NSDate+Formatting.h */,
 				A17628C91947274A00DD69DB /* NSDate+Formatting.m */,
 				A15347181964790300E1C63F /* NSUserDefaults+CounterValues.h */,
@@ -965,6 +970,7 @@
 				A17628C719471BA500DD69DB /* INatTripTaxaPurpose.m in Sources */,
 				A1EA12FD19265A2500449327 /* UIColor+Defaults.m in Sources */,
 				A1EA12E01926562A00449327 /* DisplayOptions.m in Sources */,
+				A1A4AE8219DD9E4700FD5984 /* UIImage+Transform.m in Sources */,
 				A176288419471A6700DD69DB /* BioCaching.xcdatamodeld in Sources */,
 				A1EA20A318B4F7AB00200D50 /* AppDelegate.m in Sources */,
 				A1EA135319265B5D00449327 /* GBIFManager.m in Sources */,

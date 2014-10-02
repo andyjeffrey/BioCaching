@@ -29,6 +29,7 @@
 #import "UIColor+Defaults.h"
 #import "UIView+Colors.h"
 #import "UIImage+Colors.h"
+#import "UIImage+Transform.h"
 #import "UILabel+Appearance.h"
 #import "MKPolygon+WKTParser.h"
 #import "NSString+UtilityMethods.h"

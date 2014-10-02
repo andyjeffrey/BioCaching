@@ -13,7 +13,8 @@
     BCLocationManagerDelegate,
     UIActionSheetDelegate,
     UINavigationControllerDelegate,
-    UIImagePickerControllerDelegate>
+    UIImagePickerControllerDelegate,
+    UITextViewDelegate>
 
 @property (nonatomic, strong) OccurrenceRecord *occurrence;
 @property (nonatomic, assign) BOOL locked;

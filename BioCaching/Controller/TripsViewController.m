@@ -421,7 +421,7 @@
 - (TripListCell *)getTableCellForTrip:(INatTrip *)trip
 {
     int uploadingTableSection = 2;
-#if DEBUG
+#if TESTING
     uploadingTableSection = 3;
 #endif
     int uploadingTableRow = (int)[_tableSections[uploadingTableSection][2] indexOfObject:trip];

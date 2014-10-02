@@ -12,6 +12,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 static const int ddLogLevel = LOG_LEVEL_DEBUG;
+static NSString *const kNotesPlaceholderText = @"[Observation Notes]";
 
 @interface ObservationViewController ()
 
@@ -48,6 +49,7 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
 @implementation ObservationViewController {
     UIImagePickerController *imagePicker;
     ALAssetsLibrary *assetsLibrary;
+    NSString *_currentPhotoAsset;
     INatObservation *_observation;
     CLLocation *_obsLocation;
     NSString *_obsLocationText;
@@ -56,12 +58,30 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
     NSDate *eventTimer;
     BOOL _newObservation;
     float _scrollViewHeight;
+    BOOL _keyboardShown;
 }
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // register for keyboard notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:self.view.window];
+    // register for keyboard notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:self.view.window];
+    _keyboardShown = NO;
+    self.textViewNotes.delegate = self;
+
+//    //make contentSize bigger than your scrollSize (you will need to figure out for your own use case)
+//    CGSize scrollContentSize = CGSizeMake(320, 345);
+//    self.scrollView.contentSize = scrollContentSize;
     
     assetsLibrary = [[ALAssetsLibrary alloc] init];
 
@@ -107,9 +127,12 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
 
 - (void)viewWillAppear:(BOOL)animated
 {
+   [super viewWillAppear:animated];
+    
     if (imagePicker) {
         return;
     }
+
 //    [self.navigationItem setTitle:@"Occurrence Details"];
     self.navigationController.navigationBarHidden = NO;
     [self updateUI];
@@ -124,6 +147,8 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+
     if (imagePicker) {
         //Transitioning to ImagePicker so don't save MOs
         return;
@@ -191,6 +216,28 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
 - (void)updateUI
 {
     self.labelDate.text = [_observation.dateRecorded localDateTime];
+    
+    [self updateLocationLabel];
+
+    if (_observation.obsPhotos.count > 0) {
+        // Reload Photo From Storage/Album If Necessary
+        INatObservationPhoto *obsPhoto = _observation.obsPhotos[0];
+        if (![_currentPhotoAsset isEqualToString:obsPhoto.localAssetUrl]) {
+            [self loadImageFromLocalAsset:obsPhoto.localAssetUrl];
+        }
+    }
+    [self updatePhotoButtons];
+    
+    [self updateTextViewPlaceholder];
+    
+    if (self.locked) {
+        self.buttonAddPhoto.hidden = YES;
+        self.buttonUpdatePhoto.hidden = YES;
+    }
+}
+
+- (void)updateLocationLabel
+{
     if (_obsLocation) {
         self.labelLocation.text = [_obsLocation latLongVerbose];
     } else if (!self.locked) {
@@ -198,19 +245,29 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
     } else {
         self.labelLocation.text = @"No Location Recorded";
     }
-    if (_observation.obsPhotos.count > 0) {
-        // Reload Photo From Storage/Album
-        INatObservationPhoto *obsPhoto = _observation.obsPhotos[0];
-        [self loadImageFromLocalAsset:obsPhoto.localAssetUrl];
+}
+
+- (void)updatePhotoButtons
+{
+    if (self.imageObsPhoto.image) {
         self.buttonAddPhoto.hidden = YES;
         self.buttonUpdatePhoto.hidden = NO;
     } else {
         self.buttonAddPhoto.hidden = NO;
         self.buttonUpdatePhoto.hidden = YES;
     }
-    if (self.locked) {
-        self.buttonAddPhoto.hidden = YES;
-        self.buttonUpdatePhoto.hidden = YES;
+}
+
+- (void)updateTextViewPlaceholder
+{
+    if (!_observation.notes) {
+        self.textViewNotes.text = kNotesPlaceholderText;
+        self.textViewNotes.textColor = [UIColor lightTextColor];
+        self.textViewNotes.font = [UIFont italicSystemFontOfSize:self.textViewNotes.font.pointSize];
+    } else {
+        self.textViewNotes.text = _observation.notes;
+        self.textViewNotes.textColor = [UIColor whiteColor];
+        self.textViewNotes.font = [UIFont systemFontOfSize:self.textViewNotes.font.pointSize];
     }
 }
 
@@ -233,7 +290,9 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
         [_locationManager.locationManager stopUpdatingLocation];
         [self.activityLocation stopAnimating];
     }
-    [self updateUI];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateLocationLabel];
+//    });
 }
 
 - (void)lookupLocation
@@ -257,6 +316,82 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
              }
     }];
 }
+
+#pragma mark - UITextView Methods
+- (void)keyboardWillHide:(NSNotification *)n
+{
+    NSDictionary* userInfo = [n userInfo];
+    
+    // get the size of the keyboard
+    CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    // resize the scrollview
+    CGRect viewFrame = self.scrollView.frame;
+    // I'm also subtracting a constant kTabBarHeight because my UIScrollView was offset by the UITabBar so really only the portion of the keyboard that is leftover pass the UITabBar is obscuring my UIScrollView.
+    viewFrame.size.height += keyboardSize.height;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [self.scrollView setFrame:viewFrame];
+    [UIView commitAnimations];
+    
+    _keyboardShown = NO;
+}
+
+- (void)keyboardWillShow:(NSNotification *)n
+{
+    // This is an ivar I'm using to ensure that we do not do the frame size adjustment on the `UIScrollView` if the keyboard is already shown.  This can happen if the user, after fixing editing a `UITextField`, scrolls the resized `UIScrollView` to another `UITextField` and attempts to edit the next `UITextField`.  If we were to resize the `UIScrollView` again, it would be disastrous.  NOTE: The keyboard notification will fire even when the keyboard is already shown.
+    if (_keyboardShown) {
+        return;
+    }
+    
+    NSDictionary* userInfo = [n userInfo];
+    
+    // get the size of the keyboard
+    CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    // resize the noteView
+    CGRect viewFrame = self.scrollView.frame;
+    // I'm also subtracting a constant kTabBarHeight because my UIScrollView was offset by the UITabBar so really only the portion of the keyboard that is leftover pass the UITabBar is obscuring my UIScrollView.
+    viewFrame.size.height -= (keyboardSize.height);
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [self.scrollView setFrame:viewFrame];
+    [UIView commitAnimations];
+    
+    [self.scrollView scrollRectToVisible:self.textViewNotes.frame animated:YES];
+    _keyboardShown = YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if (!_observation.notes) {
+        _observation.notes = @"";
+    }
+    [self updateTextViewPlaceholder];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if (textView.text.length == 0) {
+        _observation.notes = nil;
+    } else {
+        _observation.notes = textView.text;
+    }
+    [self updateTextViewPlaceholder];
+}
+
+- (BOOL) textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if([text isEqualToString:@"\n"]){
+        [textView resignFirstResponder];
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+
 
 #pragma mark - IBActions
 - (IBAction)buttonActionSave:(id)sender {
@@ -331,11 +466,11 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
     [self dismissViewControllerAnimated:YES completion:nil];
     imagePicker = nil;
 
-    UIImage *image = [info
-                      objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     
-    [self.imageObsPhoto setAutoresizingMask:(UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth)];
+//    [self.imageObsPhoto setAutoresizingMask:(UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth)];
     self.imageObsPhoto.image = image;
+    [self updatePhotoButtons];
 
     if (_observation.obsPhotos.count == 0) {
         [[TripsDataManager sharedInstance] addNewPhotoToTripObservation:photoAssetUrl.absoluteString observation:_observation];
@@ -344,16 +479,22 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
     
     if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
         obsPhoto.localAssetUrl = photoAssetUrlString;
-        [self updateUI];
     } else if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        [assetsLibrary writeImageToSavedPhotosAlbum:image.CGImage orientation:(ALAssetOrientation)image.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error) {
+        DDLogDebug(@"Saved image.imageOrientation: %d", image.imageOrientation);
+        UIImage *normalizedImage = [image normalizedImage];
+        [assetsLibrary writeImageToSavedPhotosAlbum:normalizedImage.CGImage orientation:(ALAssetOrientation)normalizedImage.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error) {
+//        [assetsLibrary writeImageToSavedPhotosAlbum:image.CGImage orientation:ALAssetOrientationUp completionBlock:^(NSURL *assetURL, NSError *error) {
                 if (!error) {
                     NSLog(@"New Image Asset Saved: %@", assetURL);
                     obsPhoto.localAssetUrl = assetURL.absoluteString;
+                    _currentPhotoAsset = obsPhoto.localAssetUrl;
                 } else {
                     NSLog(@"Error Saving New Photo From Camera: %@", error);
+                    [BCAlerts displayDefaultInfoAlert:@"Error Saving Image" message:@"Could Not Save Image\nTo Photo Library"];
+                    _currentPhotoAsset = nil;
+                    self.imageObsPhoto.image = nil;
+                    [self updateUI];
                 }
-            [self updateUI];
         }];
     }
 }
@@ -372,20 +513,31 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
         CGImageRef imageRef = [representation fullScreenImage];
 //        CGImageRef imageRef = [representation fullResolutionImage];
         if (imageRef) {
+            _currentPhotoAsset = localAssetUrlString;
+            
+            DDLogDebug(@"Loaded image.imageOrientation: %d", representation.orientation);
+            NSNumber *orientationValue = [[representation metadata] objectForKey:@"Orientation"];
+            DDLogDebug(@"orientation from metadata: %d", orientationValue.intValue);
+            NSNumber *orientationAsset = [asset valueForProperty:@"ALAssetPropertyOrientation"];
+            DDLogDebug(@"orientation from asset: %d", orientationAsset.intValue);
+
             //TODO: Do something wiith orientation and scale if required?
-            self.imageObsPhoto.image = [UIImage imageWithCGImage:imageRef scale:representation.scale orientation:(UIImageOrientation)representation.orientation];
-            NSTimeInterval timeElapsed = [eventTimer timeIntervalSinceNow];
+//            self.imageObsPhoto.image = [UIImage imageWithCGImage:imageRef scale:representation.scale orientation:(UIImageOrientation)representation.orientation];
+            self.imageObsPhoto.image = [UIImage imageWithCGImage:imageRef scale:representation.scale orientation:UIImageOrientationUp];
+            NSTimeInterval timeElapsed = [eventTimer timeIntervalSinceNow] * -1;
             NSLog(@"%.3f", timeElapsed);
             [BCLoggingHelper recordGoogleTiming:@"Device" name:@"LoadAsset" timing:timeElapsed];
             
-//            [self updateUI];
+            [self updateUI];
         } else {
-            //TODO: Add Alert/Label When Previously Saved Image Removed From Photo Store
+            // Previously Saved Image Removed From Photo Store
+            DDLogDebug(@"CGImageRef=Nil: %@", assetUrl);
+            [BCAlerts displayDefaultInfoAlert:@"Error Loading Photo" message:@"Original Photo Not Found"];
         }
     } failureBlock: ^(NSError *error){
         // Error Loading Asset From Asset Library
-        NSLog(@"Error Loading Asset: %@ %@", assetUrl, error);
-        // Display Error Text (over imageView?)
+        DDLogDebug(@"Error Loading Asset: %@ %@", assetUrl, error);
+        [BCAlerts displayDefaultInfoAlert:@"Error Loading Photo" message:@"Original Photo Not Found"];
     }];
 }
 

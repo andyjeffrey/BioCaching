@@ -17,9 +17,6 @@ static int const defaultEmbeddedView = 0;
 
 @interface ExploreContainerViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *viewExploreContainer;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segControlView;
-
 @property (nonatomic, strong) NSArray *embeddedVCs;
 @property (assign, nonatomic) BOOL transitionInProgress;
 

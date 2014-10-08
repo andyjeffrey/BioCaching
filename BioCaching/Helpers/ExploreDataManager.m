@@ -12,7 +12,7 @@
 #import "TripsDataManager.h"
 #import "ImageCache.h"
 
-static const int ddLogLevel = LOG_LEVEL_INFO;
+static const int ddLogLevel = LOG_LEVEL_DEBUG;
 
 @implementation ExploreDataManager {
     GBIFManager *_gbifManager;
@@ -93,6 +93,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         [BCAlerts displayDefaultSuccessNotification:
          [NSString stringWithFormat:@"%d Records Found", (int)occurrenceResults.filteredResults.count] subtitle:@"Fetching Shortlisted Species Details..."];
 
+        occurrenceResults.tripListRequestCount = (int)occurrenceResults.tripListResults.count;
+        occurrenceResults.tripListRequests = [[NSMutableArray alloc] initWithCapacity:occurrenceResults.tripListResults.count];
         self.currentSearchResults = occurrenceResults;
         
         if ([_tripsDataManager createNewTrip:occurrenceResults bcOptions:_bcOptions])
@@ -101,6 +103,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
             for (GBIFOccurrence *occurrence in occurrenceResults.tripListResults)
             {
                 occurrence.occurrenceResultsRef = occurrenceResults;
+                [occurrenceResults.tripListRequests addObject:occurrence];
                 [_iNatManager addINatTaxonToGBIFOccurrence:occurrence];
             }
         }
@@ -153,6 +156,15 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
         [self.currentSearchResults.removedResults addObject:gbifOccurrence];
         [self.delegate occurrenceRemoved:gbifOccurrence];
+    }
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"iNatTaxonId != nil"];
+    NSArray *tripListResponses = [self.currentSearchResults.tripListRequests filteredArrayUsingPredicate:predicate];
+    DDLogVerbose(@"iNatTaxonAddedToGBIFOccurrence, Requests:%d, Responses:%d", self.currentSearchResults.tripListRequestCount, (int)tripListResponses.count);
+    
+    if (tripListResponses.count == self.currentSearchResults.tripListRequestCount) {
+        DDLogDebug(@"iNatTaxonAddedToGBIFOccurrence, SEARCH COMPLETE Requests:%d, Responses:%d", self.currentSearchResults.tripListRequestCount, (int)tripListResponses.count);
+        [self.delegate searchCompleted];
     }
 }
 

@@ -7,8 +7,11 @@
 //
 
 #import "AboutTableViewController.h"
+#import "TutorialViewController.h"
 
 @interface AboutTableViewController ()
+
+- (IBAction)buttonTutorial:(id)sender;
 
 @end
 
@@ -43,6 +46,20 @@
     // Another way to set the background color
     // Note: does not preserve gradient effect of original header
     // header.contentView.backgroundColor = [UIColor blackColor];
+}
+
+- (IBAction)buttonTutorial:(id)sender
+{
+    TutorialViewController *tutorialVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
+    
+//    [self.navigationController pushViewController:tutorialVC animated:YES];
+    [self presentViewController:tutorialVC animated:YES completion:nil];
+
+/*
+    UINavigationController *modalNavController = [[UINavigationController alloc]
+                                                  initWithRootViewController:vc];
+    [self presentViewController:modalNavController animated:YES completion:nil];
+*/
 }
 
 @end

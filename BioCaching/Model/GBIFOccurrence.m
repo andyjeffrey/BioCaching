@@ -182,6 +182,13 @@
     return self.detailsSubTitle;
 }
 
+- (NSNumber *) iNatTaxonId {
+    if (self.iNatTaxon) {
+        return [NSNumber numberWithInt:self.iNatTaxon.recordId.intValue];
+    } else {
+        return _iNatTaxonId;
+    }
+}
 
 - (NSString *)getINatIconicTaxaMainImageFile
 {

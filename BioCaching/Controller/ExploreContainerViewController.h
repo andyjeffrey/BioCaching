@@ -10,4 +10,7 @@
 
 @interface ExploreContainerViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIView *viewExploreContainer;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segControlView;
+
 @end

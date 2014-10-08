@@ -69,6 +69,7 @@
 @property (nonatomic, strong) OccurrenceRecord *occurrenceRecord;
 @property (nonatomic, strong) INatTaxon *iNatTaxon;
 @property (nonatomic, strong) NSObject *occurrenceResultsRef;
+@property (nonatomic, assign) NSNumber *iNatTaxonId;
 
 #pragma mark - MKAnnotation Properties
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;

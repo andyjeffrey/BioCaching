@@ -7,8 +7,8 @@
 //
 
 #import "ExploreMapViewController.h"
-#import "ExploreListViewController.h"
-#import "ExploreOptionsViewController.h"
+#import "ExploreContainerViewController.h"
+
 #import "TaxonInfoViewController.h"
 #import "BCLocationManager.h"
 
@@ -41,12 +41,14 @@ static const float kOccurrenceAnnotationOffset = 50.0f;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocationDetails;
 @property (weak, nonatomic) IBOutlet UIButton *buttonLocationList;
 @property (weak, nonatomic) IBOutlet UIView *viewDropDownRef;
+- (IBAction)actionLocationSelect:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonRefreshSearch;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityViewSearch;
 @property (weak, nonatomic) IBOutlet UIImageView *imageRefreshSearchButton;
 @property (weak, nonatomic) IBOutlet BCButton *buttonCancelSearch;
-- (IBAction)buttonLocationSelect:(id)sender;
-- (IBAction)buttonRefreshSearch:(id)sender;
-- (IBAction)buttonActionCancelSearch:(id)sender;
+- (IBAction)actionRefreshSearch:(id)sender;
+- (IBAction)actionCancelSearch:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *viewSearchResults;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
@@ -56,22 +58,22 @@ static const float kOccurrenceAnnotationOffset = 50.0f;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSettings;
 @property (weak, nonatomic) IBOutlet UIButton *buttonCurrentLocation;
 - (IBAction)actionMaptype:(id)sender;
-- (IBAction)actionSettings:(id)sender;
+//- (IBAction)actionSettings:(id)sender;
 - (IBAction)actionCurrentLocation:(id)sender;
-- (IBAction)zoomToSearchArea:(id)sender;
+- (IBAction)actionZoomToSearchArea:(id)sender;
 
 
 @property (weak, nonatomic) IBOutlet UIView *viewButtonSave;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
 @property (weak, nonatomic) IBOutlet UIImageView *imageButtonSave;
 @property (weak, nonatomic) IBOutlet UILabel *labelButtonSave;
-- (IBAction)buttonSave:(id)sender;
+- (IBAction)actionSaveButton:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *viewButtonStart;
 @property (weak, nonatomic) IBOutlet UIButton *buttonStart;
 @property (weak, nonatomic) IBOutlet UIImageView *imageButtonStart;
 @property (weak, nonatomic) IBOutlet UILabel *labelButtonStart;
-- (IBAction)buttonStart:(id)sender;
+- (IBAction)actionStartButton:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *viewTaxonInfo;
 
@@ -214,15 +216,13 @@ typedef void (^AnimationBlock)();
     
     [self.buttonRefreshSearch setTitle:nil forState:UIControlStateNormal];
     [self.buttonRefreshSearch setBackgroundImage:
-     [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-//    self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackground];
-    [self.imageRefreshSearchButton setImage:[IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)]];
-//    [self.buttonCancelSearch setBackgroundImage:[IonIcons imageWithIcon:icon_close iconColor:[UIColor redColor] iconSize:36.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    [self.buttonCancelSearch setImage:[IonIcons imageWithIcon:icon_close iconColor:[UIColor redColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    [self.buttonCancelSearch setBackgroundColor:[UIColor clearColor]];
+     [IonIcons imageWithIcon:icon_search iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+
+//    [self.imageRefreshSearchButton setImage:[IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)]];
+//    [self.buttonCancelSearch setImage:[IonIcons imageWithIcon:icon_close iconColor:[UIColor redColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+//    [self.buttonCancelSearch setBackgroundColor:[UIColor clearColor]];
 //    self.buttonCancelSearch.hidden = NO;
     
-//    self.buttonLocationList.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     self.labelLocationDetails.textColor = [UIColor kColorButtonLabel];
     
     [self.buttonSettings setBackgroundImage:
@@ -508,14 +508,16 @@ typedef void (^AnimationBlock)();
 
 
 #pragma mark IBActions
-- (IBAction)buttonLocationSelect:(id)sender {
+- (IBAction)actionLocationSelect:(id)sender {
     [self hideTaxonView];
+    ExploreContainerViewController *exploreVC = (ExploreContainerViewController *)self.parentViewController;
+    exploreVC.segControlView.hidden = YES;
     _viewBackgroundControls.hidden = NO;
     [_dropDownViewLocations openAnimation];
     [_dropDownViewLocations.uiTableView flashScrollIndicators];
 }
 
-- (IBAction)buttonRefreshSearch:(id)sender
+- (IBAction)actionRefreshSearch:(id)sender
 {
     [self hideTaxonView];
     
@@ -535,7 +537,7 @@ typedef void (^AnimationBlock)();
     }
 }
 
-- (IBAction)buttonActionCancelSearch:(id)sender
+- (IBAction)actionCancelSearch:(id)sender
 {
     _searchInProgress = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -562,12 +564,20 @@ typedef void (^AnimationBlock)();
     }
 }
 
-- (IBAction)zoomToSearchArea:(id)sender {
+- (IBAction)actionZoomToSearchArea:(id)sender {
     [self updateCurrentMapView:_bcOptions.searchOptions.searchAreaCentre latitudinalMeters:0 longitudinalMeters:_bcOptions.searchOptions.searchAreaSpan];
 }
 
+- (IBAction)actionSaveButton:(id)sender {
+    if (!_currentTrip) {
+        _currentTrip = [[TripsDataManager sharedInstance] createTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusSaved];
+    } else {
+        _currentTrip.status = [NSNumber numberWithInteger:TripStatusSaved];
+        [self displayTripNameDialog];
+    }
+}
 
-- (IBAction)buttonStart:(id)sender {
+- (IBAction)actionStartButton:(id)sender {
     if (!_currentTrip) {
         if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_bcOptions.searchOptions.searchAreaCentre areaSpan:[NSNumber numberWithUnsignedInteger:_bcOptions.searchOptions.searchAreaSpan*2]]) {
             //TODO:return if outside search area?
@@ -624,16 +634,6 @@ typedef void (^AnimationBlock)();
     }
 }
 
-
-- (IBAction)buttonSave:(id)sender {
-    if (!_currentTrip) {
-        _currentTrip = [[TripsDataManager sharedInstance] createTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusSaved];
-    } else {
-        _currentTrip.status = [NSNumber numberWithInteger:TripStatusSaved];
-        [self displayTripNameDialog];
-    }
-}
-
 - (void)displayTripNameDialog {
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Creating New Trip..." message:@"Enter name for trip\n(or accept default):" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
@@ -657,9 +657,8 @@ typedef void (^AnimationBlock)();
 
 - (void)performSearch
 {
-    _searchInProgress = YES;
-    [self startSpin];
-    
+    [self showSearchInProgress];
+
     // Use current view region for searchAreaSpan
     if (_currentTrip) {
         [BCLocationManager stopRecordingTrack];
@@ -865,6 +864,8 @@ typedef void (^AnimationBlock)();
 {
     DDLogDebug(@"viewBackgroundControlsClick");
     [_dropDownViewLocations closeAnimation];
+    ExploreContainerViewController *exploreVC = (ExploreContainerViewController *)self.parentViewController;
+    exploreVC.segControlView.hidden = NO;
     _viewBackgroundControls.hidden = YES;
 }
 
@@ -882,59 +883,25 @@ typedef void (^AnimationBlock)();
     [self updateSearchAreaOverlay:_currentViewCoordinate areaSpan:_bcOptions.searchOptions.searchAreaSpan];
 }
 
-#pragma mark - TripsDataManagerDelegate
-
-- (void)newTripCreated:(INatTrip *)trip
-{
-    _searchInProgress = NO;
-    _currentTrip = trip;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateButtons];
-        [self updateSearchResultsView];
-        [self zoomToSearchArea:nil];
-    });
-}
-
-- (void)occurrenceAddedToTrip:(OccurrenceRecord *)occurrence
-{
-    DDLogDebug(@"ExploreMapViewController occurrenceAddedToTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.mapView addAnnotation:occurrence];
-        [self updateRecordCountLabel];
-    });
-}
-
-- (void)occurrenceRemovedFromTrip:(OccurrenceRecord *)occurrence
-{
-    DDLogDebug(@"ExploreMapViewController occurrenceRemovedFromTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
-    [self hideTaxonView];
-    _taxonInfoVC.occurrence = nil;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.mapView removeAnnotation:occurrence];
-        [self updateRecordCountLabel];
-    });
-}
-
 #pragma mark - ExploreDataManagerDelegate
 
 - (void)occurrenceResultsReceived:(GBIFOccurrenceResults *)occurrenceResults
 {
     DDLogDebug(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
 
-    _searchInProgress = NO;
     if (occurrenceResults) {
         _occurrenceResults = occurrenceResults;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self updateButtons];
             [self updateSearchResultsView];
-            [self zoomToSearchArea:nil];
+            [self actionZoomToSearchArea:nil];
         });
     }
 }
 
 - (void)errorReceived:(NSError *)error
 {
-    _searchInProgress = NO;
+    [self showSearchCompleted];
     
 #ifdef DEBUG
     [BCAlerts displayDefaultFailureNotification:@"Error Retrieving Records" subtitle:error.debugDescription];
@@ -967,6 +934,46 @@ typedef void (^AnimationBlock)();
     [self updateRecordCountLabel];
 }
 
+- (void)searchCompleted
+{
+    [self showSearchCompleted];
+}
+
+
+#pragma mark - TripsDataManagerDelegate
+
+- (void)newTripCreated:(INatTrip *)trip
+{
+    _currentTrip = trip;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateButtons];
+        [self updateSearchResultsView];
+        [self actionZoomToSearchArea:nil];
+        [self.buttonRefreshSearch setEnabled:YES];
+//        self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+    });
+}
+
+- (void)occurrenceAddedToTrip:(OccurrenceRecord *)occurrence
+{
+    DDLogDebug(@"ExploreMapViewController occurrenceAddedToTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.mapView addAnnotation:occurrence];
+        [self updateRecordCountLabel];
+    });
+}
+
+- (void)occurrenceRemovedFromTrip:(OccurrenceRecord *)occurrence
+{
+    DDLogDebug(@"ExploreMapViewController occurrenceRemovedFromTrip, INatTaxonId: %lu", (unsigned long)occurrence.iNatTaxon.recordId);
+    [self hideTaxonView];
+    _taxonInfoVC.occurrence = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.mapView removeAnnotation:occurrence];
+        [self updateRecordCountLabel];
+    });
+}
+
 - (void)locationTrackUpdated:(INatTrip *)trip
 {
     [self updateLocationTrackOverlay:trip];
@@ -976,14 +983,13 @@ typedef void (^AnimationBlock)();
 #pragma mark UIStoryboard Methods
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"exploreOptionsSegue"]) {
-        UINavigationController *navVC = [segue destinationViewController];
-        ExploreOptionsViewController *optionsVC = [navVC viewControllers][0];
-        optionsVC.delegate = self;
-//        optionsVC.bcOptions = _bcOptions;
-    } else if ([segue.identifier isEqualToString:@"embedTaxonInfo"]) {
+    if ([segue.identifier isEqualToString:@"embedTaxonInfo"]) {
         _taxonInfoVC = segue.destinationViewController;
         _taxonInfoVC.showDetailsButton = YES;
+//    } else if ([segue.identifier isEqualToString:@"exploreOptionsSegue"]) {
+//        UINavigationController *navVC = [segue destinationViewController];
+//        ExploreOptionsViewController *optionsVC = [navVC viewControllers][0];
+//        optionsVC.delegate = self;
     }
 }
 
@@ -999,8 +1005,10 @@ typedef void (^AnimationBlock)();
     _bcOptions.searchOptions.searchLocationName = [LocationsArray displayString:returnIndex];
     [self updateLocationLabelAndMapView:_currentViewCoordinate mapViewSpan:[LocationsArray locationViewSpan:returnIndex]];
     [self updateSearchAreaOverlay:_currentViewCoordinate areaSpan:_bcOptions.searchOptions.searchAreaSpan];
-    _viewBackgroundControls.hidden = YES;
     [self.activityViewLocationSearch stopAnimating];
+    ExploreContainerViewController *exploreVC = (ExploreContainerViewController *)self.parentViewController;
+    exploreVC.segControlView.hidden = NO;
+    _viewBackgroundControls.hidden = YES;
 }
 
 
@@ -1045,6 +1053,28 @@ typedef void (^AnimationBlock)();
     self.imageRefreshSearchButton.hidden = NO;
     self.buttonCancelSearch.hidden = NO;
     [self spinWithOptions: UIViewAnimationOptionCurveEaseIn];
+}
+
+
+- (void)showSearchInProgress {
+    _searchInProgress = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.buttonRefreshSearch setBackgroundImage:nil forState:UIControlStateNormal];
+        [self.buttonRefreshSearch setEnabled:NO];
+        [self.buttonRefreshSearch setBackgroundColor:[UIColor kColorButtonBackgroundHighlight]];
+        [self.activityViewSearch startAnimating];
+    });
+}
+
+- (void)showSearchCompleted {
+    _searchInProgress = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.buttonRefreshSearch setBackgroundImage:
+         [IonIcons imageWithIcon:icon_search iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+        [self.buttonRefreshSearch setEnabled:YES];
+        [self.buttonRefreshSearch setBackgroundColor:[UIColor kColorButtonBackground]];
+        [self.activityViewSearch stopAnimating];
+    });
 }
 
 @end

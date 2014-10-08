@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A119199519660F7D003B15F7 /* BCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199419660F7D003B15F7 /* BCLocationManager.m */; };
 		A119199819661E4E003B15F7 /* CLLocation+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199719661E4E003B15F7 /* CLLocation+Formatting.m */; };
+		A139202E19E41A5F00E00966 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A139202D19E41A5F00E00966 /* TutorialViewController.m */; };
+		A139203419E4300500E00966 /* TutorialContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A139203319E4300500E00966 /* TutorialContentViewController.m */; };
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
 		A13B8F2818F75AAE000C522B /* OccurrenceResultsCASv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2418F75AAE000C522B /* OccurrenceResultsCASv1.0.json */; };
 		A1464512195074F4005C1107 /* ObservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1464511195074F4005C1107 /* ObservationViewController.m */; };
@@ -131,6 +133,10 @@
 		A119199619661E4E003B15F7 /* CLLocation+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+Formatting.h"; sourceTree = "<group>"; };
 		A119199719661E4E003B15F7 /* CLLocation+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Formatting.m"; sourceTree = "<group>"; };
 		A12B63B718EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 2783288252_6f21bf941c.jpg; path = Resources/TestData/Images/2783288252_6f21bf941c.jpg; sourceTree = "<group>"; };
+		A139202C19E41A5F00E00966 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
+		A139202D19E41A5F00E00966 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
+		A139203219E4300500E00966 /* TutorialContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialContentViewController.h; sourceTree = "<group>"; };
+		A139203319E4300500E00966 /* TutorialContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialContentViewController.m; sourceTree = "<group>"; };
 		A13B8F2118F75AAE000C522B /* OccurrenceResultsCASFilterv0.9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv0.9.json; path = Resources/TestData/OccurrenceResultsCASFilterv0.9.json; sourceTree = "<group>"; };
 		A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASFilterv1.0.json; path = Resources/TestData/OccurrenceResultsCASFilterv1.0.json; sourceTree = "<group>"; };
 		A13B8F2318F75AAE000C522B /* OccurrenceResultsCASv0.9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OccurrenceResultsCASv0.9.json; path = Resources/TestData/OccurrenceResultsCASv0.9.json; sourceTree = "<group>"; };
@@ -636,6 +642,10 @@
 				A15347161964730C00E1C63F /* AboutViewController.m */,
 				A1ED280A19A5F4AE00D159C1 /* AboutTableViewController.h */,
 				A1ED280B19A5F4AE00D159C1 /* AboutTableViewController.m */,
+				A139202C19E41A5F00E00966 /* TutorialViewController.h */,
+				A139202D19E41A5F00E00966 /* TutorialViewController.m */,
+				A139203219E4300500E00966 /* TutorialContentViewController.h */,
+				A139203319E4300500E00966 /* TutorialContentViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -976,6 +986,7 @@
 				A1EA135319265B5D00449327 /* GBIFManager.m in Sources */,
 				A1EE9C50196F4AAF00D51972 /* BCRestKitJsonParser.m in Sources */,
 				A1EA132319265B4900449327 /* ExploreSummaryTableViewController.m in Sources */,
+				A139202E19E41A5F00E00966 /* TutorialViewController.m in Sources */,
 				A1EA135419265B5D00449327 /* ImageCache.m in Sources */,
 				A1F056AD19D99963009F3AD2 /* ImageHelper.m in Sources */,
 				A17628CA1947274A00DD69DB /* NSDate+Formatting.m in Sources */,
@@ -986,6 +997,7 @@
 				A1EA12E61926562A00449327 /* OptionsRecordSource.m in Sources */,
 				A1EA132419265B4900449327 /* ExploreSummaryViewController.m in Sources */,
 				A1EA132719265B4900449327 /* ProfileViewController.m in Sources */,
+				A139203419E4300500E00966 /* TutorialContentViewController.m in Sources */,
 				A17628C619471BA500DD69DB /* INatTripTaxaAttribute.m in Sources */,
 				A1F0511B195AEF2E008569AB /* _INatTaxonPhoto.m in Sources */,
 				A1EA134019265B5200449327 /* UIView+UtilityMethods.m in Sources */,
@@ -1175,7 +1187,7 @@
 					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C09086A2-105A-4766-BD49-D473D0A94EB8";
+				PROVISIONING_PROFILE = "327f5a82-9bc2-491a-80fb-32ae98020d98";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

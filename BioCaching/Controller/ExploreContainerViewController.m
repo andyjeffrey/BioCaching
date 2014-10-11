@@ -65,6 +65,18 @@ static int const defaultEmbeddedView = 0;
     self.segControlView.selectedSegmentIndex = defaultEmbeddedView;
     _currentEmbeddedSegueId = self.embeddedVCs[self.segControlView.selectedSegmentIndex][0];
     
+    // Each Segment Size = 40x28 pix
+    [self.segControlView setTitle:nil forSegmentAtIndex:0];
+    [self.segControlView setImage:[IonIcons imageWithIcon:icon_location size:24 color:[UIColor kColorButtonLabel]] forSegmentAtIndex:0];
+//    [self.segControlView setImage:[IonIcons imageWithIcon:icon_map size:24 color:[UIColor kColorButtonLabel]] forSegmentAtIndex:0];
+    [self.segControlView setTitle:nil forSegmentAtIndex:1];
+    [self.segControlView setImage:[IonIcons imageWithIcon:icon_clipboard size:24 color:[UIColor kColorButtonLabel]] forSegmentAtIndex:1];
+    [self.segControlView setTitle:nil forSegmentAtIndex:2];
+//    [self.segControlView setImage:[IonIcons imageWithIcon:icon_compose size:24 color:[UIColor kColorButtonLabel]] forSegmentAtIndex:2];
+    [self.segControlView setImage:[IonIcons imageWithIcon:icon_navicon_round size:24 color:[UIColor kColorButtonLabel]] forSegmentAtIndex:2];
+    
+//    [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+    
 }
 
 

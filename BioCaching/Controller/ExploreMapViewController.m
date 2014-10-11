@@ -950,7 +950,7 @@ typedef void (^AnimationBlock)();
         [self updateSearchResultsView];
         [self actionZoomToSearchArea:nil];
         [self.buttonRefreshSearch setEnabled:YES];
-//        self.buttonRefreshSearch.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+        [self.buttonRefreshSearch setBackgroundColor:[UIColor kColorButtonBackground]];
     });
 }
 
@@ -1072,7 +1072,7 @@ typedef void (^AnimationBlock)();
         [self.buttonRefreshSearch setBackgroundImage:
          [IonIcons imageWithIcon:icon_search iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
         [self.buttonRefreshSearch setEnabled:YES];
-        [self.buttonRefreshSearch setBackgroundColor:[UIColor kColorButtonBackground]];
+//        [self.buttonRefreshSearch setBackgroundColor:[UIColor kColorButtonBackground]];
         [self.activityViewSearch stopAnimating];
     });
 }

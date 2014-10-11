@@ -36,6 +36,11 @@
     self.imageBackground.image = [UIImage imageNamed:self.pageImageFile];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

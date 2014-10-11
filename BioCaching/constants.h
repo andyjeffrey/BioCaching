@@ -51,7 +51,7 @@
 #define kOptionsDefaultDisplayPoints    20
 #define kOptionsDefaultMapType          1
 #define kOptionsDefaultFollowUser       NO
-#define kOptionsDefaultTrackLocation    YES
+#define kOptionsDefaultTrackLocation    NO
 #define kOptionsDefaultAutoSearch       YES
 #define kOptionsDefaultPreCacheImages   YES
 #define kOptionsDefaultFullSpeciesNames YES

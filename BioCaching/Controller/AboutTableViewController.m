@@ -36,7 +36,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-    view.tintColor = [UIColor clearColor];
+//    view.tintColor = [UIColor clearColor];
     
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
@@ -45,7 +45,7 @@
     
     // Another way to set the background color
     // Note: does not preserve gradient effect of original header
-    // header.contentView.backgroundColor = [UIColor blackColor];
+    header.contentView.backgroundColor = [UIColor kColorTableBackgroundColor];
 }
 
 - (IBAction)buttonTutorial:(id)sender

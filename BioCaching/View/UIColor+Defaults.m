@@ -42,7 +42,6 @@
     return [UIColor lightGrayColor];
 }
 
-
 +(UIColor*) kColorButtonBackground {
     return [UIColor darkGrayColor];
 }

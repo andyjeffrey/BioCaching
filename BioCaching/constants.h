@@ -14,14 +14,10 @@
 #define IS_IOS_6_OR_LATER (floor(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_6_0))
 #define IS_IOS_7_OR_LATER (floor(NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1))
 
-#define kLastVersionPrefKey             @"LastVersionPrefKey"
-#define kCounterLaunchesKey             @"CounterLaunches"
-#define kCounterGBIFSearches            @"GBIFSearches"
-#define kCounterINatSearches            @"INatSearches"
-#define kCounterTripsCreated            @"TripsCreated"
-#define kCounterTripsFailed             @"TripsFailed"
-
 #define kDefaultInternetTimeout         30
+
+#define kSupportEmailAddress            @"biocaching@mpapps.net"
+#define kSupportEmailSubject            @"App Support Enquiry"
 
 #define kGBIFBaseURL                    @"http://api.gbif.org/v1/"
 #define kGBIFBaseURLPreV1               @"http://api.gbif.org/v0.9/"
@@ -41,6 +37,13 @@
 
 #define kBHLBaseURL                     @"http://www.biodiversitylibrary.org/"
 #define kBHLSpeciesBiblioPath           @"name/"
+
+#define kLastVersionPrefKey             @"LastVersionPrefKey"
+#define kCounterLaunchesKey             @"CounterLaunches"
+#define kCounterGBIFSearches            @"GBIFSearches"
+#define kCounterINatSearches            @"INatSearches"
+#define kCounterTripsCreated            @"TripsCreated"
+#define kCounterTripsFailed             @"TripsFailed"
 
 #define kDefaultLocationIndex           1
 #define kDefaultSearchAreaSpan          2000

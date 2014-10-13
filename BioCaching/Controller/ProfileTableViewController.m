@@ -52,33 +52,6 @@ static int const kTableCellTagResetAuth = 200;
 
 - (void)updateUI
 {
-/*
-    if ([_userDefaults objectForKey:kINatAuthUserIDPrefKey])
-    {
-        self.textFieldUsername.text = [_userDefaults valueForKey:kINatAuthUsernamePrefKey];
-        self.textFieldPassword.text = [_userDefaults valueForKey:kINatAuthPasswordPrefKey];
-    } else {
-#ifdef DEBUG
-        self.textFieldUsername.text = kINatTestAccountId;
-        self.textFieldPassword.text = kINatTestAccountPassword;
-#endif
-    }
-
-    if ([_userDefaults objectForKey:kINatAuthTokenPrefKey]) {
-        self.textFieldUsername.backgroundColor = [UIColor lightGrayColor];
-        
-        self.labelSignInOut.text = @"Sign Out";
-        [self.buttonSignInOut setTitle:@"Sign Out" forState:UIControlStateNormal];
-        self.labelUserID.text = [[_userDefaults valueForKey:kINatAuthUserIDPrefKey] stringValue];
-        self.labelAuthToken.text = [_userDefaults valueForKey:kINatAuthTokenPrefKey];
-    } else {
-        self.labelSignInOut.text = @"Sign In";
-        [self.buttonSignInOut setTitle:@"Sign In" forState:UIControlStateNormal];
-        self.labelUserID.text = @"Not Signed In";
-        self.labelAuthToken.text = @"";
-    }
-*/
-
     if ([LoginManager sharedInstance].loggedIn)
     {
         self.textFieldUsername.text = [_userDefaults valueForKey:kINatAuthUsernamePrefKey];

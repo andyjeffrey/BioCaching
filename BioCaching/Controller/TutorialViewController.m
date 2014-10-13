@@ -76,8 +76,8 @@
 //    self.pageViewController.view.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 74);
     self.pageViewController.view.frame = self.viewPageView.frame;
 
-    [self addChildViewController:_pageViewController];
-    [self.view addSubview:_pageViewController.view];
+    [self addChildViewController:self.pageViewController];
+    [self.view addSubview:self.pageViewController.view];
     [self.pageViewController didMoveToParentViewController:self];
 }
 
@@ -175,9 +175,6 @@
         [self updatePageNumberTitle];
     }
 }
-
-
-
 
 - (IBAction)buttonDone:(id)sender
 {

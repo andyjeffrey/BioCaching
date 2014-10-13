@@ -122,4 +122,35 @@
     return obsPhotos;
 }
 
+#pragma mark - Convenience Properties
+- (NSString *)timespanText {
+    NSString *timespanText;
+    if (self.startTime) {
+        timespanText = [NSString stringWithFormat:@"%@ - ", [self.startTime localDateTime]];
+        if (self.stopTime) {
+            timespanText = [timespanText stringByAppendingString:[self.stopTime localTime]];
+        }
+    } else {
+        timespanText = [NSString stringWithFormat:@"Created: %@", [self.localCreatedAt localDateTime]];
+    }
+    return timespanText;
+}
+
+- (NSUInteger) tripAttributesTotal
+{
+    return self.taxaAttributes.count;
+}
+
+- (NSUInteger) tripAttributesFound
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"observed == YES"];
+    NSOrderedSet *set = [self.taxaAttributes filteredOrderedSetUsingPredicate:predicate];
+    return set.count;
+}
+
+- (NSUInteger) tripAttributesToFind
+{
+    return self.tripAttributesTotal - self.tripAttributesFound;
+}
+
 @end

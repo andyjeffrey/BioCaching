@@ -8,6 +8,7 @@
 
 #import "ExploreSummaryViewController.h"
 #import "ExploreSummaryTableViewController.h"
+#import "TripSummaryTableViewController.h"
 #import "TripsDataManager.h"
 #import "ExploreDataManager.h"
 
@@ -19,10 +20,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
 @property (weak, nonatomic) IBOutlet UILabel *labelResultsCount;
 
+@property (weak, nonatomic) IBOutlet UIView *viewContainer;
+
 @end
 
 @implementation ExploreSummaryViewController {
-    ExploreSummaryTableViewController *summaryTableVC;
+    ExploreSummaryTableViewController *exploreSummaryTableVC;
+    TripSummaryTableViewController *tripSummaryTableVC;
+    UIViewController *currentContainerVC;
+    
     ExploreDataManager *_exploreDataManager;
     GBIFOccurrenceResults *_searchResults;
     TripsDataManager *_tripsDataManager;
@@ -34,20 +40,45 @@
     [super viewDidLoad];
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 
+    [self setupContainerViews];
     [self setupUI];
-    _exploreDataManager = [ExploreDataManager sharedInstance];
-    _tripsDataManager = [TripsDataManager sharedInstance];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    _searchResults = _exploreDataManager.currentSearchResults;
-    _currentTrip = _tripsDataManager.currentTrip;
+    [self refreshCurrentData];
+    [self refreshContainerViews];
     [self setupLabels];
-//    summaryTableVC.bcOptions = _bcOptions;
-    summaryTableVC.occurrenceResults = _searchResults;
-    summaryTableVC.currrentTrip = _currentTrip;
 }
+
+- (void)refreshCurrentData
+{
+    _searchResults = [ExploreDataManager sharedInstance].currentSearchResults;
+    _currentTrip = [TripsDataManager sharedInstance].currentTrip;
+}
+
+- (void)refreshContainerViews
+{
+    if (currentContainerVC) {
+        [currentContainerVC.view removeFromSuperview];
+        [currentContainerVC removeFromParentViewController];
+    }
+    
+    if (_currentTrip && _currentTrip.status.integerValue > TripStatusCreated) {
+        tripSummaryTableVC.currentTrip = _currentTrip;
+        currentContainerVC = tripSummaryTableVC;
+    } else {
+        exploreSummaryTableVC.occurrenceResults = _searchResults;
+        exploreSummaryTableVC.currentTrip = _currentTrip;
+        currentContainerVC = exploreSummaryTableVC;
+    }
+    
+    [self addChildViewController:currentContainerVC];
+    currentContainerVC.view.frame = CGRectMake(0, 0, self.viewContainer.frame.size.width, self.viewContainer.frame.size.height);
+    [self.viewContainer addSubview:currentContainerVC.view];
+    //    [exploreSummaryTableVC didMoveToParentViewController:self];
+}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -60,10 +91,6 @@
 {
     [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
     [self.buttonSidebar setBackgroundImage:[IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    //    self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
-    // Change button color
-    //    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
-
 }
 
 - (IBAction)buttonSidebar:(id)sender {
@@ -81,7 +108,14 @@
 
 - (void)setupLabels
 {
-    [self.labelLocation setTextWithColor:@"No Active Search Results/Trip" color:[UIColor kColorHeaderText]];
+    [self.labelLocation setTextColor:[UIColor kColorHeaderText]];
+    if (_currentTrip) {
+        self.labelLocation.font = [UIFont systemFontOfSize:self.labelLocation.font.pointSize];
+    } else {
+        self.labelLocation.font = [UIFont italicSystemFontOfSize:self.labelLocation.font.pointSize];
+        [self.labelLocation setText:@"No Active Search Results/Trip"];
+    }
+
     [self.labelAreaSpan setTextWithColor:@"Area Span: " color:[UIColor kColorHeaderText]];
     [self.labelResultsCount setTextWithColor:@"Record Count: " color:[UIColor kColorHeaderText]];
     
@@ -92,12 +126,24 @@
     }
 }
 
+- (void)setupContainerViews
+{
+    exploreSummaryTableVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ExploreSummaryTable"];
+    tripSummaryTableVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TripSummaryTable"];
+}
+
+/*
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"embedSummaryTable"]) {
-        summaryTableVC = segue.destinationViewController;
+    if ([segue.identifier isEqualToString:@"embedExploreSummary"]) {
+        if ([TripsDataManager sharedInstance].currentTrip) {
+            tripSummaryTableVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TripSummaryTable"];
+        } else {
+            exploreSummaryTableVC = segue.destinationViewController;
+        }
     }
 }
+*/
 
 - (void)didReceiveMemoryWarning
 {

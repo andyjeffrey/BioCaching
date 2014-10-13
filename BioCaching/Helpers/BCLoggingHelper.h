@@ -31,4 +31,6 @@
 + (void)recordGoogleEvent:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value;
 + (void)recordGoogleTiming:(NSString *)category name:(NSString *)name timing:(NSTimeInterval)timing;
 
++ (NSString *)machineName;
+
 @end

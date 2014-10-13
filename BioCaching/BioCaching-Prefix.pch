@@ -17,6 +17,8 @@
     #import <RestKit/RestKit.h>
     #import <NXOAuth2.h>
     #import <MapKit/MapKit.h>
+    #import <MessageUI/MessageUI.h>
+    #import <MessageUI/MFMailComposeViewController.h>
 #endif
 
 #import "constants.h"

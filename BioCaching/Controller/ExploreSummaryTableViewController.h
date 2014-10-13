@@ -14,7 +14,7 @@
 @interface ExploreSummaryTableViewController : UITableViewController
 
 @property (nonatomic, strong) GBIFOccurrenceResults *occurrenceResults;
-@property (nonatomic, strong) INatTrip *currrentTrip;
+@property (nonatomic, strong) INatTrip *currentTrip;
 //@property (nonatomic, strong) BCOptions *bcOptions;
 
 @end

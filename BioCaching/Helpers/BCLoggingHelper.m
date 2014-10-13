@@ -15,6 +15,7 @@
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import <sys/utsname.h>
 
 @interface BCLoggingHelper()
 +(instancetype)sharedInstance;
@@ -204,6 +205,13 @@
     [tracker send:[[GAIDictionaryBuilder createTimingWithCategory:category interval:timeInterval name:name label:[LoginManager sharedInstance].currentUserID] build]];
 }
 
-
++ (NSString *)machineName
+{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    return [NSString stringWithCString:systemInfo.machine
+                              encoding:NSUTF8StringEncoding];
+}
 
 @end

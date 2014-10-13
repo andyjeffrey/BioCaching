@@ -17,6 +17,8 @@
 +(UIColor*) kColorHeaderText;
 
 +(UIColor*) kColorTableBackgroundColor;
++(UIColor*) kColorTableHeaderBackgroundColor;
++(UIColor*) kColorTextViewBackgroundColor;
 +(UIColor*) kColorTableCellText;
 +(UIColor*) kColorTableCellSeparator;
 +(UIColor*) kColorTableBorders;

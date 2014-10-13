@@ -43,8 +43,10 @@
     self.textViewDescription.text = self.occurrence.iNatTaxon.summaryText;
     self.textViewDescription.textColor = [UIColor kColorTableCellText];
 
-    self.labelDescription.hidden = NO;
-    [self.labelDescription setHtml:self.occurrence.iNatTaxon.summaryText];
+    if (self.occurrence.iNatTaxon.summaryText) {
+        self.labelDescription.hidden = NO;
+        [self.labelDescription setHtml:self.occurrence.iNatTaxon.summaryText];
+    }
 
     self.labelDate.text = [self.occurrence.dateRecorded localDate];
     self.labelObserver.text = self.occurrence.recordedBy;

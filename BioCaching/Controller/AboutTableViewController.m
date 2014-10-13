@@ -9,24 +9,16 @@
 #import "AboutTableViewController.h"
 #import "TutorialViewController.h"
 
+static NSString *const kSupportEmailBody = @"\n\n\n----\nPlease enter message in space above leaving device information below to help support \nApp Version: v%@ Build %@\nDevice: %@\niOS Version: %@\niNat User Id: %@\n";
+
 @interface AboutTableViewController ()
 
 - (IBAction)buttonTutorial:(id)sender;
+- (IBAction)buttonContactSupport:(id)sender;
 
 @end
 
 @implementation AboutTableViewController
-
-/*
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
 
 - (void)viewDidLoad
 {
@@ -52,14 +44,36 @@
 {
     TutorialViewController *tutorialVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
     
-//    [self.navigationController pushViewController:tutorialVC animated:YES];
     [self presentViewController:tutorialVC animated:YES completion:nil];
+}
 
-/*
-    UINavigationController *modalNavController = [[UINavigationController alloc]
-                                                  initWithRootViewController:vc];
-    [self presentViewController:modalNavController animated:YES completion:nil];
-*/
+- (IBAction)buttonContactSupport:(id)sender
+{
+    MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
+    
+    [mailController setToRecipients:@[kSupportEmailAddress]];
+    [mailController setSubject:kSupportEmailSubject];
+    NSString *emailBody = [NSString stringWithFormat:kSupportEmailBody,
+                           [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"],
+                           [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
+                           [BCLoggingHelper machineName],
+//                           [UIDevice currentDevice].systemName,
+                           [UIDevice currentDevice].systemVersion,
+                           [LoginManager sharedInstance].currentUserID];
+    [mailController setMessageBody:emailBody isHTML:NO];
+    
+    mailController.mailComposeDelegate = self;
+    
+    if ( mailController != nil ) {
+        if ([MFMailComposeViewController canSendMail]){
+            [self presentViewController:mailController animated:YES completion:nil];
+        }
+    }
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

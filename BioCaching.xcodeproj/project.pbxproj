@@ -123,6 +123,7 @@
 		A1F0511B195AEF2E008569AB /* _INatTaxonPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F0511A195AEF2E008569AB /* _INatTaxonPhoto.m */; };
 		A1F056AD19D99963009F3AD2 /* ImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F056AC19D99963009F3AD2 /* ImageHelper.m */; };
 		A1F2E12D190161110010B647 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A1F2E12C190161110010B647 /* .gitignore */; };
+		A1F868A919EAF38F00182AD8 /* TripSummaryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F868A819EAF38F00182AD8 /* TripSummaryTableViewController.m */; };
 		B338778CE5E9420C93C92294 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 346CC70B6936431AB81A1540 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -377,6 +378,8 @@
 		A1F056AB19D99963009F3AD2 /* ImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageHelper.h; sourceTree = "<group>"; };
 		A1F056AC19D99963009F3AD2 /* ImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageHelper.m; sourceTree = "<group>"; };
 		A1F2E12C190161110010B647 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		A1F868A719EAF38F00182AD8 /* TripSummaryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripSummaryTableViewController.h; sourceTree = "<group>"; };
+		A1F868A819EAF38F00182AD8 /* TripSummaryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripSummaryTableViewController.m; sourceTree = "<group>"; };
 		F438E4ED526F4BA7AB5770BF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -619,6 +622,8 @@
 				A1EA131019265B4900449327 /* ExploreSummaryViewController.m */,
 				A1EA130D19265B4900449327 /* ExploreSummaryTableViewController.h */,
 				A1EA130E19265B4900449327 /* ExploreSummaryTableViewController.m */,
+				A1F868A719EAF38F00182AD8 /* TripSummaryTableViewController.h */,
+				A1F868A819EAF38F00182AD8 /* TripSummaryTableViewController.m */,
 				A1EA130A19265B4900449327 /* ExploreOptionsDelegate.h */,
 				A1EA130B19265B4900449327 /* ExploreOptionsViewController.h */,
 				A1EA130C19265B4900449327 /* ExploreOptionsViewController.m */,
@@ -951,6 +956,7 @@
 				A119199819661E4E003B15F7 /* CLLocation+Formatting.m in Sources */,
 				A17628C319471BA500DD69DB /* _INatTripTaxaAttribute.m in Sources */,
 				A1EA131F19265B4900449327 /* ExploreContainerViewController.m in Sources */,
+				A1F868A919EAF38F00182AD8 /* TripSummaryTableViewController.m in Sources */,
 				A1F0511519588F3F008569AB /* _INatTaxon.m in Sources */,
 				A1EA135619265B5D00449327 /* TripsDataManager.m in Sources */,
 				A1EA132A19265B4900449327 /* TripsViewController.m in Sources */,

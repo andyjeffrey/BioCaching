@@ -93,16 +93,24 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)setupButtons
 {
-    self.buttonEdit.enabled = YES;
-    [self.buttonEdit setTitle:nil forState:UIControlStateNormal];
-//    self.buttonEdit.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
-    [self updateEditButton];
+    if (_currentTrip) {
+        self.buttonEdit.hidden = NO;
+        self.buttonEdit.enabled = YES;
+        [self updateEditButton];
+    }
 }
 
 
 - (void)setupLabels
 {
-    [self.labelLocation setTextWithColor:@"No Active Search Results/Trip" color:[UIColor kColorHeaderText]];
+    [self.labelLocation setTextColor:[UIColor kColorHeaderText]];
+    if (_currentTrip) {
+        self.labelLocation.font = [UIFont systemFontOfSize:self.labelLocation.font.pointSize];
+    } else {
+        self.labelLocation.font = [UIFont italicSystemFontOfSize:self.labelLocation.font.pointSize];
+        [self.labelLocation setText:@"No Active Search Results/Trip"];
+    }
+    
     [self.labelAreaSpan setTextWithColor:@"Area Span: " color:[UIColor kColorHeaderText]];
     [self.labelResultsCount setTextWithColor:@"Record Count: " color:[UIColor kColorHeaderText]];
 
@@ -131,14 +139,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _currentTrip.occurrenceRecords.count;
-/*
-    if (deletingRow && (_currentTrip.occurrenceRecords.count >= _bcOptions.displayOptions.displayPoints)) {
-        return _currentTrip.occurrenceRecords.count - 1;
-    } else {
+    if(_currentTrip) {
         return _currentTrip.occurrenceRecords.count;
+    } else {
+        return 0;
     }
-*/
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

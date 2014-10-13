@@ -30,6 +30,14 @@
     return [UIColor colorWithWhite:0.2f alpha:1.0f];
 }
 
++(UIColor*) kColorTableHeaderBackgroundColor {
+    return [UIColor colorWithWhite:0.2f alpha:0.8f];
+}
+
++(UIColor*) kColorTextViewBackgroundColor {
+    return [UIColor colorWithWhite:0.1f alpha:1.0f];
+}
+
 +(UIColor*) kColorTableCellText {
     return [UIColor kColorLabelText];
 }

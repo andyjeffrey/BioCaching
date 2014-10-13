@@ -26,6 +26,12 @@ typedef enum {
 @property (nonatomic, assign) BOOL uploading;
 @property (nonatomic, strong) NSMutableOrderedSet *locationTrack;
 
+#pragma mark - Convenience Properties
+@property (nonatomic, readonly, strong) NSString *timespanText;
+@property (nonatomic, readonly, assign) NSUInteger tripAttributesTotal;
+@property (nonatomic, readonly, assign) NSUInteger tripAttributesFound;
+@property (nonatomic, readonly, assign) NSUInteger tripAttributesToFind;
+
 +(void)setupMapping;
 
 @end

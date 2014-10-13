@@ -171,7 +171,7 @@
 {
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-    header.contentView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
+    header.contentView.backgroundColor = [UIColor kColorTableHeaderBackgroundColor];
     [header.textLabel setTextColor:[UIColor kColorLabelText]];
     
 }

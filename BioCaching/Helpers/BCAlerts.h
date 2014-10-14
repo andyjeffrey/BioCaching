@@ -11,6 +11,7 @@
 @interface BCAlerts : NSObject<UIAlertViewDelegate>
 
 + (void)displayDefaultInfoAlert:(NSString *)title message:(NSString *)message;
++ (void)displayOKAlertWithCallback:(NSString *)title message:(NSString *)message mainButtonTitle:(NSString *)mainButtonTitle okBlock:(void (^)(void))okBlock;
 + (void)displayOKorCancelAlert:(NSString *)title message:(NSString *)message okBlock:(void (^)(void))okBlock cancelBlock:(void (^)(void))cancelBlock;
 + (void)displayOKorCancelAlert:(NSString *)title message:(NSString *)message okButtonTitle:(NSString *)okButtonTitle okBlock:(void (^)(void))okBlock cancelButtonTitle:(NSString *)cancelButtonTitle cancelBlock:(void (^)(void))cancelBlock;
 

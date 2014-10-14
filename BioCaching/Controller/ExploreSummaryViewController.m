@@ -85,7 +85,6 @@
     [BCLoggingHelper recordGoogleScreen:@"ExploreSummary"];
 }
 
-
 #pragma mark Sidebar Methods
 - (void)setupSidebar
 {

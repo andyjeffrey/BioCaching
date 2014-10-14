@@ -10,6 +10,8 @@
 #import "ExploreMapViewController.h"
 #import "ExploreListViewController.h"
 #import "ExploreSummaryViewController.h"
+#import "TripsDataManager.h"
+#import "BCLocationManager.h"
 
 static const int ddLogLevel = LOG_LEVEL_INFO;
 
@@ -17,15 +19,16 @@ static int const defaultEmbeddedView = 0;
 
 @interface ExploreContainerViewController ()
 
-@property (nonatomic, strong) NSArray *embeddedVCs;
+     @property (nonatomic, strong) NSArray *embeddedVCs;
 @property (assign, nonatomic) BOOL transitionInProgress;
 
 @end
 
 @implementation ExploreContainerViewController {
     NSString *_currentEmbeddedSegueId;
+    TripsDataManager *_tripsDataManager;
+    BCOptions *_bcOptions;
 }
-
 
 #pragma mark - UIViewController Methods
 
@@ -34,11 +37,15 @@ static int const defaultEmbeddedView = 0;
     [super viewDidLoad];
     DDLogVerbose(@"%s", __PRETTY_FUNCTION__);
     
+    _tripsDataManager = [TripsDataManager sharedInstance];
+    _bcOptions = [BCOptions sharedInstance];
+
     [self initEmbeddedVCs];
     [self setupSegControl];
-
     [self performSegueWithIdentifier:_currentEmbeddedSegueId sender:nil];
+    [self resetTripButtons];
 }
+
 
 #pragma mark - Init/Setup Methods
 
@@ -75,8 +82,6 @@ static int const defaultEmbeddedView = 0;
 //    [self.segControlView setImage:[IonIcons imageWithIcon:icon_compose size:24 color:[UIColor kColorButtonLabel]] forSegmentAtIndex:2];
     [self.segControlView setImage:[IonIcons imageWithIcon:icon_navicon_round size:24 color:[UIColor kColorButtonLabel]] forSegmentAtIndex:2];
     
-//    [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    
 }
 
 
@@ -93,7 +98,6 @@ static int const defaultEmbeddedView = 0;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    NSLog(@"%@:%@ segue=%@", self.class, NSStringFromSelector(_cmd), segue.identifier);
     DDLogVerbose(@"%s segue:%@", __PRETTY_FUNCTION__, segue.identifier);
     
     // Keep track of embedded VC instances to save reloading each time
@@ -101,31 +105,11 @@ static int const defaultEmbeddedView = 0;
     UIViewController *destVC = [embeddedVC objectAtIndex:1];
     if ([destVC isEqual:[NSNull null]]) {
         destVC = segue.destinationViewController;
-/*
-        //Occurrence data (and options) currently managed/updated by MapVC, so need to pass through to child VCs
-        //TODO : Move shared data (BCOptions and GBIFOccurrenceResults) to ContainerVC (or NSUserDefaults)
-        if ([segue.identifier isEqualToString:@"embedExploreMap"]) {
-            ExploreMapViewController *mapVC = (ExploreMapViewController *)destVC;
-            mapVC.bcOptions = _bcOptions;
-        }
-*/
         [embeddedVC replaceObjectAtIndex:1 withObject:destVC];
     }
 
     // If embedded VC already loaded, swap open, else do initial load and add child VC/subview
     if (self.childViewControllers.count > 0) {
-/*
-        ExploreMapViewController *mapVC = (ExploreMapViewController *)self.embeddedVCs[defaultEmbeddedView][1];
-        if ([segue.identifier isEqualToString:@"embedExploreList"]) {
-            ExploreListViewController *listVC = (ExploreListViewController *)destVC;
-            listVC.bcOptions = mapVC.bcOptions;
-//            listVC.occurrenceResults = mapVC.occurrenceResults;
-        } else if ([segue.identifier isEqualToString:@"embedExploreSummary"]) {
-            ExploreSummaryViewController *summVC = (ExploreSummaryViewController *)destVC;
-            summVC.bcOptions = mapVC.bcOptions;
-//            summVC.occurrenceResults = mapVC.occurrenceResults;
-        }
-*/
         [self swapFromViewController:[self.childViewControllers objectAtIndex:0] toViewController:destVC];
     }
     else {
@@ -153,5 +137,188 @@ static int const defaultEmbeddedView = 0;
         self.transitionInProgress = NO;
     }];
 }
+
+
+#pragma mark UI Trip Button Methods
+
+- (void)resetTripButtons
+{
+    self.labelButtonSave.textColor = [UIColor kColorButtonLabel];
+    self.labelButtonSave.font = [UIFont systemFontOfSize:20];
+    self.labelButtonSave.text = @"Save";
+    self.imageButtonSave.image =
+    [IonIcons imageWithIcon:icon_archive iconColor:[UIColor kColorButtonLabel] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+    //    [self.buttonSave setBackgroundImage:[UIImage imageWithColor:[UIColor redColor]] forState:UIControlStateHighlighted];
+    self.viewButtonSave.hidden = YES;
+    
+    self.labelButtonStart.textColor = [UIColor kColorINatGreen];
+    self.labelButtonStart.font = [UIFont systemFontOfSize:20];
+    self.labelButtonStart.text = @"Start";
+    self.imageButtonStart.image =
+    [IonIcons imageWithIcon:icon_play iconColor:[UIColor kColorINatGreen] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+    self.viewButtonStart.hidden = YES;
+}
+
+- (void)updateTripButtons {
+    [self resetTripButtons];
+    if (_currentTrip) {
+        if (_currentTrip.status.intValue == TripStatusCreated) {
+            self.viewButtonSave.hidden = NO;
+            self.viewButtonStart.hidden = NO;
+        } else if (_currentTrip.status.intValue == TripStatusSaved) {
+            self.viewButtonStart.hidden = NO;
+        } else if (_currentTrip.status.intValue == TripStatusInProgress) {
+            self.labelButtonStart.textColor = [UIColor orangeColor];
+            self.labelButtonStart.font = [UIFont systemFontOfSize:20];
+            self.labelButtonStart.text = @"Stop";
+            self.imageButtonStart.image =
+            [IonIcons imageWithIcon:icon_stop iconColor:[UIColor orangeColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+            self.viewButtonStart.hidden = NO;
+        } else if (_currentTrip.status.intValue == TripStatusFinished) {
+            self.labelButtonStart.textColor = [UIColor cyanColor];
+            self.labelButtonStart.font = [UIFont systemFontOfSize:12];
+            self.labelButtonStart.text = @"Completed";
+            self.imageButtonStart.image =
+            [IonIcons imageWithIcon:icon_upload iconColor:[UIColor cyanColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+            self.viewButtonStart.hidden = NO;
+        } else if (_currentTrip.status.intValue == TripStatusPublished) {
+            self.labelButtonStart.textColor = [UIColor blackColor];
+            self.labelButtonStart.font = [UIFont systemFontOfSize:12];
+            self.labelButtonStart.text = @"Published";
+            self.imageButtonStart.image =
+            [IonIcons imageWithIcon:icon_checkmark iconColor:[UIColor blackColor] iconSize:32.0f imageSize:CGSizeMake(32.0f, 32.0f)];
+            self.viewButtonStart.hidden = NO;
+        }
+        self.viewButtonsPanel.hidden = NO;
+    } else {
+        self.viewButtonsPanel.hidden = YES;
+    }
+}
+
+- (IBAction)actionSaveButton:(id)sender {
+    if (!_currentTrip) {
+        _currentTrip = [_tripsDataManager createTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusSaved];
+    } else {
+        _currentTrip.status = [NSNumber numberWithInteger:TripStatusSaved];
+        [self displayTripNameDialog];
+    }
+}
+
+- (IBAction)actionStartButton:(id)sender {
+    if (!_currentTrip) {
+        if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_bcOptions.searchOptions.searchAreaCentre areaSpan:[NSNumber numberWithUnsignedInteger:_bcOptions.searchOptions.searchAreaSpan*2]]) {
+            [BCAlerts displayOKorCancelAlert:@"Location Warning!" message:@"Your Current Location Is Outside\nThe Search Area\n\nDo You Still Want To Start Trip?" okButtonTitle:@"OK" okBlock:^{
+                [self finishStartNewTrip];
+                return;
+            } cancelButtonTitle:@"Cancel" cancelBlock:^{
+                return;
+            }];
+        }
+        [self finishStartNewTrip];
+    } else {
+        if (_currentTrip.status.intValue <= TripStatusSaved) {
+            if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_currentTrip.locationCoordinate areaSpan:[NSNumber numberWithInt:_currentTrip.searchAreaSpan.intValue*2]]) {
+                [BCAlerts displayOKorCancelAlert:@"Location Warning!" message:@"Your Current Location Is Outside\nThe Search Area\n\nDo You Still Want To Start Trip?" okButtonTitle:@"OK" okBlock:^{
+                    [self finishStartSavedTrip];
+                    return;
+                } cancelButtonTitle:@"Cancel" cancelBlock:^{
+                    return;
+                }];
+            } else {
+                [self finishStartSavedTrip];
+            }
+        } else if (_currentTrip.status.intValue == TripStatusInProgress){
+            _currentTrip.status = [NSNumber numberWithInt:TripStatusFinished];
+            _currentTrip.stopTime = [NSDate date];
+            [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Finished"];
+            
+#ifdef TESTING
+            _currentTrip.stopTime = [_currentTrip.startTime dateByAddingTimeInterval:kDefaultTripDuration];
+#endif
+            [BCAlerts displayDefaultInfoAlert:@"Trip Completed, Ready to Publish" message:@"Please goto Trips Screen to publish trip to iNat"];
+        } else if (_currentTrip.status.intValue == TripStatusFinished){
+            [BCAlerts displayDefaultInfoAlert:@"Trip Completed, Ready to Publish" message:@"Please goto Trips Screen to publish trip to iNat"];
+        }
+        
+        [_tripsDataManager saveChanges];
+    }
+    [self finishActionStartButton];
+}
+
+- (void)finishStartNewTrip
+{
+    _currentTrip = [[TripsDataManager sharedInstance] createTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusInProgress];
+    _currentTrip.startTime = [NSDate date];
+    [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Started"];
+    [self finishActionStartButton];
+}
+
+- (void)finishStartSavedTrip
+{
+    if (_currentTrip.status.intValue == TripStatusCreated) {
+        [self displayTripNameDialog];
+    }
+    _currentTrip.status = [NSNumber numberWithInt:TripStatusInProgress];
+    _currentTrip.startTime = [NSDate date];
+    [BCLoggingHelper recordGoogleEvent:@"TripStatus" action:@"Started"];
+    [self finishActionStartButton];
+}
+
+- (void)finishActionStartButton
+{
+    if (_bcOptions.displayOptions.trackLocation) {
+        if (_currentTrip.statusValue == TripStatusInProgress) {
+            [BCLocationManager startRecordingTrack];
+        } else if (_currentTrip.statusValue == TripStatusFinished) {
+            [BCLocationManager stopRecordingTrack];
+        }
+    }
+    
+    [self updateTripButtons];
+    [self refreshExploreContainerView];
+}
+
+- (BOOL)checkUserLocationInsideArea:(CLLocation *)userLocation areaCenter:(CLLocationCoordinate2D)center areaSpan:(NSNumber *)span
+{
+    CLLocationDistance distance = [userLocation distanceFromLocation:[CLLocation initWithCoordinate:center]];
+    if (!userLocation || distance > (span.intValue/2)) {
+        return FALSE;
+    } else {
+        return TRUE;
+    }
+}
+
+- (void)displayTripNameDialog {
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Creating New Trip..." message:@"Enter name for trip\n(or accept default):" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField * alertTextField = [alert textFieldAtIndex:0];
+    alertTextField.text = _currentTrip.title;
+    alertTextField.keyboardType = UIKeyboardTypeDefault;
+    alertTextField.placeholder = @"Enter Trip Name:";
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSString *tripName = [alertView textFieldAtIndex:0].text;
+    if (tripName.length > 0) {
+        _currentTrip.title = tripName;
+    }
+    [_tripsDataManager saveChanges];
+    [self updateTripButtons];
+    [self refreshExploreContainerView];
+    [BCAlerts displayDefaultSuccessNotification:@"New Trip Saved to Trips Page" subtitle:nil];
+}
+
+- (void)refreshExploreContainerView
+{
+    // Refresh Container View If Necessary (i.e. not MapView)
+    if (self.segControlView.selectedSegmentIndex != 0) {
+        NSMutableArray *embeddedVC = self.embeddedVCs[self.segControlView.selectedSegmentIndex];
+        UIViewController *destVC = [embeddedVC objectAtIndex:1];
+        [destVC removeFromParentViewController];
+        [self segControlChanged:nil];
+    }
+}
+
 
 @end

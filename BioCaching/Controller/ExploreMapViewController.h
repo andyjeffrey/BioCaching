@@ -24,6 +24,6 @@
 >
 
 //@property (nonatomic, strong) BCOptions *bcOptions;
-@property (nonatomic, strong) INatTrip *currentTrip;
+//@property (nonatomic, strong) INatTrip *currentTrip;
 
 @end

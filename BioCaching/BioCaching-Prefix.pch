@@ -27,6 +27,7 @@
 #import "BCManagedObject.h"
 #import "ManagedObjects.h"
 #import "BCRestKitJsonParser.h"
+#import "GBIFOccurrenceResults.h"
 
 #import "UIColor+Defaults.h"
 #import "UIView+Colors.h"

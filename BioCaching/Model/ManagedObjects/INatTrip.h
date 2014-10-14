@@ -1,5 +1,4 @@
 #import "_INatTrip.h"
-#import "GBIFOccurrenceResults.h"
 
 #define kINatTripsPathPattern @"trips"
 #define kINatTripsKeyPath @"trips"

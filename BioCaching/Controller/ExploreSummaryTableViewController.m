@@ -7,6 +7,7 @@
 //
 
 #import "ExploreSummaryTableViewController.h"
+#import "ExploreContainerViewController.h"
 
 @interface ExploreSummaryTableViewController ()
 
@@ -28,6 +29,7 @@
 @end
 
 @implementation ExploreSummaryTableViewController {
+    ExploreContainerViewController *_exploreContVC;
     BCOptions *_bcOptions;
     NSArray *_filteredResults;
     NSArray *_tableData;
@@ -56,6 +58,9 @@
     _filteredResults = self.occurrenceResults.filteredResults;
     [self setupLabels];
     [self.tableView reloadData];
+    
+    _exploreContVC = (ExploreContainerViewController *)self.parentViewController.parentViewController;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _exploreContVC.viewButtonsPanel.frame.size.width, _exploreContVC.viewButtonsPanel.frame.size.height) ];
 }
 
 - (void)setupUI

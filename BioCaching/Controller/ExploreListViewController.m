@@ -7,6 +7,7 @@
 //
 
 #import "ExploreListViewController.h"
+#import "ExploreContainerViewController.h"
 #import "OccurrenceDetailsViewController.h"
 #import "OccurrenceTableViewControler.h"
 #import "ObservationViewController.h"
@@ -33,6 +34,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 
 @implementation ExploreListViewController {
+    ExploreContainerViewController *_exploreContVC;
     BCOptions *_bcOptions;
     TripsDataManager *_tripsDataManager;
     INatTrip *_currentTrip;
@@ -55,10 +57,12 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)viewWillAppear:(BOOL)animated
 {
     _currentTrip = _tripsDataManager.currentTrip;
+    
     [self setupLabels];
     [self.tableView reloadData];
     
-//    [self.tableViewResults performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    _exploreContVC = (ExploreContainerViewController *)self.parentViewController;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _exploreContVC.viewButtonsPanel.frame.size.width, _exploreContVC.viewButtonsPanel.frame.size.height) ];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -148,15 +152,13 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
-    
     TaxonListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaxonListCell" forIndexPath:indexPath];
-    
     cell.backgroundColor = [UIColor kColorTableBackgroundColor];
+
+    OccurrenceRecord *occurrence = _currentTrip.occurrenceRecords[indexPath.row];
     
     cell.imageIconicTaxon.image = [UIImage imageNamed:[occurrence getINatIconicTaxaMainImageFile]];
     
-
     if (occurrence.iNatTaxon.commonName) {
         [cell.labelTaxonTitle setTextWithColor:occurrence.title color:[occurrence getINatIconicTaxonColor]];
         [cell.labelTaxonSubTitle setTextWithDefaults:occurrence.subtitle];

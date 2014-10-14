@@ -83,6 +83,7 @@ typedef void (^AnimationBlock)();
 
 @implementation ExploreMapViewController
 {
+    ExploreContainerViewController *_exploreContVC;
     BCOptions *_bcOptions;
     TaxonInfoViewController *_taxonInfoVC;
     CGRect _taxonInfoRefFrame;
@@ -93,6 +94,7 @@ typedef void (^AnimationBlock)();
     BOOL _mapViewLoaded;
     BOOL _updateMapView;
     BOOL _searchInProgress;
+    BOOL _legalLabelAdjusted;
 
     CLLocation *_currentUserLocation;
     CLLocationCoordinate2D _currentViewCoordinate;
@@ -102,9 +104,10 @@ typedef void (^AnimationBlock)();
     MKPolyline *_currentLocationTrack;
     
     ExploreDataManager *_exploreDataManager;
-    GBIFOccurrenceResults *_occurrenceResults;
+//    GBIFOccurrenceResults *_occurrenceResults;
     
     TripsDataManager *_tripsDataManager;
+//    INatTrip *_currentTrip;
 }
 
 #pragma mark - UIViewController Methods
@@ -115,7 +118,7 @@ typedef void (^AnimationBlock)();
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     
     self.tabBarItem.selectedImage = [UIImage imageNamed:@"tabicon-search-solid"];
-
+    
     _bcOptions = [BCOptions sharedInstance];
     
     [self setupSidebar];
@@ -153,15 +156,19 @@ typedef void (^AnimationBlock)();
 - (void)viewWillAppear:(BOOL)animated
 {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    
+    _exploreContVC = (ExploreContainerViewController *)self.parentViewController;
+    
     // Force ExploreMapVC To Always Show Current Trip?
-    if (_currentTrip != _tripsDataManager.currentTrip) {
+    if (_exploreContVC.currentTrip != _tripsDataManager.currentTrip) {
         self.viewTaxonInfo.hidden = YES;
         _updateMapView = YES;
-        _currentTrip = _tripsDataManager.currentTrip;
+        _exploreContVC.currentTrip = _tripsDataManager.currentTrip;
         [self.activityViewLocationSearch stopAnimating];
     }
     [self updateSearchResultsView];
-    [self updateButtons];
+//    [self updateButtons];
+    [_exploreContVC updateTripButtons];
     [self updateMapType];
 }
 
@@ -170,29 +177,32 @@ typedef void (^AnimationBlock)();
 //    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     [BCLoggingHelper recordGoogleScreen:@"ExploreMap"];
     
-    if (_currentTrip && _updateMapView) {
+    if (_exploreContVC.currentTrip && _updateMapView) {
         // Update Add Trip Occurrence Annotations
-        [self updateOccurrenceAnnotations:_currentTrip.occurrenceRecords];
+        [self updateOccurrenceAnnotations:_exploreContVC.currentTrip.occurrenceRecords];
 
         // Update Trip Search Area Overlay
-        [self updateSearchAreaOverlay:_currentTrip.locationCoordinate areaSpan:_currentTrip.searchAreaSpan.doubleValue];
+        [self updateSearchAreaOverlay:_exploreContVC.currentTrip.locationCoordinate areaSpan:_exploreContVC.currentTrip.searchAreaSpan.doubleValue];
 
         // Update Track Overlay And Stop/Resume Recording If Necessary
-        [self updateLocationTrackOverlay:_currentTrip];
-        if ((_currentTrip.statusValue == TripStatusInProgress) && _bcOptions.displayOptions.trackLocation) {
+        [self updateLocationTrackOverlay:_exploreContVC.currentTrip];
+        if ((_exploreContVC.currentTrip.statusValue == TripStatusInProgress) && _bcOptions.displayOptions.trackLocation) {
             [BCLocationManager startRecordingTrack];
         } else {
             [BCLocationManager stopRecordingTrack];
         }
 
         // Move/Zoom Map To Trip Search Area
-        [self updateCurrentMapView:_currentTrip.locationCoordinate latitudinalMeters:0 longitudinalMeters:_currentTrip.searchAreaSpan.doubleValue];
+        [self updateCurrentMapView:_exploreContVC.currentTrip.locationCoordinate latitudinalMeters:0 longitudinalMeters:_exploreContVC.currentTrip.searchAreaSpan.doubleValue];
 
         _updateMapView = NO;
     }
     [self configureLocationDropDown];
     [self configureBackgroundControlsView];
+    
+    [self adjustMapLegalLabel];
 }
+
 
 #pragma mark Sidebar Methods
 - (void)setupSidebar
@@ -210,6 +220,17 @@ typedef void (^AnimationBlock)();
 
 
 #pragma mark Init/UI Setup Methods
+
+- (void)adjustMapLegalLabel
+{
+    if (!_legalLabelAdjusted) {
+        UILabel *attributionLabel = [self.mapView.subviews objectAtIndex:1];
+        //    attributionLabel.frame = CGRectMake(5, self.mapView.frame.origin.y+self.mapView.frame.size.height-55, 24, 10);
+        attributionLabel.center = CGPointMake(attributionLabel.center.x, attributionLabel.center.y - 20);
+        _legalLabelAdjusted = YES;
+    }
+}
+
 - (void)setupButtons
 {
     self.viewTopBar.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
@@ -232,7 +253,7 @@ typedef void (^AnimationBlock)();
      [IonIcons imageWithIcon:icon_navigate iconColor:[UIColor whiteColor] iconSize:16.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
 //    self.buttonCurrentLocation.hidden = YES;
     
-    [self resetTripButtons];
+//    [self resetTripButtons];
 }
 
 - (void)setupTaxonInfoView
@@ -280,7 +301,7 @@ typedef void (^AnimationBlock)();
 
 
 #pragma mark UI Update Methods
-
+/*
 - (void)resetTripButtons
 {
     self.labelButtonSave.textColor = [UIColor kColorButtonLabel];
@@ -331,7 +352,7 @@ typedef void (^AnimationBlock)();
         }
     }
 }
-
+*/
 - (void)updateMapType
 {
     switch ((MKMapType)_bcOptions.displayOptions.mapType) {
@@ -371,7 +392,7 @@ typedef void (^AnimationBlock)();
 
 - (void)updateSearchResultsView
 {
-    if (!_currentTrip) {
+    if (!_exploreContVC.currentTrip) {
         self.viewSearchResults.hidden = YES;
     } else {
         self.viewSearchResults.hidden = NO;
@@ -382,13 +403,13 @@ typedef void (^AnimationBlock)();
 
 - (void)updateAreaSpanLabel
 {
-    self.labelAreaSpan.text = [NSString stringWithFormat:@"Search Span: %@m", _currentTrip.searchAreaSpan];
+    self.labelAreaSpan.text = [NSString stringWithFormat:@"Search Span: %@m", _exploreContVC.currentTrip.searchAreaSpan];
 }
 
 - (void)updateRecordCountLabel
 {
-    if (_currentTrip) {
-        [self updateRecordCountLabel:(int)_currentTrip.occurrenceRecords.count];
+    if (_exploreContVC.currentTrip) {
+        [self updateRecordCountLabel:(int)_exploreContVC.currentTrip.occurrenceRecords.count];
     } else {
         [self updateRecordCountLabel:0];
     }
@@ -510,8 +531,7 @@ typedef void (^AnimationBlock)();
 #pragma mark IBActions
 - (IBAction)actionLocationSelect:(id)sender {
     [self hideTaxonView];
-    ExploreContainerViewController *exploreVC = (ExploreContainerViewController *)self.parentViewController;
-    exploreVC.segControlView.hidden = YES;
+    _exploreContVC.segControlView.hidden = YES;
     _viewBackgroundControls.hidden = NO;
     [_dropDownViewLocations openAnimation];
     [_dropDownViewLocations.uiTableView flashScrollIndicators];
@@ -525,7 +545,7 @@ typedef void (^AnimationBlock)();
         return;
     }
     
-    if (_currentTrip && _currentTrip.status.intValue < (int)TripStatusSaved) {
+    if (_exploreContVC.currentTrip && _exploreContVC.currentTrip.status.intValue < (int)TripStatusSaved) {
         [BCAlerts displayOKorCancelAlert:@"New Search - Are You Sure?" message:@"Warning! - This will overwrite records\nfrom your previous search.\nPress Cancel then Save (or Start)\na trip to keep current results" okBlock:^{
             [_tripsDataManager discardCurrentTrip];
             [self performSearch];
@@ -568,6 +588,7 @@ typedef void (^AnimationBlock)();
     [self updateCurrentMapView:_bcOptions.searchOptions.searchAreaCentre latitudinalMeters:0 longitudinalMeters:_bcOptions.searchOptions.searchAreaSpan];
 }
 
+/*
 - (IBAction)actionSaveButton:(id)sender {
     if (!_currentTrip) {
         _currentTrip = [[TripsDataManager sharedInstance] createTripFromOccurrenceResults:_occurrenceResults bcOptions:_bcOptions tripStatus:TripStatusSaved];
@@ -622,7 +643,9 @@ typedef void (^AnimationBlock)();
     
     [self updateButtons];
 }
+*/
 
+/*
 - (BOOL)checkUserLocationInsideArea:(CLLocation *)userLocation areaCenter:(CLLocationCoordinate2D)center areaSpan:(NSNumber *)span
 {
     CLLocationDistance distance = [userLocation distanceFromLocation:[CLLocation initWithCoordinate:center]];
@@ -654,20 +677,22 @@ typedef void (^AnimationBlock)();
 
     [BCAlerts displayDefaultSuccessNotification:@"New Trip Saved to Trips Page" subtitle:nil];
 }
-
+*/
+ 
 - (void)performSearch
 {
     [self showSearchInProgress];
 
     // Use current view region for searchAreaSpan
-    if (_currentTrip) {
+    if (_exploreContVC.currentTrip) {
         [BCLocationManager stopRecordingTrack];
-        _currentTrip = nil;
+        [self.mapView removeAnnotations:_exploreContVC.currentTrip.occurrenceRecords];
+        _exploreContVC.currentTrip = nil;
         _bcOptions.searchOptions.searchAreaSpan = [self getCurrentMapViewSpan];
-        [self updateButtons];
+//        [self updateButtons];
+        [_exploreContVC updateTripButtons];
     }
     [self updateSearchResultsView];
-    [self.mapView removeAnnotations:_currentTrip.occurrenceRecords];
 //    [self updateAreaSpanLabel];
 //    [self updateRecordCountLabel];
     
@@ -715,7 +740,7 @@ typedef void (^AnimationBlock)();
         [self updateLocationLabel:mapView.centerCoordinate horizAccuracy:0];
 
         // If loading for the first time, perform search on current location
-        if (!_currentTrip && _bcOptions.displayOptions.autoSearch && !_searchInProgress && !([ExploreDataManager sharedInstance].currentSearchResults)) {
+        if (!_exploreContVC.currentTrip && _bcOptions.displayOptions.autoSearch && !_searchInProgress && !([ExploreDataManager sharedInstance].currentSearchResults)) {
             [self performSearch];
         }
     }
@@ -864,8 +889,7 @@ typedef void (^AnimationBlock)();
 {
     DDLogDebug(@"viewBackgroundControlsClick");
     [_dropDownViewLocations closeAnimation];
-    ExploreContainerViewController *exploreVC = (ExploreContainerViewController *)self.parentViewController;
-    exploreVC.segControlView.hidden = NO;
+    _exploreContVC.segControlView.hidden = NO;
     _viewBackgroundControls.hidden = YES;
 }
 
@@ -890,9 +914,11 @@ typedef void (^AnimationBlock)();
     DDLogDebug(@"ExploreMapViewController didReceiveOccurences: %lu", (unsigned long)occurrenceResults.Results.count);
 
     if (occurrenceResults) {
-        _occurrenceResults = occurrenceResults;
+//        _occurrenceResults = occurrenceResults;
+        _exploreContVC.occurrenceResults = occurrenceResults;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self updateButtons];
+//            [self updateButtons];
+            [_exploreContVC updateTripButtons];
             [self updateSearchResultsView];
             [self actionZoomToSearchArea:nil];
         });
@@ -944,9 +970,10 @@ typedef void (^AnimationBlock)();
 
 - (void)newTripCreated:(INatTrip *)trip
 {
-    _currentTrip = trip;
+    _exploreContVC.currentTrip = trip;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateButtons];
+//        [self updateButtons];
+        [_exploreContVC updateTripButtons];
         [self updateSearchResultsView];
         [self actionZoomToSearchArea:nil];
         [self.buttonRefreshSearch setEnabled:YES];
@@ -1006,8 +1033,7 @@ typedef void (^AnimationBlock)();
     [self updateLocationLabelAndMapView:_currentViewCoordinate mapViewSpan:[LocationsArray locationViewSpan:returnIndex]];
     [self updateSearchAreaOverlay:_currentViewCoordinate areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     [self.activityViewLocationSearch stopAnimating];
-    ExploreContainerViewController *exploreVC = (ExploreContainerViewController *)self.parentViewController;
-    exploreVC.segControlView.hidden = NO;
+    _exploreContVC.segControlView.hidden = NO;
     _viewBackgroundControls.hidden = YES;
 }
 

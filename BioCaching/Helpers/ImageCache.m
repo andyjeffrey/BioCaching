@@ -8,7 +8,7 @@
 
 #import "ImageCache.h"
 
-static const int ddLogLevel = LOG_LEVEL_DEBUG;
+static const int ddLogLevel = LOG_LEVEL_INFO;
 
 @implementation ImageCache
 

@@ -12,7 +12,7 @@
 #import "TripsDataManager.h"
 #import "ImageCache.h"
 
-static const int ddLogLevel = LOG_LEVEL_DEBUG;
+static const int ddLogLevel = LOG_LEVEL_INFO;
 
 @implementation ExploreDataManager {
     GBIFManager *_gbifManager;
@@ -163,7 +163,7 @@ static const int ddLogLevel = LOG_LEVEL_DEBUG;
     DDLogVerbose(@"iNatTaxonAddedToGBIFOccurrence, Requests:%d, Responses:%d", self.currentSearchResults.tripListRequestCount, (int)tripListResponses.count);
     
     if (tripListResponses.count == self.currentSearchResults.tripListRequestCount) {
-        DDLogDebug(@"iNatTaxonAddedToGBIFOccurrence, SEARCH COMPLETE Requests:%d, Responses:%d", self.currentSearchResults.tripListRequestCount, (int)tripListResponses.count);
+        DDLogInfo(@"iNatTaxonAddedToGBIFOccurrence, SEARCH COMPLETE Requests:%d, Responses:%d", self.currentSearchResults.tripListRequestCount, (int)tripListResponses.count);
         [self.delegate searchCompleted];
     }
 }

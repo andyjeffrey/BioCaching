@@ -48,20 +48,24 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     
     _bcOptions = [BCOptions sharedInstance];
+    _tripsDataManager = [TripsDataManager sharedInstance];
 
     [self setupSidebar];
     [self setupUI];
-    _tripsDataManager = [TripsDataManager sharedInstance];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    _currentTrip = _tripsDataManager.currentTrip;
-    
+    _exploreContVC = (ExploreContainerViewController *)self.parentViewController;
+    if (_exploreContVC.currentTrip != _tripsDataManager.currentTrip) {
+        _exploreContVC.currentTrip = _tripsDataManager.currentTrip;
+    }
+    _currentTrip = _exploreContVC.currentTrip;
+
+    [self setupEditButton];
     [self setupLabels];
     [self.tableView reloadData];
     
-    _exploreContVC = (ExploreContainerViewController *)self.parentViewController;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _exploreContVC.viewButtonsPanel.frame.size.width, _exploreContVC.viewButtonsPanel.frame.size.height) ];
 }
 
@@ -92,10 +96,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     //    self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
     self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
     [self setupSidebar];
-    [self setupButtons];
 }
 
-- (void)setupButtons
+- (void)setupEditButton
 {
     if (_currentTrip) {
         self.buttonEdit.hidden = NO;
@@ -103,7 +106,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         [self updateEditButton];
     }
 }
-
 
 - (void)setupLabels
 {
@@ -234,7 +236,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TaxonListCell *cell = (TaxonListCell *)[tableView cellForRowAtIndexPath:indexPath];
-    cell.buttonAction.hidden = NO;
+    if (_currentTrip.statusValue >= TripStatusInProgress) {
+        cell.buttonAction.hidden = NO;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

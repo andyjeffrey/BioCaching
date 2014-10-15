@@ -96,7 +96,6 @@ typedef void (^AnimationBlock)();
     BOOL _searchInProgress;
     BOOL _legalLabelAdjusted;
 
-    CLLocation *_currentUserLocation;
     CLLocationCoordinate2D _currentViewCoordinate;
     
     MKPolygon *_currentSearchAreaPolygon;
@@ -104,10 +103,7 @@ typedef void (^AnimationBlock)();
     MKPolyline *_currentLocationTrack;
     
     ExploreDataManager *_exploreDataManager;
-//    GBIFOccurrenceResults *_occurrenceResults;
-    
     TripsDataManager *_tripsDataManager;
-//    INatTrip *_currentTrip;
 }
 
 #pragma mark - UIViewController Methods
@@ -239,21 +235,10 @@ typedef void (^AnimationBlock)();
     [self.buttonRefreshSearch setBackgroundImage:
      [IonIcons imageWithIcon:icon_search iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
 
-//    [self.imageRefreshSearchButton setImage:[IonIcons imageWithIcon:icon_refresh iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)]];
-//    [self.buttonCancelSearch setImage:[IonIcons imageWithIcon:icon_close iconColor:[UIColor redColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-//    [self.buttonCancelSearch setBackgroundColor:[UIColor clearColor]];
-//    self.buttonCancelSearch.hidden = NO;
-    
     self.labelLocationDetails.textColor = [UIColor kColorButtonLabel];
-    
-    [self.buttonSettings setBackgroundImage:
-     [IonIcons imageWithIcon:icon_gear_b iconColor:[UIColor whiteColor] iconSize:28.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
     
     [self.buttonCurrentLocation setBackgroundImage:
      [IonIcons imageWithIcon:icon_navigate iconColor:[UIColor whiteColor] iconSize:16.0f imageSize:CGSizeMake(30.0f, 30.0f)] forState:UIControlStateNormal];
-//    self.buttonCurrentLocation.hidden = YES;
-    
-//    [self resetTripButtons];
 }
 
 - (void)setupTaxonInfoView
@@ -582,7 +567,7 @@ typedef void (^AnimationBlock)();
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
         [BCAlerts displayDefaultInfoAlert:@"Location Services Unavailable" message:@"Please go to Settings/Privacy to enable Location Services"];
     } else {
-        [self updateCurrentMapView:_currentUserLocation.coordinate latitudinalMeters:0 longitudinalMeters:[self getCurrentMapViewSpan]];
+        [self updateCurrentMapView:_exploreContVC.currentUserLocation.coordinate latitudinalMeters:0 longitudinalMeters:[self getCurrentMapViewSpan]];
     }
 }
 
@@ -716,11 +701,11 @@ typedef void (^AnimationBlock)();
     
     if (self.activityViewLocationSearch.isAnimating) {
         [self.activityViewLocationSearch stopAnimating];
-        _currentUserLocation = userLocation.location;
-        [self updateLocationLabelAndMapView:_currentUserLocation.coordinate mapViewSpan:kDefaultViewSpan];
-        [self updateSearchAreaOverlay:_currentUserLocation.coordinate areaSpan:_bcOptions.searchOptions.searchAreaSpan];
+        _exploreContVC.currentUserLocation = userLocation.location;
+        [self updateLocationLabelAndMapView:_exploreContVC.currentUserLocation.coordinate mapViewSpan:kDefaultViewSpan];
+        [self updateSearchAreaOverlay:_exploreContVC.currentUserLocation.coordinate areaSpan:_bcOptions.searchOptions.searchAreaSpan];
     }
-    _currentUserLocation = userLocation.location;
+    _exploreContVC.currentUserLocation = userLocation.location;
     if (_bcOptions.displayOptions.followUser) {
         [self.mapView setCenterCoordinate:userLocation.coordinate animated:TRUE];
     }
@@ -737,7 +722,7 @@ typedef void (^AnimationBlock)();
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    if (_mapViewLoaded || _currentUserLocation) {
+    if (_mapViewLoaded || _exploreContVC.currentUserLocation) {
         _currentViewCoordinate = mapView.centerCoordinate;
         [self updateLocationLabel:mapView.centerCoordinate horizAccuracy:0];
 
@@ -1026,7 +1011,7 @@ typedef void (^AnimationBlock)();
 -(void)dropDownCellSelected:(NSInteger)returnIndex
 {
     if (returnIndex == 0) {
-        _currentViewCoordinate = _currentUserLocation.coordinate;
+        _currentViewCoordinate = _exploreContVC.currentUserLocation.coordinate;
     } else {
         _currentViewCoordinate = [LocationsArray locationCoordinate:returnIndex];
     }

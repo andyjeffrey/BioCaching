@@ -13,13 +13,13 @@
 #import "TripsDataManager.h"
 #import "BCLocationManager.h"
 
-static const int ddLogLevel = LOG_LEVEL_INFO;
+static const int ddLogLevel = LOG_LEVEL_DEBUG;
 
 static int const defaultEmbeddedView = 0;
 
 @interface ExploreContainerViewController ()
 
-     @property (nonatomic, strong) NSArray *embeddedVCs;
+@property (nonatomic, strong) NSArray *embeddedVCs;
 @property (assign, nonatomic) BOOL transitionInProgress;
 
 @end
@@ -44,6 +44,13 @@ static int const defaultEmbeddedView = 0;
     [self setupSegControl];
     [self performSegueWithIdentifier:_currentEmbeddedSegueId sender:nil];
     [self resetTripButtons];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+//    self.currentTrip = _tripsDataManager.currentTrip;
 }
 
 
@@ -206,7 +213,7 @@ static int const defaultEmbeddedView = 0;
 
 - (IBAction)actionStartButton:(id)sender {
     if (!_currentTrip) {
-        if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_bcOptions.searchOptions.searchAreaCentre areaSpan:[NSNumber numberWithUnsignedInteger:_bcOptions.searchOptions.searchAreaSpan*2]]) {
+        if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_bcOptions.searchOptions.searchAreaCentre areaSpan:[NSNumber numberWithUnsignedInteger:_bcOptions.searchOptions.searchAreaSpan]]) {
             [BCAlerts displayOKorCancelAlert:@"Location Warning!" message:@"Your Current Location Is Outside\nThe Search Area\n\nDo You Still Want To Start Trip?" okButtonTitle:@"OK" okBlock:^{
                 [self finishStartNewTrip];
                 return;
@@ -217,7 +224,7 @@ static int const defaultEmbeddedView = 0;
         [self finishStartNewTrip];
     } else {
         if (_currentTrip.status.intValue <= TripStatusSaved) {
-            if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_currentTrip.locationCoordinate areaSpan:[NSNumber numberWithInt:_currentTrip.searchAreaSpan.intValue*2]]) {
+            if (![self checkUserLocationInsideArea:_currentUserLocation areaCenter:_currentTrip.locationCoordinate areaSpan:[NSNumber numberWithInt:_currentTrip.searchAreaSpan.intValue]]) {
                 [BCAlerts displayOKorCancelAlert:@"Location Warning!" message:@"Your Current Location Is Outside\nThe Search Area\n\nDo You Still Want To Start Trip?" okButtonTitle:@"OK" okBlock:^{
                     [self finishStartSavedTrip];
                     return;
@@ -280,6 +287,9 @@ static int const defaultEmbeddedView = 0;
 
 - (BOOL)checkUserLocationInsideArea:(CLLocation *)userLocation areaCenter:(CLLocationCoordinate2D)center areaSpan:(NSNumber *)span
 {
+    DDLogDebug(@"UserLocation: %.6f, %.6f", userLocation.coordinate.latitude, userLocation.coordinate.longitude);
+    DDLogDebug(@"Search Area: %.6f, %.6f, %d", center.latitude, center.longitude, span.intValue/2);
+    
     CLLocationDistance distance = [userLocation distanceFromLocation:[CLLocation initWithCoordinate:center]];
     if (!userLocation || distance > (span.intValue/2)) {
         return FALSE;

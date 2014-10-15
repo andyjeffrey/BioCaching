@@ -386,8 +386,6 @@
                     [sidebarVC.viewControllersCache setObject:dvc forKey:rvc_segue.identifier];
                 }
             }
-            //            UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
-            //            [navVC setViewControllers:@[dvc] animated:NO];
             [self.revealViewController setFrontViewController:dvc];
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
         };

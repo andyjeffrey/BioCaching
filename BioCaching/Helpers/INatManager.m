@@ -11,7 +11,7 @@
 #import "GBIFOccurrence.h"
 #import "ExploreDataManager.h"
 
-static const int ddLogLevel = LOG_LEVEL_DEBUG;
+static const int ddLogLevel = LOG_LEVEL_INFO;
 
 static NSString * const kTaxaSearchQuery = @"taxa/search.json?q=";
 

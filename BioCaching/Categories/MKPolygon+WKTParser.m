@@ -9,6 +9,7 @@
 #import "MKPolygon+WKTParser.h"
 
 static const int ddLogLevel = LOG_LEVEL_INFO;
+static const int kNoOfPolygonPoints = 16;
 
 @implementation MKPolygon (WKTParser)
 
@@ -46,13 +47,21 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 + (MKPolygon *)approximatedPolygonFromCircle:(MKCircle *)circle points:(NSUInteger)numberOfPoints
 {
+    CLLocationCoordinate2D *polygonPoints = malloc(sizeof(CLLocationCoordinate2D) * numberOfPoints+1);
     
     for (int i = 0; i <= numberOfPoints; i++) {
-        
+        double angle = 360.0/numberOfPoints * i;
+        CLLocationCoordinate2D polyonPoint = [LocationUtils coordinateFromCoord:circle.coordinate distanceKm:circle.radius/1000.0 bearingDegrees:angle];
+        polygonPoints[i] = polyonPoint;
     }
+    MKPolygon *approxPolygon = [MKPolygon polygonWithCoordinates:polygonPoints count:numberOfPoints+1];
 
-    return nil;
-//    return [MKPolygon polygonWithCoordinates:<#(CLLocationCoordinate2D *)#> count:<#(NSUInteger)#>
+    return approxPolygon;
+}
+
++ (MKPolygon *)approximatedPolygonFromCircle:(MKCircle *)circle
+{
+    return [self approximatedPolygonFromCircle:circle points:kNoOfPolygonPoints];
 }
 
 @end

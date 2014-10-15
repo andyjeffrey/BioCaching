@@ -124,6 +124,7 @@
 		A1F056AD19D99963009F3AD2 /* ImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F056AC19D99963009F3AD2 /* ImageHelper.m */; };
 		A1F2E12D190161110010B647 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A1F2E12C190161110010B647 /* .gitignore */; };
 		A1F868A919EAF38F00182AD8 /* TripSummaryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F868A819EAF38F00182AD8 /* TripSummaryTableViewController.m */; };
+		A1F868AC19EF21B200182AD8 /* LocationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F868AB19EF21B200182AD8 /* LocationUtils.m */; };
 		B338778CE5E9420C93C92294 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 346CC70B6936431AB81A1540 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -380,6 +381,8 @@
 		A1F2E12C190161110010B647 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		A1F868A719EAF38F00182AD8 /* TripSummaryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripSummaryTableViewController.h; sourceTree = "<group>"; };
 		A1F868A819EAF38F00182AD8 /* TripSummaryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripSummaryTableViewController.m; sourceTree = "<group>"; };
+		A1F868AA19EF21B200182AD8 /* LocationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationUtils.h; sourceTree = "<group>"; };
+		A1F868AB19EF21B200182AD8 /* LocationUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationUtils.m; sourceTree = "<group>"; };
 		F438E4ED526F4BA7AB5770BF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -724,6 +727,8 @@
 				A1C524531971AA3F0002686A /* ConnectionHelper.m */,
 				A119199319660F7D003B15F7 /* BCLocationManager.h */,
 				A119199419660F7D003B15F7 /* BCLocationManager.m */,
+				A1F868AA19EF21B200182AD8 /* LocationUtils.h */,
+				A1F868AB19EF21B200182AD8 /* LocationUtils.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1023,6 +1028,7 @@
 				A17628C519471BA500DD69DB /* INatTrip.m in Sources */,
 				A1EA133D19265B5200449327 /* NSString+UtilityMethods.m in Sources */,
 				A1EA12DF1926562A00449327 /* BCOptions.m in Sources */,
+				A1F868AC19EF21B200182AD8 /* LocationUtils.m in Sources */,
 				A176286F1937359500DD69DB /* UIImage+Colors.m in Sources */,
 				A153471A1964790300E1C63F /* NSUserDefaults+CounterValues.m in Sources */,
 				A1EA133F19265B5200449327 /* UIView+Colors.m in Sources */,

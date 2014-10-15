@@ -98,7 +98,7 @@ typedef void (^AnimationBlock)();
 
     CLLocationCoordinate2D _currentViewCoordinate;
     
-    MKPolygon *_currentSearchAreaPolygon;
+//    MKPolygon *_currentSearchAreaPolygon;
     MKCircle *_currentSearchAreaCircle;
     MKPolyline *_currentLocationTrack;
     
@@ -412,16 +412,21 @@ typedef void (^AnimationBlock)();
 
 - (void)updateSearchAreaOverlay:(CLLocationCoordinate2D)location latitudeSpan:(double)latSpan longitudeSpan:(double)longSpan
 {
-    if (_currentSearchAreaPolygon) {
-        [self.mapView removeOverlay:_currentSearchAreaPolygon];
-        _currentSearchAreaPolygon = nil;
-    }
-    
     if (_currentSearchAreaCircle) {
         [self.mapView removeOverlay:_currentSearchAreaCircle];
         _currentSearchAreaCircle = nil;
     }
-    
+
+    // Circle area overlay
+    _currentSearchAreaCircle = [MKCircle circleWithCenterCoordinate:location radius:longSpan];
+    [self.mapView addOverlay:_currentSearchAreaCircle];
+
+/*
+    if (_currentSearchAreaPolygon) {
+        [self.mapView removeOverlay:_currentSearchAreaPolygon];
+        _currentSearchAreaPolygon = nil;
+    }
+
     // Polygon (square) area overlay
     MKCoordinateRegion searchRegion = MKCoordinateRegionMakeWithDistance(location, latSpan, longSpan);
     MKCoordinateSpan searchSpan = searchRegion.span;
@@ -431,14 +436,24 @@ typedef void (^AnimationBlock)();
         CLLocationCoordinate2DMake(location.latitude + searchSpan.latitudeDelta, location.longitude + searchSpan.longitudeDelta),
         CLLocationCoordinate2DMake(location.latitude + searchSpan.latitudeDelta, location.longitude - searchSpan.longitudeDelta),
         CLLocationCoordinate2DMake(location.latitude - searchSpan.latitudeDelta, location.longitude - searchSpan.longitudeDelta)};
-    
+
+    // Polygon (diamond) area overlay
+    MKCoordinateRegion searchRegion = MKCoordinateRegionMakeWithDistance(location, latSpan, longSpan);
+    MKCoordinateSpan searchSpan = searchRegion.span;
+    CLLocationCoordinate2D searchPolygonCoords[5] = {
+        CLLocationCoordinate2DMake(location.latitude - searchSpan.latitudeDelta, location.longitude),
+        CLLocationCoordinate2DMake(location.latitude, location.longitude + searchSpan.longitudeDelta),
+        CLLocationCoordinate2DMake(location.latitude + searchSpan.latitudeDelta, location.longitude),
+        CLLocationCoordinate2DMake(location.latitude, location.longitude - searchSpan.longitudeDelta),
+        CLLocationCoordinate2DMake(location.latitude - searchSpan.latitudeDelta, location.longitude)};
+
     _currentSearchAreaPolygon = [MKPolygon polygonWithCoordinates:searchPolygonCoords count:5];
-    //    [self.mapView addOverlay:_currentSearchAreaPolygon];
+   [self.mapView addOverlay:_currentSearchAreaPolygon];
     DDLogDebug(@"%s SearchArea=%@", __PRETTY_FUNCTION__, _currentSearchAreaPolygon);
-    
-    // Circle area overlay
-    _currentSearchAreaCircle = [MKCircle circleWithCenterCoordinate:location radius:longSpan];
-    [self.mapView addOverlay:_currentSearchAreaCircle];
+ 
+    MKPolygon *approxPolygon = [MKPolygon approximatedPolygonFromCircle:_currentSearchAreaCircle];
+    [self.mapView addOverlay:approxPolygon];
+*/
 }
 
 - (void)updateLocationTrackOverlay:(INatTrip *)trip
@@ -685,7 +700,8 @@ typedef void (^AnimationBlock)();
     
     _bcOptions.searchOptions.searchAreaCentre = _currentViewCoordinate;
     [self updateSearchAreaOverlay:_bcOptions.searchOptions.searchAreaCentre areaSpan:_bcOptions.searchOptions.searchAreaSpan];
-    _bcOptions.searchOptions.searchAreaPolygon = _currentSearchAreaPolygon;
+//    _bcOptions.searchOptions.searchAreaPolygon = _currentSearchAreaPolygon;
+    _bcOptions.searchOptions.searchAreaPolygon = [MKPolygon approximatedPolygonFromCircle:_currentSearchAreaCircle];
     
     [_exploreDataManager fetchOccurrencesWithOptions:_bcOptions];
 }

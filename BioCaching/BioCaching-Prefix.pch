@@ -41,6 +41,7 @@
 #import "NSDate+Formatting.h"
 #import "CLLocation+Formatting.h"
 #import "BCButton.h"
+#import "LocationUtils.h"
 
 #import "BCOptions.h"
 #import "BCAlerts.h"

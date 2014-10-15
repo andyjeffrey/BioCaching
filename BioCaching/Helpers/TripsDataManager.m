@@ -165,7 +165,7 @@ static NSSortDescriptor *defaultSortDesc;
     trip.latitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.latitude];
     trip.longitude = [NSNumber numberWithDouble:bcOptions.searchOptions.searchAreaCentre.longitude];
     trip.searchAreaSpan = [NSNumber numberWithInteger:bcOptions.searchOptions.searchAreaSpan];
-    trip.body = @"This is test Trip created from BioCaching mobile app";
+//    trip.body = @"This is test Trip created from BioCaching mobile app";
     
     if (![self saveChanges]) {
         return nil;

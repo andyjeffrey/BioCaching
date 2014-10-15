@@ -501,6 +501,7 @@ typedef void (^AnimationBlock)();
 {
     [_taxonInfoVC viewWillAppear:YES];
     if (self.viewTaxonInfo.hidden) {
+        _exploreContVC.viewButtonsPanel.hidden = YES;
         self.viewTaxonInfo.hidden = NO;
         CGRect startFrame = CGRectMake(_taxonInfoRefFrame.origin.x, _taxonInfoRefFrame.origin.y + _taxonInfoRefFrame.size.height, _taxonInfoRefFrame.origin.x + _taxonInfoRefFrame.size.width, _taxonInfoRefFrame.size.height);
         self.viewTaxonInfo.frame = startFrame;
@@ -523,6 +524,7 @@ typedef void (^AnimationBlock)();
             self.viewTaxonInfo.alpha = 0.0f;
         } completion:^(BOOL finished) {
             self.viewTaxonInfo.hidden = YES;
+            _exploreContVC.viewButtonsPanel.hidden = NO;
         }];
     }
 }

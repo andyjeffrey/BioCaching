@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A119199519660F7D003B15F7 /* BCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199419660F7D003B15F7 /* BCLocationManager.m */; };
 		A119199819661E4E003B15F7 /* CLLocation+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = A119199719661E4E003B15F7 /* CLLocation+Formatting.m */; };
+		A12BAE6E19F051D000E55478 /* BCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12BAE6D19F051D000E55478 /* BCViewController.m */; };
 		A139202E19E41A5F00E00966 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A139202D19E41A5F00E00966 /* TutorialViewController.m */; };
 		A139203419E4300500E00966 /* TutorialContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A139203319E4300500E00966 /* TutorialContentViewController.m */; };
 		A13B8F2618F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json in Resources */ = {isa = PBXBuildFile; fileRef = A13B8F2218F75AAE000C522B /* OccurrenceResultsCASFilterv1.0.json */; };
@@ -135,6 +136,8 @@
 		A119199619661E4E003B15F7 /* CLLocation+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+Formatting.h"; sourceTree = "<group>"; };
 		A119199719661E4E003B15F7 /* CLLocation+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Formatting.m"; sourceTree = "<group>"; };
 		A12B63B718EC5AED00F9C4C0 /* 2783288252_6f21bf941c.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 2783288252_6f21bf941c.jpg; path = Resources/TestData/Images/2783288252_6f21bf941c.jpg; sourceTree = "<group>"; };
+		A12BAE6C19F051D000E55478 /* BCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCViewController.h; sourceTree = "<group>"; };
+		A12BAE6D19F051D000E55478 /* BCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCViewController.m; sourceTree = "<group>"; };
 		A139202C19E41A5F00E00966 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
 		A139202D19E41A5F00E00966 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		A139203219E4300500E00966 /* TutorialContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialContentViewController.h; sourceTree = "<group>"; };
@@ -610,8 +613,12 @@
 			children = (
 				A1EA131719265B4900449327 /* SidebarViewController.h */,
 				A1EA131819265B4900449327 /* SidebarViewController.m */,
+				A12BAE6C19F051D000E55478 /* BCViewController.h */,
+				A12BAE6D19F051D000E55478 /* BCViewController.m */,
 				A1EA131119265B4900449327 /* MainViewController.h */,
 				A1EA131219265B4900449327 /* MainViewController.m */,
+				A1EA12FF19265B4900449327 /* BCWebViewController.h */,
+				A1EA130019265B4900449327 /* BCWebViewController.m */,
 				A1EA130319265B4900449327 /* DropDownViewDelegate.h */,
 				A1EA130119265B4900449327 /* DropDownViewController.h */,
 				A1EA130219265B4900449327 /* DropDownViewController.m */,
@@ -634,6 +641,8 @@
 				A1EA131419265B4900449327 /* OccurrenceDetailsViewController.m */,
 				A14D5E6419A3962900454D6A /* OccurrenceTableViewControler.h */,
 				A14D5E6519A3962900454D6A /* OccurrenceTableViewControler.m */,
+				A1464510195074F4005C1107 /* ObservationViewController.h */,
+				A1464511195074F4005C1107 /* ObservationViewController.m */,
 				A1EA131919265B4900449327 /* TaxonInfoViewController.h */,
 				A1EA131A19265B4900449327 /* TaxonInfoViewController.m */,
 				A1EA131B19265B4900449327 /* TripsViewController.h */,
@@ -642,10 +651,6 @@
 				A1EA131619265B4900449327 /* ProfileViewController.m */,
 				A1EA13F6192DFD7D00449327 /* ProfileTableViewController.h */,
 				A1EA13F7192DFD7D00449327 /* ProfileTableViewController.m */,
-				A1EA12FF19265B4900449327 /* BCWebViewController.h */,
-				A1EA130019265B4900449327 /* BCWebViewController.m */,
-				A1464510195074F4005C1107 /* ObservationViewController.h */,
-				A1464511195074F4005C1107 /* ObservationViewController.m */,
 				A15347151964730C00E1C63F /* AboutViewController.h */,
 				A15347161964730C00E1C63F /* AboutViewController.m */,
 				A1ED280A19A5F4AE00D159C1 /* AboutTableViewController.h */,
@@ -1005,6 +1010,7 @@
 				A1EA13F5192D5A6400449327 /* LoginManager.m in Sources */,
 				A1EA132119265B4900449327 /* ExploreMapViewController.m in Sources */,
 				A1727B2119869C8000150952 /* TDBadgedCell.m in Sources */,
+				A12BAE6E19F051D000E55478 /* BCViewController.m in Sources */,
 				A1EA12E61926562A00449327 /* OptionsRecordSource.m in Sources */,
 				A1EA132419265B4900449327 /* ExploreSummaryViewController.m in Sources */,
 				A1EA132719265B4900449327 /* ProfileViewController.m in Sources */,

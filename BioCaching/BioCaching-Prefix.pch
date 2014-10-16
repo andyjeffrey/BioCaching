@@ -54,6 +54,8 @@
 #import <DDLogMacros.h>
 
 #import "SWRevealViewController.h"
+
+#import "BCViewController.h"
 #import "IonIcons.h"
 #import "TDBadgedCell.h"
 

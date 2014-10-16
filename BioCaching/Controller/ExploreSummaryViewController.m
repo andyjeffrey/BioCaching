@@ -56,6 +56,37 @@
     [_exploreContVC updateTripButtons];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [BCLoggingHelper recordGoogleScreen:@"ExploreSummary"];
+}
+
+#pragma mark Sidebar Methods
+- (void)setupSidebar
+{
+    [self.buttonSidebar setBackgroundImage:
+     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+}
+
+- (IBAction)buttonSidebar:(id)sender {
+    [self.revealViewController revealToggleAnimated:YES];
+}
+
+
+#pragma mark - Setup UI/Refresh Methods
+- (void)setupContainerViews
+{
+    exploreSummaryTableVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ExploreSummaryTable"];
+    tripSummaryTableVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TripSummaryTable"];
+}
+
+- (void)setupUI
+{
+    self.view.backgroundColor = [UIColor kColorHeaderBackground];
+    //    self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
+    [self setupSidebar];
+}
+
 - (void)refreshCurrentData
 {
     _exploreContVC = (ExploreContainerViewController *)self.parentViewController;
@@ -63,7 +94,7 @@
         _exploreContVC.currentTrip = _tripsDataManager.currentTrip;
     }
     _currentTrip = _exploreContVC.currentTrip;
-
+    
     _searchResults = [ExploreDataManager sharedInstance].currentSearchResults;
 }
 
@@ -89,32 +120,6 @@
     //    [exploreSummaryTableVC didMoveToParentViewController:self];
 }
 
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [BCLoggingHelper recordGoogleScreen:@"ExploreSummary"];
-}
-
-#pragma mark Sidebar Methods
-- (void)setupSidebar
-{
-    [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
-    [self.buttonSidebar setBackgroundImage:[IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-}
-
-- (IBAction)buttonSidebar:(id)sender {
-    [self.revealViewController revealToggleAnimated:YES];
-}
-
-
-#pragma mark - Init/Setup Methods
-- (void)setupUI
-{
-    self.view.backgroundColor = [UIColor kColorHeaderBackground];
-    //    self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
-    [self setupSidebar];
-}
-
 - (void)setupLabels
 {
     [self.labelLocation setTextColor:[UIColor kColorHeaderText]];
@@ -133,19 +138,6 @@
         self.labelAreaSpan.text = [NSString stringWithFormat:@"Area Span: %@", _currentTrip.searchAreaSpan];
         self.labelResultsCount.text = [NSString stringWithFormat:@"Record Count: %d", (int)_currentTrip.occurrenceRecords.count];
     }
-}
-
-- (void)setupContainerViews
-{
-    exploreSummaryTableVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ExploreSummaryTable"];
-    tripSummaryTableVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TripSummaryTable"];
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

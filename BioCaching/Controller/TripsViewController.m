@@ -57,6 +57,17 @@
     [BCLoggingHelper recordGoogleScreen:@"TripList"];
 }
 
+#pragma mark Sidebar Methods
+- (void)setupSidebar
+{
+    [self.buttonSidebar setBackgroundImage:
+     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
+}
+
+- (IBAction)buttonSidebar:(id)sender {
+    [self.revealViewController revealToggleAnimated:YES];
+}
+
 
 #pragma mark - Setup UI/Refresh Methods
 - (void)setupUI
@@ -64,33 +75,9 @@
     self.view.backgroundColor = [UIColor kColorHeaderBackground];
     self.viewTopBar.backgroundColor = [UIColor kColorHeaderBackground];
     self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
-    [self setupSidebar];
-    [self setupButtons];
-}
-
-- (void)setupSidebar
-{
-    [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
-    [self.buttonSidebar setBackgroundImage:
-     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
-    
-    // Change button color
-    //    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
-}
-
-- (void)setupButtons
-{
     self.buttonEdit.enabled = YES;
-    [self.buttonEdit setTitle:nil forState:UIControlStateNormal];
-    self.buttonEdit.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
     [self updateEditButton];
-/*
-    [self.buttonRefresh setTitle:nil forState:UIControlStateNormal];
-    [self.buttonRefresh setBackgroundImage:
-     [IonIcons imageWithIcon:icon_refresh iconColor:[UIColor kColorButtonLabel] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    self.buttonRefresh.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
-*/
+    [self setupSidebar];
 }
 
 - (void)setupRefreshControl
@@ -310,8 +297,6 @@
 }
 
 
-
-
 #pragma mark - TripsDataManagerDelegate
 
 - (void)tripsDataTableUpdated
@@ -394,10 +379,6 @@
 
 
 #pragma-mark IBActions
-- (IBAction)buttonSidebar:(id)sender {
-    [self.revealViewController revealToggleAnimated:YES];
-}
-
 - (IBAction)buttonActionEdit:(id)sender
 {
     self.tableView.editing = !self.tableView.editing;
@@ -471,8 +452,5 @@
 - (void)refresh:(UIRefreshControl *)refreshControl {
     [self performSelector:@selector(refreshTripsFromINat) withObject:nil afterDelay:0.5];
 }
-
-
-
 
 @end

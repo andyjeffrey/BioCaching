@@ -107,7 +107,6 @@ typedef void (^AnimationBlock)();
 }
 
 #pragma mark - UIViewController Methods
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -203,11 +202,10 @@ typedef void (^AnimationBlock)();
 #pragma mark Sidebar Methods
 - (void)setupSidebar
 {
+    self.viewTopBar.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
+
     [self.buttonSidebar setBackgroundImage:
      [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    
-    // Change button color
-    //    self.buttonSidebar.tintColor = [UIColor colorWithWhite:0.2f alpha:0.8f];
 }
 
 - (IBAction)buttonSidebar:(id)sender {
@@ -215,8 +213,7 @@ typedef void (^AnimationBlock)();
 }
 
 
-#pragma mark Init/UI Setup Methods
-
+#pragma mark - Setup UI/Refresh Methods
 - (void)adjustMapLegalLabel
 {
     if (!_legalLabelAdjusted) {
@@ -229,8 +226,6 @@ typedef void (^AnimationBlock)();
 
 - (void)setupButtons
 {
-    self.viewTopBar.backgroundColor = [UIColor kColorButtonBackgroundHighlight];
-    
     [self.buttonRefreshSearch setTitle:nil forState:UIControlStateNormal];
     [self.buttonRefreshSearch setBackgroundImage:
      [IonIcons imageWithIcon:icon_search iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
@@ -1105,5 +1100,6 @@ typedef void (^AnimationBlock)();
         [self.activityViewSearch stopAnimating];
     });
 }
+
 
 @end

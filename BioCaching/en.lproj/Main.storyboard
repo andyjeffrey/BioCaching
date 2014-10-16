@@ -297,6 +297,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iOa-60-f1T" customClass="BCButton">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="buttonSidebar:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="iIt-bB-nUH"/>
                                         </connections>
@@ -326,6 +327,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jRl-9b-kil" customClass="BCButton">
                                         <rect key="frame" x="280" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="actionRefreshSearch:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="T4s-TM-sL1"/>
                                         </connections>
@@ -706,8 +708,8 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="eC1-ga-ofG">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.87992417812347412" green="0.8798978328704834" blue="0.87991279363632202" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                         <sections>
                             <tableViewSection headerTitle="Search Options" id="EQO-Ql-O1i">
@@ -723,13 +725,14 @@
                                                     <rect key="frame" x="20" y="11" width="125" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RecordType" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="URM-Ei-khI">
                                                     <rect key="frame" x="152" y="11" width="140" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="AT4-bS-f90">
@@ -744,8 +747,9 @@
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="lXf-O0-LxD">
                                         <rect key="frame" x="0.0" y="66" width="320" height="44"/>
@@ -758,13 +762,14 @@
                                                     <rect key="frame" x="20" y="11" width="125" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RecordSource" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="TIl-2R-EYg">
                                                     <rect key="frame" x="152" y="11" width="148" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="s7E-IC-U73">
@@ -780,7 +785,7 @@
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="U8k-oU-rTj">
                                         <rect key="frame" x="0.0" y="110" width="320" height="44"/>
@@ -793,13 +798,14 @@
                                                     <rect key="frame" x="20" y="11" width="125" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SpeciesFilter" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="jTN-gt-nkJ">
                                                     <rect key="frame" x="152" y="11" width="148" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5Sd-fV-hQz">
@@ -815,7 +821,7 @@
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vWT-4v-Fll">
                                         <rect key="frame" x="0.0" y="154" width="320" height="44"/>
@@ -828,27 +834,30 @@
                                                     <rect key="frame" x="20" y="11" width="89" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="34w-A4-q3r">
-                                                    <rect key="frame" x="118" y="5" width="154" height="28"/>
+                                                    <rect key="frame" x="118" y="6" width="154" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="minimumTrackTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="maximumTrackTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="sliderAreaSpan:" destination="XoO-7K-Law" eventType="valueChanged" id="Tzd-jV-fCb"/>
-                                                        <action selector="sliderPoints:" destination="XoO-7K-Law" eventType="valueChanged" id="qhl-Jo-iPK"/>
                                                     </connections>
                                                 </slider>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 km" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="uK2-Xf-H0k">
                                                     <rect key="frame" x="275" y="11" width="35" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -868,9 +877,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="zF9-rW-RDy">
-                                                    <rect key="frame" x="118" y="5" width="154" height="28"/>
+                                                    <rect key="frame" x="118" y="7" width="154" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="sliderPoints:" destination="XoO-7K-Law" eventType="valueChanged" id="qPE-tZ-TOL"/>
                                                     </connections>
@@ -884,7 +894,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="KTs-OB-Htp">
                                         <rect key="frame" x="0.0" y="264" width="320" height="44"/>
@@ -905,11 +915,13 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
-                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="2Pv-Go-A20">
                                         <rect key="frame" x="0.0" y="308" width="320" height="44"/>
@@ -930,11 +942,13 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
-                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="fxl-Ns-rw5">
                                         <rect key="frame" x="0.0" y="352" width="320" height="44"/>
@@ -955,11 +969,13 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
-                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277782440186" green="1" blue="0.87585490942001343" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -990,7 +1006,7 @@
                                                 </segmentedControl>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="AfL-sG-4JU">
                                         <rect key="frame" x="0.0" y="462" width="320" height="44"/>
@@ -1011,11 +1027,13 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
-                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Z6Z-oX-FmX">
                                         <rect key="frame" x="0.0" y="506" width="320" height="44"/>
@@ -1036,11 +1054,13 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
-                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="BgU-xu-CNZ">
                                         <rect key="frame" x="0.0" y="550" width="320" height="44"/>
@@ -1061,11 +1081,13 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
-                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hhM-NI-KVd">
                                         <rect key="frame" x="0.0" y="594" width="320" height="44"/>
@@ -1086,11 +1108,13 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
-                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1115,11 +1139,13 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
-                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ug8-mw-BBG">
                                         <rect key="frame" x="0.0" y="704" width="320" height="44"/>
@@ -1140,11 +1166,13 @@
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES" button="YES" notEnabled="YES"/>
                                                     </accessibility>
-                                                    <color key="onTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="90" id="jkt-lH-eWf">
                                         <rect key="frame" x="0.0" y="748" width="320" height="90"/>
@@ -1243,7 +1271,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="120" id="SzR-Z9-EVx">
                                         <rect key="frame" x="0.0" y="838" width="320" height="120"/>
@@ -1270,29 +1298,8 @@
                                                         <action selector="buttonClearDatabase:" destination="XoO-7K-Law" eventType="touchUpInside" id="fdM-0e-7bL"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Occurrence Records (GBIF)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4AE-oi-gBD">
-                                                    <rect key="frame" x="20" y="80" width="200" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="myR-qr-0Xw">
-                                                    <rect key="frame" x="230" y="80" width="40" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taxon Records (iNaturalist)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fFu-jE-mVj">
-                                                    <rect key="frame" x="20" y="100" width="200" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YWP-Z4-pDS">
-                                                    <rect key="frame" x="230" y="100" width="40" height="20"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Trip Lists" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Hz-GP-xI8">
+                                                    <rect key="frame" x="20" y="40" width="200" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1305,15 +1312,15 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yvG-5b-QgB">
-                                                    <rect key="frame" x="230" y="60" width="40" height="20"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Occurrence Records (GBIF)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4AE-oi-gBD">
+                                                    <rect key="frame" x="20" y="80" width="200" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Trip Lists" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Hz-GP-xI8">
-                                                    <rect key="frame" x="20" y="40" width="200" height="20"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taxon Records (iNaturalist)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fFu-jE-mVj">
+                                                    <rect key="frame" x="20" y="100" width="200" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1321,6 +1328,27 @@
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NlA-DP-txA">
                                                     <rect key="frame" x="230" y="40" width="40" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="myR-qr-0Xw">
+                                                    <rect key="frame" x="230" y="80" width="40" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yvG-5b-QgB">
+                                                    <rect key="frame" x="230" y="60" width="40" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YWP-Z4-pDS">
+                                                    <rect key="frame" x="230" y="100" width="40" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1341,7 +1369,7 @@
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.87924277780000004" green="1" blue="0.87585490939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1396,6 +1424,59 @@
                         <outlet property="switchRecordTrack" destination="7CQ-tG-8HU" id="cYI-Xk-265"/>
                         <outlet property="switchUniqueLocations" destination="RMZ-9f-MK2" id="5D7-IS-Amw"/>
                         <outlet property="switchUniqueSpecies" destination="9Pt-fU-TYz" id="7Xp-X1-dGX"/>
+                        <outletCollection property="labelsSettingTitle" destination="zI3-Ad-XWV" id="1vD-Gd-ENy"/>
+                        <outletCollection property="labelsSettingTitle" destination="xmK-Oc-jI2" id="9HN-U6-b07"/>
+                        <outletCollection property="labelsSettingTitle" destination="zC9-7e-DsV" id="fFM-FZ-Bwb"/>
+                        <outletCollection property="labelsSettingTitle" destination="ESd-Xi-ztx" id="dnQ-4L-tqM"/>
+                        <outletCollection property="labelsSettingTitle" destination="5vL-X5-chb" id="q1K-xP-1kW"/>
+                        <outletCollection property="labelsSettingTitle" destination="TND-7I-XKR" id="VYM-qY-ulU"/>
+                        <outletCollection property="labelsSettingTitle" destination="vBb-6q-5d4" id="moN-7v-E8h"/>
+                        <outletCollection property="labelsSettingTitle" destination="JeL-ib-JfA" id="F0c-bX-dkx"/>
+                        <outletCollection property="labelsSettingTitle" destination="z0D-df-p5d" id="Ry7-ZD-s9x"/>
+                        <outletCollection property="labelsSettingTitle" destination="hCd-Zh-qEg" id="vV4-XF-Qvb"/>
+                        <outletCollection property="labelsSettingTitle" destination="gMs-4s-qeI" id="79Y-Re-bkN"/>
+                        <outletCollection property="labelsSettingTitle" destination="d10-ka-XLp" id="kSS-Pf-51z"/>
+                        <outletCollection property="labelsSettingTitle" destination="NbJ-k2-gU7" id="cBv-ux-yfE"/>
+                        <outletCollection property="labelsSettingTitle" destination="afl-xS-v4q" id="gX6-uq-Cvx"/>
+                        <outletCollection property="labelsSettingTitle" destination="sXl-VU-AH1" id="r0b-r5-XAu"/>
+                        <outletCollection property="labelsSettingTitle" destination="i3c-cE-dG1" id="rM5-a3-QCZ"/>
+                        <outletCollection property="labelsSettingTitle" destination="BeK-pf-8wk" id="p5F-5Q-hoE"/>
+                        <outletCollection property="labelsSettingTitle" destination="4AE-oi-gBD" id="vnF-cZ-EfZ"/>
+                        <outletCollection property="labelsSettingValue" destination="URM-Ei-khI" id="GtU-Iz-61a"/>
+                        <outletCollection property="labelsSettingValue" destination="TIl-2R-EYg" id="NpN-pd-qzO"/>
+                        <outletCollection property="labelsSettingValue" destination="jTN-gt-nkJ" id="pw5-bD-E3w"/>
+                        <outletCollection property="labelsSettingValue" destination="uK2-Xf-H0k" id="aMn-Lt-4OF"/>
+                        <outletCollection property="labelsSettingValue" destination="JDC-nM-Xtx" id="OUL-Hq-rGg"/>
+                        <outletCollection property="labelsSettingValue" destination="F0o-hs-ACD" id="VNE-2v-YTc"/>
+                        <outletCollection property="labelsSettingValue" destination="dh0-W1-Shp" id="yp4-88-q4Y"/>
+                        <outletCollection property="labelsSettingValue" destination="hFw-KK-2Wb" id="BaT-Kd-bQV"/>
+                        <outletCollection property="labelsSettingValue" destination="NlA-DP-txA" id="IQ2-ED-5Xm"/>
+                        <outletCollection property="labelsSettingValue" destination="yvG-5b-QgB" id="yLg-cg-OEf"/>
+                        <outletCollection property="labelsSettingValue" destination="myR-qr-0Xw" id="dE7-HB-fva"/>
+                        <outletCollection property="labelsSettingValue" destination="YWP-Z4-pDS" id="7O8-eq-b2S"/>
+                        <outletCollection property="switches" destination="G3a-9G-kLd" id="RlA-Xg-4l8"/>
+                        <outletCollection property="switches" destination="9Pt-fU-TYz" id="Aeq-Qe-5UC"/>
+                        <outletCollection property="switches" destination="RMZ-9f-MK2" id="UeS-MA-Nkl"/>
+                        <outletCollection property="switches" destination="4Qo-Hk-ltM" id="tnT-HJ-z5C"/>
+                        <outletCollection property="switches" destination="7CQ-tG-8HU" id="ah2-6b-3Kf"/>
+                        <outletCollection property="switches" destination="Lcc-g7-hE5" id="c0d-bo-OJJ"/>
+                        <outletCollection property="switches" destination="bCr-oI-Lhy" id="DKL-KF-lnx"/>
+                        <outletCollection property="switches" destination="chB-yG-BrZ" id="m3T-LR-e8Y"/>
+                        <outletCollection property="switches" destination="pa0-AL-wJP" id="pAl-sQ-xil"/>
+                        <outletCollection property="buttons" destination="iJr-FI-i6q" id="HpV-aF-cAS"/>
+                        <outletCollection property="labelsSettingValue" destination="6qG-aQ-cc8" id="ctj-4t-CVx"/>
+                        <outletCollection property="labelsSettingTitle" destination="g2G-8f-MK9" id="9wz-mG-waT"/>
+                        <outletCollection property="labelsSettingTitle" destination="7LO-cc-Epy" id="eOE-Io-TIM"/>
+                        <outletCollection property="labelsSettingTitle" destination="g67-T8-nuw" id="nrI-7p-1TD"/>
+                        <outletCollection property="labelsSettingTitle" destination="wfL-WS-4p3" id="b3F-Hz-yUU"/>
+                        <outletCollection property="labelsSettingTitle" destination="iwG-o8-vSL" id="bdN-k2-d8Y"/>
+                        <outletCollection property="labelsSettingTitle" destination="HQX-PP-9I6" id="FZD-1N-UA2"/>
+                        <outletCollection property="labelsSettingTitle" destination="1Hz-GP-xI8" id="wn4-Di-x8e"/>
+                        <outletCollection property="labelsSettingTitle" destination="MCz-6B-8Rz" id="QDA-d8-UgI"/>
+                        <outletCollection property="labelsSettingTitle" destination="4AE-oi-gBD" id="VpR-np-fRk"/>
+                        <outletCollection property="labelsSettingTitle" destination="fFu-jE-mVj" id="276-EA-qxY"/>
+                        <outletCollection property="sliders" destination="34w-A4-q3r" id="Jga-C2-XrP"/>
+                        <outletCollection property="sliders" destination="zF9-rW-RDy" id="oKI-Nu-eEZ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2PO-ZS-R2R" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1417,7 +1498,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jOL-Fz-LeD">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Menu"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="buttonSidebar:" destination="ErA-sc-v15" eventType="touchUpInside" id="NIp-Zf-csH"/>
                                             <action selector="buttonSidebar:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="cpK-Wz-QDA"/>
@@ -1440,16 +1521,16 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wQQ-LK-QFs">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wQQ-LK-QFs">
                                         <rect key="frame" x="280" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="actionRefreshSearch:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="D6G-3D-Pw4"/>
                                             <action selector="buttonActionEdit:" destination="ErA-sc-v15" eventType="touchUpInside" id="yza-yh-iZ7"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
                             <view opaque="NO" contentMode="scaleToFill" id="4zV-Mj-cdh">
@@ -1602,7 +1683,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9nO-gd-PuG">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="buttonSidebar:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="Ulo-bw-K7A"/>
                                             <action selector="buttonSidebar:" destination="1RZ-xc-t6L" eventType="touchUpInside" id="noN-m4-WXp"/>
@@ -1611,12 +1692,12 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2kp-aA-8Fy">
                                         <rect key="frame" x="90" y="0.0" width="140" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
                             <containerView contentMode="scaleToFill" id="Fvy-Se-VVc">
@@ -1629,7 +1710,6 @@
                                 </connections>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" white="0.1974224453" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="fc8-yF-tsU"/>
                     <connections>
@@ -1924,11 +2004,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="h4K-zk-JMl">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="h4K-zk-JMl">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <state key="normal" title="Left"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="buttonSidebar:" destination="QUy-BD-bpt" eventType="touchUpInside" id="rKz-vM-7Gi"/>
                                         </connections>
@@ -1936,15 +2015,14 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip History" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zqp-5J-xF1">
                                         <rect key="frame" x="40" y="0.0" width="240" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Arial-BoldItalicMT" family="Arial" pointSize="22"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="b26-PN-3Tw">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b26-PN-3Tw">
                                         <rect key="frame" x="280" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <state key="normal" title="Right"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="buttonActionEdit:" destination="QUy-BD-bpt" eventType="touchUpInside" id="atA-tA-rLd"/>
                                         </connections>
@@ -2031,7 +2109,6 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="nHw-7U-UOm"/>
                     <connections>
@@ -2228,7 +2305,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JOA-Ce-vgS">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Menu"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="buttonSidebar:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="7uC-cu-UJ0"/>
                                             <action selector="buttonSidebar:" destination="1xR-D2-1ec" eventType="touchUpInside" id="kq0-df-HK0"/>
@@ -2251,37 +2328,21 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RY0-cl-ql7">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RY0-cl-ql7">
                                         <rect key="frame" x="280" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="actionRefreshSearch:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="tNg-nn-GmO"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
                             <view opaque="NO" contentMode="scaleToFill" id="R21-aN-69b">
                                 <rect key="frame" x="0.0" y="40" width="320" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <segmentedControl hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="8wY-3H-dcd" userLabel="Bordered Segmented Control - Map, List, Sum">
-                                        <rect key="frame" x="195" y="-15" width="120" height="29"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                        <segments>
-                                            <segment title="Map"/>
-                                            <segment title="List"/>
-                                            <segment title="Sum"/>
-                                        </segments>
-                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="segControlChanged:" destination="WO4-TJ-Qp3" eventType="valueChanged" id="goB-fm-MPA"/>
-                                        </connections>
-                                    </segmentedControl>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Area Span: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OEq-ms-6MW">
                                         <rect key="frame" x="10" y="2" width="185" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2305,7 +2366,7 @@
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
                     <size key="freeformSize" width="320" height="600"/>
@@ -3863,7 +3924,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Q46-gs-gWc">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="buttonSidebar:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="W7v-Fh-2zz"/>
                                             <action selector="buttonSidebar:" destination="avc-2u-Uca" eventType="touchUpInside" id="zjv-8Z-raa"/>
@@ -3872,7 +3933,7 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ajO-JV-heb">
                                         <rect key="frame" x="90" y="0.0" width="140" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -3891,7 +3952,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
                             <containerView contentMode="scaleToFill" id="4uC-cm-lgI">
@@ -3904,7 +3965,6 @@
                                 </connections>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" white="0.1974224453" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="tabicon-user-line" id="d0C-r1-Hqt"/>
                     <connections>

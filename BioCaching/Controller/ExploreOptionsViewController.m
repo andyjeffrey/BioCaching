@@ -22,6 +22,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *textFieldYearFrom;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldYearTo;
 
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *labelsSettingTitle;
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *labelsSettingValue;
+@property (strong, nonatomic) IBOutletCollection(UISlider) NSArray *sliders;
+@property (strong, nonatomic) IBOutletCollection(UISwitch) NSArray *switches;
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *buttons;
+
+
 @property (weak, nonatomic) IBOutlet UISlider *sliderAreaSpan;
 @property (weak, nonatomic) IBOutlet UILabel *labelAreaSpan;
 @property (weak, nonatomic) IBOutlet UILabel *labelRecordType;
@@ -85,20 +92,13 @@
 }
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
+#pragma mark - UIViewController Methods
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor whiteColor];
+    [self setupUI];
+    
     _bcOptions = [BCOptions sharedInstance];
     [self configureDropDownLists];
     [self configureBackgroundControlsView];
@@ -116,12 +116,47 @@
     [self updateDatabaseLabels];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+
+- (void)setupUI
 {
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor kColorHeaderBackground]];
+    self.view.backgroundColor = [UIColor kColorHeaderBackground];
+    self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
+    self.tableView.separatorColor = [UIColor kColorTableCellSeparator];
+    
+    [self.labelsSettingTitle setValue:[UIColor lightTextColor] forKey:@"textColor"];
+    [self.labelsSettingValue setValue:[UIColor lightTextColor] forKey:@"textColor"];
+
+//    [self.sliders setValue:[UIColor darkGrayColor] forKey:@"tintColor"];
+//    [self.sliders makeObjectsPerformSelector:@selector(setTintColor:) withObject:[UIColor kColorINatGreen]];
+
+//    [self.switches setValue:[UIColor darkGrayColor] forKey:@"tintColor"];
+//    [self.switches setValue:[UIColor lightGrayColor] forKey:@"onTintColor"];
+//    [self.switches setValue:[UIColor kColorINatGreen] forKey:@"thumbTintColor"];
+    
+//    [self.buttons setValue:[UIColor kColorINatGreen] forKey:@"backgroundColor"];
+//    [self.buttons setValue:[UIColor lightTextColor] forKey:@"textColor"];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    // Background color
+    //    view.tintColor = [UIColor clearColor];
+    
+    // Text Color
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor whiteColor]];
+    [header.textLabel setFont:[UIFont boldSystemFontOfSize:14]];
+    
+    // Another way to set the background color
+    // Note: does not preserve gradient effect of original header
+    header.contentView.backgroundColor = [UIColor kColorTableHeaderBackgroundColor];
 }
 
 - (void)initiateAreaSpan
 {
+//    [multipleLabels makeObjectsPerformSelector:@selector(setTextColor:) withObject:[UIColor redColor]];
+    
     _areaSpanValue = _bcOptions.searchOptions.searchAreaSpan;
     self.sliderAreaSpan.minimumValue = -5;
     self.sliderAreaSpan.maximumValue = 5;
@@ -406,11 +441,5 @@
 //    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

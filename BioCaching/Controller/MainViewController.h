@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BCOptions.h"
 
-@interface MainViewController : UIViewController
+@interface MainViewController : BCViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *sidebarButton;
 @property (weak, nonatomic) IBOutlet UIView *viewContainer;

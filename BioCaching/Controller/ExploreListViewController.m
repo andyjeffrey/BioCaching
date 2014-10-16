@@ -80,9 +80,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 #pragma mark Sidebar Methods
 - (void)setupSidebar
 {
-    [self.buttonSidebar setTitle:nil forState:UIControlStateNormal];
-    [self.buttonSidebar setBackgroundImage:[IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-//    self.buttonSidebar.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.1f];
+    [self.buttonSidebar setBackgroundImage:
+     [IonIcons imageWithIcon:icon_navicon iconColor:[UIColor kColorButtonLabel] iconSize:40.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
 }
 
 - (IBAction)buttonSidebar:(id)sender {
@@ -98,6 +97,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     self.tableView.backgroundColor = [UIColor kColorTableBackgroundColor];
     [self setupSidebar];
 }
+
 
 - (void)setupEditButton
 {

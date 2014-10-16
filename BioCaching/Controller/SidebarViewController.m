@@ -61,6 +61,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
+//    [self.revealViewController.frontViewController.view setUserInteractionEnabled:NO];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     [self updateBadges];
 }
@@ -73,6 +76,12 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
         _previousVC = nil;
     }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+//    [self.revealViewController.frontViewController.view setUserInteractionEnabled:YES];
 }
 
 - (void)setColors
@@ -188,5 +197,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         };
     }
 }
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
 
 @end

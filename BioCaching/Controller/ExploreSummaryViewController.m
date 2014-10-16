@@ -7,6 +7,7 @@
 //
 
 #import "ExploreSummaryViewController.h"
+#import "ExploreContainerViewController.h"
 #import "ExploreSummaryTableViewController.h"
 #import "TripSummaryTableViewController.h"
 #import "TripsDataManager.h"
@@ -25,6 +26,7 @@
 @end
 
 @implementation ExploreSummaryViewController {
+    ExploreContainerViewController *_exploreContVC;
     ExploreSummaryTableViewController *exploreSummaryTableVC;
     TripSummaryTableViewController *tripSummaryTableVC;
     UIViewController *currentContainerVC;
@@ -40,6 +42,8 @@
     [super viewDidLoad];
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 
+    _tripsDataManager = [TripsDataManager sharedInstance];
+
     [self setupContainerViews];
     [self setupUI];
 }
@@ -49,12 +53,18 @@
     [self refreshCurrentData];
     [self refreshContainerViews];
     [self setupLabels];
+    [_exploreContVC updateTripButtons];
 }
 
 - (void)refreshCurrentData
 {
+    _exploreContVC = (ExploreContainerViewController *)self.parentViewController;
+    if (_exploreContVC.currentTrip != _tripsDataManager.currentTrip) {
+        _exploreContVC.currentTrip = _tripsDataManager.currentTrip;
+    }
+    _currentTrip = _exploreContVC.currentTrip;
+
     _searchResults = [ExploreDataManager sharedInstance].currentSearchResults;
-    _currentTrip = [TripsDataManager sharedInstance].currentTrip;
 }
 
 - (void)refreshContainerViews
@@ -131,18 +141,6 @@
     tripSummaryTableVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TripSummaryTable"];
 }
 
-/*
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"embedExploreSummary"]) {
-        if ([TripsDataManager sharedInstance].currentTrip) {
-            tripSummaryTableVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TripSummaryTable"];
-        } else {
-            exploreSummaryTableVC = segue.destinationViewController;
-        }
-    }
-}
-*/
 
 - (void)didReceiveMemoryWarning
 {

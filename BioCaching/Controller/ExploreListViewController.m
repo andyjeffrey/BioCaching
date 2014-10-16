@@ -62,6 +62,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
     _currentTrip = _exploreContVC.currentTrip;
 
+    [_exploreContVC updateTripButtons];
     [self setupEditButton];
     [self setupLabels];
     [self.tableView reloadData];

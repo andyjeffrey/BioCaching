@@ -79,10 +79,6 @@ static NSString *const kNotesPlaceholderText = @"[Observation Notes]";
     _keyboardShown = NO;
     self.textViewNotes.delegate = self;
 
-//    //make contentSize bigger than your scrollSize (you will need to figure out for your own use case)
-//    CGSize scrollContentSize = CGSizeMake(320, 345);
-//    self.scrollView.contentSize = scrollContentSize;
-    
     assetsLibrary = [[ALAssetsLibrary alloc] init];
 
     [self.view setBackgroundColor:[UIColor kColorTableBackgroundColor]];
@@ -90,7 +86,7 @@ static NSString *const kNotesPlaceholderText = @"[Observation Notes]";
     
     self.viewBottomButtons.backgroundColor = [UIColor darkGrayColor];
     
-    self.imageObsPhoto.backgroundColor = [UIColor grayColor];
+    self.imageObsPhoto.backgroundColor = [UIColor darkGrayColor];
     
     _observation = self.occurrence.observation;
     if (!_observation) {
@@ -180,8 +176,9 @@ static NSString *const kNotesPlaceholderText = @"[Observation Notes]";
     self.buttonLocation.enabled = NO;
     
     [self.buttonUpdatePhoto setBackgroundImage:
-     [IonIcons imageWithIcon:icon_edit iconColor:[UIColor whiteColor] iconSize:30.0f imageSize:CGSizeMake(40.0f, 40.0f)] forState:UIControlStateNormal];
-    self.buttonUpdatePhoto.backgroundColor = [UIColor kColorButtonBackground];
+     [IonIcons imageWithIcon:icon_edit iconColor:[UIColor whiteColor] iconSize:28.0f imageSize:CGSizeMake(36.0f, 36.0f)] forState:UIControlStateNormal];
+//    self.buttonUpdatePhoto.backgroundColor = [UIColor kColorTableBackgroundColor];
+//    [self.buttonUpdatePhoto setBackgroundImage:[UIImage imageWithColor:[UIColor kColorTextViewBackgroundColor]] forState:UIControlStateNormal];
 
     [self.buttonDelete setBackgroundColor:[UIColor kColorDarkRed]];
     [self.buttonSave setBackgroundColor:[UIColor kColorDarkGreen]];

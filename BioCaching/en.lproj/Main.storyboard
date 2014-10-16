@@ -3514,24 +3514,24 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <view contentMode="scaleToFill" id="CCn-PX-05U">
-                                        <rect key="frame" x="10" y="148" width="300" height="170"/>
+                                        <rect key="frame" x="10" y="148" width="300" height="200"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="sVw-EO-Bx8">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="170"/>
+                                                <rect key="frame" x="2" y="2" width="296" height="196"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TH2-rA-D2R">
-                                                <rect key="frame" x="111" y="44" width="80" height="80"/>
+                                                <rect key="frame" x="111" y="60" width="80" height="80"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <state key="normal" title="Button" image="camerabutton"/>
                                                 <connections>
                                                     <action selector="buttonActionUpdatePhoto:" destination="m7F-f1-J8m" eventType="touchUpInside" id="NCf-nB-zR5"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LOR-cj-Ed5">
-                                                <rect key="frame" x="254" y="124" width="36" height="36"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LOR-cj-Ed5" customClass="BCButtonRounded">
+                                                <rect key="frame" x="254" y="154" width="36" height="36"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <state key="normal">
@@ -3542,10 +3542,10 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text=" [Observation Notes]" id="hG9-sN-8oS">
-                                        <rect key="frame" x="10" y="324" width="300" height="100"/>
+                                        <rect key="frame" x="10" y="354" width="300" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
                                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>

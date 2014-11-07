@@ -445,7 +445,7 @@ typedef void (^AnimationBlock)();
     _currentSearchAreaPolygon = [MKPolygon polygonWithCoordinates:searchPolygonCoords count:5];
    [self.mapView addOverlay:_currentSearchAreaPolygon];
     DDLogDebug(@"%s SearchArea=%@", __PRETTY_FUNCTION__, _currentSearchAreaPolygon);
- 
+
     MKPolygon *approxPolygon = [MKPolygon approximatedPolygonFromCircle:_currentSearchAreaCircle];
     [self.mapView addOverlay:approxPolygon];
 */

@@ -242,9 +242,10 @@ static int const defaultEmbeddedView = 0;
 #ifdef TESTING
             _currentTrip.stopTime = [_currentTrip.startTime dateByAddingTimeInterval:kDefaultTripDuration];
 #endif
-            [BCAlerts displayDefaultInfoAlert:@"Trip Completed, Ready to Publish" message:@"Please goto Trips Screen to publish trip to iNat"];
-        } else if (_currentTrip.status.intValue == TripStatusFinished){
-            [BCAlerts displayDefaultInfoAlert:@"Trip Completed, Ready to Publish" message:@"Please goto Trips Screen to publish trip to iNat"];
+        }
+        
+        if (_currentTrip.status.intValue == TripStatusFinished){
+            [BCAlerts displayDefaultInfoAlert:@"Trip Completed" message:@"Please go to Trips screen (from main menu) to publish trip to iNat"];
         }
         
         [_tripsDataManager saveChanges];

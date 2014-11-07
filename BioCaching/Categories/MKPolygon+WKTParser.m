@@ -61,7 +61,7 @@ static const int kNoOfPolygonPoints = 16;
 
 + (MKPolygon *)approximatedPolygonFromCircle:(MKCircle *)circle
 {
-    return [self approximatedPolygonFromCircle:circle points:kNoOfPolygonPoints];
+    return [self approximatedPolygonFromCircle:circle points:[BCOptions sharedInstance].searchOptions.approxCirclePoints];
 }
 
 @end

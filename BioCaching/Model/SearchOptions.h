@@ -29,6 +29,7 @@
 
 @property (nonatomic, assign) BOOL testGBIFAPI;
 @property (nonatomic, assign) BOOL testGBIFData;
+@property (nonatomic, assign) NSUInteger approxCirclePoints;
 
 + (instancetype)sharedInstance;
 + (id)initWithDefaults;

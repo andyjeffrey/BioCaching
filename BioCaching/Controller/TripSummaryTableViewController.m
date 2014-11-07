@@ -103,6 +103,22 @@ static NSString *const kTripDescPlaceholderText = @"[Enter Description/Notes for
     self.labelTripSpeciesToFind.text = [NSString stringWithFormat:@"%d", (int)_currentTrip.tripAttributesToFind];
     
     [self updateDescriptionTextView];
+    
+    if (self.currentTrip.statusValue == TripStatusPublished)
+    {
+        [self.textFieldTripTitle setEnabled:NO];
+        self.imageTitleEdit.hidden = YES;
+        [self.textViewTripDesc setEditable:NO];
+        self.imageDescEdit.hidden = YES;
+        if (!self.currentTrip.body) {
+            self.textViewTripDesc.text = @"";
+        }
+    } else {
+        [self.textFieldTripTitle setEnabled:YES];
+        self.imageTitleEdit.hidden = NO;
+        [self.textViewTripDesc setEditable:YES];
+        self.imageDescEdit.hidden = NO;
+    }
 }
 
 - (void)updateDescriptionTextView
@@ -141,6 +157,13 @@ static NSString *const kTripDescPlaceholderText = @"[Enter Description/Notes for
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    if (textField.text.length == 0) {
+        [BCAlerts displayOKAlertWithCallback:@"Trip Title Error!" message:@"Cannot be empty\nPlease enter a trip title" mainButtonTitle:@"OK" okBlock:^{
+            [self.textFieldTripTitle becomeFirstResponder];
+        }];
+    } else {
+        _currentTrip.title = textField.text;
+    }
     self.imageTitleEdit.hidden = NO;
 }
 

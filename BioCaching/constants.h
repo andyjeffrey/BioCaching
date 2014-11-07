@@ -60,6 +60,7 @@
 #define kOptionsDefaultFullSpeciesNames YES
 #define kOptionsDefaultUniqueSpecies    YES
 #define kOptionsDefaultUniqueLocations  YES
+#define kOptionsDefaultApproxCirclePts  16
 
 #define kDefaultScrollviewHeightPadding 10
 

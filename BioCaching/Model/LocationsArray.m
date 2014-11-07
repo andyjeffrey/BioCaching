@@ -20,14 +20,19 @@
         [_staticArray addObject:@[@"Current Location", @0, @0, @kDefaultSearchAreaSpan, @kDefaultViewSpan]];
         
         [_staticArray addObject:@[@"GoldenGate Park, CA", @37.769341, @-122.481937, @2000, @5000]];
-        [_staticArray addObject:@[@"Pillar Point Harbor", @37.499484, @-122.488098, @1000, @2500]];
+        [_staticArray addObject:@[@"Pillar Point Harbor, CA", @37.499484, @-122.488098, @1000, @2500]];
         [_staticArray addObject:@[@"Pepperwood Preserve, CA", @38.577085, @-122.700702, @2000, @8000]];
         [_staticArray addObject:@[@"Lafayette Reservoir, CA", @37.881188, @-122.145867, @1000, @4000]];
         [_staticArray addObject:@[@"Yosemite NP, CA", @37.899650, @-119.536363, @2000]];
+        [_staticArray addObject:@[@"Lodgepole, Sequoia NP, CA", @36.605382, @-118.728336, @2000]];
+        [_staticArray addObject:@[@"General Sherman Tree, Sequoia NP, CA",@36.581599, @-118.750963, @2000]];
+        [_staticArray addObject:@[@"Wolverton, Sequoia NP, CA", @36.596545, @-118.734076, @2000]];
+        [_staticArray addObject:@[@"Alta Peak, Sequoia NP, CA", @36.590611, @-118.663389, @2000]];
+        [_staticArray addObject:@[@"Kings Canyon NP, CA", @37.899650, @-119.536363, @2000]];
+
         [_staticArray addObject:@[@"Yellowstone NP, WY", @44.447702, @-110.590353, @8000, @16000]];
         [_staticArray addObject:@[@"Great Smoky Mountains NP, TN", @35.661489, @-83.559093, @8000, @20000]];
         [_staticArray addObject:@[@"Everglades National Park, FL", @25.167975, @-80.884781, @8000, @20000]];
-
 
         [_staticArray addObject:@[@"New Forest NP, Hampshire, UK", @50.924984, @-1.670339, @8000, @12000]];
         [_staticArray addObject:@[@"Tortuga Bay, Santa Cruz, Galapagos", @-0.764173, @-90.340036]];

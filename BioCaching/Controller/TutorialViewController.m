@@ -46,13 +46,17 @@
                     @"tutorial_3.png",
                     @"tutorial_4.png",
                     @"tutorial_5.png",
-                    @"tutorial_6.png"];
-    _pageTitles = @[@"Tutorial Instructions Page 1 Line 1\nTutorial Instructions Page 1 Line 2",
-                    @"Tutorial Instructions Page 2 Line 1\nTutorial Instructions Page 2 Line 2",
-                    @"Tutorial Instructions Page 3 Line 1\nTutorial Instructions Page 3 Line 2",
-                    @"Tutorial Instructions Page 4 Line 1\nTutorial Instructions Page 4 Line 2",
-                    @"Tutorial Instructions Page 4 Line 1\nTutorial Instructions Page 5 Line 2",
-                    @"Tutorial Instructions Page 5 Line 1\nTutorial Instructions Page 6 Line 2"];
+                    @"tutorial_6.png",
+                    @"tutorial_7.png",
+                    @"tutorial_8.png"];
+    _pageTitles = @[@"Choose location to search by moving the map or selecting from the dropdown list",
+                    @"Click search button to perform a search, sightings results displayed on the map",
+                    @"View sighting details by selecting marker on map, click info for more details",
+                    @"Switch between map, list and summary views. Click save/start when ready",
+                    @"Record observations of species you find, adding photo evidence wherever possible",
+                    @"View summary details of trip, add/amend trip title and description before ",
+                    @"Use the Trips screen to access all trips and publish to iNat when completed",
+                    @"Amend search parameters (and other app options) through the Settings screen"];
 
     _pageVCs = [NSMutableArray arrayWithObjects:
                 [self viewControllerAtIndex:0],
@@ -60,7 +64,9 @@
                 [self viewControllerAtIndex:2],
                 [self viewControllerAtIndex:3],
                 [self viewControllerAtIndex:4],
-                [self viewControllerAtIndex:5], nil];
+                [self viewControllerAtIndex:5],
+                [self viewControllerAtIndex:6],
+                [self viewControllerAtIndex:7], nil];
 
     // Create page view controller
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];

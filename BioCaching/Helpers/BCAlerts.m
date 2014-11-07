@@ -64,7 +64,8 @@
 
 + (void)displayOKAlertWithCallback:(NSString *)title message:(NSString *)message mainButtonTitle:(NSString *)mainButtonTitle okBlock:(void (^)(void))okBlock
 {
-    [[self sharedInstance] setOkBlock:okBlock];
+    // Default Button is Cancel (so for single button alert OK=Cancel!)
+    [[self sharedInstance] setCancelBlock:okBlock];
     
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(title, nil)
                                                  message:NSLocalizedString(message, nil)

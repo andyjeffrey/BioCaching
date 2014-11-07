@@ -9,6 +9,8 @@
 #import "GBIFCommunicator.h"
 #import "GBIFCommunicatorDelegate.h"
 
+static const int ddLogLevel = LOG_LEVEL_INFO;
+
 @implementation GBIFCommunicator
 
 - (void)getOccurrencesWithinPolygon:(MKPolygon *)polygon
@@ -23,10 +25,13 @@
 {
     NSString *requestString = [GBIFCommunicator buildOccurrencesRequestString:searchOptions];
     
-    NSLog(@"GBIFCommunicator Request: %@", requestString);
+    NSDate *requestTime = [NSDate date];
+    DDLogInfo(@"GBIFCommunicator Request: %@", requestString);
     
     NSURL *url = [[NSURL alloc] initWithString:requestString];
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kDefaultInternetTimeout] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        NSTimeInterval responseTime = [[NSDate date] timeIntervalSinceDate:requestTime];
+        DDLogInfo(@"Response Received, Time Taken: %.3f", responseTime);
         if (connectionError) {
             [self.delegate GBIFCommunicatorFailedWithError:connectionError];
         } else {

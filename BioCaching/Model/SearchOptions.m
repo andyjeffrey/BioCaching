@@ -14,6 +14,7 @@
 #define kOptionsKeySpeciesFilter    @"OptionsSpeciesFilter"
 #define kOptionsKeyGBIFTestAPI      @"OptionsGBIFTestAPI"
 #define kOptionsKeyGBIFTestData     @"OptionsGBIFTestData"
+#define kOptionsApproxCirclePoints  @"OptionsApproxCirclePoints"
 
 @implementation SearchOptions {
     NSUserDefaults *_userDefaults;
@@ -50,6 +51,7 @@
             self.enumSpeciesFilter = kDefaultOptionSpeciesFilter;
             self.testGBIFAPI = YES;
             self.testGBIFData = NO;
+            self.approxCirclePoints = kOptionsDefaultApproxCirclePts;
         }
         self.searchLocationName = @"";
         self.collectorName = @"";
@@ -73,6 +75,7 @@
     searchOptions.year = @"";
     searchOptions.yearFrom = @"";
     searchOptions.yearTo = @"";
+    searchOptions.approxCirclePoints = kOptionsDefaultApproxCirclePts;
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:kOptionsKeyGBIFTestAPI]) {
         searchOptions.testGBIFAPI = YES;
@@ -80,12 +83,6 @@
     }
     
     return searchOptions;
-}
-
-- (instancetype)makeCopy {
-    SearchOptions *copy = [[SearchOptions alloc] init];
-    
-    return nil;
 }
 
 - (NSUInteger)searchAreaSpan {
@@ -140,5 +137,13 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (NSUInteger)approxCirclePoints {
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:kOptionsApproxCirclePoints] unsignedIntegerValue];
+}
+- (void)setApproxCirclePoints:(NSUInteger)approxCirclePoints
+{
+    [_userDefaults setObject:[NSNumber numberWithUnsignedInteger:approxCirclePoints] forKey:kOptionsApproxCirclePoints];
+    [_userDefaults synchronize];
+}
 
 @end

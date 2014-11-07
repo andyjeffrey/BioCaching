@@ -52,6 +52,9 @@
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestAPI;
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestData;
+@property (weak, nonatomic) IBOutlet UILabel *labelApproxCirclePoints;
+@property (weak, nonatomic) IBOutlet UIStepper *stepperApproxCirclePoints;
+- (IBAction)stepperApproxCirclePoints:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *labelMemCacheCap;
 @property (weak, nonatomic) IBOutlet UILabel *labelMemCacheCurr;
@@ -83,7 +86,7 @@
     RecordType _recordTypeIndex;
     RecordSource _recordSourceIndex;
     SpeciesFilter _speciesFilterIndex;
-    int _displayPoints;
+    NSUInteger _displayPoints;
     DropDownViewController *activeDropDownView;
 	DropDownViewController *dropDownView1;
 	DropDownViewController *dropDownView2;
@@ -202,6 +205,8 @@
     self.switchPreCacheImages.on = _bcOptions.displayOptions.preCacheImages;
     self.switchGBIFTestAPI.on = _bcOptions.searchOptions.testGBIFAPI;
     self.switchGBIFTestData.on = _bcOptions.searchOptions.testGBIFData;
+    
+    self.stepperApproxCirclePoints.value = _bcOptions.searchOptions.approxCirclePoints;
 }
 
 - (void)configureDropDownLists
@@ -245,6 +250,8 @@
     self.labelRecordSource.text = [OptionsRecordSource displayStringForOption:_recordSourceIndex];
     self.labelSpeciesFilter.text = [OptionsSpeciesFilter displayStringForOption:_speciesFilterIndex];
     self.labelPoints.text = [NSString stringWithFormat:@"%d", (int) self.sliderDisplayPoints.value];
+    
+    self.labelApproxCirclePoints.text = [NSString stringWithFormat:@"%d", (int)self.stepperApproxCirclePoints.value];
 }
 
 - (void)updateLabelAreaSpan
@@ -313,6 +320,11 @@
     [dropDownView.uiTableView flashScrollIndicators];
 }
 
+- (IBAction)stepperApproxCirclePoints:(id)sender {
+    [self updateLabels];
+}
+
+
 - (IBAction)buttonClearCaches:(id)sender {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [self updateCacheLabels];
@@ -366,6 +378,8 @@
     _bcOptions.displayOptions.preCacheImages = self.switchPreCacheImages.on;
     _bcOptions.searchOptions.testGBIFAPI = self.switchGBIFTestAPI.on;
     _bcOptions.searchOptions.testGBIFData = self.switchGBIFTestData.on;
+    
+    _bcOptions.searchOptions.approxCirclePoints = self.stepperApproxCirclePoints.value;
     
     [self.delegate optionsUpdated:_bcOptions];
     

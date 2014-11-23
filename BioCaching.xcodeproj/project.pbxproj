@@ -49,7 +49,6 @@
 		A17BAE32195DBB8A004B1C37 /* _OccurrenceRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BAE31195DBB8A004B1C37 /* _OccurrenceRecord.m */; };
 		A17BAE35195DBBA2004B1C37 /* OccurrenceRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BAE34195DBBA2004B1C37 /* OccurrenceRecord.m */; };
 		A17BAE3B195DC6B9004B1C37 /* BCManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A17BAE3A195DC6B9004B1C37 /* BCManagedObject.m */; };
-		A17BAE3C1961532B004B1C37 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA20CE18B4F7ED00200D50 /* MapKit.framework */; };
 		A1875DFD18FD4A36001DC029 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A1875DFC18FD4A36001DC029 /* Podfile */; };
 		A1A4AE8219DD9E4700FD5984 /* UIImage+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A4AE8119DD9E4700FD5984 /* UIImage+Transform.m */; };
 		A1BEE394196AB69000297526 /* TripListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BEE393196AB69000297526 /* TripListCell.m */; };
@@ -126,6 +125,7 @@
 		A1F2E12D190161110010B647 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A1F2E12C190161110010B647 /* .gitignore */; };
 		A1F868A919EAF38F00182AD8 /* TripSummaryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F868A819EAF38F00182AD8 /* TripSummaryTableViewController.m */; };
 		A1F868AC19EF21B200182AD8 /* LocationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F868AB19EF21B200182AD8 /* LocationUtils.m */; };
+		A1FDCE781A1C219300358DAE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EA20CE18B4F7ED00200D50 /* MapKit.framework */; };
 		B338778CE5E9420C93C92294 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 346CC70B6936431AB81A1540 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -394,18 +394,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1EA209318B4F7AB00200D50 /* Foundation.framework in Frameworks */,
+				A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */,
+				A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */,
+				A1EA209718B4F7AB00200D50 /* UIKit.framework in Frameworks */,
+				A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */,
+				A1FDCE781A1C219300358DAE /* MapKit.framework in Frameworks */,
+				A1EB226B1923961F005650D9 /* CoreData.framework in Frameworks */,
 				A1727B2B198BF37800150952 /* libxml2.dylib in Frameworks */,
 				A1D5DDE618C7BAB900FA005B /* libsqlite3.dylib in Frameworks */,
 				A14D5E6019A2430000454D6A /* Crashlytics.framework in Frameworks */,
 				A1D5DDE418C7BAA500FA005B /* libz.dylib in Frameworks */,
 				A14D5E43199C2E3A00454D6A /* libGoogleAnalyticsServices.a in Frameworks */,
-				A17BAE3C1961532B004B1C37 /* MapKit.framework in Frameworks */,
-				A1EB226B1923961F005650D9 /* CoreData.framework in Frameworks */,
-				A1D5DD9218C61D0F00FA005B /* Security.framework in Frameworks */,
-				A1D5DD9018C61D0300FA005B /* SystemConfiguration.framework in Frameworks */,
-				A1EA6CA818CDC24A002FCDDD /* CoreGraphics.framework in Frameworks */,
-				A1EA209718B4F7AB00200D50 /* UIKit.framework in Frameworks */,
-				A1EA209318B4F7AB00200D50 /* Foundation.framework in Frameworks */,
 				B338778CE5E9420C93C92294 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1129,7 +1129,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1205,7 +1205,7 @@
 					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "327f5a82-9bc2-491a-80fb-32ae98020d98";
+				PROVISIONING_PROFILE = "C09086A2-105A-4766-BD49-D473D0A94EB8";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

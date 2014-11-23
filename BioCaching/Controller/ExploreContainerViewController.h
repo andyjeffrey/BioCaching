@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segControlView;
 
 @property (weak, nonatomic) IBOutlet UIView *viewButtonsPanel;
+
 @property (weak, nonatomic) IBOutlet UIView *viewButtonSave;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
 @property (weak, nonatomic) IBOutlet UIImageView *imageButtonSave;

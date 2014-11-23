@@ -40,7 +40,6 @@ static const float kOccurrenceAnnotationOffset = 50.0f;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityViewLocationSearch;
 @property (weak, nonatomic) IBOutlet UILabel *labelLocationDetails;
 @property (weak, nonatomic) IBOutlet UIButton *buttonLocationList;
-@property (weak, nonatomic) IBOutlet UIView *viewDropDownRef;
 - (IBAction)actionLocationSelect:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonRefreshSearch;
@@ -62,6 +61,7 @@ static const float kOccurrenceAnnotationOffset = 50.0f;
 - (IBAction)actionCurrentLocation:(id)sender;
 - (IBAction)actionZoomToSearchArea:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIView *viewTaxonInfo;
 
 @property (weak, nonatomic) IBOutlet UIView *viewButtonSave;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
@@ -75,7 +75,7 @@ static const float kOccurrenceAnnotationOffset = 50.0f;
 @property (weak, nonatomic) IBOutlet UILabel *labelButtonStart;
 - (IBAction)actionStartButton:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UIView *viewTaxonInfo;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 
 typedef void (^AnimationBlock)();
 
@@ -97,6 +97,7 @@ typedef void (^AnimationBlock)();
     BOOL _legalLabelAdjusted;
 
     CLLocationCoordinate2D _currentViewCoordinate;
+    CLLocationManager *_locationManager;
     
 //    MKPolygon *_currentSearchAreaPolygon;
     MKCircle *_currentSearchAreaCircle;
@@ -120,6 +121,11 @@ typedef void (^AnimationBlock)();
     [self setupButtons];
     [self setupTaxonInfoView];
     
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
     self.mapView.showsUserLocation = YES;
     
     DDLogDebug(@"CurrentLocation: %@", self.mapView.userLocation.location);
@@ -217,10 +223,12 @@ typedef void (^AnimationBlock)();
 - (void)adjustMapLegalLabel
 {
     if (!_legalLabelAdjusted) {
-        UILabel *attributionLabel = [self.mapView.subviews objectAtIndex:1];
-        //    attributionLabel.frame = CGRectMake(5, self.mapView.frame.origin.y+self.mapView.frame.size.height-55, 24, 10);
-        attributionLabel.center = CGPointMake(attributionLabel.center.x, attributionLabel.center.y - 20);
-        _legalLabelAdjusted = YES;
+        if (self.mapView.subviews.count >= 2) {
+            UILabel *attributionLabel = [self.mapView.subviews objectAtIndex:1];
+            //    attributionLabel.frame = CGRectMake(5, self.mapView.frame.origin.y+self.mapView.frame.size.height-55, 24, 10);
+            attributionLabel.center = CGPointMake(attributionLabel.center.x, attributionLabel.center.y - 20);
+            _legalLabelAdjusted = YES;
+        }
     }
 }
 
@@ -244,7 +252,9 @@ typedef void (^AnimationBlock)();
 
 - (void)configureLocationDropDown
 {
-    _dropDownViewLocations = [[DropDownViewController alloc] initWithArrayData:[LocationsArray displayStringsArray] refFrame:[self.view.superview convertRect:self.viewDropDownRef.frame fromView:self.viewDropDownRef.superview] tableViewHeight:260 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+//    CGRect dropDownRefFrame = CGRectMake(self.buttonLocationList.frame.origin.x, self.buttonLocationList.frame.origin.y, self.buttonLocationList.frame.size.width, 0);
+    _dropDownViewLocations = [[DropDownViewController alloc] initWithArrayData:[LocationsArray displayStringsArray] refFrame:[self.view.superview convertRect:self.buttonLocationList.frame fromView:self.buttonLocationList.superview] tableViewHeight:260 paddingTop:0 paddingLeft:0 paddingRight:0 tableCellHeight:40 animationStyle:BCViewAnimationStyleGrow openAnimationDuration:0.2 closeAnimationDuration:0.2];
+
     [self.view addSubview:_dropDownViewLocations.view];
     _dropDownViewLocations.delegate = self;
 }
@@ -724,6 +734,7 @@ typedef void (^AnimationBlock)();
 
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView {
     _mapViewLoaded = YES;
+    [self adjustMapLegalLabel];
 }
 
 - (BOOL)isLocationAccurateEnough:(CLLocation *)location {

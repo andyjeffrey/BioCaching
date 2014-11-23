@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" initialViewController="mPt-P8-m41">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" initialViewController="mPt-P8-m41">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
         <!--Reveal View Controller-->
@@ -258,7 +258,7 @@
             </objects>
             <point key="canvasLocation" x="-877" y="-1774"/>
         </scene>
-        <!--Explore Map View Controller - Explore-->
+        <!--Explore-->
         <scene sceneID="W3I-pn-N6e">
             <objects>
                 <viewController title="Explore" id="CZ4-MO-1fc" customClass="ExploreMapViewController" sceneMemberID="viewController">
@@ -348,11 +348,6 @@
                                             <action selector="actionCancelSearch:" destination="CZ4-MO-1fc" eventType="touchUpInside" id="A0r-QX-PK5"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" id="It8-c5-apm">
-                                        <rect key="frame" x="40" y="40" width="240" height="0.0"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    </view>
                                 </subviews>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
@@ -520,7 +515,6 @@
                         <outlet property="mapView" destination="zBW-XX-5ce" id="mX9-AR-8wP"/>
                         <outlet property="viewButtonSave" destination="VAK-58-xt6" id="b3w-zZ-ohx"/>
                         <outlet property="viewButtonStart" destination="iG4-JF-TV2" id="18K-wI-mHs"/>
-                        <outlet property="viewDropDownRef" destination="It8-c5-apm" id="qyl-OB-OPO"/>
                         <outlet property="viewMapAnnotationRefFrame" destination="Uh3-wm-mad" id="uxi-MW-B09"/>
                         <outlet property="viewMapCrossHair" destination="Hpk-uJ-UWN" id="QMs-i2-gaG"/>
                         <outlet property="viewSearchResults" destination="Miu-5y-uLt" id="MpG-zG-OcC"/>
@@ -578,7 +572,6 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" id="aAZ-op-5Q9">
-                                        <rect key="frame" x="40" y="40" width="240" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
@@ -701,7 +694,7 @@
             </objects>
             <point key="canvasLocation" x="1268" y="-1089"/>
         </scene>
-        <!--Explore Options View Controller - Settings-->
+        <!--Settings-->
         <scene sceneID="gCr-gp-mda">
             <objects>
                 <tableViewController storyboardIdentifier="ExploreOptions" id="XoO-7K-Law" customClass="ExploreOptionsViewController" sceneMemberID="viewController">
@@ -1705,7 +1698,7 @@
             </objects>
             <point key="canvasLocation" x="1930" y="-901"/>
         </scene>
-        <!--Profile View Controller - Profile-->
+        <!--Profile-->
         <scene sceneID="1yo-Ta-AzU">
             <objects>
                 <viewController title="Profile" id="1RZ-xc-t6L" customClass="ProfileViewController" sceneMemberID="viewController">
@@ -2029,7 +2022,7 @@
             </objects>
             <point key="canvasLocation" x="1190" y="294"/>
         </scene>
-        <!--Trips View Controller - Trips-->
+        <!--Trips-->
         <scene sceneID="ot8-2e-RuS">
             <objects>
                 <viewController title="Trips" id="QUy-BD-bpt" customClass="TripsViewController" sceneMemberID="viewController">
@@ -2406,7 +2399,6 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <size key="freeformSize" width="320" height="600"/>
                     <connections>
                         <outlet property="buttonSidebar" destination="JOA-Ce-vgS" id="U9r-PQ-aRU"/>
                         <outlet property="labelAreaSpan" destination="OEq-ms-6MW" id="e2k-tv-hi8"/>
@@ -2975,7 +2967,7 @@
             </objects>
             <point key="canvasLocation" x="3010" y="465"/>
         </scene>
-        <!--Occurrence Details View Controller - Occurrence Details-->
+        <!--Occurrence Details-->
         <scene sceneID="rd0-Y3-jXI">
             <objects>
                 <viewController storyboardIdentifier="OccurrenceDetails" id="usv-PQ-Rl6" customClass="OccurrenceDetailsViewController" sceneMemberID="viewController">
@@ -3908,7 +3900,7 @@
             </objects>
             <point key="canvasLocation" x="3188" y="-1301"/>
         </scene>
-        <!--Navigation Controller - Item-->
+        <!--Item-->
         <scene sceneID="eGf-p9-AsM">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="UvQ-vi-WEg" sceneMemberID="viewController">
@@ -3927,7 +3919,7 @@
             </objects>
             <point key="canvasLocation" x="165" y="-1353"/>
         </scene>
-        <!--Navigation Controller - Trips-->
+        <!--Trips-->
         <scene sceneID="RhP-Rj-W2z">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="wDg-g6-j88" sceneMemberID="viewController">
@@ -3946,7 +3938,7 @@
             </objects>
             <point key="canvasLocation" x="165" y="-512"/>
         </scene>
-        <!--About View Controller - About-->
+        <!--About-->
         <scene sceneID="Gbd-8B-6Be">
             <objects>
                 <viewController title="About" id="avc-2u-Uca" customClass="AboutViewController" sceneMemberID="viewController">
@@ -4326,7 +4318,7 @@
             </objects>
             <point key="canvasLocation" x="664" y="1090"/>
         </scene>
-        <!--Navigation Controller - Profile-->
+        <!--Profile-->
         <scene sceneID="5Jm-NO-5bf">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="aXE-bL-xGb" sceneMemberID="viewController">

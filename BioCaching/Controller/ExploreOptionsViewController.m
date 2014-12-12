@@ -49,6 +49,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switchRecordTrack;
 @property (weak, nonatomic) IBOutlet UISwitch *switchAutoSearch;
 @property (weak, nonatomic) IBOutlet UISwitch *switchPreCacheImages;
+- (IBAction)switchRecordTrackChanged:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestAPI;
 @property (weak, nonatomic) IBOutlet UISwitch *switchGBIFTestData;
@@ -140,6 +141,47 @@
 //    [self.buttons setValue:[UIColor kColorINatGreen] forKey:@"backgroundColor"];
 //    [self.buttons setValue:[UIColor lightTextColor] forKey:@"textColor"];
 }
+
+
+// Methods To Show/Hide Testing Options Section In TableView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 3)
+    {
+        if ([LoginManager sharedInstance].isTesting) {
+            return [super tableView:tableView numberOfRowsInSection:section];
+        } else {
+            return 0;
+        }
+    } else {
+        return [super tableView:tableView numberOfRowsInSection:section];
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 3)
+    {
+        if ([LoginManager sharedInstance].isTesting) {
+            return [super tableView:tableView titleForHeaderInSection:section];
+        } else {
+            return nil;
+        }
+    } else {
+        return [super tableView:tableView titleForHeaderInSection:section];
+    }
+}
+/*
+ - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if ((indexPath.section == 3) && [LoginManager sharedInstance].isTesting) {
+ return 0;
+ } else {
+ return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+ }
+ }
+ */
+
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
@@ -455,5 +497,12 @@
 //    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+
+- (IBAction)switchRecordTrackChanged:(id)sender
+{
+    if (self.switchRecordTrack.on) {
+        [BCAlerts displayDefaultInfoAlert:@"User Warning!" message:@"Please note, this is an experimental feature, still under development.\nProlonged use may impact battery life."];
+    }
+}
 
 @end

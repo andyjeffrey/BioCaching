@@ -816,42 +816,6 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vWT-4v-Fll">
-                                        <rect key="frame" x="0.0" y="154" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vWT-4v-Fll" id="9y1-Lq-CR3">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default Span" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ESd-Xi-ztx">
-                                                    <rect key="frame" x="20" y="11" width="89" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="34w-A4-q3r">
-                                                    <rect key="frame" x="118" y="6" width="154" height="28"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="minimumTrackTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="maximumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <connections>
-                                                        <action selector="sliderAreaSpan:" destination="XoO-7K-Law" eventType="valueChanged" id="Tzd-jV-fCb"/>
-                                                    </connections>
-                                                </slider>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 km" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="uK2-Xf-H0k">
-                                                    <rect key="frame" x="275" y="11" width="35" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Trip List Filters" id="NDp-YW-C5d">
@@ -1052,6 +1016,9 @@
                                                     <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="switchRecordTrackChanged:" destination="XoO-7K-Law" eventType="valueChanged" id="iy2-u1-z5k"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -1115,6 +1082,42 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Testing Options" id="dtn-zX-EFa">
                                 <cells>
+                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vWT-4v-Fll">
+                                        <rect key="frame" x="0.0" y="154" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vWT-4v-Fll" id="9y1-Lq-CR3">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default Span" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ESd-Xi-ztx">
+                                                    <rect key="frame" x="20" y="11" width="89" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="34w-A4-q3r">
+                                                    <rect key="frame" x="118" y="6" width="154" height="28"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="minimumTrackTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="maximumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="thumbTintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="sliderAreaSpan:" destination="XoO-7K-Law" eventType="valueChanged" id="Tzd-jV-fCb"/>
+                                                    </connections>
+                                                </slider>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 km" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="uK2-Xf-H0k">
+                                                    <rect key="frame" x="275" y="11" width="35" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="fUq-Ec-kdY">
                                         <rect key="frame" x="0.0" y="660" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -1455,7 +1458,6 @@
                         <outletCollection property="labelsSettingTitle" destination="zI3-Ad-XWV" id="1vD-Gd-ENy"/>
                         <outletCollection property="labelsSettingTitle" destination="xmK-Oc-jI2" id="9HN-U6-b07"/>
                         <outletCollection property="labelsSettingTitle" destination="zC9-7e-DsV" id="fFM-FZ-Bwb"/>
-                        <outletCollection property="labelsSettingTitle" destination="ESd-Xi-ztx" id="dnQ-4L-tqM"/>
                         <outletCollection property="labelsSettingTitle" destination="5vL-X5-chb" id="q1K-xP-1kW"/>
                         <outletCollection property="labelsSettingTitle" destination="TND-7I-XKR" id="VYM-qY-ulU"/>
                         <outletCollection property="labelsSettingTitle" destination="vBb-6q-5d4" id="moN-7v-E8h"/>
@@ -1473,7 +1475,6 @@
                         <outletCollection property="labelsSettingValue" destination="URM-Ei-khI" id="GtU-Iz-61a"/>
                         <outletCollection property="labelsSettingValue" destination="TIl-2R-EYg" id="NpN-pd-qzO"/>
                         <outletCollection property="labelsSettingValue" destination="jTN-gt-nkJ" id="pw5-bD-E3w"/>
-                        <outletCollection property="labelsSettingValue" destination="uK2-Xf-H0k" id="aMn-Lt-4OF"/>
                         <outletCollection property="labelsSettingValue" destination="JDC-nM-Xtx" id="OUL-Hq-rGg"/>
                         <outletCollection property="labelsSettingValue" destination="F0o-hs-ACD" id="VNE-2v-YTc"/>
                         <outletCollection property="labelsSettingValue" destination="dh0-W1-Shp" id="yp4-88-q4Y"/>
@@ -1503,10 +1504,12 @@
                         <outletCollection property="labelsSettingTitle" destination="MCz-6B-8Rz" id="QDA-d8-UgI"/>
                         <outletCollection property="labelsSettingTitle" destination="4AE-oi-gBD" id="VpR-np-fRk"/>
                         <outletCollection property="labelsSettingTitle" destination="fFu-jE-mVj" id="276-EA-qxY"/>
-                        <outletCollection property="sliders" destination="34w-A4-q3r" id="Jga-C2-XrP"/>
                         <outletCollection property="sliders" destination="zF9-rW-RDy" id="oKI-Nu-eEZ"/>
                         <outletCollection property="labelsSettingTitle" destination="fJX-GO-moL" id="mxt-tW-VvB"/>
                         <outletCollection property="labelsSettingValue" destination="FuY-Xv-KN1" id="EQY-hq-jui"/>
+                        <outletCollection property="sliders" destination="34w-A4-q3r" id="Jga-C2-XrP"/>
+                        <outletCollection property="labelsSettingTitle" destination="ESd-Xi-ztx" id="dnQ-4L-tqM"/>
+                        <outletCollection property="labelsSettingValue" destination="uK2-Xf-H0k" id="aMn-Lt-4OF"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2PO-ZS-R2R" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4053,18 +4056,18 @@
                             </tableViewSection>
                             <tableViewSection id="LPD-V7-bgR">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="85" id="Uwg-cO-txV">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="140" id="Uwg-cO-txV">
                                         <rect key="frame" x="0.0" y="80" width="320" height="85"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uwg-cO-txV" id="Rpd-vT-5JW">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="85"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SvQ-uA-Qc3">
-                                                    <rect key="frame" x="15" y="0.0" width="290" height="80"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                                    <string key="text">Use BioCaching to rediscover nature in your local area, and help contribute to real science by resurveying and recording your observations</string>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SvQ-uA-Qc3">
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="140"/>
+                                                    <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                    <string key="text">Use the BioCaching App to rediscover nature in your backyard or wherever life takes you.  Resurveying historic sightings and recording your new observations contributes to our knowledge of how distributions of plants and animals have changed through time… and is fun.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -4177,19 +4180,21 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Credits" id="QC3-5R-Ue8">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="65" id="PI8-Lo-JCe">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="165" id="PI8-Lo-JCe">
                                         <rect key="frame" x="0.0" y="394" width="320" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PI8-Lo-JCe" id="2tl-Ij-eLT">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Produced by California Academy of Sciences, iNaturalist, and Institute of Museum and Library Services." lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aMu-Iz-KW7">
-                                                    <rect key="frame" x="15" y="5" width="290" height="54"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aMu-Iz-KW7">
+                                                    <rect key="frame" x="15" y="5" width="290" height="155"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                    <string key="text">App designed and developed by Andy Jeffrey/MPApps.net in partnership with the California Academy of Sciences Library, Academy Citizen Science and iNaturalist.  Project funded by the Institute of Museum and Library Studies National Leadership Grant, Connecting Content: A Collaboration to Link Field Notes to Specimens and Published Literature, LG- 05-010-0048.</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
+                                                    <string key="userLabel">App designed and developed by Andy Jeffrey in partnership with the California Academy of Sciences Library, Academy Citizen Science and iNaturalist and was funded by the Institute of Museum and Library Studies National Leadership Grant, Connecting Content: A Collaboration to Link Field Notes to Specimens and Published Literature, LG- 05-010-0048.</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -4214,7 +4219,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="40" id="zCs-ON-A5t">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="0.0" id="zCs-ON-A5t">
                                         <rect key="frame" x="0.0" y="519" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zCs-ON-A5t" id="FsH-TZ-Jf8">
@@ -4259,44 +4264,6 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" id="pBG-qf-ggC">
-                                                    <rect key="frame" x="15" y="0.0" width="290" height="1"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                </view>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Legal/Terms of Use" id="Uoz-0x-UoG">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="45" id="Lki-Zp-cNR">
-                                        <rect key="frame" x="0.0" y="666" width="320" height="45"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lki-Zp-cNR" id="j0h-kK-mGz">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App solution copyright of California Academy and Sciences, all rights reserved." lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t8P-YM-jf2">
-                                                    <rect key="frame" x="15" y="5" width="290" height="36"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="6" id="Gst-VC-P9q">
-                                        <rect key="frame" x="0.0" y="711" width="320" height="6"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gst-VC-P9q" id="z6A-ak-jBj">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="6"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" id="I5s-ES-NR3">
                                                     <rect key="frame" x="15" y="0.0" width="290" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>

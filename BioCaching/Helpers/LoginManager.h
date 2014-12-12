@@ -19,6 +19,7 @@
 
 @property (nonatomic, weak) id <LoginManagerDelegate> delegate;
 @property (nonatomic, readonly, assign) BOOL loggedIn;
+@property (nonatomic, readonly, assign) BOOL isTesting;
 @property (nonatomic, readonly) NSString *currentUserID;
 
 + (instancetype)sharedInstance;

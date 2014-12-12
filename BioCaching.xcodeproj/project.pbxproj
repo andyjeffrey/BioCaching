@@ -1205,7 +1205,7 @@
 					"$(PROJECT_DIR)/Libraries/GoogleAnalytics",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C09086A2-105A-4766-BD49-D473D0A94EB8";
+				PROVISIONING_PROFILE = "327f5a82-9bc2-491a-80fb-32ae98020d98";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -63,6 +63,23 @@
     }
 }
 
+- (BOOL)isTesting
+{
+    
+#if DEBUG
+    return YES;
+#endif
+
+    if (self.loggedIn) {
+        if ([self.currentUserID.description isEqualToString:@"35708"]
+            || [self.currentUserID.description isEqualToString:@"27018"]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 - (void)configureOAuth2Client{
     NXOAuth2AccountStore *sharedStore = [NXOAuth2AccountStore sharedStore];
     for (NXOAuth2Account *account in [sharedStore accountsWithAccountType:kINatAuthService]) {

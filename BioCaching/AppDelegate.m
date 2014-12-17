@@ -110,6 +110,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
     if (newVersion && preVersion1pt1) {
         clearDatabase = YES;
+/*
+#if DEBUG
+        clearDatabase = NO;
+#endif
+*/
     }
     
 // Override flags during testing

@@ -20,6 +20,8 @@ DerivedData
 .xcworkspace
 Certificates/
 
+BioCaching/config.h
+
 Reveal.framework
 Parse.framework
 Crashlytics.framework
